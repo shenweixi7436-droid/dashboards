@@ -3,23 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>2026年度陈列稽核看板</title>
+<title>市场稽核部重点工作看板</title>
 <style>
 
 @font-face{font-family:'GothamRndBold';src:url('fonts/GOTHAMRND-BOLD.otf') format('opentype');font-weight:800;font-style:normal;font-display:swap}
-@font-face{font-family:'HKYuanW7';src:url('fonts/HKYuanW7.ttf') format('truetype');font-weight:500;font-style:normal;font-display:swap}
-@font-face{font-family:'HKYuanW8';src:url('fonts/HKYuanW8.ttf') format('truetype');font-weight:700;font-style:normal;font-display:swap}
-@font-face{font-family:'HKYuanW9';src:url('fonts/HKYuanW9.ttf') format('truetype');font-weight:800;font-style:normal;font-display:swap}
+@font-face{font-family:'HKYuanW7';src:url('fonts/华康圆体-W7.ttf') format('truetype');font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:'HKYuanW8';src:url('fonts/华康圆体-W8.ttf') format('truetype');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'HKYuanW9';src:url('fonts/华康圆体-W9.ttf') format('truetype');font-weight:800;font-style:normal;font-display:swap}
 body{font-family:'HKYuanW7','Microsoft YaHei',sans-serif;background:#f5f5f5}
 .hd{position:relative;min-height:76px;padding:18px 150px 18px 32px!important;background:rgb(112,58,30)!important}
-.hd::after{content:'';position:absolute;right:30px;bottom:-32px;width:86px;height:86px;background:url('assets/images/mascot-main.png') center/contain no-repeat;filter:drop-shadow(0 8px 12px rgba(2,28,70,.22));pointer-events:none}
+.hd::after{content:'';position:absolute;right:130px;bottom:-58px;width:104px;height:104px;background:url('assets/images/mascot-main.png') center/contain no-repeat;filter:drop-shadow(0 8px 12px rgba(2,28,70,.22));pointer-events:none;z-index:3}
 .hd h1,.detail-title{font-family:'HKYuanW9','HKYuanW8','Microsoft YaHei',sans-serif!important;letter-spacing:0}
 .hd h1{font-size:22px;font-weight:800;display:flex;align-items:center;gap:10px}
 .hd h1::before{content:'';width:30px;height:30px;display:inline-block;background:url('assets/images/icon-audit.png') center/contain no-repeat;filter:drop-shadow(0 2px 4px rgba(0,0,0,.18))}
 .hd .dt{font-family:'HKYuanW7','Microsoft YaHei',sans-serif;font-size:12px;opacity:.92}
 .month-label,.card-title,.dt-section-title{font-family:'HKYuanW8','Microsoft YaHei',sans-serif!important}
 .kt,.tag,.mtag,.card-sub,.rank-table,.dkpi-label{font-family:'HKYuanW7','Microsoft YaHei',sans-serif!important}
-.kv,.card-num,.dkpi-val,#progressPct,#targetPie b,#targetPie span[style*='font-size:26px']{font-family:'GothamRndBold','HKYuanW9','Arial Black',sans-serif!important;letter-spacing:0}
+.kv,.card-num,.dkpi-val,#targetPie b,#targetPie span[style*='font-size:26px']{font-family:'GothamRndBold','HKYuanW9','Arial Black',sans-serif!important;letter-spacing:0}
 .kc,.card{border-radius:10px;position:relative;overflow:hidden}
 .kc::after,.card[data-card='4']::after,.card[data-card='5']::after,#targetPieCard::after{content:'';position:absolute;right:18px;top:18px;width:58px;height:58px;background:center/contain no-repeat;opacity:.12;pointer-events:none}
 .kc[data-card='0']::after,.kc[data-card='1']::after{background-image:url('assets/images/icon-audit.png')}
@@ -92,6 +92,31 @@ body{font-family:"华康圆体-W7",-apple-system,BlinkMacSystemFont,"Segoe UI","
 .kc:nth-child(1)::before{background:#703a1e}.kc:nth-child(2)::before{background:#ec5f74}
 .kc:nth-child(3)::before{background:#fcc900}.kc:nth-child(4)::before{background:#d93924}
 .kt{font-size:12px;color:#999;margin-bottom:8px}
+.kpi-live{position:relative;z-index:1;margin-top:12px;color:#333}
+.kpi-live-main{font-family:'GothamRndBold','HKYuanW9','Arial Black',sans-serif;font-size:34px;font-weight:800;line-height:1;color:var(--brand-brown);letter-spacing:0}
+.kpi-live-sub{margin-top:8px;font-size:12px;line-height:1.3;color:#777}
+.kpi-live-rate{font-family:'GothamRndBold','HKYuanW9','Arial Black',sans-serif;font-size:18px;font-weight:800;color:var(--brand-red)}
+.device-lines{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.device-line{display:grid;grid-template-columns:48px 1fr;gap:8px;align-items:start;font-size:11px;line-height:1.25;color:#555}
+.device-name{font-family:'HKYuanW8','Microsoft YaHei',sans-serif;color:#333;white-space:nowrap}
+.device-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px 8px}
+.device-metrics.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.device-metrics span{white-space:nowrap}
+.promo-kpi-card{min-height:124px}
+.display-kpi-card .kt,.promo-kpi-card .kt,.approval-kpi-card .kt,.device-kpi-card .kt{white-space:nowrap!important}
+.display-kpi-card .kt{font-family:'HKYuanW8','Microsoft YaHei',sans-serif!important;font-weight:800;color:#333}
+.promo-kpi-card .kpi-live,.approval-kpi-card .kpi-live{position:absolute;right:28px;top:36px;margin-top:0;text-align:right}
+.promo-kpi-card .kpi-live-main,.approval-kpi-card .kpi-live-main{font-size:46px;color:#ec5f74!important;line-height:1}
+.promo-kpi-card .kpi-unit{font-size:20px;margin-left:2px;font-family:'HKYuanW8','Microsoft YaHei',sans-serif;font-weight:700}
+.promo-kpi-card .kpi-live-sub{margin-top:8px}
+.approval-kpi-card .kpi-unit{font-size:20px;margin-left:2px;font-family:'HKYuanW8','Microsoft YaHei',sans-serif;font-weight:700}
+.approval-kpi-card .kpi-live-sub{margin-top:8px}
+.device-kpi-card{padding-right:20px}
+.device-kpi-card .kt{max-width:126px;line-height:1.25;font-size:18px}
+.device-kpi-card .device-lines{position:absolute;right:22px;top:42px;width:178px;margin-top:0;padding:2px 0;background:rgba(255,255,255,.88);z-index:2}
+.device-kpi-card .device-line{display:flex;align-items:baseline;justify-content:space-between;gap:12px;font-size:16px;line-height:1.35}
+.device-kpi-card .device-name{font-size:16px;color:#333}
+.device-kpi-card .device-total{font-family:'GothamRndBold','HKYuanW9','Arial Black',sans-serif;font-size:16px;font-weight:800;color:var(--brand-red);white-space:nowrap}
 .kv{font-size:30px;font-weight:800;line-height:1.2;font-family:"华康圆体-W9"}
 .kh{font-size:12px;margin-top:6px;display:inline-flex;align-items:center;gap:3px}
 .kh.up{color:#fcc900}.kh.down{color:#d93924}.kh.flat{color:#999}
@@ -145,10 +170,41 @@ body{font-family:"华康圆体-W7",-apple-system,BlinkMacSystemFont,"Segoe UI","
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @media(max-width:1000px){.kr{grid-template-columns:repeat(2,1fr)}.cg{grid-template-columns:1fr}.detail-body{flex-direction:column}.detail-table{width:100%}}
 </style>
+<style>
+/* Blank dashboard frame: keep layout and card shells, hide all data values. */
+.tag-row{display:none!important}
+.month-row{display:none!important}
+.dt{visibility:hidden!important}
+.kv,.kh,.card-num,.card-sub,.card-list,
+#foot0,#foot1,#foot2,#targetPieFoot,.result-grid,
+.dkpi-row,.detail-body,.detail-panel,
+.card .kpi-live,.card .kpi-live-main,.card .kpi-live-sub,.card .kpi-live-rate,
+.card .device-lines,.card .device-line,.card .device-name,.card .device-metrics{visibility:hidden!important}
+.ct > .kr:first-of-type .kv,.ct > .kr:first-of-type .kh{display:none!important}
+.ct > .kr:first-of-type .kpi-live,
+.ct > .kr:first-of-type .kpi-live-main,
+.ct > .kr:first-of-type .kpi-live-sub,
+.ct > .kr:first-of-type .kpi-live-rate,
+.ct > .kr:first-of-type .device-lines,
+.ct > .kr:first-of-type .device-line,
+.ct > .kr:first-of-type .device-name,
+.ct > .kr:first-of-type .device-metrics,
+.ct > .kr:first-of-type .device-metrics span{visibility:visible!important}
+#targetPie > *{visibility:hidden!important}
+.kc[data-card='1'] .kh::after,.kc[data-card='2'] .kh::after{display:none!important}
+.kc,.card{pointer-events:none}
+.kc[data-card='0']{pointer-events:auto;cursor:pointer}
+.tag,.mtag{pointer-events:auto}
+.ct>.kr:nth-of-type(3){gap:16px;margin-top:14px;margin-bottom:22px}
+.ct>.kr:nth-of-type(3) .kc{min-height:148px;padding:22px 24px!important;display:flex;align-items:flex-start;border-radius:12px}
+.ct>.kr:nth-of-type(3) .kt{font-family:'HKYuanW8','Microsoft YaHei',sans-serif!important;font-size:16px!important;line-height:1.35;color:#333!important;margin:0;display:flex;align-items:center;gap:8px}
+.ct>.kr:nth-of-type(3) .kc::after{width:72px;height:72px;right:22px;top:26px;opacity:.08}
+.ct>.kr:nth-of-type(3) .kc::before{width:4px!important}
+</style>
 <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
 </head><body>
 <div class="hd">
-  <div><h1>2026年度全国陈列稽核总看板</h1></div>
+  <div><h1>市场稽核部重点工作看板</h1></div>
   <div class="dt">&#128203; 数据更新：2026-06-10 10:28 &nbsp;|&nbsp; &#128197; 数据范围：2026年1月—6月</div>
 </div>
 <div class="ct">
@@ -175,45 +231,54 @@ body{font-family:"华康圆体-W7",-apple-system,BlinkMacSystemFont,"Segoe UI","
       &#9888; <span id="zero-hint-text"></span>
     </div>
 <div class="kr">
-  <div class="kc" data-card="0" onclick="openDetail(0)">
-    <div class="kt">&#128221; 当月计划门店数</div>
+  <div class="kc display-kpi-card" data-card="0" onclick="window.open('陈列稽核看板.html')" style="cursor:pointer">
+    <div class="kt">&#128221; 陈列稽核</div>
     <div id="kpi0" class="kv" style="color:#703a1e">2,084</div>
     <div id="kh0" class="kh down">&#9650; 环比上月 -12.9%</div>
+    <div class="kpi-live">
+      <div class="kpi-live-main">2,084</div>
+    </div>
   </div>
-  <div class="kc" data-card="1" onclick="openDetail(1)">
-    <div class="kt">&#9989; 当月稽核门店总数</div>
+  <div class="kc promo-kpi-card" data-card="1" onclick="openDetail(1)">
+    <div class="kt">&#9989; 推广促销稽核家数</div>
     <div id="kpi1" class="kv" style="color:#ec5f74">104</div>
     <div id="kh1" class="kh down">&#9650; 环比上月 -73.5%</div>
+    <div class="kpi-live">
+      <div class="kpi-live-main">0<span class="kpi-unit">家</span></div>
+      <div class="kpi-live-sub">合格率 <span class="kpi-live-rate">0%</span></div>
+    </div>
   </div>
-  <div class="kc" data-card="2" onclick="openDetail(2)">
-    <div class="kt">&#128088; 不合格/虚假门店数</div>
+  <div class="kc approval-kpi-card" data-card="2" onclick="openDetail(2)">
+    <div class="kt">&#128088; 线上审批流程审核</div>
     <div id="kpi2" class="kv" style="color:#d93924">19</div>
     <div id="kh2" class="kh up">&#9650; 环比上月 +111.1%</div>
+    <div class="kpi-live">
+      <div class="kpi-live-main">131<span class="kpi-unit">条</span></div>
+      <div class="kpi-live-sub">合格率 <span class="kpi-live-rate">85.5%</span></div>
+    </div>
   </div>
-  <div class="kc" data-card="3" onclick="openDetail(3)">
-    <div class="kt">&#128200; 当月整体合格率</div>
+  <div class="kc device-kpi-card" data-card="3" onclick="openDetail(3)">
+    <div class="kt">&#128200; 智能设备台账</div>
     <div id="kpi3" class="kv" style="color:#d93924">81.7%</div>
     <div id="kh3" class="kh down">&#9650; 环比上月 -16.4%</div>
-  </div>
-</div>
-<div class="kr" style="margin-top:16px;margin-bottom:18px">
-  <div class="kc" id="progressCard" style="grid-column:span 4;padding:14px 20px">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-      <span style="font-size:14px;font-weight:700;color:#333">&#128203; 稽核完成率</span>
-      <span id="progressPct" style="font-family:&quot;华康圆体-W9&quot;;font-size:28px;font-weight:800;color:#d93924">28.2%</span>
-    </div>
-    <div style="background:#f0f0f0;border-radius:10px;height:18px;overflow:hidden">
-      <div id="progressBar" style="background:#d93924;height:100%;border-radius:10px;width:28.2%;transition:width .6s ease-out"></div>
-    </div>
-    <div id="progressMeta" style="display:flex;justify-content:space-between;margin-top:8px;font-size:12px;color:#888">
-      <span>投入费用门店数 1,845 家</span>
-      <span>实际稽核 104 家</span>
-      <span>计划陈列门店数（含不投入费用） 2,084 家</span>
+    <div class="kpi-live device-lines">
+      <div class="device-line">
+        <span class="device-name">保温柜</span>
+        <span class="device-total">23,530台</span>
+      </div>
+      <div class="device-line">
+        <span class="device-name">烤肠机</span>
+        <span class="device-total">7,471台</span>
+      </div>
+      <div class="device-line">
+        <span class="device-name">冰柜</span>
+        <span class="device-total">1,175台</span>
+      </div>
     </div>
   </div>
 </div><div class="cg">
 <div class="card" data-card="4" onclick="openDetail(4)">
-  <div class="card-hd"><span class="card-title">&#128203; 稽核门店数</span><span class="card-badge" id="badge0">导报</span></div>
+  <div class="card-hd"><span class="card-title">&#128203; 陈列稽核</span><span class="card-badge" id="badge0">导报</span></div>
   <div class="card-num" id="cardNum0" style="color:#703a1e">104家</div>
   <div class="card-sub"><span>投入费用门店数: <b id="sub0a">968家</b></span><span>环比: <b id="sub0b" class="val-down">-73.8%</b></span></div>
   <div class="card-list" id="list0">
@@ -226,7 +291,7 @@ body{font-family:"华康圆体-W7",-apple-system,BlinkMacSystemFont,"Segoe UI","
   <div style="font-size:11px;color:#bbb;margin-top:8px" id="foot0">共 103 家 · 合格率 80.6%</div>
 </div>
 <div class="card" data-card="5" onclick="openDetail(5)">
-  <div class="card-hd"><span class="card-title">&#128200; 各省区合格率</span><span class="card-badge" id="badge1">导报</span></div>
+  <div class="card-hd"><span class="card-title">&#128200; 推广促销稽核</span><span class="card-badge" id="badge1">导报</span></div>
   <div class="card-num" id="cardNum1" style="color:#d93924">最低TOP5</div>
   <div class="card-sub"><span>最低: <b id="sub1a" style="color:#d93924">0.0%</b></span><span>最高: <b id="sub1b" style="color:#fcc900">90.9%</b></span></div>
   <div class="card-list" id="list1">
@@ -239,7 +304,7 @@ body{font-family:"华康圆体-W7",-apple-system,BlinkMacSystemFont,"Segoe UI","
   <div style="font-size:11px;color:#bbb;margin-top:8px" id="foot1">平均 76.1% · 最低 0.0%</div>
 </div>
 <div class="card" data-card="6" onclick="openDetail(6)">
-  <div class="card-hd"><span class="card-title">&#128197; 月度稽格趋势</span><span class="card-badge" id="badge2">6个月</span></div>
+  <div class="card-hd"><span class="card-title">&#128197; 线上审批流程审核</span><span class="card-badge" id="badge2">6个月</span></div>
   <div class="card-num" id="cardNum2" style="color:#ec5f74">1437 家</div>
   <div class="card-sub"><span>累计稽核: <b id="sub2a">1437家</b></span><span>累计合格: <b id="sub2b" style="color:#fcc900">1275家</b></span></div>
   <div class="card-list" id="list2">
@@ -248,7 +313,7 @@ body{font-family:"华康圆体-W7",-apple-system,BlinkMacSystemFont,"Segoe UI","
   <div style="font-size:11px;color:#bbb;margin-top:8px" id="foot2">累计 1438 家 · 合格 1094 家</div>
 </div>
 <div class="card" id="targetPieCard" data-card="7" onclick="openDetail(7)">
-  <div class="card-hd"><span class="card-title">&#128200; 稽核结果对比</span><span id="targetPieBadge" class="card-badge">6月</span></div>
+  <div class="card-hd"><span class="card-title">&#128200; 智能设备台账</span><span id="targetPieBadge" class="card-badge">6月</span></div>
   <div id="targetPie" style="width:100%;height:230px;display:flex;align-items:center;justify-content:center">
     <div style="display:flex;align-items:center;justify-content:center;gap:28px;width:100%">
       <div style="width:148px;height:148px;border-radius:50%;background:conic-gradient(#fcc900 0 80.6%, #703a1e 80.6% 99.0%, #ec5f74 99.0% 100%);position:relative;box-shadow:inset 0 0 0 1px rgba(0,0,0,.04)"></div>
@@ -396,24 +461,6 @@ function refreshAll(){
   })();
 
 
-  // Progress bar refresh (below KPI row)
-  (function(){
-    var pi=d.progress_items||[];
-    if(!pi.length)return;
-    var cp=d.progress_current||pi.find(function(item){return item.m===currentMonth;})||pi[0]||{pct:0};
-    var pct=cp.pct;
-    var bc=pct>=100?'#fcc900':(pct>=60?'#fcc900':'#d93924');
-    var pNum=document.getElementById('progressPct');
-    if(pNum){pNum.textContent=pct+'%';pNum.style.color=bc;}
-    var pBar=document.getElementById('progressBar');
-    if(pBar){pBar.style.width=Math.min(pct,100)+'%';pBar.style.background=bc;}
-    var spans=document.querySelectorAll('#progressMeta span');
-    if(spans.length>=3){
-      spans[0].textContent='投入费用门店数 '+Number(cp.plan_q||0).toLocaleString()+' 家';
-      spans[1].textContent='实际稽核 '+cp.audit_cnt+' 家';
-      spans[2].textContent='计划陈列门店数（含不投入费用） '+Number(cp.display_plan||0).toLocaleString()+' 家';
-    }
-  })();
   renderTargetPie(d);
 
   for(var i=0;i<4;i++){var e=document.getElementById("kh"+i);e.className="kh "+hbC(kh[i]);e.textContent="▲ 环比上月 "+hbT(kh[i]);}
