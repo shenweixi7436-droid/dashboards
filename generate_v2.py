@@ -25,10 +25,10 @@ sys.stdout.reconfigure(encoding='utf-8')
 EXCEL_AUDIT = r'C:\Users\shenw\Desktop\新建文件夹\稽核与计划明细-2026年年度.xlsx'
 EXCEL_WORK = r'C:\Users\shenw\Desktop\新建文件夹\市场稽核部重点工作.xlsx'
 PROJECT_DIR = r'C:\Users\shenw\Documents\New project\github-dashboards'
-HTML_TEMPLATE_MAIN = PROJECT_DIR + r'\Market Audit Key Work Dashboard.html'
-HTML_TEMPLATE_DISP = PROJECT_DIR + r'\陈列稽核看板.html'
-OUTPUT_MAIN = PROJECT_DIR + r'\Market Audit Key Work Dashboard.html'
-OUTPUT_DISP = PROJECT_DIR + r'\陈列稽核看板.html'
+HTML_TEMPLATE_MAIN = PROJECT_DIR + r'\index.html'
+HTML_TEMPLATE_DISP = PROJECT_DIR + r'\display-audit-dashboard.html'
+OUTPUT_MAIN = PROJECT_DIR + r'\index.html'
+OUTPUT_DISP = PROJECT_DIR + r'\display-audit-dashboard.html'
 
 # 省区→战区映射
 ZONE_MAP = {
@@ -504,6 +504,36 @@ def extract_and_inject_template(html_path, zd_json_str):
     return before + 'var ZD = ' + zd_json_str + after
 
 
+def sync_top_kpi_placeholders(html, current_data, df_promo, df_approval):
+    audit_count = int(current_data.get('audit', 0) or 0)
+
+    promo_total = int(len(df_promo)) if df_promo is not None else 0
+    promo_yes = 0
+    if df_promo is not None and len(df_promo.columns) >= 14 and promo_total:
+        promo_result = df_promo.iloc[:, 13].astype(str).str.strip()
+        promo_yes = int((promo_result == '\u662f').sum())
+    promo_rate = round((promo_yes / promo_total * 100), 1) if promo_total else 0
+
+    approval_total = int(len(df_approval)) if df_approval is not None else 0
+    approval_yes = 0
+    if df_approval is not None and len(df_approval.columns) >= 9 and approval_total:
+        approval_result = df_approval.iloc[:, 8].astype(str).str.strip()
+        approval_yes = int(approval_result.isin(['\u662f', '\u5408\u683c']).sum())
+    approval_rate = round((approval_yes / approval_total * 100), 1) if approval_total else 0
+
+    html = re.sub(r'(<div id="kpi0"[^>]*>)[^<]*(</div>)', rf'\g<1>{audit_count}\2', html, count=1)
+    html = re.sub(r'(<span id="kpi0Live">)[^<]*(</span>)', rf'\g<1>{audit_count}\2', html, count=1)
+    html = re.sub(r'(<span id="promoAuditLive">)[^<]*(</span>)', rf'\g<1>{promo_total}\2', html, count=1)
+    html = re.sub(r'(<span id="promoProgressLive"[^>]*>)[^<]*(</span>)', rf'\g<1>{promo_rate:g}%\2', html, count=1)
+    html = re.sub(
+        r'(<div class="kpi-live-main">)\d+(<span class="kpi-unit">[^<]*</span></div>\s*<div class="kpi-live-sub">[^<]*<span class="kpi-live-rate">)[^<]*(</span></div>)',
+        lambda m: m.group(1) + str(approval_total) + m.group(2) + f'{approval_rate:g}%' + m.group(3),
+        html,
+        count=1,
+    )
+    return html
+
+
 def main():
     print(f"=== 市场稽核部重点工作看板生成器 v2 ===")
     print(f"时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
@@ -546,6 +576,7 @@ def main():
     # 生成主看板
     print("\n--- 生成主看板 ---")
     html_main = extract_and_inject_template(HTML_TEMPLATE_MAIN, zd_json)
+    html_main = sync_top_kpi_placeholders(html_main, c6, df_promo, df_approval)
     with open(OUTPUT_MAIN, 'w', encoding='utf-8') as f:
         f.write(html_main)
     print(f"  ✅ 主看板: {OUTPUT_MAIN} ({len(html_main):,} 字符)")
