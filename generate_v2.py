@@ -24,10 +24,11 @@ sys.stdout.reconfigure(encoding='utf-8')
 # ============ 路径配置 ============
 EXCEL_AUDIT = r'C:\Users\shenw\Desktop\新建文件夹\稽核与计划明细-2026年年度.xlsx'
 EXCEL_WORK = r'C:\Users\shenw\Desktop\新建文件夹\市场稽核部重点工作.xlsx'
-HTML_TEMPLATE_MAIN = r'C:\Users\shenw\github-dashboards\龙虾html看板-稽核部重点工作-0611-0951.html'
-HTML_TEMPLATE_DISP = r'C:\Users\shenw\github-dashboards\陈列稽核看板-0611-0951.html'
-OUTPUT_MAIN = r'C:\Users\shenw\github-dashboards\重点工作看板.html'
-OUTPUT_DISP = r'C:\Users\shenw\github-dashboards\陈列稽核看板.html'
+PROJECT_DIR = r'C:\Users\shenw\Documents\New project\github-dashboards'
+HTML_TEMPLATE_MAIN = PROJECT_DIR + r'\Market Audit Key Work Dashboard.html'
+HTML_TEMPLATE_DISP = PROJECT_DIR + r'\陈列稽核看板.html'
+OUTPUT_MAIN = PROJECT_DIR + r'\Market Audit Key Work Dashboard.html'
+OUTPUT_DISP = PROJECT_DIR + r'\陈列稽核看板.html'
 
 # 省区→战区映射
 ZONE_MAP = {
@@ -471,7 +472,8 @@ def extract_and_inject_template(html_path, zd_json_str):
     zero_hint_html = '''<div id="zero-hint" style="display:none;margin:0 16px 8px;padding:8px 12px;background:#fff3cd;border-radius:6px;font-size:12px;color:#856404;line-height:1.5;">
       &#9888; <span id="zero-hint-text"></span>
     </div>'''
-    before = before.replace('<div class="kr">', zero_hint_html + '\n<div class="kr">')
+    if 'id="zero-hint"' not in content:
+        before = before.replace('<div class="kr">', zero_hint_html + '\n<div class="kr">', 1)
     
     # 注入JS更新逻辑（在kpi3更新后）
     zero_hint_js = '''
@@ -490,10 +492,12 @@ def extract_and_inject_template(html_path, zd_json_str):
   })();
 '''
     # 在 kpi3.textContent 行之后插入
-    after = after.replace(
-        'kpi3").textContent=km[3]+"%";',
-        'kpi3").textContent=km[3]+"%";' + zero_hint_js
-    )
+    if '零稽核提示' not in content:
+        after = after.replace(
+            'kpi3").textContent=km[3]+"%";',
+            'kpi3").textContent=km[3]+"%";' + zero_hint_js,
+            1
+        )
     
     print(f"  模板前半: {len(before)} 字符, 模板后半: {len(after)} 字符")
     
