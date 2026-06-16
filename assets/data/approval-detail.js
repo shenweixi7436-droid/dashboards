@@ -10,8 +10,8 @@ window.APPROVAL_DETAIL = {
     "发起人",
     "问题类型"
   ],
-  "total": 324,
-  "qualified": 271,
+  "total": 323,
+  "qualified": 270,
   "unqualified": 53,
   "rows": [
     {

@@ -4,7 +4,7 @@ from openpyxl import load_workbook
 
 
 ROOT = Path(__file__).resolve().parent
-SOURCE = Path("C:/Users/shenw/Desktop/\u65b0\u5efa\u6587\u4ef6\u5939/\u5e02\u573a\u7a3d\u6838\u90e8\u91cd\u70b9\u5de5\u4f5c.xlsx")
+SOURCE = Path("C:/Users/shenw/Desktop/\u770b\u677f/\u5e02\u573a\u7a3d\u6838\u90e8\u91cd\u70b9\u5de5\u4f5c.xlsx")
 OUT = ROOT / "assets" / "data" / "device-detail.js"
 SHEET = "\u667a\u80fd\u8bbe\u5907\u53f0\u8d26\u6c47\u603b"
 

@@ -22,8 +22,8 @@ warnings.filterwarnings('ignore')
 sys.stdout.reconfigure(encoding='utf-8')
 
 # ============ 路径配置 ============
-EXCEL_AUDIT = r'C:\Users\shenw\Desktop\新建文件夹\稽核与计划明细-2026年年度.xlsx'
-EXCEL_WORK = r'C:\Users\shenw\Desktop\新建文件夹\市场稽核部重点工作.xlsx'
+EXCEL_AUDIT = 'C:\\Users\\shenw\\Desktop\\\u770b\u677f\\\u7a3d\u6838\u4e0e\u8ba1\u5212\u660e\u7ec6-2026\u5e74\u5e74\u5ea6.xlsx'
+EXCEL_WORK = 'C:\\Users\\shenw\\Desktop\\\u770b\u677f\\\u5e02\u573a\u7a3d\u6838\u90e8\u91cd\u70b9\u5de5\u4f5c.xlsx'
 PROJECT_DIR = r'C:\Users\shenw\Documents\New project\github-dashboards'
 HTML_TEMPLATE_MAIN = PROJECT_DIR + r'\index.html'
 HTML_TEMPLATE_DISP = PROJECT_DIR + r'\display-audit-dashboard.html'
