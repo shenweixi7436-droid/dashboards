@@ -29,6 +29,7 @@ HTML_TEMPLATE_MAIN = PROJECT_DIR + r'\index.html'
 HTML_TEMPLATE_DISP = PROJECT_DIR + r'\display-audit-dashboard.html'
 OUTPUT_MAIN = PROJECT_DIR + r'\index.html'
 OUTPUT_DISP = PROJECT_DIR + r'\display-audit-dashboard.html'
+OUTPUT_AUDIT_PROGRESS = PROJECT_DIR + r'\assets\data\current-audit-progress.js'
 
 # 省区→战区映射
 ZONE_MAP = {
@@ -92,6 +93,37 @@ def load_data():
     print(f"  设备台账: {len(df_device)} 行")
 
     return df_audit, df_plan, df_promo, df_approval, df_device
+
+
+def build_current_audit_progress():
+    """
+    直接复用 Excel 中“当月稽核进度”sheet，生成主界面陈列稽核大卡片数据。
+    """
+    df_progress = pd.read_excel(EXCEL_AUDIT, sheet_name='当月稽核进度', header=1)
+    progress = df_progress.iloc[:, [1, 2, 4, 5, 6]].copy()
+    progress.columns = ['zone', 'province', 'target', 'audit', 'progress']
+    progress = progress[progress['province'].notna()].copy()
+
+    progress['target'] = pd.to_numeric(progress['target'], errors='coerce').fillna(0)
+    progress['audit'] = pd.to_numeric(progress['audit'], errors='coerce').fillna(0).astype(int)
+    progress['progress'] = pd.to_numeric(progress['progress'], errors='coerce').fillna(0) * 100
+    progress['done'] = progress['progress'].clip(lower=0, upper=100)
+    progress['remain'] = 100 - progress['done']
+
+    return {
+        'month': f'{datetime.now().month}月',
+        'rows': [
+            {
+                'province': str(row['province']).strip(),
+                'target': round(float(row['target']), 1),
+                'audit': int(row['audit']),
+                'progress': round(float(row['progress']), 1),
+                'done': round(float(row['done']), 1),
+                'remain': round(float(row['remain']), 1),
+            }
+            for _, row in progress.iterrows()
+        ],
+    }
 
 
 def precompute_all(df_audit, df_plan):
@@ -546,6 +578,7 @@ def main():
 
     # 加载数据
     df_audit, df_plan, df_promo, df_approval, df_device = load_data()
+    current_audit_progress = build_current_audit_progress()
 
     # 预计算所有统计数据
     cache = precompute_all(df_audit, df_plan)
@@ -595,6 +628,14 @@ def main():
     with open(OUTPUT_DISP, 'w', encoding='utf-8') as f:
         f.write(html_disp)
     print(f"  ✅ 陈列稽核看板: {OUTPUT_DISP} ({len(html_disp):,} 字符)")
+
+    with open(OUTPUT_AUDIT_PROGRESS, 'w', encoding='utf-8') as f:
+        f.write(
+            'window.CURRENT_AUDIT_PROGRESS = ' +
+            json.dumps(current_audit_progress, ensure_ascii=False, indent=2, cls=NpEncoder) +
+            ';\n'
+        )
+    print(f"  ✅ 当月稽核进度: {OUTPUT_AUDIT_PROGRESS}")
 
     print(f"\n🎉 两个看板均生成完成!")
 
