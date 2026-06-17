@@ -1,7 +1,7 @@
 window.PROMO_PLAN_AUDIT = {
   "planTotal": 130,
-  "auditTotal": 0,
-  "progress": 0.0,
+  "auditTotal": 1,
+  "progress": 0.8,
   "rows": [
     {
       "province": "黑龙江",
@@ -91,7 +91,7 @@ window.PROMO_PLAN_AUDIT = {
     {
       "province": "湖南",
       "plan": 0,
-      "audit": 0
+      "audit": 1
     },
     {
       "province": "苏南",
