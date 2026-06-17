@@ -63,6 +63,11 @@ PROV_MERGE = {
 MONTHS = ['1月', '2月', '3月', '4月', '5月', '6月']
 
 
+def apply_data_cache_buster(html, build_tag):
+    pattern = r'(assets/data/[^"\']+\.js)(\?v=[^"\']+)?'
+    return re.sub(pattern, lambda m: m.group(1) + '?v=' + build_tag, html)
+
+
 def load_data():
     print("加载 Excel 数据...")
     df_audit = pd.read_excel(EXCEL_AUDIT, sheet_name='稽核明细-汇总')
@@ -537,6 +542,7 @@ def sync_top_kpi_placeholders(html, current_data, df_promo, df_approval):
 def main():
     print(f"=== 市场稽核部重点工作看板生成器 v2 ===")
     print(f"时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+    build_tag = datetime.now().strftime('%Y%m%d%H%M%S')
 
     # 加载数据
     df_audit, df_plan, df_promo, df_approval, df_device = load_data()
@@ -577,6 +583,7 @@ def main():
     print("\n--- 生成主看板 ---")
     html_main = extract_and_inject_template(HTML_TEMPLATE_MAIN, zd_json)
     html_main = sync_top_kpi_placeholders(html_main, c6, df_promo, df_approval)
+    html_main = apply_data_cache_buster(html_main, build_tag)
     with open(OUTPUT_MAIN, 'w', encoding='utf-8') as f:
         f.write(html_main)
     print(f"  ✅ 主看板: {OUTPUT_MAIN} ({len(html_main):,} 字符)")
@@ -584,6 +591,7 @@ def main():
     # 生成陈列稽核看板
     print("\n--- 生成陈列稽核看板 ---")
     html_disp = extract_and_inject_template(HTML_TEMPLATE_DISP, zd_json)
+    html_disp = apply_data_cache_buster(html_disp, build_tag)
     with open(OUTPUT_DISP, 'w', encoding='utf-8') as f:
         f.write(html_disp)
     print(f"  ✅ 陈列稽核看板: {OUTPUT_DISP} ({len(html_disp):,} 字符)")
