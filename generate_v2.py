@@ -35,9 +35,8 @@ OUTPUT_AUDIT_PROGRESS = PROJECT_DIR + r'\assets\data\current-audit-progress.js'
 ZONE_MAP = {
     '云南': '区域经营部', '川渝藏': '区域经营部', '广西': '区域经营部',
     '浙江': '区域经营部', '湖南': '区域经营部', '苏北': '区域经营部',
-    '苏南': '区域经营部', '陕甘青宁新': '区域经营部', '宁夏': '区域经营部',
+    '苏南': '区域经营部', '宁夏': '区域经营部',
     '陕西': '区域经营部', '甘肃': '区域经营部', '青海': '区域经营部', '新疆': '区域经营部',
-    '四川': '区域经营部', '重庆': '区域经营部', '西藏': '区域经营部',
     '山东': '山东战区',
     '河北': '华北战区', '北京': '华北战区', '天津': '华北战区',
     '广东': '华南战区', '福建': '华南战区', '贵州': '华南战区',
@@ -55,8 +54,6 @@ PLAN_PROVINCES = sorted(ZONE_MAP.keys())
 
 # 稽核明细中拆分省区→合并名称
 PROV_MERGE = {
-    '宁夏': '陕甘青宁新', '陕西': '陕甘青宁新', '甘肃': '陕甘青宁新',
-    '青海': '陕甘青宁新', '新疆': '陕甘青宁新',
     '四川': '川渝藏', '重庆': '川渝藏', '西藏': '川渝藏',
     '苏北': '苏北', '苏南': '苏南',  # 计划明细中苏北属于山东战区,但稽核明细中按实际
 }
@@ -73,6 +70,7 @@ def load_data():
     print("加载 Excel 数据...")
     df_audit = pd.read_excel(EXCEL_AUDIT, sheet_name='稽核明细-汇总')
     df_plan = pd.read_excel(EXCEL_AUDIT, sheet_name='计划明细-汇总')
+    df_zone_summary = pd.read_excel(EXCEL_AUDIT, sheet_name='各战区稽核进汇总')
 
     # 推广促销稽核
     df_promo = pd.read_excel(EXCEL_WORK, sheet_name='推广促销稽核', header=2)
@@ -88,11 +86,12 @@ def load_data():
 
     print(f"  稽核明细: {len(df_audit)} 行")
     print(f"  计划明细: {len(df_plan)} 行")
+    print(f"  各战区稽核进汇总: {len(df_zone_summary)} 行")
     print(f"  推广促销: {len(df_promo)} 行")
     print(f"  线上审批: {len(df_approval)} 行")
     print(f"  设备台账: {len(df_device)} 行")
 
-    return df_audit, df_plan, df_promo, df_approval, df_device
+    return df_audit, df_plan, df_promo, df_approval, df_device, df_zone_summary
 
 
 def build_current_audit_progress():
@@ -481,6 +480,44 @@ def build_issue_details(df_audit, zone_name, month):
     return details
 
 
+def safe_number(value, default=0):
+    if pd.isna(value):
+        return default
+    try:
+        return float(value)
+    except Exception:
+        return default
+
+
+def build_rect_rows(df_zone_summary, zone_name):
+    """构建整改率趋势详情数据。"""
+    source_zone = '年度合计' if zone_name == '全部' else zone_name
+    if '战区' not in df_zone_summary.columns or '月份' not in df_zone_summary.columns:
+        return [{'m': m, 'bad': 0, 'rect': 0, 'rr': 0} for m in MONTHS]
+
+    zdf = df_zone_summary[
+        df_zone_summary['战区'].astype(str).str.strip().eq(source_zone)
+    ]
+    rows = []
+    for m in MONTHS:
+        one = zdf[zdf['月份'].astype(str).str.strip().eq(m)]
+        if one.empty:
+            continue
+        r = one.iloc[0]
+        bad = safe_number(r.get('不合格数', 0))
+        rect = safe_number(r.get('整改数', 0))
+        rate = safe_number(r.get('整改率', 0))
+        if rate <= 1:
+            rate *= 100
+        rows.append({
+            'm': m,
+            'bad': int(round(bad)),
+            'rect': int(round(rect)),
+            'rr': round(rate, 1),
+        })
+    return rows
+
+
 def extract_and_inject_template(html_path, zd_json_str):
     """从模板提取 HTML，注入 ZD 数据，返回完整 HTML"""
     with open(html_path, 'r', encoding='utf-8') as f:
@@ -577,7 +614,7 @@ def main():
     build_tag = datetime.now().strftime('%Y%m%d%H%M%S')
 
     # 加载数据
-    df_audit, df_plan, df_promo, df_approval, df_device = load_data()
+    df_audit, df_plan, df_promo, df_approval, df_device, df_zone_summary = load_data()
     current_audit_progress = build_current_audit_progress()
 
     # 预计算所有统计数据
@@ -606,6 +643,7 @@ def main():
         for zone_name in ['全部'] + ZONES:
             zd[m][zone_name]['audit_details'] = build_audit_details(df_audit, zone_name, m)
             zd[m][zone_name]['issue_details'] = build_issue_details(df_audit, zone_name, m)
+            zd[m][zone_name]['rect_rows'] = build_rect_rows(df_zone_summary, zone_name)
 
     # 注入模板
     print("\n注入 HTML 模板...")

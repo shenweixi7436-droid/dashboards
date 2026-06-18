@@ -187,11 +187,11 @@ window.CURRENT_AUDIT_PROGRESS = {
     },
     {
       "province": "陕甘青宁新",
-      "target": 3.4,
+      "target": 0.0,
       "audit": 3,
-      "progress": 88.2,
-      "done": 88.2,
-      "remain": 11.8
+      "progress": 0.0,
+      "done": 0.0,
+      "remain": 100.0
     }
   ]
 };
