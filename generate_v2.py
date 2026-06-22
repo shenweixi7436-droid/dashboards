@@ -66,6 +66,11 @@ def apply_data_cache_buster(html, build_tag):
     return re.sub(pattern, lambda m: m.group(1) + '?v=' + build_tag, html)
 
 
+def sync_data_update_time(html, update_time):
+    pattern = r'(数据更新[：:]\s*)\d{4}-\d{2}-\d{2}\s+\d{1,2}:\d{2}'
+    return re.sub(pattern, lambda m: m.group(1) + update_time, html)
+
+
 def load_data():
     print("加载 Excel 数据...")
     df_audit = pd.read_excel(EXCEL_AUDIT, sheet_name='稽核明细-汇总')
@@ -612,6 +617,7 @@ def main():
     print(f"=== 市场稽核部重点工作看板生成器 v2 ===")
     print(f"时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
     build_tag = datetime.now().strftime('%Y%m%d%H%M%S')
+    update_time = datetime.now().strftime('%Y-%m-%d %H:%M')
 
     # 加载数据
     df_audit, df_plan, df_promo, df_approval, df_device, df_zone_summary = load_data()
@@ -654,6 +660,7 @@ def main():
     print("\n--- 生成主看板 ---")
     html_main = extract_and_inject_template(HTML_TEMPLATE_MAIN, zd_json)
     html_main = sync_top_kpi_placeholders(html_main, c6, df_promo, df_approval)
+    html_main = sync_data_update_time(html_main, update_time)
     html_main = apply_data_cache_buster(html_main, build_tag)
     with open(OUTPUT_MAIN, 'w', encoding='utf-8') as f:
         f.write(html_main)
@@ -662,6 +669,7 @@ def main():
     # 生成陈列稽核看板
     print("\n--- 生成陈列稽核看板 ---")
     html_disp = extract_and_inject_template(HTML_TEMPLATE_DISP, zd_json)
+    html_disp = sync_data_update_time(html_disp, update_time)
     html_disp = apply_data_cache_buster(html_disp, build_tag)
     with open(OUTPUT_DISP, 'w', encoding='utf-8') as f:
         f.write(html_disp)
