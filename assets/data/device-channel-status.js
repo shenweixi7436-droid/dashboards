@@ -3,18 +3,18 @@ window.DEVICE_CHANNEL_STATUS = {
   "items": [
     {
       "name": "保温柜",
-      "volume": 13505,
-      "rate": 0.69
+      "volume": 14054,
+      "rate": 0.51
     },
     {
       "name": "烤肠机",
-      "volume": 7436,
-      "rate": 0.83
+      "volume": 7904,
+      "rate": 0.7
     },
     {
       "name": "冰柜",
-      "volume": 1175,
-      "rate": 0.34
+      "volume": 1387,
+      "rate": 0.4
     }
   ]
 };
