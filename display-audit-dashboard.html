@@ -999,7 +999,7 @@ function renderDetail(cardIdx){
       '<div class="d-alert info">目标完成率 '+completion.toFixed(1)+'%，稽核 '+totalAudit.toLocaleString()+' 家 / 目标 '+totalTarget.toLocaleString()+' 家；达成省区 '+doneRows.length.toLocaleString()+' 个（进度 ≥ 100%），未达成省区 '+underRows.length.toLocaleString()+' 个（进度 < 100%），其中 0 达成省区 '+zeroRows.length.toLocaleString()+' 个：'+zeroNames+'。</div>';
     var max = Math.max.apply(null, rows.map(function(r){return Number(r.progress)||0;}).concat([100]));
     document.getElementById("detailChart").innerHTML =
-      '<div style="display:flex;flex-direction:column;gap:12px;max-height:560px;overflow:auto;padding-right:14px">'+
+      '<div style="display:flex;flex-direction:column;gap:10px;overflow:visible;padding-right:14px">'+
       rows.map(function(r,idx){
         var p=Number(r.progress)||0;
         var width=Math.min(100, Math.max(2, p/max*100));
@@ -1023,7 +1023,10 @@ function renderDetail(cardIdx){
     var detailChart=document.getElementById("detailChart");
     if(detailBody) detailBody.classList.add("audit-only");
     if(detailTable) detailTable.style.display="none";
-    if(detailChart) detailChart.style.width="100%";
+    if(detailChart){
+      detailChart.style.width="100%";
+      detailChart.style.height="auto";
+    }
   }
   function renderProvinceRateDetail(){
     var d = ZD[currentMonth]; if(!d) return;
