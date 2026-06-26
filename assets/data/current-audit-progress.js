@@ -99,11 +99,11 @@ window.CURRENT_AUDIT_PROGRESS = {
     },
     {
       "province": "安徽",
-      "target": 3.6,
+      "target": 1.2,
       "audit": 1,
-      "progress": 27.8,
-      "done": 27.8,
-      "remain": 72.2
+      "progress": 83.3,
+      "done": 83.3,
+      "remain": 16.7
     },
     {
       "province": "江西",
