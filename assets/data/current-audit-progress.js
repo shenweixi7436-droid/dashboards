@@ -100,10 +100,10 @@ window.CURRENT_AUDIT_PROGRESS = {
     {
       "province": "安徽",
       "target": 2.6,
-      "audit": 1,
-      "progress": 38.5,
-      "done": 38.5,
-      "remain": 61.5
+      "audit": 3,
+      "progress": 100.0,
+      "done": 100.0,
+      "remain": 0.0
     },
     {
       "province": "江西",
