@@ -32,6 +32,7 @@
       --lilac: #e9e7fb;
       --peach: #fbd6c8;
       --mint: #d7efe3;
+      --rose: #f7d5e1;
       --orange: #e58258;
       --purple: #8362d6;
       --sky: #6ea7de;
@@ -212,12 +213,12 @@
 
     .task-cards {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 16px;
+      grid-template-columns: 1fr;
+      gap: 10px;
     }
 
     .task-card {
-      min-height: 210px;
+      min-height: 128px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -235,20 +236,51 @@
     }
 
     .task-card.color-only {
-      min-height: 210px;
-      justify-content: space-between;
-      padding: 20px;
+      min-height: 54px;
+      display: grid;
+      grid-template-columns: 132px minmax(0, 1fr) 112px;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 16px;
     }
 
     .color-band {
-      width: 72px;
-      height: 24px;
+      width: 100%;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 10px;
       border-radius: 999px;
+      color: rgba(46, 49, 64, 0.66);
       background: rgba(255, 255, 255, 0.36);
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .inventory-metric {
+      display: grid;
+      gap: 6px;
+      justify-items: start;
+      min-width: 0;
+    }
+
+    .inventory-metric strong {
+      color: #2e3140;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: clip;
+      font-size: clamp(15px, 1.25vw, 20px);
+      line-height: 1;
+      white-space: nowrap;
     }
 
     .task-card.color-only .meter {
-      width: 68%;
+      width: 100%;
+      margin: 0 auto;
       background: rgba(73, 80, 98, 0.18);
     }
 
@@ -370,7 +402,7 @@
 
     .ring-bg {
       stroke: rgba(156, 169, 190, 0.18);
-      stroke-width: 15;
+      stroke-width: 10;
       fill: none;
     }
 
@@ -378,7 +410,7 @@
       fill: none;
       stroke: var(--stroke);
       stroke-linecap: round;
-      stroke-width: 15;
+      stroke-width: 10;
       stroke-dasharray: var(--dash) 100;
       stroke-dashoffset: var(--offset);
     }
@@ -589,7 +621,12 @@
       }
 
       .task-card {
-        min-height: 170px;
+        min-height: 118px;
+      }
+
+      .task-card.color-only {
+        grid-template-columns: 1fr;
+        min-height: 94px;
       }
 
       .bars {
@@ -616,7 +653,7 @@
       <section class="panel tasks">
         <div class="panel-title">
           <h2>物料/设备进销存明细</h2>
-          <a href="#">See All</a>
+          <a href="#">库存净减41.4万</a>
         </div>
         <div class="task-cards" id="taskCards"></div>
       </section>
@@ -630,8 +667,9 @@
         <div class="ring-wrap" aria-label="项目完成进度">
           <svg viewBox="0 0 120 120" role="img" aria-hidden="true" id="progressRings">
             <circle class="ring-bg" cx="60" cy="60" r="46"></circle>
-            <circle class="ring-bg" cx="60" cy="60" r="31"></circle>
-            <circle class="ring-bg" cx="60" cy="60" r="18"></circle>
+            <circle class="ring-bg" cx="60" cy="60" r="35"></circle>
+            <circle class="ring-bg" cx="60" cy="60" r="24"></circle>
+            <circle class="ring-bg" cx="60" cy="60" r="13"></circle>
           </svg>
           <div class="ring-center"></div>
         </div>
@@ -670,34 +708,50 @@
       project: {
         name: "物料/设备看板",
         subtitle: "物料进度、设备状态与任务追踪",
-        totalProjects: 100
+        totalProjects: 57
       },
       tasks: [
         {
-          done: 9,
-          total: 10,
+          label: "期初库存",
+          value: 6319760,
+          done: 90,
+          total: 100,
           color: "var(--blue)"
         },
         {
-          done: 10,
-          total: 20,
+          label: "期末库存",
+          value: 5905574,
+          done: 84,
+          total: 100,
           color: "var(--lilac)"
         },
         {
-          done: 20,
-          total: 20,
+          label: "出库量",
+          value: 1112657,
+          done: 64,
+          total: 100,
           color: "var(--peach)"
         },
         {
-          done: 14,
-          total: 20,
+          label: "入库量",
+          value: 721710,
+          done: 48,
+          total: 100,
           color: "var(--mint)"
+        },
+        {
+          label: "库存差异",
+          value: -698471,
+          done: 36,
+          total: 100,
+          color: "var(--rose)"
         }
       ],
       progress: [
-        { label: "Project Done", value: 50, color: "var(--purple)" },
-        { label: "In Progress", value: 25, color: "var(--orange)" },
-        { label: "Backing", value: 15, color: "var(--sky)" }
+        { label: "已完成", value: 23, color: "var(--purple)" },
+        { label: "进行中", value: 14, color: "var(--orange)" },
+        { label: "待开始", value: 19, color: "var(--sky)" },
+        { label: "已延期", value: 1, color: "#e07190" }
       ],
       rank: [
         { name: "Candy Medina", role: "Marketing Specialist", points: 85, initials: "CM", color: "#f0b766" },
@@ -745,29 +799,36 @@
 
         return `
           <article class="task-card color-only" style="--card-bg:${task.color};--value:${percent}%">
-            <div class="color-band"></div>
+            <div class="color-band">${task.label}</div>
+            <div class="inventory-metric">
+              <strong>${formatNumber(task.value)}</strong>
+            </div>
             <div class="meter" aria-hidden="true"><span></span></div>
           </article>
         `;
       }).join("");
     }
 
+    function formatNumber(value) {
+      return Number(value || 0).toLocaleString("zh-CN");
+    }
+
     function renderProgress() {
-      document.getElementById("totalProjects").textContent = `Total project ${dashboardData.project.totalProjects}`;
+      const total = dashboardData.project.totalProjects;
+      document.getElementById("totalProjects").textContent = `总计 ${total} 项`;
       document.getElementById("progressList").innerHTML = dashboardData.progress.map((item) => `
         <div class="progress-item">
           <i class="dot" style="--dot:${item.color}"></i>
-          <div><span>${item.label}</span><strong>${item.value}%</strong></div>
+          <div><span>${item.label}</span><strong>${item.value}项</strong></div>
         </div>
       `).join("");
 
-      const radii = [46, 31, 18];
-      const offsets = [0, 18, 36];
+      const radii = [46, 35, 24, 13];
+      const offsets = [0, 12, 24, 36];
       const rings = dashboardData.progress.map((item, index) => {
         const radius = radii[index];
-        const circumference = 2 * Math.PI * radius;
-        const dash = (item.value / 100) * circumference;
-        return `<circle class="ring" cx="60" cy="60" r="${radius}" pathLength="100" style="--stroke:${item.color};--dash:${item.value};--offset:${offsets[index]}"></circle>`;
+        const percent = total ? Math.round((item.value / total) * 1000) / 10 : 0;
+        return `<circle class="ring" cx="60" cy="60" r="${radius}" pathLength="100" style="--stroke:${item.color};--dash:${percent};--offset:${offsets[index]}"></circle>`;
       }).join("");
 
       document.getElementById("progressRings").insertAdjacentHTML("beforeend", rings);
