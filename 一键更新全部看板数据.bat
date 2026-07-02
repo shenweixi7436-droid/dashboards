@@ -28,6 +28,16 @@ echo Updating device detail data...
 if errorlevel 1 goto fail
 
 echo.
+echo Updating month-aware key work data...
+"%PY%" "%~dp0update_work_month_data.py"
+if errorlevel 1 goto fail
+
+echo.
+echo Updating store business analysis dashboard...
+"%PY%" "%~dp0..\build_audit_dashboard.py"
+if errorlevel 1 goto fail
+
+echo.
 echo Done. Open index.html and press Ctrl+F5 to refresh.
 pause
 exit /b 0

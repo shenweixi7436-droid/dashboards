@@ -166,6 +166,20 @@ body{font-family:"华康圆体-W7",-apple-system,BlinkMacSystemFont,"Segoe UI","
 .cg>.card[data-card='6'],.cg>.card[data-card='7'],.cg>.placeholder-card{grid-column:span 1;min-height:340px}
 .placeholder-card{display:flex;flex-direction:column}
 .placeholder-card .placeholder-body{flex:1;display:flex;align-items:center;justify-content:center;color:#aaa;font-size:13px}
+.store-audit-body{display:flex!important;flex-direction:column;align-items:stretch!important;justify-content:space-between!important;gap:8px;color:#333!important;font-size:12px!important}
+.store-audit-main{display:grid;grid-template-columns:120px minmax(0,1fr);align-items:center;gap:10px;min-height:145px}
+.store-audit-donut{width:118px;height:118px;border-radius:50%;position:relative;box-shadow:inset 0 0 0 1px rgba(0,0,0,.04);flex:0 0 auto}
+.store-audit-donut::after{content:'';position:absolute;inset:28px;background:#fff;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.04)}
+.store-audit-total{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:1;flex-direction:column;font-family:'GothamRndBold','HKYuanW9','Arial Black',sans-serif;color:#632c16}
+.store-audit-total b{font-size:24px;line-height:1}
+.store-audit-total span{font-size:11px;color:#999;margin-top:3px}
+.store-audit-summary{line-height:1.45;color:#666;word-break:break-word}
+.store-audit-summary b{font-family:'GothamRndBold','HKYuanW9','Arial Black',sans-serif;color:#d93924}
+.store-audit-desc{margin-top:auto;padding-top:8px;border-top:1px solid rgba(99,44,22,.08);line-height:1.45;color:#666;word-break:break-word}
+.store-audit-desc b{font-family:'GothamRndBold','HKYuanW9','Arial Black',sans-serif;color:#d93924}
+.store-audit-legend{display:grid;grid-template-columns:1fr;gap:5px;margin-bottom:8px}
+.store-audit-legend span{display:flex;align-items:center;justify-content:space-between;gap:8px;white-space:nowrap}
+.store-audit-dot{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:5px;flex:0 0 auto}
 .card{background:#fff;border-radius:12px;padding:20px 24px;box-shadow:0 1px 6px rgba(0,0,0,.07);cursor:pointer;transition:transform .15s,box-shadow .15s}
 .card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.12)}
 .card.active{box-shadow:0 0 0 3px #703a1e}
@@ -222,11 +236,11 @@ body{font-family:"华康圆体-W7",-apple-system,BlinkMacSystemFont,"Segoe UI","
 .display-kpi-card .kt,.promo-kpi-card .kt,.approval-kpi-card .kt,.device-kpi-card .kt{font-family:'HKYuanW8','Microsoft YaHei',sans-serif!important;font-size:18px!important;font-weight:800!important;color:#333!important;line-height:1.25!important;white-space:nowrap!important}
 
 /* Lower top-card data blocks */
-.ct > div.kr:nth-of-type(4) > .kc{min-height:140px!important;height:140px!important;padding-top:22px!important;padding-bottom:22px!important}
-.promo-kpi-card .kpi-live,.approval-kpi-card .kpi-live{top:52px!important}
-.device-kpi-card .device-lines{top:56px!important;bottom:18px!important;display:flex!important;flex-direction:column!important;justify-content:space-between!important}
+.ct > div.kr:nth-of-type(4) > .kc{min-height:172px!important;height:172px!important;padding-top:24px!important;padding-bottom:24px!important}
+.promo-kpi-card .kpi-live,.approval-kpi-card .kpi-live{top:62px!important}
+.device-kpi-card .device-lines{top:58px!important;bottom:24px!important;display:flex!important;flex-direction:column!important;justify-content:space-between!important}
 .display-kpi-card .kv,.display-kpi-card .kh{display:none!important}
-.display-kpi-card .kpi-live{position:absolute!important;right:28px!important;top:52px!important;margin-top:0!important;text-align:right!important;z-index:2!important}
+.display-kpi-card .kpi-live{position:absolute!important;right:28px!important;top:62px!important;margin-top:0!important;text-align:right!important;z-index:2!important}
 .display-kpi-card .kpi-live-main{font-size:46px!important;color:var(--brand-brown)!important;line-height:1!important}
 .display-kpi-card .kpi-unit{font-size:20px;margin-left:2px;font-family:'HKYuanW8','Microsoft YaHei',sans-serif;font-weight:700;color:var(--brand-brown)}
 </style>
@@ -234,6 +248,11 @@ body{font-family:"华康圆体-W7",-apple-system,BlinkMacSystemFont,"Segoe UI","
 /* Blank dashboard frame: keep layout and card shells, hide all data values. */
 .tag-row{display:none!important}
 .month-row{display:none!important}
+.main-month-row{display:flex;gap:10px;align-items:center;margin:0 0 18px;flex-wrap:wrap}
+.main-month-caption{font-family:"华康圆体-W8";font-size:15px;font-weight:700;color:#333;padding-left:10px;border-left:4px solid #703a1e;margin-right:4px;white-space:nowrap}
+.work-mtag{padding:5px 16px;border-radius:18px;font-size:13px;background:#fff;color:#666;border:1px solid #e0e0e0;cursor:pointer;transition:all .2s;font-family:"华康圆体-W7"}
+.work-mtag:hover{border-color:#fcc900;color:#703a1e}
+.work-mtag.on{background:#fcc900;color:#703a1e;border-color:#fcc900;font-family:"华康圆体-W8"}
 .dt{visibility:hidden!important}
 .kv,.kh,.card-num,.card-sub,.card-list,
 #foot0,#foot1,#foot2,#targetPieFoot,.result-grid,
@@ -260,6 +279,46 @@ body{font-family:"华康圆体-W7",-apple-system,BlinkMacSystemFont,"Segoe UI","
 .ct>.kr:nth-of-type(3) .kt{font-family:'HKYuanW8','Microsoft YaHei',sans-serif!important;font-size:16px!important;line-height:1.35;color:#333!important;margin:0;display:flex;align-items:center;gap:8px}
 .ct>.kr:nth-of-type(3) .kc::after{width:72px;height:72px;right:22px;top:26px;opacity:.08}
 .ct>.kr:nth-of-type(3) .kc::before{width:4px!important}
+.ct>.kr:first-of-type{gap:16px!important;margin-top:14px!important;margin-bottom:22px!important;align-items:stretch!important}
+.ct>.kr:first-of-type>.kc{height:188px!important;min-height:188px!important;padding:24px 24px!important;box-sizing:border-box!important;display:flex!important;align-items:flex-start!important;border-radius:12px!important}
+.ct>.kr:first-of-type .kt{font-family:'HKYuanW8','Microsoft YaHei',sans-serif!important;font-size:18px!important;line-height:1.25!important;color:#333!important;margin:0!important;display:flex!important;align-items:center!important;gap:8px!important;white-space:nowrap!important}
+.ct>.kr:first-of-type .display-kpi-card .kpi-live,
+.ct>.kr:first-of-type .promo-kpi-card .kpi-live,
+.ct>.kr:first-of-type .approval-kpi-card .kpi-live{position:absolute!important;right:28px!important;top:64px!important;margin-top:0!important;text-align:right!important;z-index:2!important}
+.ct>.kr:first-of-type .promo-kpi-card .kpi-live-sub,
+.ct>.kr:first-of-type .approval-kpi-card .kpi-live-sub{margin-top:12px!important;line-height:1.45!important;max-width:210px!important;white-space:normal!important}
+.ct>.kr:first-of-type .device-kpi-card .device-lines{position:absolute!important;right:24px!important;top:58px!important;bottom:24px!important;width:190px!important;margin-top:0!important;padding:2px 0!important;display:flex!important;flex-direction:column!important;justify-content:space-between!important;gap:8px!important;background:rgba(255,255,255,.9)!important;z-index:2!important}
+.ct>.kr:first-of-type .device-kpi-card .device-line{font-size:16px!important;line-height:1.35!important;display:flex!important;align-items:baseline!important;justify-content:space-between!important;gap:12px!important}
+.ct>.kr:first-of-type .device-kpi-card .device-name{font-size:16px!important;white-space:nowrap!important}
+.ct>.kr:first-of-type .device-kpi-card .device-total{font-size:16px!important;white-space:nowrap!important}
+#zero-hint + .kr{gap:16px!important;margin-top:14px!important;margin-bottom:22px!important;align-items:stretch!important}
+#zero-hint + .kr>.kc{height:218px!important;min-height:218px!important;padding:26px 26px!important;box-sizing:border-box!important;overflow:visible!important}
+#zero-hint + .kr .kt{font-size:20px!important;line-height:1.25!important;margin:0!important;white-space:nowrap!important}
+#zero-hint + .kr .display-kpi-card .kpi-live,
+#zero-hint + .kr .promo-kpi-card .kpi-live,
+#zero-hint + .kr .approval-kpi-card .kpi-live{position:absolute!important;right:30px!important;top:76px!important;margin-top:0!important;text-align:right!important;z-index:3!important}
+#zero-hint + .kr .promo-kpi-card .kpi-live-sub,
+#zero-hint + .kr .approval-kpi-card .kpi-live-sub{margin-top:16px!important;line-height:1.5!important;max-width:260px!important;white-space:normal!important}
+#zero-hint + .kr .device-kpi-card .device-lines{position:absolute!important;right:28px!important;top:70px!important;bottom:30px!important;width:220px!important;margin-top:0!important;padding:0!important;display:flex!important;flex-direction:column!important;justify-content:space-between!important;gap:10px!important;background:rgba(255,255,255,.92)!important;z-index:3!important}
+#zero-hint + .kr .device-kpi-card .device-line{font-size:18px!important;line-height:1.35!important;display:flex!important;align-items:baseline!important;justify-content:space-between!important;gap:14px!important}
+#zero-hint + .kr .device-kpi-card .device-name{font-size:18px!important;white-space:nowrap!important}
+#zero-hint + .kr .device-kpi-card .device-total{font-size:18px!important;white-space:nowrap!important}
+#zero-hint + .kr{margin-top:10px!important;margin-bottom:16px!important}
+#zero-hint + .kr>.kc{height:176px!important;min-height:176px!important;padding:20px 24px!important;overflow:visible!important}
+#zero-hint + .kr .kt{font-size:18px!important;line-height:1.18!important}
+#zero-hint + .kr .display-kpi-card .kpi-live,
+#zero-hint + .kr .promo-kpi-card .kpi-live,
+#zero-hint + .kr .approval-kpi-card .kpi-live{right:28px!important;top:54px!important}
+#zero-hint + .kr .display-kpi-card .kpi-live-main,
+#zero-hint + .kr .promo-kpi-card .kpi-live-main,
+#zero-hint + .kr .approval-kpi-card .kpi-live-main{font-size:42px!important;line-height:.96!important}
+#zero-hint + .kr .promo-kpi-card .kpi-live-sub,
+#zero-hint + .kr .approval-kpi-card .kpi-live-sub{margin-top:10px!important;line-height:1.28!important;max-width:250px!important}
+#zero-hint + .kr .kpi-live-rate{font-size:17px!important;line-height:1!important}
+#zero-hint + .kr .device-kpi-card .device-lines{top:52px!important;bottom:22px!important;right:26px!important;width:210px!important;gap:6px!important;justify-content:space-between!important}
+#zero-hint + .kr .device-kpi-card .device-line{font-size:17px!important;line-height:1.2!important;gap:12px!important}
+#zero-hint + .kr .device-kpi-card .device-name{font-size:17px!important}
+#zero-hint + .kr .device-kpi-card .device-total{font-size:17px!important}
 .audit-progress-wrap{margin-top:10px;max-height:248px;overflow:hidden}
 .audit-progress-note{margin-bottom:9px;padding:7px 10px;border-radius:6px;background:#fff8df;color:#703a1e;font-size:12px;line-height:1.35;border-left:3px solid var(--brand-yellow)}
 .audit-progress-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px 18px}
@@ -311,8 +370,8 @@ body{font-family:"华康圆体-W7",-apple-system,BlinkMacSystemFont,"Segoe UI","
 .device-status-legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
 .device-status-legend .line-key{width:18px;height:3px;border-radius:99px}
 .device-combo-svg{width:100%;height:280px;display:block;overflow:visible}
-.device-combo-label{font-family:'GothamRndBold','HKYuanW9','Arial Black',sans-serif;font-size:15px;fill:#d93924}
-.device-combo-rate{font-family:'GothamRndBold','HKYuanW9','Arial Black',sans-serif;font-size:13px;fill:#d93924}
+.device-combo-label{font-family:'GothamRndBold','HKYuanW9','Arial Black',sans-serif;font-size:15px;fill:#fcc900;stroke:#fff;stroke-width:3px;paint-order:stroke;filter:drop-shadow(0 1px 1px rgba(0,0,0,.22))}
+.device-combo-rate{font-family:'GothamRndBold','HKYuanW9','Arial Black',sans-serif;font-size:13px;fill:#fcc900;stroke:#fff;stroke-width:3px;paint-order:stroke;filter:drop-shadow(0 1px 1px rgba(0,0,0,.22))}
 .device-combo-name{font-family:'HKYuanW8','Microsoft YaHei',sans-serif;font-size:13px;fill:#333}
 .device-status-note{font-size:11px;color:#aaa;text-align:left;padding-left:0;margin-top:-2px}
 .cg>.card[data-card='6'],.cg>.card[data-card='7']{padding:18px 20px}
@@ -340,7 +399,7 @@ body{font-family:"华康圆体-W7",-apple-system,BlinkMacSystemFont,"Segoe UI","
 .card[data-card='7'] .device-combo-rate{font-size:13px}
 .card[data-card='7'] .device-combo-name{font-size:12px}
 .card[data-card='7'] .device-status-note{font-size:10px;line-height:1.2;margin-top:0}
-.kc[data-card='1'],.card[data-card='5'],.kc[data-card='2'],.card[data-card='6'],.kc[data-card='3'],.card[data-card='7']{pointer-events:auto!important;cursor:pointer!important}
+.kc[data-card='1'],.card[data-card='5'],.kc[data-card='2'],.card[data-card='6'],.kc[data-card='3'],.card[data-card='7'],.card[data-card='8']{pointer-events:auto!important;cursor:pointer!important}
 .detail-panel.show,.detail-panel.show *{visibility:visible!important}
 
 /* 统一字体规范：数字 GOTHAMRND-BOLD；文字按标题层级使用华康圆体 */
@@ -372,18 +431,19 @@ svg text{font-family:'华康圆体-W7','HKYuanW7','Microsoft YaHei',sans-serif}
 })();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
-<script src="assets/data/current-audit-progress.js?v=20260701114415"></script>
-<script src="assets/data/promo-plan-audit.js?v=20260701114415"></script>
-<script src="assets/data/promo-audit-detail.js?v=20260701114415"></script>
-<script src="assets/data/approval-pies.js?v=20260701114415"></script>
-<script src="assets/data/approval-detail.js?v=20260701114415"></script>
-<script src="assets/data/device-channel-status.js?v=20260701114415"></script>
-<script src="assets/data/device-detail.js?v=20260701114415"></script>
+<script src="assets/data/current-audit-progress.js?v=20260701162734"></script>
+<script src="assets/data/promo-plan-audit.js?v=20260701162734"></script>
+<script src="assets/data/promo-audit-detail.js?v=20260701162734"></script>
+<script src="assets/data/approval-pies.js?v=20260701162734"></script>
+<script src="assets/data/approval-detail.js?v=20260701162734"></script>
+<script src="assets/data/device-channel-status.js?v=20260701162734"></script>
+<script src="assets/data/device-detail.js?v=20260701162734"></script>
+<script src="assets/data/store-business-analysis.js?v=20260702162000"></script>
 </head><body>
 <div class="hd">
   <div class="header-tiger"></div>
   <div><h1 id="mainDashboardTitle">市场稽核部重点工作看板</h1></div>
-  <div class="dt">&#128203; 数据更新：2026-07-01 11:44 &nbsp;|&nbsp; &#128197; 数据范围：2026年1月—6月</div>
+  <div class="dt">&#128203; 数据更新：2026-07-01 16:27 &nbsp;|&nbsp; &#128197; 数据范围：2026年1月—6月</div>
 </div>
 <script>
 (function(){
@@ -414,6 +474,9 @@ svg text{font-family:'华康圆体-W7','HKYuanW7','Microsoft YaHei',sans-serif}
   <span class="mtag on" data-month="6月">6月</span>
   <span class="mtag" data-month="全年">全年汇总</span>
 </div>
+<div class="main-month-row" id="mainWorkMonthRow">
+  <span class="main-month-caption">&#128197; 月份</span>
+</div>
 <div id="zero-hint" style="display:none;margin:0 16px 8px;padding:8px 12px;background:#fff3cd;border-radius:6px;font-size:12px;color:#856404;line-height:1.5;">
       &#9888; <span id="zero-hint-text"></span>
     </div>
@@ -440,8 +503,8 @@ svg text{font-family:'华康圆体-W7','HKYuanW7','Microsoft YaHei',sans-serif}
     <div id="kpi2" class="kv" style="color:#d93924">19</div>
     <div id="kh2" class="kh up">&#9650; 环比上月 +111.1%</div>
     <div class="kpi-live">
-      <div class="kpi-live-main">510<span class="kpi-unit">条</span></div>
-      <div class="kpi-live-sub">合格率 <span class="kpi-live-rate">78.8%</span></div>
+      <div class="kpi-live-main"><span id="approvalTotalLive">510</span><span class="kpi-unit">条</span></div>
+      <div class="kpi-live-sub">合格率 <span id="approvalRateLive" class="kpi-live-rate">78.8%</span></div>
     </div>
   </div>
   <div class="kc device-kpi-card" data-card="3" onclick="openDetail(3)">
@@ -451,15 +514,15 @@ svg text{font-family:'华康圆体-W7','HKYuanW7','Microsoft YaHei',sans-serif}
     <div class="kpi-live device-lines">
       <div class="device-line">
         <span class="device-name">保温柜</span>
-        <span class="device-total">23,530台</span>
+        <span class="device-total" id="deviceTotal0">23,530台</span>
       </div>
       <div class="device-line">
         <span class="device-name">烤肠机</span>
-        <span class="device-total">7,471台</span>
+        <span class="device-total" id="deviceTotal1">7,471台</span>
       </div>
       <div class="device-line">
         <span class="device-name">冰柜</span>
-        <span class="device-total">1,175台</span>
+        <span class="device-total" id="deviceTotal2">1,175台</span>
       </div>
     </div>
   </div>
@@ -499,12 +562,12 @@ svg text{font-family:'华康圆体-W7','HKYuanW7','Microsoft YaHei',sans-serif}
   </div>
   <div style="font-size:11px;color:#bbb;margin-top:8px" id="foot2">累计 1438 家 · 合格 1094 家</div>
 </div>
-<div class="card placeholder-card" data-card="8">
-  <div class="card-hd"><span class="card-title">&#128221; 鸣忙专项稽核</span><span class="card-badge">6月</span></div>
-  <div class="placeholder-body"></div>
+<div class="card placeholder-card" data-card="8" onclick="location.href='store-business-analysis.html'" style="cursor:pointer">
+  <div class="card-hd"><span class="card-title">&#128221; 鸣忙专项稽核</span><span class="card-badge work-month-badge">6月</span></div>
+  <div class="placeholder-body store-audit-body" id="storeAuditBody"></div>
 </div>
 <div class="card placeholder-card" data-card="9">
-  <div class="card-hd"><span class="card-title">&#128203; 市场秩序治理</span><span class="card-badge">6月</span></div>
+  <div class="card-hd"><span class="card-title">&#128203; 市场秩序治理</span><span class="card-badge work-month-badge">6月</span></div>
   <div class="placeholder-body"></div>
 </div>
 <div class="card" id="targetPieCard" data-card="7" onclick="openDetail(7)">
@@ -554,6 +617,87 @@ var currentZone = "全部";
 var activeCard = -1;
 var targetPieInst = null;
 
+function monthOrder(m){
+  var n=parseInt(String(m||"").replace(/[^\d]/g,""),10);
+  return isFinite(n)?n:99;
+}
+function uniqMonths(list){
+  var seen={},out=[];
+  (list||[]).forEach(function(m){
+    if(!m || m==="全年" || seen[m]) return;
+    seen[m]=true; out.push(m);
+  });
+  return out.sort(function(a,b){return monthOrder(a)-monthOrder(b);});
+}
+function getMainWorkMonths(){
+  var months=[];
+  function addKeys(obj){if(obj) Object.keys(obj).forEach(function(k){months.push(k);});}
+  if(window.MAIN_WORK_MONTHS) months=months.concat(window.MAIN_WORK_MONTHS);
+  addKeys(window.PROMO_PLAN_AUDIT_BY_MONTH);
+  addKeys(window.APPROVAL_PIES_BY_MONTH);
+  addKeys(window.DEVICE_CHANNEL_STATUS_BY_MONTH);
+  addKeys(window.ZD);
+  return uniqMonths(months);
+}
+function setMainMonthData(){
+  var m=currentMonth;
+  window.MAIN_SELECTED_MONTH=m;
+  function emptyPromoPlan(month){
+    return {month:month,planTotal:0,auditTotal:0,progress:0,rows:[]};
+  }
+  function emptyPromoDetail(month){
+    return {month:month,total:0,qualified:0,unqualified:0,rows:[],headers:["省份","市区","城市经理","活动门店名称","稽核结果"]};
+  }
+  function emptyApproval(month){
+    return {month:month,total:0,qualified:0,unqualified:0,rate:0,issues:[],provinceIssues:[]};
+  }
+  function emptyApprovalDetail(month){
+    return {month:month,total:0,qualified:0,unqualified:0,rows:[],provinceIssues:[],headers:["流程发起时间","费用类型","签呈号","省区","客户名称","发起人","问题类型"]};
+  }
+  function normalizeMonthKey(month){
+    var text=String(month||"");
+    var n=parseInt(text.replace(/[^\d]/g,""),10);
+    return isFinite(n)?(n+"月"):text;
+  }
+  function pickMonth(map,emptyFn){
+    var key=normalizeMonthKey(m);
+    if(map && map[m]) return map[m];
+    if(map && map[key]) return map[key];
+    return emptyFn(m);
+  }
+  function pickDevice(map,legacy){
+    var key=normalizeMonthKey(m);
+    if(map && map[m]) return map[m];
+    if(map && map[key]) return map[key];
+    return legacy;
+  }
+  window.PROMO_PLAN_AUDIT=pickMonth(window.PROMO_PLAN_AUDIT_BY_MONTH,emptyPromoPlan);
+  window.PROMO_AUDIT_DETAIL=pickMonth(window.PROMO_AUDIT_DETAIL_BY_MONTH,emptyPromoDetail);
+  window.APPROVAL_PIES=pickMonth(window.APPROVAL_PIES_BY_MONTH,emptyApproval);
+  window.APPROVAL_DETAIL=pickMonth(window.APPROVAL_DETAIL_BY_MONTH,emptyApprovalDetail);
+  window.DEVICE_CHANNEL_STATUS=pickDevice(window.DEVICE_CHANNEL_STATUS_BY_MONTH,window.DEVICE_CHANNEL_STATUS);
+  window.DEVICE_DETAIL=pickDevice(window.DEVICE_DETAIL_BY_MONTH,window.DEVICE_DETAIL);
+}
+function renderMainWorkMonthSelector(){
+  var row=document.getElementById("mainWorkMonthRow");
+  if(!row) return;
+  var months=getMainWorkMonths();
+  if(!months.length) months=["6月"];
+  if(window.MAIN_DEFAULT_MONTH && months.indexOf(window.MAIN_DEFAULT_MONTH)>=0 && !row.dataset.ready){
+    currentMonth=window.MAIN_DEFAULT_MONTH;
+  }else if(months.indexOf(currentMonth)<0){
+    currentMonth=months[months.length-1];
+  }
+  row.dataset.ready="1";
+  row.innerHTML='<span class="main-month-caption">&#128197; 月份</span>'+
+    months.map(function(m){
+      return '<span class="work-mtag '+(m===currentMonth?'on':'')+'" data-month="'+escH(m)+'">'+escH(m)+'</span>';
+    }).join("");
+  row.querySelectorAll(".work-mtag").forEach(function(btn){
+    btn.addEventListener("click",function(){switchMonth(this.dataset.month);});
+  });
+}
+
 function hbC(v){return v>0?"up":(v<0?"down":"flat");}
 function hbT(v){return(v>=0?"+":"")+v+"%";}
 function escH(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
@@ -562,9 +706,12 @@ function escH(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/
 function switchMonth(ms){
   currentMonth = ms;
   document.querySelectorAll(".mtag").forEach(function(t){t.classList.toggle("on",t.dataset.month===ms)});
+  document.querySelectorAll(".work-mtag").forEach(function(t){t.classList.toggle("on",t.dataset.month===ms)});
   // Update title
   var ml = ms==="全年"?"全年汇总":ms;
-  document.querySelector(".month-label").textContent = "☁ 总览 ("+ml+")";
+  var monthLabel=document.querySelector(".month-label");
+  if(monthLabel) monthLabel.textContent = "☁ 总览 ("+ml+")";
+  setMainMonthData();
   refreshAll();
 }
 
@@ -630,13 +777,58 @@ function renderTargetPie(d){
   document.getElementById("targetPieBadge").textContent=currentMonth;
 }
 
+function renderStoreAuditCard(){
+  var el=document.getElementById("storeAuditBody");
+  if(!el) return;
+  var source=window.STORE_AUDIT_SUMMARY_BY_MONTH||{};
+  var data=source[currentMonth]||{total:0,qualified:0,unqualified:0,uncertain:0,other:0};
+  var total=Number(data.total)||0;
+  var qualified=Number(data.qualified)||0;
+  var unqualified=Number(data.unqualified)||0;
+  var uncertain=Number(data.uncertain)||0;
+  var other=Number(data.other)||0;
+  var rows=[
+    {name:"合格",value:qualified,color:"#fcc900"},
+    {name:"不合格",value:unqualified,color:"#d93924"},
+    {name:"无法判断",value:uncertain,color:"#703a1e"}
+  ];
+  if(other>0) rows.push({name:"其他",value:other,color:"#999999"});
+  function pct(v){return total>0?(v/total*100):0;}
+  var start=0;
+  var stops=rows.map(function(r){
+    var end=start+(total>0?r.value/total*100:0);
+    var part=r.color+" "+start.toFixed(2)+"% "+end.toFixed(2)+"%";
+    start=end;
+    return part;
+  }).join(",");
+  if(total===0) stops="#eeeeee 0% 100%";
+  var legend=rows.map(function(r){
+    return '<span><span><i class="store-audit-dot" style="background:'+r.color+'"></i>'+r.name+'</span><b>'+Number(r.value||0).toLocaleString()+'家 · '+pct(r.value).toFixed(1)+'%</b></span>';
+  }).join("");
+  var desc=total>0
+    ? '本月共稽核鸣忙门店 <b>'+total.toLocaleString()+'</b> 家，其中合格数量 <b>'+qualified.toLocaleString()+'</b> 家，占比 <b>'+pct(qualified).toFixed(1)+'%</b>；不合格 <b>'+unqualified.toLocaleString()+'</b> 家，占比 <b>'+pct(unqualified).toFixed(1)+'%</b>；无法判断 <b>'+uncertain.toLocaleString()+'</b> 家，占比 <b>'+pct(uncertain).toFixed(1)+'%</b>。'
+    : '本月暂无鸣忙专项稽核数据。';
+  el.innerHTML=
+    '<div class="store-audit-main">'+
+      '<div class="store-audit-donut" style="background:conic-gradient('+stops+')">'+
+        '<div class="store-audit-total"><b>'+total.toLocaleString()+'</b><span>家</span></div>'+
+      '</div>'+
+      '<div class="store-audit-summary"><div class="store-audit-legend">'+legend+'</div></div>'+
+    '</div>'+
+    '<div class="store-audit-desc">'+desc+'</div>';
+}
+
 // ========== REFRESH ALL ==========
 function refreshAll(){
-  var d = ZD[currentMonth]; if(!d) return;
-  d = d[currentZone]; if(!d) return;
+  setMainMonthData();
+  document.querySelectorAll(".work-month-badge").forEach(function(el){
+    el.textContent=currentMonth==="\u5168\u5e74" ? "\u5168\u5e74" : currentMonth;
+  });
+  renderStoreAuditCard();
+  var d = (ZD[currentMonth] && (ZD[currentMonth][currentZone] || ZD[currentMonth]["全部"])) || {};
 
   // KPI cards
-  var km = d.kpi_monthly, kh = d.kpi_huanbi;
+  var km = d.kpi_monthly || [0,0,0,0], kh = d.kpi_huanbi || [0,0,0,0];
   var displayAuditCount = km[1];
   document.getElementById("kpi0").textContent=(displayAuditCount<1e4?displayAuditCount:displayAuditCount.toLocaleString());
   var kpi0Live=document.getElementById("kpi0Live");
@@ -652,6 +844,23 @@ function refreshAll(){
     if(auditEl) auditEl.textContent=(Number(promo.auditTotal)||0).toLocaleString();
     if(planEl) planEl.textContent=(Number(promo.planTotal)||0).toLocaleString()+"家";
     if(progressEl) progressEl.textContent=(Number(promo.progress)||0).toFixed(1)+"%";
+  })();
+  (function(){
+    var ap=(window.APPROVAL_PIES)||{total:0,qualified:0,unqualified:0,rate:0};
+    var total=Number(ap.total)||0;
+    var qualified=Number(ap.qualified)||0;
+    var rate=total>0 ? qualified/total*100 : 0;
+    var totalEl=document.getElementById("approvalTotalLive");
+    var rateEl=document.getElementById("approvalRateLive");
+    if(totalEl) totalEl.textContent=total.toLocaleString();
+    if(rateEl) rateEl.textContent=(Math.round(rate*10)/10).toLocaleString()+"%";
+  })();
+  (function(){
+    var ds=(window.DEVICE_CHANNEL_STATUS)||{items:[]};
+    (ds.items||[]).slice(0,3).forEach(function(it,i){
+      var el=document.getElementById("deviceTotal"+i);
+      if(el) el.textContent=(Number(it.volume)||0).toLocaleString()+"台";
+    });
   })();
   // 零稽核提示
   (function(){
@@ -672,14 +881,27 @@ function refreshAll(){
 
   for(var i=0;i<4;i++){var e=document.getElementById("kh"+i);e.className="kh "+hbC(kh[i]);e.textContent="▲ 环比上月 "+hbT(kh[i]);}
 
-  // Card1 - province audit progress from 当月稽核进度
-  var progressData=(window.CURRENT_AUDIT_PROGRESS&&window.CURRENT_AUDIT_PROGRESS.rows)||[];
-  var progressMonth=(window.CURRENT_AUDIT_PROGRESS&&window.CURRENT_AUDIT_PROGRESS.month)||currentMonth;
-  var totalAudit=progressData.reduce(function(s,r){return s+(Number(r.audit)||0);},0);
-  var totalTarget=progressData.reduce(function(s,r){return s+(Number(r.target)||0);},0);
+  // Card1 - province audit progress follows the selected month and zone.
+  var progressData=(d.province_progress||[]).map(function(r){
+    var audit=Number(r.audit)||0;
+    var target=Number(r.target)||0;
+    var progress=Number(r.progress);
+    if(!isFinite(progress)) progress=target>0?audit/target*100:0;
+    return {
+      province:r.name||r.province||"",
+      target:target,
+      audit:audit,
+      progress:progress,
+      done:Math.min(Math.max(progress,0),100)
+    };
+  });
+  var currentProgress=d.progress_current||{};
+  var totalAudit=Number(km[1])||0;
+  var totalTarget=Number(currentProgress.plan_q);
+  if(!isFinite(totalTarget)) totalTarget=progressData.reduce(function(s,r){return s+(Number(r.target)||0);},0);
   var totalProgress=totalTarget>0?totalAudit/totalTarget*100:0;
   var noPlanRows=progressData.filter(function(r){return (Number(r.target)||0)<=0;});
-  var chartRows=progressData.filter(function(r){return (Number(r.target)||0)>0;});
+  var chartRows=progressData.filter(function(r){return (Number(r.target)||0)>0 || (Number(r.audit)||0)>0;});
   var noPlanText=noPlanRows.length?'<div class="audit-progress-note">'+noPlanRows.map(function(r){return escH(r.province);}).join('/')+'省区本月无计划陈列数</div>':'';
   var h0=chartRows.map(function(r){
     var pct=Number(r.progress)||0;
@@ -698,9 +920,10 @@ function refreshAll(){
   document.getElementById("sub0b").className=totalProgress>=100?"val-up":"val-down";
   document.getElementById("sub0b").textContent=totalProgress.toFixed(1)+"%";
   document.getElementById("list0").className="card-list audit-progress-wrap";
+  if(!h0 && !noPlanText) noPlanText='<div class="audit-progress-note">当前月份暂无陈列稽核数据</div>';
   document.getElementById("list0").innerHTML=noPlanText+'<div class="audit-progress-grid">'+h0+'</div>';
   document.getElementById("foot0").className="audit-progress-foot";
-  document.getElementById("foot0").innerHTML="<span>"+escH(progressMonth)+"省区稽核进度</span><span>实际 "+totalAudit.toLocaleString()+"家 / 任务 "+totalTarget.toLocaleString()+"家</span>";
+  document.getElementById("foot0").innerHTML="<span>"+escH(currentMonth)+"省区稽核进度</span><span>实际 "+totalAudit.toLocaleString()+"家 / 任务 "+totalTarget.toLocaleString()+"家</span>";
 
   // Card2 - promotion plan vs audit
   var promo=(window.PROMO_PLAN_AUDIT)||{planTotal:0,auditTotal:0,progress:0,rows:[]};
@@ -798,8 +1021,13 @@ function refreshAll(){
     }).join('');
     var bars=items.map(function(it,i){
       var x=xs[i]-barW/2,y=volY(it.volume),h=baseY-y;
+      var rateLabelY=rateY(it.rate)-10;
+      var valueLabelY=y-8;
+      if(Math.abs(valueLabelY-rateLabelY)<24){
+        valueLabelY=Math.min(baseY-12,y+24);
+      }
       return '<rect x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+barW+'" height="'+Math.max(4,h).toFixed(1)+'" rx="7" fill="url(#deviceBarGrad)"/>'+
-        '<text class="device-combo-label" x="'+xs[i].toFixed(1)+'" y="'+(y-8).toFixed(1)+'" text-anchor="middle">'+it.volume.toLocaleString()+'\u53f0</text>'+
+        '<text class="device-combo-label" x="'+xs[i].toFixed(1)+'" y="'+valueLabelY.toFixed(1)+'" text-anchor="middle">'+it.volume.toLocaleString()+'\u53f0</text>'+
         '<text class="device-combo-name" x="'+xs[i].toFixed(1)+'" y="'+(H-8)+'" text-anchor="middle">'+escText(it.name)+'</text>';
     }).join('');
     var points=items.map(function(it,i){return {x:xs[i],y:rateY(it.rate),rate:it.rate};});
@@ -823,14 +1051,15 @@ function refreshAll(){
 
 // Card4 - Results
   var h3="",tR=0,bR=0;
-  d.result_items.forEach(function(it){tR+=it.v;if(it.n!=="合格")bR+=it.v;});
-  d.result_items.forEach(function(it){
+  var resultItems=d.result_items||[];
+  resultItems.forEach(function(it){tR+=it.v;if(it.n!=="合格")bR+=it.v;});
+  resultItems.forEach(function(it){
     var pR=tR>0?(it.v/tR*100).toFixed(1):0;
     h3+='<div style="margin-bottom:16px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div style="display:flex;align-items:center;gap:8px"><span style="display:inline-block;width:14px;height:14px;background:'+it.c+';border-radius:4px"></span><span style="font-size:15px;font-weight:600;color:#333">'+escH(it.n)+'</span></div><div style="text-align:right"><span style="font-family:\"华康圆体-W9\";font-size:24px;font-weight:800;color:#333">'+it.v+'</span><span style="font-size:13px;color:#999;margin-left:2px">家</span><span style="font-size:14px;font-weight:600;color:#666;margin-left:8px">('+pR+'%)</span></div></div><div style="background:#f5f5f5;border-radius:6px;height:12px;overflow:hidden"><div style="background:'+it.c+';height:100%;border-radius:6px;width:'+pR+'%;transition:width .5s ease-out"></div></div></div>';
   });
   var _resultGrid=document.getElementById("resultGrid"); if(_resultGrid){_resultGrid.innerHTML=h3;}
   if(tR>0 && document.getElementById("sub3a") && document.getElementById("sub3b")){document.getElementById("sub3a").textContent=((tR-bR)/tR*100).toFixed(1)+"%";document.getElementById("sub3b").textContent=(bR/tR*100).toFixed(1)+"%";}
-  (function(){var _tR=d.result_items.reduce(function(s,it){return s+it.v},0),_bR=d.result_items.filter(function(it){return it.n!=="合格"}).reduce(function(s,it){return s+it.v},0);if(_tR>0 && document.getElementById("foot3"))document.getElementById("foot3").textContent="合格 "+((_tR-_bR)/_tR*100).toFixed(1)+"% · 异常 "+(_bR/_tR*100).toFixed(1)+"%"})();
+  (function(){var _tR=resultItems.reduce(function(s,it){return s+it.v},0),_bR=resultItems.filter(function(it){return it.n!=="合格"}).reduce(function(s,it){return s+it.v},0);if(document.getElementById("foot3"))document.getElementById("foot3").textContent=_tR>0?"合格 "+((_tR-_bR)/_tR*100).toFixed(1)+"% · 异常 "+(_bR/_tR*100).toFixed(1)+"%":"当前月份暂无稽核结果数据";})();
 
   // Refresh detail panel if open
   if(activeCard >= 0) renderDetail(activeCard);
@@ -1458,6 +1687,8 @@ document.addEventListener("DOMContentLoaded",function(){
   document.querySelectorAll(".mtag").forEach(function(t){
     t.addEventListener("click",function(){switchMonth(this.dataset.month);});
   });
+  renderMainWorkMonthSelector();
+  setMainMonthData();
   setTimeout(function(){try{refreshAll();}catch(e){console.error(e);}},0);
 });
 </script>
