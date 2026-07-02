@@ -562,7 +562,7 @@ svg text{font-family:'华康圆体-W7','HKYuanW7','Microsoft YaHei',sans-serif}
   </div>
   <div style="font-size:11px;color:#bbb;margin-top:8px" id="foot2">累计 1438 家 · 合格 1094 家</div>
 </div>
-<div class="card placeholder-card" data-card="8" onclick="location.href='store-business-analysis.html'" style="cursor:pointer">
+<div class="card placeholder-card store-link-card" data-card="8" data-href="store-business-analysis.html" style="cursor:pointer">
   <div class="card-hd"><span class="card-title">&#128221; 鸣忙专项稽核</span><span class="card-badge work-month-badge">6月</span></div>
   <div class="placeholder-body store-audit-body" id="storeAuditBody"></div>
 </div>
@@ -818,12 +818,24 @@ function renderStoreAuditCard(){
     '<div class="store-audit-desc">'+desc+'</div>';
 }
 
+function bindStoreAuditLink(){
+  var card=document.querySelector(".store-link-card");
+  if(!card || card.dataset.storeLinkBound==="1") return;
+  card.dataset.storeLinkBound="1";
+  card.addEventListener("click",function(e){
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    window.location.href=card.getAttribute("data-href") || "store-business-analysis.html";
+  },true);
+}
+
 // ========== REFRESH ALL ==========
 function refreshAll(){
   setMainMonthData();
   document.querySelectorAll(".work-month-badge").forEach(function(el){
     el.textContent=currentMonth==="\u5168\u5e74" ? "\u5168\u5e74" : currentMonth;
   });
+  bindStoreAuditLink();
   renderStoreAuditCard();
   var d = (ZD[currentMonth] && (ZD[currentMonth][currentZone] || ZD[currentMonth]["全部"])) || {};
 
@@ -1070,6 +1082,10 @@ var cardTitles=["计划门店分析","稽核门店分析","不合格/虚假明�
                   "稽核门店数 TOP5","合格率排名","月度趋势","稽核结果对比"];
 
 function openDetail(cardIdx){
+  if(cardIdx===8){
+    window.location.href="store-business-analysis.html";
+    return;
+  }
   activeCard = cardIdx;
   document.querySelectorAll(".kc,.card").forEach(function(el){el.classList.remove("active");});
   var target = document.querySelector("[data-card='"+cardIdx+"']");
@@ -1215,6 +1231,10 @@ function renderDetail(cardIdx){
   };
   var originalOpenDetail = window.openDetail;
   window.openDetail = function(cardIdx){
+    if(cardIdx===8){
+      window.location.href="store-business-analysis.html";
+      return;
+    }
     activeCard = cardIdx;
     document.querySelectorAll(".kc,.card").forEach(function(el){el.classList.remove("active");});
     var target = document.querySelector("[data-card='"+cardIdx+"']");
@@ -1669,7 +1689,15 @@ function renderDetail(cardIdx){
   }
   document.addEventListener("DOMContentLoaded",function(){
     document.querySelectorAll("[data-card]").forEach(function(el){
-      el.addEventListener("click",function(){ window.openDetail(Number(this.dataset.card)); });
+      el.addEventListener("click",function(e){
+        if(this.dataset.card==="8"){
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          window.location.href=this.getAttribute("data-href") || "store-business-analysis.html";
+          return;
+        }
+        window.openDetail(Number(this.dataset.card));
+      });
     });
   });
   try{ openDetail = window.openDetail; renderDetail = window.renderDetail; }catch(e){}
