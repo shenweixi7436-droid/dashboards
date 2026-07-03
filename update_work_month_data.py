@@ -17,6 +17,8 @@ PROMO_AUDIT_SHEET = "推广促销稽核"
 PROMO_PLAN_SHEET = "推广促销计划"
 APPROVAL_SHEET = "线上审批流程稽核明细"
 DEVICE_SHEET = "智能设备台账汇总"
+MARKET_ORDER_CASE_SHEET = "市场秩序治理-窜货案件数"
+MARKET_ORDER_CUSTOMER_SHEET = "市场秩序治理-涉及客户明细"
 
 
 def norm(value) -> str:
@@ -294,6 +296,71 @@ def build_device(wb, months):
     return {month: status for month in months}, {month: detail for month in months}
 
 
+def build_market_order(wb):
+    ws_cases = wb[MARKET_ORDER_CASE_SHEET]
+    ws_customers = wb[MARKET_ORDER_CUSTOMER_SHEET]
+    monthly = defaultdict(lambda: {
+        "cases": set(),
+        "customers": set(),
+        "punish": set(),
+        "internal": set(),
+        "others": {},
+    })
+    months = set()
+
+    def is_2026(value):
+        text = norm(value)
+        if isinstance(value, datetime):
+            return value.year == 2026
+        m = re.search(r"20\d{2}", text)
+        return bool(m and int(m.group(0)) == 2026)
+
+    for row in ws_cases.iter_rows(min_row=2, values_only=True):
+        if not row or not is_2026(row[0] if len(row) > 0 else ""):
+            continue
+        month = month_label(row[1] if len(row) > 1 else "")
+        seq = norm(row[2] if len(row) > 2 else "")
+        if not month or not seq:
+            continue
+        months.add(month)
+        bucket = monthly[month]
+        bucket["cases"].add(seq)
+        province = norm(row[4] if len(row) > 4 else "")
+        city = norm(row[5] if len(row) > 5 else "")
+        method = norm(row[11] if len(row) > 11 else "")
+        if method == "已通报处罚":
+            bucket["punish"].add(seq)
+        elif method == "内部沟通处理":
+            bucket["internal"].add(seq)
+        elif method:
+            note = f"窜货{seq}{province}{city}{method}"
+            bucket["others"][seq] = note
+
+    for row in ws_customers.iter_rows(min_row=2, values_only=True):
+        if not row:
+            continue
+        month = month_label(row[0] if len(row) > 0 else "")
+        customer = norm(row[1] if len(row) > 1 else "")
+        if not month or not customer:
+            continue
+        months.add(month)
+        monthly[month]["customers"].add(customer)
+
+    payload = {}
+    for month in sorted(months, key=month_key):
+        bucket = monthly[month]
+        payload[month] = {
+            "month": month,
+            "source": "市场稽核部重点工作.xlsx / 市场秩序治理",
+            "caseCount": len(bucket["cases"]),
+            "customerCount": len(bucket["customers"]),
+            "punishCount": len(bucket["punish"]),
+            "internalCount": len(bucket["internal"]),
+            "otherNotes": list(bucket["others"].values()),
+        }
+    return payload, months
+
+
 def write_js(path: Path, legacy_name: str, map_name: str, payload_by_month: dict, default_month: str, extra=""):
     payload = payload_by_month.get(default_month) or next(iter(payload_by_month.values()), {})
     text = (
@@ -313,7 +380,8 @@ def main():
     wb = load_workbook(SOURCE, data_only=True, read_only=True)
     promo_plan, promo_detail, promo_months = build_promo(wb)
     approval_pies, approval_detail, approval_months = build_approval(wb)
-    all_months = sorted(set(promo_months) | set(approval_months), key=month_key)
+    market_order, market_months = build_market_order(wb)
+    all_months = sorted(set(promo_months) | set(approval_months) | set(market_months), key=month_key)
     if not all_months:
         all_months = [month_label(datetime.now())]
     default_month = all_months[-1]
@@ -332,6 +400,7 @@ def main():
     write_js(DATA_DIR / "approval-detail.js", "APPROVAL_DETAIL", "APPROVAL_DETAIL_BY_MONTH", approval_detail, default_month)
     write_js(DATA_DIR / "device-channel-status.js", "DEVICE_CHANNEL_STATUS", "DEVICE_CHANNEL_STATUS_BY_MONTH", device_status, default_month)
     write_js(DATA_DIR / "device-detail.js", "DEVICE_DETAIL", "DEVICE_DETAIL_BY_MONTH", device_detail, default_month)
+    write_js(DATA_DIR / "market-order-governance.js", "MARKET_ORDER_GOVERNANCE", "MARKET_ORDER_GOVERNANCE_BY_MONTH", market_order, default_month)
 
     print(f"Updated month-aware work data: {', '.join(all_months)}; default {default_month}")
 

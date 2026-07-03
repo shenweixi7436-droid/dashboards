@@ -134,13 +134,13 @@ window.PROMO_PLAN_AUDIT_BY_MONTH = {
   },
   "7月": {
     "month": "7月",
-    "planTotal": 130,
+    "planTotal": 101,
     "auditTotal": 0,
     "progress": 0.0,
     "rows": [
       {
         "province": "云南",
-        "plan": 3,
+        "plan": 0,
         "audit": 0
       },
       {
@@ -155,7 +155,7 @@ window.PROMO_PLAN_AUDIT_BY_MONTH = {
       },
       {
         "province": "吉林",
-        "plan": 0,
+        "plan": 1,
         "audit": 0
       },
       {
@@ -165,47 +165,47 @@ window.PROMO_PLAN_AUDIT_BY_MONTH = {
       },
       {
         "province": "安徽",
-        "plan": 2,
+        "plan": 9,
         "audit": 0
       },
       {
         "province": "山东",
-        "plan": 67,
-        "audit": 0
-      },
-      {
-        "province": "山西",
-        "plan": 5,
-        "audit": 0
-      },
-      {
-        "province": "川渝藏",
-        "plan": 0,
-        "audit": 0
-      },
-      {
-        "province": "广东",
-        "plan": 34,
-        "audit": 0
-      },
-      {
-        "province": "广西",
         "plan": 2,
         "audit": 0
       },
       {
-        "province": "江西",
-        "plan": 4,
+        "province": "山西",
+        "plan": 36,
         "audit": 0
       },
       {
-        "province": "河北",
+        "province": "川渝藏",
+        "plan": 7,
+        "audit": 0
+      },
+      {
+        "province": "广东",
         "plan": 0,
         "audit": 0
       },
       {
+        "province": "广西",
+        "plan": 7,
+        "audit": 0
+      },
+      {
+        "province": "江西",
+        "plan": 5,
+        "audit": 0
+      },
+      {
+        "province": "河北",
+        "plan": 1,
+        "audit": 0
+      },
+      {
         "province": "河南",
-        "plan": 9,
+        "plan": 15,
         "audit": 0
       },
       {
@@ -215,12 +215,12 @@ window.PROMO_PLAN_AUDIT_BY_MONTH = {
       },
       {
         "province": "湖北",
-        "plan": 0,
+        "plan": 6,
         "audit": 0
       },
       {
         "province": "湖南",
-        "plan": 0,
+        "plan": 1,
         "audit": 0
       },
       {
@@ -235,12 +235,12 @@ window.PROMO_PLAN_AUDIT_BY_MONTH = {
       },
       {
         "province": "苏南",
-        "plan": 0,
+        "plan": 1,
         "audit": 0
       },
       {
         "province": "贵州",
-        "plan": 0,
+        "plan": 4,
         "audit": 0
       },
       {
@@ -255,7 +255,7 @@ window.PROMO_PLAN_AUDIT_BY_MONTH = {
       },
       {
         "province": "黑龙江",
-        "plan": 0,
+        "plan": 2,
         "audit": 0
       }
     ]
@@ -263,13 +263,13 @@ window.PROMO_PLAN_AUDIT_BY_MONTH = {
 };
 window.PROMO_PLAN_AUDIT = window.PROMO_PLAN_AUDIT_BY_MONTH[window.MAIN_SELECTED_MONTH || "7月"] || {
   "month": "7月",
-  "planTotal": 130,
+  "planTotal": 101,
   "auditTotal": 0,
   "progress": 0.0,
   "rows": [
     {
       "province": "云南",
-      "plan": 3,
+      "plan": 0,
       "audit": 0
     },
     {
@@ -284,7 +284,7 @@ window.PROMO_PLAN_AUDIT = window.PROMO_PLAN_AUDIT_BY_MONTH[window.MAIN_SELECTED_
     },
     {
       "province": "吉林",
-      "plan": 0,
+      "plan": 1,
       "audit": 0
     },
     {
@@ -294,47 +294,47 @@ window.PROMO_PLAN_AUDIT = window.PROMO_PLAN_AUDIT_BY_MONTH[window.MAIN_SELECTED_
     },
     {
       "province": "安徽",
-      "plan": 2,
+      "plan": 9,
       "audit": 0
     },
     {
       "province": "山东",
-      "plan": 67,
-      "audit": 0
-    },
-    {
-      "province": "山西",
-      "plan": 5,
-      "audit": 0
-    },
-    {
-      "province": "川渝藏",
-      "plan": 0,
-      "audit": 0
-    },
-    {
-      "province": "广东",
-      "plan": 34,
-      "audit": 0
-    },
-    {
-      "province": "广西",
       "plan": 2,
       "audit": 0
     },
     {
-      "province": "江西",
-      "plan": 4,
+      "province": "山西",
+      "plan": 36,
       "audit": 0
     },
     {
-      "province": "河北",
+      "province": "川渝藏",
+      "plan": 7,
+      "audit": 0
+    },
+    {
+      "province": "广东",
       "plan": 0,
       "audit": 0
     },
     {
+      "province": "广西",
+      "plan": 7,
+      "audit": 0
+    },
+    {
+      "province": "江西",
+      "plan": 5,
+      "audit": 0
+    },
+    {
+      "province": "河北",
+      "plan": 1,
+      "audit": 0
+    },
+    {
       "province": "河南",
-      "plan": 9,
+      "plan": 15,
       "audit": 0
     },
     {
@@ -344,12 +344,12 @@ window.PROMO_PLAN_AUDIT = window.PROMO_PLAN_AUDIT_BY_MONTH[window.MAIN_SELECTED_
     },
     {
       "province": "湖北",
-      "plan": 0,
+      "plan": 6,
       "audit": 0
     },
     {
       "province": "湖南",
-      "plan": 0,
+      "plan": 1,
       "audit": 0
     },
     {
@@ -364,12 +364,12 @@ window.PROMO_PLAN_AUDIT = window.PROMO_PLAN_AUDIT_BY_MONTH[window.MAIN_SELECTED_
     },
     {
       "province": "苏南",
-      "plan": 0,
+      "plan": 1,
       "audit": 0
     },
     {
       "province": "贵州",
-      "plan": 0,
+      "plan": 4,
       "audit": 0
     },
     {
@@ -384,10 +384,10 @@ window.PROMO_PLAN_AUDIT = window.PROMO_PLAN_AUDIT_BY_MONTH[window.MAIN_SELECTED_
     },
     {
       "province": "黑龙江",
-      "plan": 0,
+      "plan": 2,
       "audit": 0
     }
   ]
 };
-window.MAIN_WORK_MONTHS = ["6月", "7月"];
+window.MAIN_WORK_MONTHS = ["1月", "2月", "3月", "4月", "5月", "6月", "7月"];
 window.MAIN_DEFAULT_MONTH = "7月";

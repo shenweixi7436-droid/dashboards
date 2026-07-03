@@ -44,6 +44,8 @@ body{font-family:'HKYuanW7','Microsoft YaHei',sans-serif;background:#f5f5f5}
 .kc:nth-child(2)::before{background:var(--brand-pink)!important}
 .kc:nth-child(3)::before{background:var(--brand-red)!important}
 .kc:nth-child(4)::before{background:var(--brand-red)!important}
+.kc:nth-child(5)::before{background:var(--brand-pink)!important}
+.kc:nth-child(6)::before{background:var(--brand-brown)!important}
 #kpi0,.card-num#cardNum0{color:var(--brand-brown)!important}
 #kpi1{color:var(--brand-pink)!important}
 #kpi2{color:var(--brand-red)!important}
@@ -131,7 +133,7 @@ body{font-family:"华康圆体-W7",-apple-system,BlinkMacSystemFont,"Segoe UI","
 .kc.active{box-shadow:0 0 0 3px #703a1e}
 .kc::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;border-radius:12px 0 0 12px}
 .kc:nth-child(1)::before{background:#703a1e}.kc:nth-child(2)::before{background:#ec5f74}
-.kc:nth-child(3)::before{background:#fcc900}.kc:nth-child(4)::before{background:#d93924}
+.kc:nth-child(3)::before{background:#fcc900}.kc:nth-child(4)::before{background:#d93924}.kc:nth-child(5)::before{background:#ec5f74}.kc:nth-child(6)::before{background:#703a1e}
 .kt{font-size:12px;color:#999;margin-bottom:8px}
 .kpi-live{position:relative;z-index:1;margin-top:12px;color:#333}
 .kpi-live-main{font-family:'GothamRndBold','HKYuanW9','Arial Black',sans-serif;font-size:34px;font-weight:800;line-height:1;color:var(--brand-brown);letter-spacing:0}
@@ -399,7 +401,7 @@ body{font-family:"华康圆体-W7",-apple-system,BlinkMacSystemFont,"Segoe UI","
 .card[data-card='7'] .device-combo-rate{font-size:13px}
 .card[data-card='7'] .device-combo-name{font-size:12px}
 .card[data-card='7'] .device-status-note{font-size:10px;line-height:1.2;margin-top:0}
-.kc[data-card='1'],.card[data-card='5'],.kc[data-card='2'],.card[data-card='6'],.kc[data-card='3'],.card[data-card='7'],.card[data-card='8']{pointer-events:auto!important;cursor:pointer!important}
+.kc[data-card='1'],.card[data-card='5'],.kc[data-card='2'],.card[data-card='6'],.kc[data-card='3'],.card[data-card='7'],.kc[data-card='8'],.card[data-card='8']{pointer-events:auto!important;cursor:pointer!important}
 .detail-panel.show,.detail-panel.show *{visibility:visible!important}
 
 /* 统一字体规范：数字 GOTHAMRND-BOLD；文字按标题层级使用华康圆体 */
@@ -417,6 +419,69 @@ html,body,button,input,select,textarea,table,.tag,.mtag,.card-sub,.dkpi-label,.d
 .kv,.card-num,.dkpi-val,.kpi-live-main,.kpi-live-rate,.device-total,.audit-progress-val,.promo-bar-val,.approval-bar-val,.approval-region-bar-val,.device-detail-summary-main,.device-detail-table tr:last-child td,.device-combo-label,.device-combo-rate,#progressPct,#kpi0,#kpi1,#kpi2,#kpi3,#kpi0Live,#promoAuditLive,#approvalAuditLive,.card-num span,.kpi-live-main span{font-family:'GOTHAMRND-BOLD','GothamRndBold','华康圆体-W9','HKYuanW9',sans-serif!important;font-weight:800!important;letter-spacing:0!important}
 [style*="华康圆体-W9"]{font-family:'GOTHAMRND-BOLD','GothamRndBold','华康圆体-W9','HKYuanW9',sans-serif!important}
 svg text{font-family:'华康圆体-W7','HKYuanW7','Microsoft YaHei',sans-serif}
+.ct>.kr:first-of-type{grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:12px!important}
+.ct>.kr:first-of-type>.kc{height:150px!important;min-height:150px!important;padding:18px 18px!important;overflow:visible!important}
+.ct>.kr:first-of-type .kt{font-size:16px!important;line-height:1.2!important;white-space:nowrap!important}
+.ct>.kr:first-of-type .display-kpi-card .kpi-live,
+.ct>.kr:first-of-type .promo-kpi-card .kpi-live,
+.ct>.kr:first-of-type .approval-kpi-card .kpi-live,
+.ct>.kr:first-of-type .store-kpi-card .kpi-live,
+.ct>.kr:first-of-type .market-order-kpi-card .kpi-live{position:absolute!important;right:18px!important;top:60px!important;margin-top:0!important;text-align:right!important;z-index:3!important}
+.ct>.kr:first-of-type .display-kpi-card .kpi-live-main,
+.ct>.kr:first-of-type .promo-kpi-card .kpi-live-main,
+.ct>.kr:first-of-type .approval-kpi-card .kpi-live-main,
+.ct>.kr:first-of-type .store-kpi-card .kpi-live-main,
+.ct>.kr:first-of-type .market-order-kpi-card .kpi-live-main{font-size:34px!important;line-height:1!important}
+.ct>.kr:first-of-type .store-kpi-card .kpi-live-main{color:#ec5f74!important}
+.ct>.kr:first-of-type .market-order-kpi-card .kpi-live-main{color:#d93924!important}
+.ct>.kr:first-of-type .kpi-unit{font-size:16px!important;margin-left:2px}
+.ct>.kr:first-of-type .kpi-live-sub{margin-top:8px!important;font-size:12px!important;line-height:1.25!important;white-space:nowrap!important;color:#777!important}
+.ct>.kr:first-of-type .device-kpi-card .device-lines{right:16px!important;top:52px!important;bottom:18px!important;width:132px!important;gap:4px!important}
+.ct>.kr:first-of-type .device-kpi-card .device-line{font-size:13px!important;line-height:1.15!important;gap:6px!important}
+.ct>.kr:first-of-type .device-kpi-card .device-name{font-size:13px!important}
+.ct>.kr:first-of-type .device-kpi-card .device-total{font-size:13px!important}
+@media(max-width:1280px){.ct>.kr:first-of-type{grid-template-columns:repeat(6,minmax(0,1fr))!important}.ct>.kr:first-of-type>.kc{height:150px!important;min-height:150px!important}}
+@media(max-width:760px){.ct>.kr:first-of-type{grid-template-columns:repeat(6,minmax(0,1fr))!important}}
+.top-kpi-row{display:grid!important;grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:12px!important;align-items:stretch!important}
+.top-kpi-row>.kc{height:150px!important;min-height:150px!important;max-height:150px!important;box-sizing:border-box!important;padding:18px 14px!important;overflow:hidden!important}
+.top-kpi-row .kt{font-size:15px!important;line-height:1.18!important;white-space:nowrap!important}
+.top-kpi-row .kpi-live-main{font-size:32px!important;line-height:1!important}
+.top-kpi-row .kpi-unit{font-size:15px!important}
+.top-kpi-row .kpi-live-sub{font-size:11px!important;line-height:1.2!important;margin-top:7px!important;white-space:nowrap!important}
+.top-kpi-row .display-kpi-card .kpi-live,
+.top-kpi-row .promo-kpi-card .kpi-live,
+.top-kpi-row .approval-kpi-card .kpi-live,
+.top-kpi-row .store-kpi-card .kpi-live,
+.top-kpi-row .market-order-kpi-card .kpi-live{right:14px!important;top:58px!important}
+.top-kpi-row .device-kpi-card .device-lines{left:14px!important;right:12px!important;top:58px!important;bottom:12px!important;width:auto!important;gap:1px!important;justify-content:flex-start!important;background:transparent!important}
+.top-kpi-row .device-kpi-card .device-line{display:grid!important;grid-template-columns:42px minmax(0,1fr)!important;font-size:11px!important;line-height:1.05!important;gap:5px!important;min-height:18px!important;align-items:center!important}
+.top-kpi-row .device-kpi-card .device-name,
+.top-kpi-row .device-kpi-card .device-total{font-size:11px!important}
+.top-kpi-row .device-kpi-card .device-total{text-align:right!important;overflow:hidden!important;text-overflow:clip!important}
+@media(max-width:1280px){.top-kpi-row{grid-template-columns:repeat(6,minmax(0,1fr))!important}.top-kpi-row>.kc{height:150px!important;min-height:150px!important}}
+@media(max-width:760px){.top-kpi-row{grid-template-columns:repeat(6,minmax(0,1fr))!important}}
+#zero-hint + .top-kpi-row .device-kpi-card .device-lines{left:14px!important;right:12px!important;top:58px!important;bottom:12px!important;width:auto!important;gap:1px!important;justify-content:flex-start!important;background:transparent!important;padding:0!important}
+#zero-hint + .top-kpi-row .device-kpi-card .device-line{display:grid!important;grid-template-columns:42px minmax(0,1fr)!important;font-size:11px!important;line-height:1.05!important;gap:5px!important;min-height:18px!important;align-items:center!important}
+#zero-hint + .top-kpi-row .device-kpi-card .device-name,
+#zero-hint + .top-kpi-row .device-kpi-card .device-total{font-size:14px!important;line-height:1.05!important;white-space:nowrap!important}
+#zero-hint + .top-kpi-row .device-kpi-card .device-total{text-align:right!important;overflow:hidden!important;text-overflow:clip!important}
+#zero-hint + .top-kpi-row .store-kpi-card .kpi-live,
+#zero-hint + .top-kpi-row .market-order-kpi-card .kpi-live{position:absolute!important;right:14px!important;top:58px!important;margin-top:0!important;text-align:right!important;z-index:3!important}
+#zero-hint + .top-kpi-row .store-kpi-card .kpi-live-main,
+#zero-hint + .top-kpi-row .market-order-kpi-card .kpi-live-main{font-size:32px!important;line-height:1!important}
+#zero-hint + .top-kpi-row .store-kpi-card .kpi-live-sub,
+#zero-hint + .top-kpi-row .market-order-kpi-card .kpi-live-sub{font-size:11px!important;line-height:1.2!important;margin-top:7px!important;white-space:nowrap!important}
+.market-order-body{display:flex;flex-direction:column;height:100%;padding-top:10px}
+.market-order-metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 12px;margin-top:6px}
+.market-order-metric{border-radius:8px;background:#fff8dc;padding:10px 12px;border-left:4px solid #fcc900;min-height:58px}
+.market-order-metric:nth-child(2){background:#fff3f0;border-left-color:#d93924}
+.market-order-metric:nth-child(3){background:#fff7fa;border-left-color:#ec5f74}
+.market-order-metric:nth-child(4){background:#f6f6f6;border-left-color:#703a1e}
+.market-order-label{font-size:12px;color:#777;white-space:nowrap}
+.market-order-value{margin-top:4px;font-size:24px;line-height:1;font-weight:900;color:#d93924}
+.market-order-value .unit{font-size:13px;margin-left:2px;color:#703a1e}
+.market-order-note{margin-top:auto;padding-top:10px;font-size:12px;line-height:1.45;color:#703a1e}
+.market-order-note b{color:#d93924}
 </style>
 <script>
 (function(){
@@ -431,19 +496,20 @@ svg text{font-family:'华康圆体-W7','HKYuanW7','Microsoft YaHei',sans-serif}
 })();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
-<script src="assets/data/current-audit-progress.js?v=20260701162734"></script>
-<script src="assets/data/promo-plan-audit.js?v=20260701162734"></script>
-<script src="assets/data/promo-audit-detail.js?v=20260701162734"></script>
-<script src="assets/data/approval-pies.js?v=20260701162734"></script>
-<script src="assets/data/approval-detail.js?v=20260701162734"></script>
-<script src="assets/data/device-channel-status.js?v=20260701162734"></script>
-<script src="assets/data/device-detail.js?v=20260701162734"></script>
-<script src="assets/data/store-business-analysis.js?v=20260702162000"></script>
+<script src="assets/data/current-audit-progress.js?v=20260703170413"></script>
+<script src="assets/data/promo-plan-audit.js?v=20260703170413"></script>
+<script src="assets/data/promo-audit-detail.js?v=20260703170413"></script>
+<script src="assets/data/approval-pies.js?v=20260703170413"></script>
+<script src="assets/data/approval-detail.js?v=20260703170413"></script>
+<script src="assets/data/device-channel-status.js?v=20260703170413"></script>
+<script src="assets/data/device-detail.js?v=20260703170413"></script>
+<script src="assets/data/store-business-analysis.js?v=20260703170413"></script>
+<script src="assets/data/market-order-governance.js?v=20260703170413"></script>
 </head><body>
 <div class="hd">
   <div class="header-tiger"></div>
   <div><h1 id="mainDashboardTitle">市场稽核部重点工作看板</h1></div>
-  <div class="dt">&#128203; 数据更新：2026-07-01 16:27 &nbsp;|&nbsp; &#128197; 数据范围：2026年1月—6月</div>
+  <div class="dt">&#128203; 数据更新：2026-07-03 17:04 &nbsp;|&nbsp; &#128197; 数据范围：2026年1月—6月</div>
 </div>
 <script>
 (function(){
@@ -480,7 +546,7 @@ svg text{font-family:'华康圆体-W7','HKYuanW7','Microsoft YaHei',sans-serif}
 <div id="zero-hint" style="display:none;margin:0 16px 8px;padding:8px 12px;background:#fff3cd;border-radius:6px;font-size:12px;color:#856404;line-height:1.5;">
       &#9888; <span id="zero-hint-text"></span>
     </div>
-<div class="kr">
+<div class="kr top-kpi-row">
   <div class="kc display-kpi-card" data-card="0" onclick="window.open('display-audit-dashboard.html')" style="cursor:pointer">
     <div class="kt">&#128221; 陈列稽核</div>
     <div id="kpi0" class="kv" style="color:#703a1e">382</div>
@@ -526,6 +592,20 @@ svg text{font-family:'华康圆体-W7','HKYuanW7','Microsoft YaHei',sans-serif}
       </div>
     </div>
   </div>
+  <div class="kc store-kpi-card store-link-card" data-card="8" data-href="store-business-analysis.html" style="cursor:pointer">
+    <div class="kt">&#128221; 鸣忙专项稽核</div>
+    <div class="kpi-live">
+      <div class="kpi-live-main"><span id="storeAuditKpiLive">0</span><span class="kpi-unit">家</span></div>
+      <div class="kpi-live-sub">本月稽核家数</div>
+    </div>
+  </div>
+  <div class="kc market-order-kpi-card" data-card="9">
+    <div class="kt">&#128203; 市场秩序治理</div>
+    <div class="kpi-live">
+      <div class="kpi-live-main muted"><span>--</span></div>
+      <div class="kpi-live-sub">暂不填写</div>
+    </div>
+  </div>
 </div><div class="cg">
 <div class="card" data-card="4" onclick="openDetail(4)">
   <div class="card-hd"><span class="card-title">&#128203; 陈列稽核</span><span class="card-badge" id="badge0">导报</span></div>
@@ -568,7 +648,7 @@ svg text{font-family:'华康圆体-W7','HKYuanW7','Microsoft YaHei',sans-serif}
 </div>
 <div class="card placeholder-card" data-card="9">
   <div class="card-hd"><span class="card-title">&#128203; 市场秩序治理</span><span class="card-badge work-month-badge">6月</span></div>
-  <div class="placeholder-body"></div>
+  <div class="placeholder-body market-order-body" id="marketOrderBody"></div>
 </div>
 <div class="card" id="targetPieCard" data-card="7" onclick="openDetail(7)">
   <div class="card-hd"><span class="card-title">&#128200; 智能设备稽核</span><span id="targetPieBadge" class="card-badge">6月</span></div>
@@ -636,6 +716,7 @@ function getMainWorkMonths(){
   addKeys(window.PROMO_PLAN_AUDIT_BY_MONTH);
   addKeys(window.APPROVAL_PIES_BY_MONTH);
   addKeys(window.DEVICE_CHANNEL_STATUS_BY_MONTH);
+  addKeys(window.MARKET_ORDER_GOVERNANCE_BY_MONTH);
   addKeys(window.ZD);
   return uniqMonths(months);
 }
@@ -653,6 +734,9 @@ function setMainMonthData(){
   }
   function emptyApprovalDetail(month){
     return {month:month,total:0,qualified:0,unqualified:0,rows:[],provinceIssues:[],headers:["流程发起时间","费用类型","签呈号","省区","客户名称","发起人","问题类型"]};
+  }
+  function emptyMarketOrder(month){
+    return {month:month,caseCount:0,customerCount:0,punishCount:0,internalCount:0,otherNotes:[]};
   }
   function normalizeMonthKey(month){
     var text=String(month||"");
@@ -675,6 +759,7 @@ function setMainMonthData(){
   window.PROMO_AUDIT_DETAIL=pickMonth(window.PROMO_AUDIT_DETAIL_BY_MONTH,emptyPromoDetail);
   window.APPROVAL_PIES=pickMonth(window.APPROVAL_PIES_BY_MONTH,emptyApproval);
   window.APPROVAL_DETAIL=pickMonth(window.APPROVAL_DETAIL_BY_MONTH,emptyApprovalDetail);
+  window.MARKET_ORDER_GOVERNANCE=pickMonth(window.MARKET_ORDER_GOVERNANCE_BY_MONTH,emptyMarketOrder);
   window.DEVICE_CHANNEL_STATUS=pickDevice(window.DEVICE_CHANNEL_STATUS_BY_MONTH,window.DEVICE_CHANNEL_STATUS);
   window.DEVICE_DETAIL=pickDevice(window.DEVICE_DETAIL_BY_MONTH,window.DEVICE_DETAIL);
 }
@@ -787,6 +872,8 @@ function renderStoreAuditCard(){
   var unqualified=Number(data.unqualified)||0;
   var uncertain=Number(data.uncertain)||0;
   var other=Number(data.other)||0;
+  var topKpi=document.getElementById("storeAuditKpiLive");
+  if(topKpi) topKpi.textContent=total.toLocaleString();
   var rows=[
     {name:"合格",value:qualified,color:"#fcc900"},
     {name:"不合格",value:unqualified,color:"#d93924"},
@@ -819,14 +906,47 @@ function renderStoreAuditCard(){
 }
 
 function bindStoreAuditLink(){
-  var card=document.querySelector(".store-link-card");
-  if(!card || card.dataset.storeLinkBound==="1") return;
-  card.dataset.storeLinkBound="1";
-  card.addEventListener("click",function(e){
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    window.location.href=card.getAttribute("data-href") || "store-business-analysis.html";
-  },true);
+  document.querySelectorAll(".store-link-card").forEach(function(card){
+    if(!card || card.dataset.storeLinkBound==="1") return;
+    card.dataset.storeLinkBound="1";
+    card.addEventListener("click",function(e){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      window.location.href=card.getAttribute("data-href") || "store-business-analysis.html";
+    },true);
+  });
+}
+
+function renderMarketOrderGovernance(){
+  var data=window.MARKET_ORDER_GOVERNANCE||{caseCount:0,customerCount:0,punishCount:0,internalCount:0,otherNotes:[]};
+  var caseCount=Number(data.caseCount)||0;
+  var customerCount=Number(data.customerCount)||0;
+  var punishCount=Number(data.punishCount)||0;
+  var internalCount=Number(data.internalCount)||0;
+  var top=document.querySelector(".market-order-kpi-card");
+  if(top){
+    var main=top.querySelector(".kpi-live-main");
+    var sub=top.querySelector(".kpi-live-sub");
+    if(main){
+      main.classList.remove("muted");
+      main.innerHTML='<span>'+caseCount.toLocaleString()+'</span><span class="kpi-unit">起</span>';
+      main.style.color="#d93924";
+    }
+    if(sub) sub.textContent="累计溯源窜货";
+  }
+  var el=document.getElementById("marketOrderBody");
+  if(!el) return;
+  var notes=(data.otherNotes||[]).filter(Boolean);
+  var noteHtml=notes.length
+    ? '<div class="market-order-note">其他处理方式：<b>'+notes.map(function(t){return escH(String(t));}).join("；")+'</b>。</div>'
+    : '<div class="market-order-note">本月暂无其他处理方式。</div>';
+  el.innerHTML=
+    '<div class="market-order-metrics">'+
+      '<div class="market-order-metric"><div class="market-order-label">累计溯源窜货</div><div class="market-order-value">'+caseCount.toLocaleString()+'<span class="unit">起</span></div></div>'+
+      '<div class="market-order-metric"><div class="market-order-label">锁定具体客户个数</div><div class="market-order-value">'+customerCount.toLocaleString()+'<span class="unit">个</span></div></div>'+
+      '<div class="market-order-metric"><div class="market-order-label">通报处罚</div><div class="market-order-value">'+punishCount.toLocaleString()+'<span class="unit">起</span></div></div>'+
+      '<div class="market-order-metric"><div class="market-order-label">省区内部处理</div><div class="market-order-value">'+internalCount.toLocaleString()+'<span class="unit">起</span></div></div>'+
+    '</div>'+noteHtml;
 }
 
 // ========== REFRESH ALL ==========
@@ -837,6 +957,7 @@ function refreshAll(){
   });
   bindStoreAuditLink();
   renderStoreAuditCard();
+  renderMarketOrderGovernance();
   var d = (ZD[currentMonth] && (ZD[currentMonth][currentZone] || ZD[currentMonth]["全部"])) || {};
 
   // KPI cards
@@ -1086,6 +1207,7 @@ function openDetail(cardIdx){
     window.location.href="store-business-analysis.html";
     return;
   }
+  if(cardIdx===9) return;
   activeCard = cardIdx;
   document.querySelectorAll(".kc,.card").forEach(function(el){el.classList.remove("active");});
   var target = document.querySelector("[data-card='"+cardIdx+"']");
@@ -1235,6 +1357,7 @@ function renderDetail(cardIdx){
       window.location.href="store-business-analysis.html";
       return;
     }
+    if(cardIdx===9) return;
     activeCard = cardIdx;
     document.querySelectorAll(".kc,.card").forEach(function(el){el.classList.remove("active");});
     var target = document.querySelector("[data-card='"+cardIdx+"']");
@@ -1694,6 +1817,11 @@ function renderDetail(cardIdx){
           e.preventDefault();
           e.stopImmediatePropagation();
           window.location.href=this.getAttribute("data-href") || "store-business-analysis.html";
+          return;
+        }
+        if(this.dataset.card==="9"){
+          e.preventDefault();
+          e.stopImmediatePropagation();
           return;
         }
         window.openDetail(Number(this.dataset.card));
