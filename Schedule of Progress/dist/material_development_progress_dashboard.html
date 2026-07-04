@@ -1,0 +1,802 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>物料开发进度跟进看板</title>
+  <style>
+    @font-face {
+      font-family: "GothamRoundedBold";
+      src: url("assets/fonts/gothamrnd-bold.otf") format("opentype");
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "HKYuanW7";
+      src: url("assets/fonts/hkyuant-w7.ttf") format("truetype");
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "HKYuanW8";
+      src: url("assets/fonts/hkyuant-w8.ttf") format("truetype");
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "HKYuanW9";
+      src: url("assets/fonts/hkyuant-w9.ttf") format("truetype");
+      font-display: swap;
+    }
+    :root {
+      --ink: #000000;
+      --muted: rgba(0, 0, 0, 0.58);
+      --line: rgba(0, 0, 0, 0.12);
+      --bg: #ffffff;
+      --panel: #ffffff;
+      --pink: rgb(236, 95, 116);
+      --brown: rgb(112, 58, 30);
+      --yellow: rgb(252, 201, 0);
+      --red: #d93924;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "HKYuanW7", "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+    }
+    header {
+      position: relative;
+      overflow: hidden;
+      padding: 28px 32px 18px;
+      background: var(--brown);
+      border-bottom: 0;
+    }
+    .topline {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: flex-end;
+      flex-wrap: wrap;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(24px, 3vw, 36px);
+      font-family: "HKYuanW9", "Microsoft YaHei", sans-serif;
+      font-weight: 400;
+      color: #ffffff;
+    }
+    .meta { color: var(--muted); font-size: 13px; }
+    header .meta { color: rgba(255, 255, 255, 0.82); }
+    .source-pill {
+      border: 1px solid rgba(255, 255, 255, 0.42);
+      background: rgba(255, 255, 255, 0.12);
+      padding: 8px 12px;
+      border-radius: 6px;
+      color: #ffffff;
+      font-size: 13px;
+      font-family: "HKYuanW8", "Microsoft YaHei", sans-serif;
+      margin-right: 110px;
+    }
+    .mascot {
+      position: absolute;
+      right: 24px;
+      top: 10px;
+      width: 86px;
+      pointer-events: none;
+      opacity: 0.96;
+    }
+    main {
+      width: min(100%, 1280px);
+      margin: 0 auto;
+      padding: 22px 32px 34px;
+    }
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(150px, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .metric {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 15px 16px;
+    }
+    .metric span { color: var(--muted); font-size: 13px; }
+    .metric strong {
+      display: block;
+      margin-top: 7px;
+      font-family: "GothamRoundedBold", Arial, sans-serif;
+      font-size: 28px;
+      color: var(--red);
+    }
+    .toolbar {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      margin: 16px 0 18px;
+    }
+    input, select, button {
+      height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--ink);
+      padding: 0 11px;
+      font: inherit;
+      min-width: 0;
+    }
+    button {
+      cursor: pointer;
+      background: var(--brown);
+      color: #fff;
+      border-color: var(--brown);
+    }
+    .chart-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin: 0 0 18px;
+    }
+    .chart-panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+      padding: 24px 26px 22px;
+      min-height: 300px;
+    }
+    .chart-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+    .chart-title {
+      margin: 0;
+      font-size: 20px;
+      font-family: "HKYuanW8", "Microsoft YaHei", sans-serif;
+      font-weight: 400;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .chart-title span {
+      display: inline-grid;
+      place-items: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 5px;
+      background: var(--yellow);
+      color: var(--brown);
+      font-size: 14px;
+    }
+    .month-pill {
+      border: 1px solid var(--yellow);
+      color: var(--brown);
+      border-radius: 999px;
+      padding: 2px 12px;
+      font-size: 13px;
+      line-height: 1.3;
+      background: #ffffff;
+    }
+    .chart-subtitle {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .bars {
+      position: relative;
+      height: 190px;
+      display: grid;
+      grid-template-columns: repeat(var(--bar-count), minmax(90px, 1fr));
+      gap: 28px;
+      align-items: end;
+      padding: 24px 16px 0;
+      background:
+        linear-gradient(to bottom, transparent 0, transparent 23%, rgba(0,0,0,0.10) 23%, rgba(0,0,0,0.10) calc(23% + 1px), transparent calc(23% + 1px)),
+        linear-gradient(to bottom, transparent 0, transparent 48%, rgba(0,0,0,0.10) 48%, rgba(0,0,0,0.10) calc(48% + 1px), transparent calc(48% + 1px)),
+        linear-gradient(to bottom, transparent 0, transparent 73%, rgba(0,0,0,0.10) 73%, rgba(0,0,0,0.10) calc(73% + 1px), transparent calc(73% + 1px));
+      border-bottom: 1px solid rgba(0, 0, 0, 0.18);
+    }
+    .bar-item {
+      height: 100%;
+      min-width: 0;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      justify-items: center;
+      gap: 10px;
+    }
+    .bar-wrap {
+      width: min(112px, 72%);
+      height: 100%;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .bar-col {
+      position: relative;
+      width: 100%;
+      height: max(12px, calc(var(--value) * 1%));
+      border-radius: 8px 8px 8px 8px;
+      background: var(--bar-color);
+      box-shadow: inset 0 -8px 0 rgba(112, 58, 30, 0.22);
+    }
+    .bar-value {
+      position: absolute;
+      left: 50%;
+      top: -30px;
+      transform: translateX(-50%);
+      color: var(--red);
+      font-size: 22px;
+      font-family: "GothamRoundedBold", Arial, sans-serif;
+      font-weight: 400;
+      white-space: nowrap;
+    }
+    .bar-label {
+      color: var(--ink);
+      font-size: 15px;
+      font-family: "HKYuanW8", "Microsoft YaHei", sans-serif;
+      font-weight: 400;
+      text-align: center;
+      min-height: 38px;
+      line-height: 1.25;
+    }
+    .name { font-family: "HKYuanW8", "Microsoft YaHei", sans-serif; font-weight: 400; line-height: 1.3; }
+    .material-card {
+      position: relative;
+      overflow: hidden;
+      border: 0;
+      background: #ffffff;
+      color: var(--red);
+      padding: 18px 20px 24px;
+      min-height: 156px;
+      font: inherit;
+      font-weight: 400;
+      cursor: pointer;
+      text-align: left;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
+      display: grid;
+      gap: 16px;
+      line-height: 1.35;
+      width: 100%;
+    }
+    .material-card > *:not(.card-tiger):not(.card-warning) {
+      position: relative;
+      z-index: 1;
+    }
+    .card-tiger {
+      position: absolute;
+      right: -8px;
+      bottom: -18px;
+      width: 128px;
+      height: 128px;
+      object-fit: contain;
+      opacity: 0.4;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .material-item:nth-child(3n) .card-tiger {
+      right: auto;
+      left: -18px;
+      bottom: -24px;
+      transform: rotate(-6deg);
+    }
+    .material-item:nth-child(4n) .card-tiger {
+      width: 150px;
+      height: 150px;
+      right: -24px;
+      bottom: -34px;
+      transform: rotate(5deg);
+    }
+    .material-item:nth-child(5n) .card-tiger {
+      right: 12px;
+      bottom: -38px;
+      transform: rotate(-3deg);
+    }
+    .material-card:hover { border-color: var(--yellow); transform: translateY(-1px); }
+    .material-card.high {
+      background: var(--brown);
+      color: #ffffff;
+    }
+    .material-card.mid {
+      background: rgba(252, 201, 0, 0.28);
+      color: var(--brown);
+      border-color: rgba(112, 58, 30, 0.18);
+    }
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .card-name {
+      font-family: "HKYuanW8", "Microsoft YaHei", sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      line-height: 1.32;
+    }
+    .card-level {
+      flex: 0 0 auto;
+      min-width: 34px;
+      border-radius: 999px;
+      padding: 4px 10px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: 800;
+      background: #ffffff;
+      color: var(--brown);
+      border: 1px solid rgba(112, 58, 30, 0.18);
+    }
+    .material-card.high .card-level {
+      background: var(--yellow);
+      color: var(--brown);
+      border-color: var(--yellow);
+    }
+    .card-progress {
+      display: grid;
+      gap: 7px;
+    }
+    .card-progress-text {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      color: inherit;
+      opacity: 0.94;
+      font-size: 18px;
+      font-weight: 800;
+    }
+    .percent-number {
+      font-family: "HKYuanW8", "Microsoft YaHei", sans-serif;
+      font-weight: 800;
+    }
+    .material-card .bar {
+      background: rgba(255, 255, 255, 0.38);
+      height: 34px;
+      margin-top: 10px;
+      box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.18);
+    }
+    .material-card.mid .bar {
+      background: rgba(112, 58, 30, 0.16);
+    }
+    .material-card.high .bar i {
+      background: var(--yellow);
+    }
+    .material-card.mid .bar i {
+      background: var(--red);
+    }
+    .material-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1060px);
+      justify-content: center;
+      gap: 18px;
+    }
+    .material-item {
+      display: grid;
+      grid-template-columns: 734px 292px;
+      gap: 22px;
+      align-items: stretch;
+      justify-content: center;
+    }
+    .card-note-panel {
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+      background: var(--brown);
+      color: #ffffff;
+      min-height: 156px;
+      padding: 18px 24px 24px;
+      box-shadow: 8px 8px 0 rgba(112, 58, 30, 0.28);
+      text-align: left;
+    }
+    .card-note-title {
+      position: relative;
+      z-index: 1;
+      display: block;
+      margin-bottom: 20px;
+      font-family: "HKYuanW8", "Microsoft YaHei", sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      line-height: 1.32;
+    }
+    .card-note-text {
+      position: relative;
+      z-index: 1;
+      display: block;
+      font-size: 16px;
+      line-height: 1.45;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      word-break: break-word;
+    }
+    .preview-link {
+      position: absolute;
+      right: 18px;
+      bottom: 14px;
+      z-index: 2;
+      color: var(--yellow);
+      font-size: 13px;
+      line-height: 1;
+      text-decoration: none;
+      border-bottom: 1px solid currentColor;
+    }
+    .preview-link:hover {
+      color: #ffffff;
+    }
+    .preview-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 70;
+      display: grid;
+      place-items: center;
+      padding: 28px;
+      background: rgba(0, 0, 0, 0.72);
+    }
+    .preview-modal[hidden] { display: none; }
+    .preview-card {
+      position: relative;
+      width: min(1100px, 100%);
+      max-height: calc(100vh - 56px);
+      display: grid;
+      gap: 12px;
+      justify-items: center;
+    }
+    .preview-back {
+      justify-self: end;
+      height: 36px;
+      border: 0;
+      border-radius: 6px;
+      padding: 0 18px;
+      background: var(--yellow);
+      color: var(--brown);
+      font-family: "HKYuanW8", "Microsoft YaHei", sans-serif;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .preview-image {
+      max-width: 100%;
+      max-height: calc(100vh - 116px);
+      object-fit: contain;
+      border-radius: 8px;
+      background: #ffffff;
+      box-shadow: 0 22px 70px rgba(0, 0, 0, 0.38);
+    }
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: rgba(0, 0, 0, 0.42);
+    }
+    .modal[hidden] { display: none; }
+    .modal-card {
+      width: min(980px, 100%);
+      max-height: min(760px, calc(100vh - 48px));
+      overflow: auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+      padding: 18px;
+    }
+    .detail-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin: 0 0 12px;
+      border-bottom: 1px solid var(--line);
+      padding: 2px 2px 14px;
+    }
+    .detail-title {
+      margin: 0 0 6px;
+      font-size: 22px;
+      font-family: "HKYuanW8", "Microsoft YaHei", sans-serif;
+      font-weight: 400;
+    }
+    .back-btn {
+      height: 34px;
+      background: #fff;
+      color: var(--brown);
+      border-color: var(--line);
+      white-space: nowrap;
+    }
+    .modal-card table { margin-top: 0; }
+    .days-ok { color: var(--brown); font-weight: 400; }
+    .days-warn { color: var(--yellow); font-weight: 400; }
+    .days-danger { color: var(--red); font-weight: 400; }
+    .material-card > .card-warning {
+      position: absolute;
+      right: 14px;
+      top: 14px;
+      width: 18px;
+      height: 18px;
+      z-index: 2;
+    }
+    .badge {
+      flex: 0 0 auto;
+      border-radius: 999px;
+      padding: 4px 9px;
+      font-size: 12px;
+      font-weight: 400;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+    .level-high { background: var(--red); color: #ffffff; border-color: var(--red); }
+    .level-mid { background: var(--yellow); color: var(--brown); border-color: var(--yellow); }
+    .status-done { background: var(--brown); color: #ffffff; border-color: var(--brown); }
+    .status-run { background: var(--pink); color: #ffffff; border-color: var(--pink); }
+    .status-wait { background: #ffffff; color: var(--brown); border-color: var(--brown); }
+    .status-delay { background: var(--red); color: #ffffff; border-color: var(--red); }
+    .progress-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .progress-row strong {
+      color: var(--red);
+    }
+    .bar {
+      height: 9px;
+      background: rgba(0, 0, 0, 0.10);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 7px;
+    }
+    .bar i { display: block; height: 100%; border-radius: inherit; background: var(--red); }
+    .progress-cell { min-width: 150px; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      display: table;
+      margin-top: 18px;
+    }
+    th, td {
+      padding: 10px 11px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      text-align: left;
+      font-size: 13px;
+      vertical-align: top;
+    }
+    th { background: var(--yellow); color: var(--brown); font-family: "HKYuanW8", "Microsoft YaHei", sans-serif; font-weight: 400; }
+    tbody tr:hover { background: rgba(252, 201, 0, 0.16); }
+    .empty {
+      padding: 40px;
+      text-align: center;
+      color: var(--muted);
+      background: #fff;
+      border: 1px dashed var(--line);
+      border-radius: 8px;
+    }
+    @media (max-width: 980px) {
+      header, main { padding-left: 18px; padding-right: 18px; }
+      .metrics { grid-template-columns: repeat(2, 1fr); }
+      .toolbar { grid-template-columns: 1fr 1fr; }
+      .chart-grid { grid-template-columns: 1fr; }
+      .material-grid { grid-template-columns: minmax(0, 100%); }
+      .material-item { grid-template-columns: minmax(0, 1fr); }
+    }
+    @media (max-width: 620px) {
+      .metrics, .toolbar { grid-template-columns: 1fr; }
+      .material-grid { grid-template-columns: minmax(0, 100%); }
+      table { display: block; overflow-x: auto; }
+      .source-pill { margin-right: 0; }
+      .mascot { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="topline">
+      <div>
+        <h1>物料开发进度跟进看板</h1>
+        <div class="meta">更新：<span id="generatedAt"></span> · Sheet：物料开发进度跟进表</div>
+      </div>
+      <div class="source-pill">数据源：物料及设备报表集合.xlsx</div>
+    </div>
+    <img class="mascot" src="assets/images/tiger-shield.png" alt="">
+  </header>
+  <main>
+    <section id="materialGrid" class="material-grid" aria-label="物料列表"></section>
+    <section id="materialModal" class="modal" hidden>
+      <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="materialTitle">
+        <div class="detail-head">
+          <div>
+            <h2 id="materialTitle" class="detail-title"></h2>
+            <div id="materialMeta" class="meta"></div>
+          </div>
+          <button id="backBtn" type="button" class="back-btn">关闭</button>
+        </div>
+      <table>
+        <thead>
+          <tr>
+            <th>设计分类</th>
+            <th>进度</th>
+            <th>当前状态</th>
+            <th>结束时间</th>
+            <th>剩余天数</th>
+          </tr>
+        </thead>
+        <tbody id="stageRows"></tbody>
+      </table>
+      </div>
+    </section>
+    <section id="previewModal" class="preview-modal" hidden>
+      <div class="preview-card" role="dialog" aria-modal="true" aria-label="预览图">
+        <button id="previewBackBtn" type="button" class="preview-back">返回</button>
+        <img id="previewImage" class="preview-image" src="" alt="预览图">
+      </div>
+    </section>
+  </main>
+  <script id="dashboard-data" type="application/json">{"generatedAt": "2026-06-26 10:04", "source": "物料及设备报表集合.xlsx", "sheet": "物料开发进度跟进表", "rows": [{"分类": "周边物料开发", "名称": "显眼包（简化版）", "进度分类": "设计", "等级": "高", "当前进度": "", "当前状态": "已完成", "进度": 100, "开始时间": "2026-06-05", "结束时间": "2026-06-11", "样品预览": "=DISPIMG(\"ID_F32D022BDA84499A9BBE9FE7C182F761\",1)", "预览图": "assets/previews/ID_F32D022BDA84499A9BBE9FE7C182F761.png", "阶段进度": 100}, {"分类": "周边物料开发", "名称": "显眼包（简化版）", "进度分类": "样品", "等级": "高", "当前进度": "进行第二次打样", "当前状态": "进行中", "进度": 100, "开始时间": "2026-06-11", "结束时间": "2026-06-25", "样品预览": "", "预览图": "", "阶段进度": 100}, {"分类": "周边物料开发", "名称": "显眼包（简化版）", "进度分类": "大货交付", "等级": "高", "当前进度": "", "当前状态": "待开始", "进度": null, "开始时间": "", "结束时间": "", "样品预览": "", "预览图": "", "阶段进度": 0}, {"分类": "周边物料开发", "名称": "签字笔", "进度分类": "设计", "等级": "中", "当前进度": "", "当前状态": "已完成", "进度": 100, "开始时间": "2026-04-09", "结束时间": "2026-04-30", "样品预览": "=DISPIMG(\"ID_264BF8DE47BA4D5597A315A997120CD7\",1)", "预览图": "assets/previews/ID_264BF8DE47BA4D5597A315A997120CD7.png", "阶段进度": 100}, {"分类": "周边物料开发", "名称": "签字笔", "进度分类": "样品", "等级": "中", "当前进度": "", "当前状态": "已完成", "进度": 100, "开始时间": "2026-04-30", "结束时间": "2026-05-21", "样品预览": "", "预览图": "", "阶段进度": 100}, {"分类": "周边物料开发", "名称": "签字笔", "进度分类": "大货交付", "等级": "中", "当前进度": "", "当前状态": "已完成", "进度": 100, "开始时间": "2026-05-21", "结束时间": "2026-06-20", "样品预览": "", "预览图": "", "阶段进度": 100}, {"分类": "周边物料开发", "名称": "披萨刀", "进度分类": "设计", "等级": "高", "当前进度": "", "当前状态": "进行中", "进度": 100, "开始时间": "2026-06-05", "结束时间": "2026-06-26", "样品预览": "=DISPIMG(\"ID_F3F0458578D74C2095943F193AE4901C\",1)", "预览图": "assets/previews/ID_F3F0458578D74C2095943F193AE4901C.png", "阶段进度": 100}, {"分类": "周边物料开发", "名称": "披萨刀", "进度分类": "样品", "等级": "高", "当前进度": "", "当前状态": "待开始", "进度": null, "开始时间": "", "结束时间": "", "样品预览": "", "预览图": "", "阶段进度": 0}, {"分类": "周边物料开发", "名称": "披萨刀", "进度分类": "大货交付", "等级": "高", "当前进度": "", "当前状态": "待开始", "进度": null, "开始时间": "", "结束时间": "", "样品预览": "", "预览图": "", "阶段进度": 0}, {"分类": "周边物料开发", "名称": "烘焙手套", "进度分类": "设计", "等级": "高", "当前进度": "原设计进行三次打样不符合要求，现重新进行设计", "当前状态": "进行中", "进度": 100, "开始时间": "2026-05-16", "结束时间": "2026-06-25", "样品预览": "=DISPIMG(\"ID_AB6C71560C3948A2A20415B37724CBF7\",1)", "预览图": "assets/previews/ID_AB6C71560C3948A2A20415B37724CBF7.png", "阶段进度": 100}, {"分类": "周边物料开发", "名称": "烘焙手套", "进度分类": "样品", "等级": "高", "当前进度": "", "当前状态": "待开始", "进度": null, "开始时间": "", "结束时间": "", "样品预览": "", "预览图": "", "阶段进度": 0}, {"分类": "周边物料开发", "名称": "烘焙手套", "进度分类": "大货交付", "等级": "高", "当前进度": "", "当前状态": "待开始", "进度": null, "开始时间": "", "结束时间": "", "样品预览": "", "预览图": "", "阶段进度": 0}, {"分类": "其他", "名称": "万纬车贴", "进度分类": "设计", "等级": "中", "当前进度": "已完成", "当前状态": "已完成", "进度": 100, "开始时间": "2026-03-01", "结束时间": "2026-03-11", "样品预览": "=DISPIMG(\"ID_C73389DC4C05452F94302857DD27168C\",1)", "预览图": "assets/previews/ID_C73389DC4C05452F94302857DD27168C.png", "阶段进度": 100}, {"分类": "其他", "名称": "万纬车贴", "进度分类": "样品", "等级": "中", "当前进度": "已完成", "当前状态": "已完成", "进度": 100, "开始时间": "2026-03-11", "结束时间": "2026-03-25", "样品预览": "", "预览图": "", "阶段进度": 100}, {"分类": "其他", "名称": "万纬车贴", "进度分类": "大货交付", "等级": "中", "当前进度": "目前只剩2台万纬车辆未完成，车辆目前在使用", "当前状态": "已延期", "进度": 96, "开始时间": "2026-03-25", "结束时间": "2026-06-30", "样品预览": "", "预览图": "", "阶段进度": 96}, {"分类": "陈列物料优化", "名称": "试吃桌优化", "进度分类": "设计", "等级": "高", "当前进度": "", "当前状态": "进行中", "进度": 67, "开始时间": "2026-06-18", "结束时间": "2026-06-30", "样品预览": "=DISPIMG(\"ID_7E9DB9B4ED6941A3B7A9021EF11154B4\",1)", "预览图": "assets/previews/ID_7E9DB9B4ED6941A3B7A9021EF11154B4.png", "阶段进度": 67}, {"分类": "陈列物料优化", "名称": "试吃桌优化", "进度分类": "样品", "等级": "高", "当前进度": "", "当前状态": "待开始", "进度": null, "开始时间": "", "结束时间": "", "样品预览": "", "预览图": "", "阶段进度": 0}, {"分类": "陈列物料优化", "名称": "试吃桌优化", "进度分类": "大货交付", "等级": "高", "当前进度": "", "当前状态": "待开始", "进度": null, "开始时间": "", "结束时间": "", "样品预览": "", "预览图": "", "阶段进度": 0}, {"分类": "陈列物料优化", "名称": "礼盒纸箱", "进度分类": "设计", "等级": "高", "当前进度": "进行中", "当前状态": "进行中", "进度": 82, "开始时间": "2026-06-08", "结束时间": "2026-06-30", "样品预览": "=DISPIMG(\"ID_11DC90E1C602440289F898BB8AEA2ED3\",1)", "预览图": "assets/previews/ID_11DC90E1C602440289F898BB8AEA2ED3.png", "阶段进度": 82}, {"分类": "陈列物料优化", "名称": "礼盒纸箱", "进度分类": "样品", "等级": "高", "当前进度": "待开始", "当前状态": "待开始", "进度": null, "开始时间": "", "结束时间": "", "样品预览": "", "预览图": "", "阶段进度": 0}, {"分类": "陈列物料优化", "名称": "礼盒纸箱", "进度分类": "大货交付", "等级": "高", "当前进度": "待开始", "当前状态": "待开始", "进度": 100, "开始时间": "", "结束时间": "", "样品预览": "", "预览图": "", "阶段进度": 100}, {"分类": "陈列物料开发", "名称": "试吃盒", "进度分类": "设计", "等级": "高", "当前进度": "已完成", "当前状态": "已完成", "进度": 100, "开始时间": "2026-05-14", "结束时间": "2026-05-31", "样品预览": "=DISPIMG(\"ID_FBCB5E35CDAC4A7DB0BF8D0130C35396\",1)", "预览图": "assets/previews/ID_FBCB5E35CDAC4A7DB0BF8D0130C35396.png", "阶段进度": 100}, {"分类": "陈列物料开发", "名称": "试吃盒", "进度分类": "样品", "等级": "高", "当前进度": "已完成", "当前状态": "已完成", "进度": 100, "开始时间": "2026-05-31", "结束时间": "2026-06-03", "样品预览": "", "预览图": "", "阶段进度": 100}, {"分类": "陈列物料开发", "名称": "试吃盒", "进度分类": "大货交付", "等级": "高", "当前进度": "已完成", "当前状态": "已完成", "进度": 100, "开始时间": "2026-06-03", "结束时间": "2026-06-16", "样品预览": "", "预览图": "", "阶段进度": 100}, {"分类": "陈列物料开发", "名称": "酱料盒", "进度分类": "设计", "等级": "高", "当前进度": "已完成", "当前状态": "已完成", "进度": 100, "开始时间": "2026-05-14", "结束时间": "2026-05-31", "样品预览": "=DISPIMG(\"ID_C94EECC0976E459EBB1C143794394857\",1)", "预览图": "assets/previews/ID_C94EECC0976E459EBB1C143794394857.png", "阶段进度": 100}, {"分类": "陈列物料开发", "名称": "酱料盒", "进度分类": "样品", "等级": "高", "当前进度": "已完成", "当前状态": "已完成", "进度": 100, "开始时间": "2026-05-31", "结束时间": "2026-06-03", "样品预览": "", "预览图": "", "阶段进度": 100}, {"分类": "陈列物料开发", "名称": "酱料盒", "进度分类": "大货交付", "等级": "高", "当前进度": "已完成", "当前状态": "已完成", "进度": 100, "开始时间": "2026-06-03", "结束时间": "2026-06-15", "样品预览": "", "预览图": "", "阶段进度": 100}, {"分类": "陈列物料开发", "名称": "插式立牌", "进度分类": "设计", "等级": "高", "当前进度": "已完成", "当前状态": "已完成", "进度": 100, "开始时间": "2026-06-13", "结束时间": "2026-05-31", "样品预览": "=DISPIMG(\"ID_BF5A09218ACA44CA954C1542AB6C7876\",1)", "预览图": "assets/previews/ID_BF5A09218ACA44CA954C1542AB6C7876.png", "阶段进度": 100}, {"分类": "陈列物料开发", "名称": "插式立牌", "进度分类": "样品", "等级": "高", "当前进度": "已完成", "当前状态": "已完成", "进度": 100, "开始时间": "2026-05-31", "结束时间": "2026-06-03", "样品预览": "", "预览图": "", "阶段进度": 100}, {"分类": "陈列物料开发", "名称": "插式立牌", "进度分类": "大货交付", "等级": "高", "当前进度": "已完成", "当前状态": "已完成", "进度": 100, "开始时间": "2026-06-03", "结束时间": "2026-06-15", "样品预览": "", "预览图": "", "阶段进度": 100}, {"分类": "IP更新", "名称": "小虎头", "进度分类": "设计", "等级": "中", "当前进度": "", "当前状态": "已完成", "进度": 100, "开始时间": "2026-05-13", "结束时间": "2026-05-19", "样品预览": "=DISPIMG(\"ID_4F40794B8B3D46C0A7A0294B248DAAD6\",1)", "预览图": "assets/previews/ID_4F40794B8B3D46C0A7A0294B248DAAD6.png", "阶段进度": 100}, {"分类": "IP更新", "名称": "小虎头", "进度分类": "样品", "等级": "中", "当前进度": "", "当前状态": "已完成", "进度": 100, "开始时间": "2026-05-19", "结束时间": "2026-06-09", "样品预览": "", "预览图": "", "阶段进度": 100}, {"分类": "IP更新", "名称": "小虎头", "进度分类": "大货交付", "等级": "中", "当前进度": "", "当前状态": "进行中", "进度": 37, "开始时间": "2026-06-09", "结束时间": "2026-07-25", "样品预览": "", "预览图": "", "阶段进度": 37}, {"分类": "IP更新", "名称": "贴纸", "进度分类": "设计", "等级": "中", "当前进度": "已完成", "当前状态": "已完成", "进度": 100, "开始时间": "2026-06-02", "结束时间": "2026-06-11", "样品预览": "=DISPIMG(\"ID_062310CD563E4CE1ABDC321E7B70120D\",1)", "预览图": "assets/previews/ID_062310CD563E4CE1ABDC321E7B70120D.png", "阶段进度": 100}, {"分类": "IP更新", "名称": "贴纸", "进度分类": "样品", "等级": "中", "当前进度": "第一版已完成并反馈修改意见进行第二次打样", "当前状态": "进行中", "进度": 79, "开始时间": "2026-06-11", "结束时间": "2026-06-30", "样品预览": "", "预览图": "", "阶段进度": 79}, {"分类": "IP更新", "名称": "贴纸", "进度分类": "大货交付", "等级": "中", "当前进度": "待开始", "当前状态": "待开始", "进度": null, "开始时间": "", "结束时间": "", "样品预览": "", "预览图": "", "阶段进度": 0}, {"分类": "IP更新", "名称": "跳跳卡", "进度分类": "设计", "等级": "中", "当前进度": "已完成", "当前状态": "已完成", "进度": 100, "开始时间": "2026-05-15", "结束时间": "2026-05-23", "样品预览": "=DISPIMG(\"ID_81B4F943AA3444E29996450E4CBD5B7B\",1)", "预览图": "assets/previews/ID_81B4F943AA3444E29996450E4CBD5B7B.png", "阶段进度": 100}, {"分类": "IP更新", "名称": "跳跳卡", "进度分类": "样品", "等级": "中", "当前进度": "进行3次打样颜色需要进行调整，现需要设计师现场调试", "当前状态": "进行中", "进度": 89, "开始时间": "2026-05-23", "结束时间": "2026-06-30", "样品预览": "", "预览图": "", "阶段进度": 89}, {"分类": "IP更新", "名称": "跳跳卡", "进度分类": "大货交付", "等级": "中", "当前进度": "待开始", "当前状态": "待开始", "进度": null, "开始时间": "", "结束时间": "", "样品预览": "", "预览图": "", "阶段进度": 0}, {"分类": "IP更新", "名称": "人偶服", "进度分类": "设计", "等级": "中", "当前进度": "已完成", "当前状态": "已完成", "进度": 100, "开始时间": "2026-04-28", "结束时间": "2026-05-06", "样品预览": "", "预览图": "", "阶段进度": 100}, {"分类": "IP更新", "名称": "人偶服", "进度分类": "样品", "等级": "中", "当前进度": "目前进行第5次打样，目前颜色不符合要求", "当前状态": "进行中", "进度": 93, "开始时间": "2026-05-06", "结束时间": "2026-06-30", "样品预览": "", "预览图": "", "阶段进度": 93}, {"分类": "IP更新", "名称": "人偶服", "进度分类": "大货交付", "等级": "中", "当前进度": "待开始", "当前状态": "待开始", "进度": null, "开始时间": "", "结束时间": "", "样品预览": "", "预览图": "", "阶段进度": 0}, {"分类": "IP更新", "名称": "气膜", "进度分类": "设计", "等级": "中", "当前进度": "设计已完成", "当前状态": "已完成", "进度": 100, "开始时间": "2026-04-28", "结束时间": "2026-05-06", "样品预览": "=DISPIMG(\"ID_D3D11A6D897847ED88E85E8346EBA75C\",1)", "预览图": "assets/previews/ID_D3D11A6D897847ED88E85E8346EBA75C.png", "阶段进度": 100}, {"分类": "IP更新", "名称": "气膜", "进度分类": "样品", "等级": "中", "当前进度": "", "当前状态": "进行中", "进度": 93, "开始时间": "2026-05-06", "结束时间": "2026-06-30", "样品预览": "", "预览图": "", "阶段进度": 93}, {"分类": "IP更新", "名称": "气膜", "进度分类": "大货交付", "等级": "中", "当前进度": "待开始", "当前状态": "待开始", "进度": null, "开始时间": "", "结束时间": "", "样品预览": "", "预览图": "", "阶段进度": 0}, {"分类": "IP更新", "名称": "毛毡包", "进度分类": "设计", "等级": "中", "当前进度": "", "当前状态": "进行中", "进度": 100, "开始时间": "2026-06-01", "结束时间": "2026-06-25", "样品预览": "=DISPIMG(\"ID_E78E032ED1524286B4B32104E187FA60\",1)", "预览图": "assets/previews/ID_E78E032ED1524286B4B32104E187FA60.png", "阶段进度": 100}, {"分类": "IP更新", "名称": "毛毡包", "进度分类": "样品", "等级": "中", "当前进度": "", "当前状态": "待开始", "进度": null, "开始时间": "", "结束时间": "", "样品预览": "", "预览图": "", "阶段进度": 0}, {"分类": "IP更新", "名称": "毛毡包", "进度分类": "大货交付", "等级": "中", "当前进度": "", "当前状态": "待开始", "进度": null, "开始时间": "", "结束时间": "", "样品预览": "", "预览图": "", "阶段进度": 0}, {"分类": "IP更新", "名称": "公仔", "进度分类": "设计", "等级": "中", "当前进度": "", "当前状态": "已完成", "进度": 100, "开始时间": "2026-06-01", "结束时间": "2026-06-10", "样品预览": "=DISPIMG(\"ID_BFAB5898B7E84743868484BA33E8ECC4\",1)", "预览图": "assets/previews/ID_BFAB5898B7E84743868484BA33E8ECC4.png", "阶段进度": 100}, {"分类": "IP更新", "名称": "公仔", "进度分类": "样品", "等级": "中", "当前进度": "", "当前状态": "进行中", "进度": 100, "开始时间": "2026-06-10", "结束时间": "2026-06-25", "样品预览": "", "预览图": "", "阶段进度": 100}, {"分类": "IP更新", "名称": "公仔", "进度分类": "大货交付", "等级": "中", "当前进度": "", "当前状态": "待开始", "进度": null, "开始时间": "", "结束时间": "", "样品预览": "", "预览图": "", "阶段进度": 0}, {"分类": "IP更新", "名称": "产品手册", "进度分类": "设计", "等级": "中", "当前进度": "设计完成进行审核", "当前状态": "进行中", "进度": 100, "开始时间": "2026-05-20", "结束时间": "2026-06-22", "样品预览": "=DISPIMG(\"ID_9D2669D239A347B2B9BCC188FF61309E\",1)", "预览图": "assets/previews/ID_9D2669D239A347B2B9BCC188FF61309E.png", "阶段进度": 100}, {"分类": "IP更新", "名称": "产品手册", "进度分类": "样品", "等级": "中", "当前进度": "待开始", "当前状态": "待开始", "进度": 50, "开始时间": "2026-06-22", "结束时间": "2026-06-30", "样品预览": "", "预览图": "", "阶段进度": 50}, {"分类": "IP更新", "名称": "产品手册", "进度分类": "大货交付", "等级": "中", "当前进度": "待开始", "当前状态": "待开始", "进度": null, "开始时间": "", "结束时间": "", "样品预览": "", "预览图": "", "阶段进度": 0}, {"分类": "IP更新", "名称": "笔记本", "进度分类": "设计", "等级": "中", "当前进度": "", "当前状态": "已完成", "进度": 100, "开始时间": "2026-05-29", "结束时间": "2026-06-18", "样品预览": "=DISPIMG(\"ID_D54396FC93F644B7AA37CF820A907A9C\",1)", "预览图": "assets/previews/ID_D54396FC93F644B7AA37CF820A907A9C.png", "阶段进度": 100}, {"分类": "IP更新", "名称": "笔记本", "进度分类": "样品", "等级": "中", "当前进度": "", "当前状态": "进行中", "进度": 36, "开始时间": "2026-06-18", "结束时间": "2026-07-10", "样品预览": "", "预览图": "", "阶段进度": 36}, {"分类": "IP更新", "名称": "笔记本", "进度分类": "大货交付", "等级": "中", "当前进度": "", "当前状态": "待开始", "进度": null, "开始时间": "", "结束时间": "", "样品预览": "", "预览图": "", "阶段进度": 0}], "materials": [{"名称": "显眼包（简化版）", "分类": "周边物料开发", "等级": "高", "当前阶段": "样品", "当前状态": "进行中", "当前进度": "进行第二次打样", "卡点说明": "显眼包（简化版）卡点样品环节，进行第二次打样", "整体进度": 67, "完成阶段数": 1, "阶段总数": 3, "结束时间": "2026-06-25", "预览图": "assets/previews/ID_F32D022BDA84499A9BBE9FE7C182F761.png", "stages": [{"分类": "周边物料开发", "名称": "显眼包（简化版）", "进度分类": "设计", "等级": "高", "当前进度": "", "当前状态": "已完成", "进度": 100, "开始时间": "2026-06-05", "结束时间": "2026-06-11", "样品预览": "=DISPIMG(\"ID_F32D022BDA84499A9BBE9FE7C182F761\",1)", "预览图": "assets/previews/ID_F32D022BDA84499A9BBE9FE7C182F761.png", "阶段进度": 100}, {"分类": "周边物料开发", "名称": "显眼包（简化版）", "进度分类": "样品", "等级": "高", "当前进度": "进行第二次打样", "当前状态": "进行中", "进度": 100, "开始时间": "2026-06-11", "结束时间": "2026-06-25", "样品预览": "", "预览图": "", "阶段进度": 100}, {"分类": "周边物料开发", "名称": "显眼包（简化版）", "进度分类": "大货交付", "等级": "高", "当前进度": "", "当前状态": "待开始", "进度": null, "开始时间": "", "结束时间": "", "样品预览": "", "预览图": "", "阶段进度": 0}]}, {"名称": "礼盒纸箱", "分类": "陈列物料优化", "等级": "高", "当前阶段": "设计", "当前状态": "进行中", "当前进度": "进行中", "卡点说明": "礼盒纸箱卡点设计环节，进行中", "整体进度": 61, "完成阶段数": 0, "阶段总数": 3, "结束时间": "2026-06-30", "预览图": "assets/previews/ID_11DC90E1C602440289F898BB8AEA2ED3.png", "stages": [{"分类": "陈列物料优化", "名称": "礼盒纸箱", "进度分类": "设计", "等级": "高", "当前进度": "进行中", "当前状态": "进行中", "进度": 82, "开始时间": "2026-06-08", "结束时间": "2026-06-30", "样品预览": "=DISPIMG(\"ID_11DC90E1C602440289F898BB8AEA2ED3\",1)", "预览图": "assets/previews/ID_11DC90E1C602440289F898BB8AEA2ED3.png", "阶段进度": 82}, {"分类": "陈列物料优化", "名称": "礼盒纸箱", "进度分类": "样品", "等级": "高", "当前进度": "待开始", "当前状态": "待开始", "进度": null, "开始时间": "", "结束时间": "", "样品预览": "", "预览图": "", "阶段进度": 0}, {"分类": "陈列物料优化", "名称": "礼盒纸箱", "进度分类": "大货交付", "等级": "高", "当前进度": "待开始", "当前状态": "待开始", "进度": 100, "开始时间": "", "结束时间": "", "样品预览": "", "预览图": "", "阶段进度": 100}]}, {"名称": "披萨刀", "分类": "周边物料开发", "等级": "高", "当前阶段": "设计", "当前状态": "进行中", "当前进度": "设计：进行中", "卡点说明": "披萨刀卡点设计环节，设计：进行中", "整体进度": 33, "完成阶段数": 0, "阶段总数": 3, "结束时间": "2026-06-26", "预览图": "assets/previews/ID_F3F0458578D74C2095943F193AE4901C.png", "stages": [{"分类": "周边物料开发", "名称": "披萨刀", "进度分类": "设计", "等级": "高", "当前进度": "", "当前状态": "进行中", "进度": 100, "开始时间": "2026-06-05", "结束时间": "2026-06-26", "样品预览": "=DISPIMG(\"ID_F3F0458578D74C2095943F193AE4901C\",1)", "预览图": "assets/previews/ID_F3F0458578D74C2095943F193AE4901C.png", "阶段进度": 100}, {"分类": "周边物料开发", "名称": "披萨刀", "进度分类": "样品", "等级": "高", "当前进度": "", "当前状态": "待开始", "进度": null, "开始时间": "", "结束时间": "", "样品预览": "", "预览图": "", "阶段进度": 0}, {"分类": "周边物料开发", "名称": "披萨刀", "进度分类": "大货交付", "等级": "高", "当前进度": "", "当前状态": "待开始", "进度": null, "开始时间": "", "结束时间": "", "样品预览": "", "预览图": "", "阶段进度": 0}]}, {"名称": "烘焙手套", "分类": "周边物料开发", "等级": "高", "当前阶段": "设计", "当前状态": "进行中", "当前进度": "原设计进行三次打样不符合要求，现重新进行设计", "卡点说明": "烘焙手套卡点设计环节，原设计进行三次打样不符合要求，现重新进行设计", "整体进度": 33, "完成阶段数": 0, "阶段总数": 3, "结束时间": "2026-06-25", "预览图": "assets/previews/ID_AB6C71560C3948A2A20415B37724CBF7.png", "stages": [{"分类": "周边物料开发", "名称": "烘焙手套", "进度分类": "设计", "等级": "高", "当前进度": "原设计进行三次打样不符合要求，现重新进行设计", "当前状态": "进行中", "进度": 100, "开始时间": "2026-05-16", "结束时间": "2026-06-25", "样品预览": "=DISPIMG(\"ID_AB6C71560C3948A2A20415B37724CBF7\",1)", "预览图": "assets/previews/ID_AB6C71560C3948A2A20415B37724CBF7.png", "阶段进度": 100}, {"分类": "周边物料开发", "名称": "烘焙手套", "进度分类": "样品", "等级": "高", "当前进度": "", "当前状态": "待开始", "进度": null, "开始时间": "", "结束时间": "", "样品预览": "", "预览图": "", "阶段进度": 0}, {"分类": "周边物料开发", "名称": "烘焙手套", "进度分类": "大货交付", "等级": "高", "当前进度": "", "当前状态": "待开始", "进度": null, "开始时间": "", "结束时间": "", "样品预览": "", "预览图": "", "阶段进度": 0}]}, {"名称": "试吃桌优化", "分类": "陈列物料优化", "等级": "高", "当前阶段": "设计", "当前状态": "进行中", "当前进度": "设计：进行中", "卡点说明": "试吃桌优化卡点设计环节，设计：进行中", "整体进度": 22, "完成阶段数": 0, "阶段总数": 3, "结束时间": "2026-06-30", "预览图": "assets/previews/ID_7E9DB9B4ED6941A3B7A9021EF11154B4.png", "stages": [{"分类": "陈列物料优化", "名称": "试吃桌优化", "进度分类": "设计", "等级": "高", "当前进度": "", "当前状态": "进行中", "进度": 67, "开始时间": "2026-06-18", "结束时间": "2026-06-30", "样品预览": "=DISPIMG(\"ID_7E9DB9B4ED6941A3B7A9021EF11154B4\",1)", "预览图": "assets/previews/ID_7E9DB9B4ED6941A3B7A9021EF11154B4.png", "阶段进度": 67}, {"分类": "陈列物料优化", "名称": "试吃桌优化", "进度分类": "样品", "等级": "高", "当前进度": "", "当前状态": "待开始", "进度": null, "开始时间": "", "结束时间": "", "样品预览": "", "预览图": "", "阶段进度": 0}, {"分类": "陈列物料优化", "名称": "试吃桌优化", "进度分类": "大货交付", "等级": "高", "当前进度": "", "当前状态": "待开始", "进度": null, "开始时间": "", "结束时间": "", "样品预览": "", "预览图": "", "阶段进度": 0}]}, {"名称": "插式立牌", "分类": "陈列物料开发", "等级": "高", "当前阶段": "设计", "当前状态": "已完成", "当前进度": "已完成", "卡点说明": "插式立牌已完成", "整体进度": 100, "完成阶段数": 3, "阶段总数": 3, "结束时间": "2026-05-31", "预览图": "assets/previews/ID_BF5A09218ACA44CA954C1542AB6C7876.png", "stages": [{"分类": "陈列物料开发", "名称": "插式立牌", "进度分类": "设计", "等级": "高", "当前进度": "已完成", "当前状态": "已完成", "进度": 100, "开始时间": "2026-06-13", "结束时间": "2026-05-31", "样品预览": "=DISPIMG(\"ID_BF5A09218ACA44CA954C1542AB6C7876\",1)", "预览图": "assets/previews/ID_BF5A09218ACA44CA954C1542AB6C7876.png", "阶段进度": 100}, {"分类": "陈列物料开发", "名称": "插式立牌", "进度分类": "样品", "等级": "高", "当前进度": "已完成", "当前状态": "已完成", "进度": 100, "开始时间": "2026-05-31", "结束时间": "2026-06-03", "样品预览": "", "预览图": "", "阶段进度": 100}, {"分类": "陈列物料开发", "名称": "插式立牌", "进度分类": "大货交付", "等级": "高", "当前进度": "已完成", "当前状态": "已完成", "进度": 100, "开始时间": "2026-06-03", "结束时间": "2026-06-15", "样品预览": "", "预览图": "", "阶段进度": 100}]}, {"名称": "试吃盒", "分类": "陈列物料开发", "等级": "高", "当前阶段": "设计", "当前状态": "已完成", "当前进度": "已完成", "卡点说明": "试吃盒已完成", "整体进度": 100, "完成阶段数": 3, "阶段总数": 3, "结束时间": "2026-05-31", "预览图": "assets/previews/ID_FBCB5E35CDAC4A7DB0BF8D0130C35396.png", "stages": [{"分类": "陈列物料开发", "名称": "试吃盒", "进度分类": "设计", "等级": "高", "当前进度": "已完成", "当前状态": "已完成", "进度": 100, "开始时间": "2026-05-14", "结束时间": "2026-05-31", "样品预览": "=DISPIMG(\"ID_FBCB5E35CDAC4A7DB0BF8D0130C35396\",1)", "预览图": "assets/previews/ID_FBCB5E35CDAC4A7DB0BF8D0130C35396.png", "阶段进度": 100}, {"分类": "陈列物料开发", "名称": "试吃盒", "进度分类": "样品", "等级": "高", "当前进度": "已完成", "当前状态": "已完成", "进度": 100, "开始时间": "2026-05-31", "结束时间": "2026-06-03", "样品预览": "", "预览图": "", "阶段进度": 100}, {"分类": "陈列物料开发", "名称": "试吃盒", "进度分类": "大货交付", "等级": "高", "当前进度": "已完成", "当前状态": "已完成", "进度": 100, "开始时间": "2026-06-03", "结束时间": "2026-06-16", "样品预览": "", "预览图": "", "阶段进度": 100}]}, {"名称": "酱料盒", "分类": "陈列物料开发", "等级": "高", "当前阶段": "设计", "当前状态": "已完成", "当前进度": "已完成", "卡点说明": "酱料盒已完成", "整体进度": 100, "完成阶段数": 3, "阶段总数": 3, "结束时间": "2026-05-31", "预览图": "assets/previews/ID_C94EECC0976E459EBB1C143794394857.png", "stages": [{"分类": "陈列物料开发", "名称": "酱料盒", "进度分类": "设计", "等级": "高", "当前进度": "已完成", "当前状态": "已完成", "进度": 100, "开始时间": "2026-05-14", "结束时间": "2026-05-31", "样品预览": "=DISPIMG(\"ID_C94EECC0976E459EBB1C143794394857\",1)", "预览图": "assets/previews/ID_C94EECC0976E459EBB1C143794394857.png", "阶段进度": 100}, {"分类": "陈列物料开发", "名称": "酱料盒", "进度分类": "样品", "等级": "高", "当前进度": "已完成", "当前状态": "已完成", "进度": 100, "开始时间": "2026-05-31", "结束时间": "2026-06-03", "样品预览": "", "预览图": "", "阶段进度": 100}, {"分类": "陈列物料开发", "名称": "酱料盒", "进度分类": "大货交付", "等级": "高", "当前进度": "已完成", "当前状态": "已完成", "进度": 100, "开始时间": "2026-06-03", "结束时间": "2026-06-15", "样品预览": "", "预览图": "", "阶段进度": 100}]}, {"名称": "小虎头", "分类": "IP更新", "等级": "中", "当前阶段": "大货交付", "当前状态": "进行中", "当前进度": "大货交付：进行中", "卡点说明": "小虎头卡点大货交付环节，大货交付：进行中", "整体进度": 79, "完成阶段数": 2, "阶段总数": 3, "结束时间": "2026-07-25", "预览图": "assets/previews/ID_4F40794B8B3D46C0A7A0294B248DAAD6.png", "stages": [{"分类": "IP更新", "名称": "小虎头", "进度分类": "设计", "等级": "中", "当前进度": "", "当前状态": "已完成", "进度": 100, "开始时间": "2026-05-13", "结束时间": "2026-05-19", "样品预览": "=DISPIMG(\"ID_4F40794B8B3D46C0A7A0294B248DAAD6\",1)", "预览图": "assets/previews/ID_4F40794B8B3D46C0A7A0294B248DAAD6.png", "阶段进度": 100}, {"分类": "IP更新", "名称": "小虎头", "进度分类": "样品", "等级": "中", "当前进度": "", "当前状态": "已完成", "进度": 100, "开始时间": "2026-05-19", "结束时间": "2026-06-09", "样品预览": "", "预览图": "", "阶段进度": 100}, {"分类": "IP更新", "名称": "小虎头", "进度分类": "大货交付", "等级": "中", "当前进度": "", "当前状态": "进行中", "进度": 37, "开始时间": "2026-06-09", "结束时间": "2026-07-25", "样品预览": "", "预览图": "", "阶段进度": 37}]}, {"名称": "公仔", "分类": "IP更新", "等级": "中", "当前阶段": "样品", "当前状态": "进行中", "当前进度": "样品：进行中", "卡点说明": "公仔卡点样品环节，样品：进行中", "整体进度": 67, "完成阶段数": 1, "阶段总数": 3, "结束时间": "2026-06-25", "预览图": "assets/previews/ID_BFAB5898B7E84743868484BA33E8ECC4.png", "stages": [{"分类": "IP更新", "名称": "公仔", "进度分类": "设计", "等级": "中", "当前进度": "", "当前状态": "已完成", "进度": 100, "开始时间": "2026-06-01", "结束时间": "2026-06-10", "样品预览": "=DISPIMG(\"ID_BFAB5898B7E84743868484BA33E8ECC4\",1)", "预览图": "assets/previews/ID_BFAB5898B7E84743868484BA33E8ECC4.png", "阶段进度": 100}, {"分类": "IP更新", "名称": "公仔", "进度分类": "样品", "等级": "中", "当前进度": "", "当前状态": "进行中", "进度": 100, "开始时间": "2026-06-10", "结束时间": "2026-06-25", "样品预览": "", "预览图": "", "阶段进度": 100}, {"分类": "IP更新", "名称": "公仔", "进度分类": "大货交付", "等级": "中", "当前进度": "", "当前状态": "待开始", "进度": null, "开始时间": "", "结束时间": "", "样品预览": "", "预览图": "", "阶段进度": 0}]}, {"名称": "人偶服", "分类": "IP更新", "等级": "中", "当前阶段": "样品", "当前状态": "进行中", "当前进度": "目前进行第5次打样，目前颜色不符合要求", "卡点说明": "人偶服卡点样品环节，目前进行第5次打样，目前颜色不符合要求", "整体进度": 64, "完成阶段数": 1, "阶段总数": 3, "结束时间": "2026-06-30", "预览图": "", "stages": [{"分类": "IP更新", "名称": "人偶服", "进度分类": "设计", "等级": "中", "当前进度": "已完成", "当前状态": "已完成", "进度": 100, "开始时间": "2026-04-28", "结束时间": "2026-05-06", "样品预览": "", "预览图": "", "阶段进度": 100}, {"分类": "IP更新", "名称": "人偶服", "进度分类": "样品", "等级": "中", "当前进度": "目前进行第5次打样，目前颜色不符合要求", "当前状态": "进行中", "进度": 93, "开始时间": "2026-05-06", "结束时间": "2026-06-30", "样品预览": "", "预览图": "", "阶段进度": 93}, {"分类": "IP更新", "名称": "人偶服", "进度分类": "大货交付", "等级": "中", "当前进度": "待开始", "当前状态": "待开始", "进度": null, "开始时间": "", "结束时间": "", "样品预览": "", "预览图": "", "阶段进度": 0}]}, {"名称": "气膜", "分类": "IP更新", "等级": "中", "当前阶段": "样品", "当前状态": "进行中", "当前进度": "样品：进行中", "卡点说明": "气膜卡点样品环节，样品：进行中", "整体进度": 64, "完成阶段数": 1, "阶段总数": 3, "结束时间": "2026-06-30", "预览图": "assets/previews/ID_D3D11A6D897847ED88E85E8346EBA75C.png", "stages": [{"分类": "IP更新", "名称": "气膜", "进度分类": "设计", "等级": "中", "当前进度": "设计已完成", "当前状态": "已完成", "进度": 100, "开始时间": "2026-04-28", "结束时间": "2026-05-06", "样品预览": "=DISPIMG(\"ID_D3D11A6D897847ED88E85E8346EBA75C\",1)", "预览图": "assets/previews/ID_D3D11A6D897847ED88E85E8346EBA75C.png", "阶段进度": 100}, {"分类": "IP更新", "名称": "气膜", "进度分类": "样品", "等级": "中", "当前进度": "", "当前状态": "进行中", "进度": 93, "开始时间": "2026-05-06", "结束时间": "2026-06-30", "样品预览": "", "预览图": "", "阶段进度": 93}, {"分类": "IP更新", "名称": "气膜", "进度分类": "大货交付", "等级": "中", "当前进度": "待开始", "当前状态": "待开始", "进度": null, "开始时间": "", "结束时间": "", "样品预览": "", "预览图": "", "阶段进度": 0}]}, {"名称": "跳跳卡", "分类": "IP更新", "等级": "中", "当前阶段": "样品", "当前状态": "进行中", "当前进度": "进行3次打样颜色需要进行调整，现需要设计师现场调试", "卡点说明": "跳跳卡卡点样品环节，进行3次打样颜色需要进行调整，现需要设计师现场调试", "整体进度": 63, "完成阶段数": 1, "阶段总数": 3, "结束时间": "2026-06-30", "预览图": "assets/previews/ID_81B4F943AA3444E29996450E4CBD5B7B.png", "stages": [{"分类": "IP更新", "名称": "跳跳卡", "进度分类": "设计", "等级": "中", "当前进度": "已完成", "当前状态": "已完成", "进度": 100, "开始时间": "2026-05-15", "结束时间": "2026-05-23", "样品预览": "=DISPIMG(\"ID_81B4F943AA3444E29996450E4CBD5B7B\",1)", "预览图": "assets/previews/ID_81B4F943AA3444E29996450E4CBD5B7B.png", "阶段进度": 100}, {"分类": "IP更新", "名称": "跳跳卡", "进度分类": "样品", "等级": "中", "当前进度": "进行3次打样颜色需要进行调整，现需要设计师现场调试", "当前状态": "进行中", "进度": 89, "开始时间": "2026-05-23", "结束时间": "2026-06-30", "样品预览": "", "预览图": "", "阶段进度": 89}, {"分类": "IP更新", "名称": "跳跳卡", "进度分类": "大货交付", "等级": "中", "当前进度": "待开始", "当前状态": "待开始", "进度": null, "开始时间": "", "结束时间": "", "样品预览": "", "预览图": "", "阶段进度": 0}]}, {"名称": "贴纸", "分类": "IP更新", "等级": "中", "当前阶段": "样品", "当前状态": "进行中", "当前进度": "第一版已完成并反馈修改意见进行第二次打样", "卡点说明": "贴纸卡点样品环节，第一版已完成并反馈修改意见进行第二次打样", "整体进度": 60, "完成阶段数": 1, "阶段总数": 3, "结束时间": "2026-06-30", "预览图": "assets/previews/ID_062310CD563E4CE1ABDC321E7B70120D.png", "stages": [{"分类": "IP更新", "名称": "贴纸", "进度分类": "设计", "等级": "中", "当前进度": "已完成", "当前状态": "已完成", "进度": 100, "开始时间": "2026-06-02", "结束时间": "2026-06-11", "样品预览": "=DISPIMG(\"ID_062310CD563E4CE1ABDC321E7B70120D\",1)", "预览图": "assets/previews/ID_062310CD563E4CE1ABDC321E7B70120D.png", "阶段进度": 100}, {"分类": "IP更新", "名称": "贴纸", "进度分类": "样品", "等级": "中", "当前进度": "第一版已完成并反馈修改意见进行第二次打样", "当前状态": "进行中", "进度": 79, "开始时间": "2026-06-11", "结束时间": "2026-06-30", "样品预览": "", "预览图": "", "阶段进度": 79}, {"分类": "IP更新", "名称": "贴纸", "进度分类": "大货交付", "等级": "中", "当前进度": "待开始", "当前状态": "待开始", "进度": null, "开始时间": "", "结束时间": "", "样品预览": "", "预览图": "", "阶段进度": 0}]}, {"名称": "产品手册", "分类": "IP更新", "等级": "中", "当前阶段": "设计", "当前状态": "进行中", "当前进度": "设计完成进行审核", "卡点说明": "产品手册卡点设计环节，设计完成进行审核", "整体进度": 50, "完成阶段数": 0, "阶段总数": 3, "结束时间": "2026-06-22", "预览图": "assets/previews/ID_9D2669D239A347B2B9BCC188FF61309E.png", "stages": [{"分类": "IP更新", "名称": "产品手册", "进度分类": "设计", "等级": "中", "当前进度": "设计完成进行审核", "当前状态": "进行中", "进度": 100, "开始时间": "2026-05-20", "结束时间": "2026-06-22", "样品预览": "=DISPIMG(\"ID_9D2669D239A347B2B9BCC188FF61309E\",1)", "预览图": "assets/previews/ID_9D2669D239A347B2B9BCC188FF61309E.png", "阶段进度": 100}, {"分类": "IP更新", "名称": "产品手册", "进度分类": "样品", "等级": "中", "当前进度": "待开始", "当前状态": "待开始", "进度": 50, "开始时间": "2026-06-22", "结束时间": "2026-06-30", "样品预览": "", "预览图": "", "阶段进度": 50}, {"分类": "IP更新", "名称": "产品手册", "进度分类": "大货交付", "等级": "中", "当前进度": "待开始", "当前状态": "待开始", "进度": null, "开始时间": "", "结束时间": "", "样品预览": "", "预览图": "", "阶段进度": 0}]}, {"名称": "笔记本", "分类": "IP更新", "等级": "中", "当前阶段": "样品", "当前状态": "进行中", "当前进度": "样品：进行中", "卡点说明": "笔记本卡点样品环节，样品：进行中", "整体进度": 45, "完成阶段数": 1, "阶段总数": 3, "结束时间": "2026-07-10", "预览图": "assets/previews/ID_D54396FC93F644B7AA37CF820A907A9C.png", "stages": [{"分类": "IP更新", "名称": "笔记本", "进度分类": "设计", "等级": "中", "当前进度": "", "当前状态": "已完成", "进度": 100, "开始时间": "2026-05-29", "结束时间": "2026-06-18", "样品预览": "=DISPIMG(\"ID_D54396FC93F644B7AA37CF820A907A9C\",1)", "预览图": "assets/previews/ID_D54396FC93F644B7AA37CF820A907A9C.png", "阶段进度": 100}, {"分类": "IP更新", "名称": "笔记本", "进度分类": "样品", "等级": "中", "当前进度": "", "当前状态": "进行中", "进度": 36, "开始时间": "2026-06-18", "结束时间": "2026-07-10", "样品预览": "", "预览图": "", "阶段进度": 36}, {"分类": "IP更新", "名称": "笔记本", "进度分类": "大货交付", "等级": "中", "当前进度": "", "当前状态": "待开始", "进度": null, "开始时间": "", "结束时间": "", "样品预览": "", "预览图": "", "阶段进度": 0}]}, {"名称": "毛毡包", "分类": "IP更新", "等级": "中", "当前阶段": "设计", "当前状态": "进行中", "当前进度": "设计：进行中", "卡点说明": "毛毡包卡点设计环节，设计：进行中", "整体进度": 33, "完成阶段数": 0, "阶段总数": 3, "结束时间": "2026-06-25", "预览图": "assets/previews/ID_E78E032ED1524286B4B32104E187FA60.png", "stages": [{"分类": "IP更新", "名称": "毛毡包", "进度分类": "设计", "等级": "中", "当前进度": "", "当前状态": "进行中", "进度": 100, "开始时间": "2026-06-01", "结束时间": "2026-06-25", "样品预览": "=DISPIMG(\"ID_E78E032ED1524286B4B32104E187FA60\",1)", "预览图": "assets/previews/ID_E78E032ED1524286B4B32104E187FA60.png", "阶段进度": 100}, {"分类": "IP更新", "名称": "毛毡包", "进度分类": "样品", "等级": "中", "当前进度": "", "当前状态": "待开始", "进度": null, "开始时间": "", "结束时间": "", "样品预览": "", "预览图": "", "阶段进度": 0}, {"分类": "IP更新", "名称": "毛毡包", "进度分类": "大货交付", "等级": "中", "当前进度": "", "当前状态": "待开始", "进度": null, "开始时间": "", "结束时间": "", "样品预览": "", "预览图": "", "阶段进度": 0}]}, {"名称": "万纬车贴", "分类": "其他", "等级": "中", "当前阶段": "大货交付", "当前状态": "已延期", "当前进度": "目前只剩2台万纬车辆未完成，车辆目前在使用", "卡点说明": "万纬车贴卡点大货交付环节，目前只剩2台万纬车辆未完成，车辆目前在使用", "整体进度": 99, "完成阶段数": 2, "阶段总数": 3, "结束时间": "2026-06-30", "预览图": "assets/previews/ID_C73389DC4C05452F94302857DD27168C.png", "stages": [{"分类": "其他", "名称": "万纬车贴", "进度分类": "设计", "等级": "中", "当前进度": "已完成", "当前状态": "已完成", "进度": 100, "开始时间": "2026-03-01", "结束时间": "2026-03-11", "样品预览": "=DISPIMG(\"ID_C73389DC4C05452F94302857DD27168C\",1)", "预览图": "assets/previews/ID_C73389DC4C05452F94302857DD27168C.png", "阶段进度": 100}, {"分类": "其他", "名称": "万纬车贴", "进度分类": "样品", "等级": "中", "当前进度": "已完成", "当前状态": "已完成", "进度": 100, "开始时间": "2026-03-11", "结束时间": "2026-03-25", "样品预览": "", "预览图": "", "阶段进度": 100}, {"分类": "其他", "名称": "万纬车贴", "进度分类": "大货交付", "等级": "中", "当前进度": "目前只剩2台万纬车辆未完成，车辆目前在使用", "当前状态": "已延期", "进度": 96, "开始时间": "2026-03-25", "结束时间": "2026-06-30", "样品预览": "", "预览图": "", "阶段进度": 96}]}, {"名称": "签字笔", "分类": "周边物料开发", "等级": "中", "当前阶段": "设计", "当前状态": "已完成", "当前进度": "设计：已完成", "卡点说明": "签字笔已完成", "整体进度": 100, "完成阶段数": 3, "阶段总数": 3, "结束时间": "2026-04-30", "预览图": "assets/previews/ID_264BF8DE47BA4D5597A315A997120CD7.png", "stages": [{"分类": "周边物料开发", "名称": "签字笔", "进度分类": "设计", "等级": "中", "当前进度": "", "当前状态": "已完成", "进度": 100, "开始时间": "2026-04-09", "结束时间": "2026-04-30", "样品预览": "=DISPIMG(\"ID_264BF8DE47BA4D5597A315A997120CD7\",1)", "预览图": "assets/previews/ID_264BF8DE47BA4D5597A315A997120CD7.png", "阶段进度": 100}, {"分类": "周边物料开发", "名称": "签字笔", "进度分类": "样品", "等级": "中", "当前进度": "", "当前状态": "已完成", "进度": 100, "开始时间": "2026-04-30", "结束时间": "2026-05-21", "样品预览": "", "预览图": "", "阶段进度": 100}, {"分类": "周边物料开发", "名称": "签字笔", "进度分类": "大货交付", "等级": "中", "当前进度": "", "当前状态": "已完成", "进度": 100, "开始时间": "2026-05-21", "结束时间": "2026-06-20", "样品预览": "", "预览图": "", "阶段进度": 100}]}], "summary": {"materialCount": 19, "avgProgress": 65, "completed": 4, "delayed": 1, "levelCounts": {"高": 8, "中": 11}, "statusCounts": {"进行中": 14, "已完成": 4, "已延期": 1}}}</script>
+  <script>
+    const data = JSON.parse(document.getElementById('dashboard-data').textContent);
+    const materialModal = document.getElementById('materialModal');
+    const materialGrid = document.getElementById('materialGrid');
+    const stageRows = document.getElementById('stageRows');
+    const materialTitle = document.getElementById('materialTitle');
+    const materialMeta = document.getElementById('materialMeta');
+    const backBtn = document.getElementById('backBtn');
+    const previewModal = document.getElementById('previewModal');
+    const previewImage = document.getElementById('previewImage');
+    const previewBackBtn = document.getElementById('previewBackBtn');
+    const cardTigerImages = [
+      'assets/images/card-tiger-14.png',
+      'assets/images/card-tiger-52.png',
+      'assets/images/card-tiger-49.png',
+      'assets/images/card-tiger-60.png',
+      'assets/images/card-tiger-15.png',
+      'assets/images/card-tiger-57.png',
+      'assets/images/card-tiger-64.png',
+      'assets/images/card-tiger-51.png',
+      'assets/images/card-tiger-4.png',
+    ];
+
+    document.getElementById('generatedAt').textContent = data.generatedAt;
+
+    function statusClass(status) {
+      if (status === '已完成') return 'status-done';
+      if (status === '进行中') return 'status-run';
+      if (status === '已延期') return 'status-delay';
+      return 'status-wait';
+    }
+    function levelClass(level) {
+      return level === '高' ? 'level-high' : 'level-mid';
+    }
+    function escapeHtml(value) {
+      return String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+    function bar(value, extraClass = '') {
+      const width = Math.max(0, Math.min(100, Number(value) || 0));
+      return `<div class="bar ${extraClass}"><i style="width:${width}%"></i></div>`;
+    }
+    function daysText(endDate, status) {
+      if (status === '已完成') return { text: '已完成', className: 'days-ok', warn: false };
+      if (!endDate) return { text: '未设置', className: 'days-warn', warn: status === '已延期' };
+      const end = new Date(`${endDate}T00:00:00`);
+      if (Number.isNaN(end.getTime())) return { text: '未设置', className: 'days-warn', warn: status === '已延期' };
+      const now = new Date();
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const diff = Math.ceil((end - today) / 86400000);
+      if (diff < 0) return { text: `已超期 ${Math.abs(diff)} 天`, className: 'days-danger', warn: true };
+      if (diff === 0) return { text: '今天到期', className: 'days-warn', warn: true };
+      return { text: `剩余 ${diff} 天`, className: diff < 3 || status === '已延期' ? 'days-warn' : 'days-ok', warn: diff < 3 || status === '已延期' };
+    }
+    function materialNeedsWarning(item) {
+      return item.stages.some(stage => daysText(stage.结束时间, stage.当前状态).warn);
+    }
+    function fillSelect(select, values) {
+      [...new Set(values.filter(Boolean))].forEach(value => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value;
+        select.appendChild(option);
+      });
+    }
+    function render() {
+      const items = data.materials;
+      materialGrid.innerHTML = items.map((item, index) => `
+        <div class="material-item">
+          <button class="material-card ${item.等级 === '高' ? 'high' : 'mid'}" type="button" data-material="${escapeHtml(item.名称)}">
+            ${materialNeedsWarning(item) ? '<img class="card-warning" src="warning-vector.svg" alt="预警">' : ''}
+            <img class="card-tiger" src="${cardTigerImages[(index * 5 + 2) % cardTigerImages.length]}" alt="">
+            <div class="card-top">
+              <span class="card-name">${escapeHtml(item.名称)}</span>
+              <span class="card-level">${escapeHtml(item.等级)}</span>
+            </div>
+            <div class="card-progress">
+              <div class="card-progress-text"><span>进度</span><span class="percent-number">${item.整体进度}%</span></div>
+              ${bar(item.整体进度)}
+            </div>
+          </button>
+          <div class="card-note-panel">
+            <span class="card-note-title">卡点说明</span>
+            <span class="card-note-text">${escapeHtml(item.卡点说明 || '')}</span>
+            ${item.预览图 ? `<a class="preview-link" href="${escapeHtml(item.预览图)}" data-preview="${escapeHtml(item.预览图)}">查看预览图</a>` : ''}
+          </div>
+        </div>
+      `).join('') || '<div class="empty">暂无物料</div>';
+    }
+    function showMaterial(name) {
+      const item = data.materials.find(material => material.名称 === name);
+      if (!item) return;
+      materialTitle.textContent = item.名称;
+      materialMeta.innerHTML = `${escapeHtml(item.分类)} · ${escapeHtml(item.等级)}等级 · 整体进度 <span class="percent-number">${item.整体进度}%</span>`;
+      stageRows.innerHTML = item.stages.map(stage => {
+        const days = daysText(stage.结束时间, stage.当前状态);
+        return `
+          <tr>
+            <td><strong>${escapeHtml(stage.进度分类)}</strong></td>
+            <td class="progress-cell">
+              <div class="progress-row"><span class="percent-number">${stage.阶段进度}%</span><strong>${escapeHtml(stage.当前进度 || '')}</strong></div>
+              ${bar(stage.阶段进度)}
+            </td>
+            <td><span class="badge ${statusClass(stage.当前状态)}">${escapeHtml(stage.当前状态 || '待开始')}</span></td>
+            <td>${escapeHtml(stage.结束时间 || '')}</td>
+            <td><span class="${days.className}">${days.text}</span></td>
+          </tr>
+        `;
+      }).join('');
+      materialModal.hidden = false;
+      document.body.style.overflow = 'hidden';
+    }
+    materialGrid.addEventListener('click', event => {
+      const previewLink = event.target.closest('.preview-link');
+      if (previewLink) {
+        event.preventDefault();
+        event.stopPropagation();
+        previewImage.src = previewLink.dataset.preview;
+        previewModal.hidden = false;
+        document.body.style.overflow = 'hidden';
+        return;
+      }
+      const button = event.target.closest('[data-material]');
+      if (!button) return;
+      showMaterial(button.dataset.material);
+    });
+    function closePreview() {
+      previewModal.hidden = true;
+      previewImage.src = '';
+      if (materialModal.hidden) document.body.style.overflow = '';
+    }
+    previewBackBtn.addEventListener('click', closePreview);
+    previewModal.addEventListener('click', event => {
+      if (event.target !== previewModal) return;
+      closePreview();
+    });
+    backBtn.addEventListener('click', () => {
+      materialModal.hidden = true;
+      document.body.style.overflow = '';
+    });
+    materialModal.addEventListener('click', event => {
+      if (event.target !== materialModal) return;
+      materialModal.hidden = true;
+      document.body.style.overflow = '';
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key !== 'Escape') return;
+      if (!previewModal.hidden) {
+        closePreview();
+        return;
+      }
+      if (materialModal.hidden) return;
+      materialModal.hidden = true;
+      document.body.style.overflow = '';
+    });
+    render();
+  </script>
+</body>
+</html>

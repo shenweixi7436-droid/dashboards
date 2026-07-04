@@ -1,0 +1,41 @@
+{
+  "source": {
+    "excel": "C:\\Users\\shenw\\Desktop\\新建文件夹\\市场稽核部重点工作.xlsx",
+    "sheets": [
+      "推广促销稽核",
+      "线上审批流程稽核明细",
+      "智能设备台账汇总"
+    ]
+  },
+  "cards": {
+    "promoAudit": {
+      "count": 0,
+      "unit": "家",
+      "qualified": 0,
+      "passRate": 0.0
+    },
+    "approvalAudit": {
+      "count": 131,
+      "unit": "条",
+      "qualified": 112,
+      "passRate": 85.5
+    },
+    "smartDevices": {
+      "unit": "台",
+      "items": [
+        {
+          "name": "保温柜",
+          "total": 23530
+        },
+        {
+          "name": "烤肠机",
+          "total": 7471
+        },
+        {
+          "name": "冰柜",
+          "total": 1175
+        }
+      ]
+    }
+  }
+}
