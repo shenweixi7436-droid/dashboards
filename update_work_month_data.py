@@ -185,14 +185,14 @@ def build_promo(wb):
 
 def build_approval(wb):
     ws = wb[APPROVAL_SHEET]
-    detail_cols = [2, 4, 5, 6, 7, 8, 10]
+    detail_cols = [2, 4, 5, 6, 7, 8, 10, 11]
     headers = read_headers(
         ws,
         2,
         detail_cols,
-        ["流程发起时间", "费用类型", "签呈号", "省区", "客户名称", "发起人", "问题类型"],
+        ["流程发起时间", "费用类型", "签呈号", "省区", "客户名称", "发起人", "问题类型", "着装不合格类型"],
     )
-    stats = defaultdict(lambda: {"total": 0, "qualified": 0, "unqualified": 0, "issues": Counter(), "province": Counter(), "rows": []})
+    stats = defaultdict(lambda: {"total": 0, "qualified": 0, "unqualified": 0, "issues": Counter(), "dress": Counter(), "province": Counter(), "rows": []})
     months = set()
     for row_idx, raw_row in enumerate(ws.iter_rows(min_row=3, values_only=True), 3):
         values = [norm(raw_row[col - 1] if len(raw_row) >= col else "") for col in detail_cols]
@@ -210,10 +210,13 @@ def build_approval(wb):
             bucket["qualified"] += 1
         else:
             bucket["unqualified"] += 1
-            issue = values[-1]
+            issue = values[6]
+            dress_issue = values[7] if len(values) > 7 else ""
             province = values[3]
             if issue:
                 bucket["issues"][issue] += 1
+            if dress_issue:
+                bucket["dress"][dress_issue] += 1
             if province:
                 bucket["province"][province] += 1
             bucket["rows"].append({"row": row_idx, "values": values, "result": "不合格"})
@@ -224,6 +227,7 @@ def build_approval(wb):
         bucket = stats[month]
         total = bucket["total"]
         issues = [{"name": k, "value": v} for k, v in bucket["issues"].most_common(3)]
+        dress_issues = [{"name": k, "value": v} for k, v in bucket["dress"].most_common()]
         province_issues = [{"province": k, "value": v} for k, v in bucket["province"].most_common() if v > 0]
         pies_payload[month] = {
             "month": month,
@@ -232,6 +236,7 @@ def build_approval(wb):
             "unqualified": bucket["unqualified"],
             "rate": round(bucket["qualified"] / total * 100, 1) if total else 0,
             "issues": issues,
+            "dressIssues": dress_issues,
             "provinceIssues": province_issues,
         }
         detail_payload[month] = {
@@ -242,6 +247,7 @@ def build_approval(wb):
             "qualified": bucket["qualified"],
             "unqualified": bucket["unqualified"],
             "rows": bucket["rows"],
+            "dressIssues": dress_issues,
             "provinceIssues": province_issues,
         }
     return pies_payload, detail_payload, months
@@ -302,6 +308,8 @@ def build_market_order(wb):
     monthly = defaultdict(lambda: {
         "cases": set(),
         "customers": set(),
+        "provinceCases": defaultdict(set),
+        "customerRows": defaultdict(int),
         "punish": set(),
         "internal": set(),
         "others": {},
@@ -328,6 +336,8 @@ def build_market_order(wb):
         province = norm(row[4] if len(row) > 4 else "")
         city = norm(row[5] if len(row) > 5 else "")
         method = norm(row[11] if len(row) > 11 else "")
+        if province:
+            bucket["provinceCases"][province].add(seq)
         if method == "已通报处罚":
             bucket["punish"].add(seq)
         elif method == "内部沟通处理":
@@ -345,10 +355,19 @@ def build_market_order(wb):
             continue
         months.add(month)
         monthly[month]["customers"].add(customer)
+        monthly[month]["customerRows"][customer] += 1
 
     payload = {}
     for month in sorted(months, key=month_key):
         bucket = monthly[month]
+        province_rank = sorted(
+            ({"name": name, "count": len(seq_set)} for name, seq_set in bucket["provinceCases"].items()),
+            key=lambda item: (-item["count"], item["name"])
+        )
+        customer_rank = sorted(
+            ({"name": name, "count": count} for name, count in bucket["customerRows"].items()),
+            key=lambda item: (-item["count"], item["name"])
+        )
         payload[month] = {
             "month": month,
             "source": "市场稽核部重点工作.xlsx / 市场秩序治理",
@@ -357,6 +376,8 @@ def build_market_order(wb):
             "punishCount": len(bucket["punish"]),
             "internalCount": len(bucket["internal"]),
             "otherNotes": list(bucket["others"].values()),
+            "provinceRank": province_rank,
+            "customerRank": customer_rank,
         }
     return payload, months
 

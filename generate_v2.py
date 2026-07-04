@@ -4,7 +4,7 @@
 从 Excel 数据源计算 ZD JSON 数据,嵌入原 HTML 模板生成完整看板。
 """
 
-import json, math, re, sys, warnings
+import calendar, json, math, re, sys, warnings
 from datetime import datetime
 from collections import defaultdict
 
@@ -59,6 +59,87 @@ PROV_MERGE = {
 }
 
 MONTHS = ['1月', '2月', '3月', '4月', '5月', '6月']
+
+
+def month_key(month):
+    m = re.search(r'(\d{1,2})', str(month))
+    return int(m.group(1)) if m else 99
+
+
+def month_label(value):
+    if value is None or (isinstance(value, float) and pd.isna(value)):
+        return None
+    if isinstance(value, (datetime, pd.Timestamp)):
+        return f'{value.month}月'
+    text = str(value).strip()
+    if not text or text.lower() == 'nan':
+        return None
+    parsed = pd.to_datetime(text, errors='coerce')
+    if pd.notna(parsed) and re.search(r'\d{4}[-/年]\d{1,2}', text):
+        return f'{parsed.month}月'
+    m = re.search(r'(\d{1,2})\s*月', text)
+    if not m and text.isdigit():
+        m = re.match(r'(\d{1,2})$', text)
+    if not m:
+        return None
+    month_num = int(m.group(1))
+    if 1 <= month_num <= 12:
+        return f'{month_num}月'
+    return None
+
+
+def detect_available_months(df_audit, df_plan, df_zone_summary):
+    months = set()
+    if '稽核月份' in df_audit.columns:
+        for value in df_audit['稽核月份'].dropna():
+            label = month_label(value)
+            if label:
+                months.add(label)
+    if {'月份', '稽核数'}.issubset(df_zone_summary.columns):
+        for _, row in df_zone_summary.iterrows():
+            audit_count = pd.to_numeric(row.get('稽核数'), errors='coerce')
+            if pd.notna(audit_count) and float(audit_count) > 0:
+                label = month_label(row.get('月份'))
+                if label:
+                    months.add(label)
+    return sorted(months, key=month_key) or MONTHS
+
+
+def default_month():
+    current = f'{datetime.now().month}月'
+    return current if current in MONTHS else MONTHS[-1]
+
+
+def month_days(month):
+    return calendar.monthrange(2026, month_key(month))[1]
+
+
+def sync_month_controls(html, active_month):
+    month_buttons = '\n'.join(
+        f'  <span class="mtag{" on" if m == active_month else ""}" data-month="{m}">{m}</span>'
+        for m in MONTHS
+    )
+    replacement = (
+        '<div class="month-row">\n'
+        '  <span class="month-label">&#128200; 总览</span>\n'
+        f'{month_buttons}\n'
+        '  <span class="mtag" data-month="全年">全年汇总</span>\n'
+        '</div>'
+    )
+    return re.sub(
+        r'<div class="month-row">\s*<span class="month-label">.*?</span>.*?<span class="mtag[^"]*" data-month="全年">全年汇总</span>\s*</div>',
+        replacement,
+        html,
+        count=1,
+        flags=re.S,
+    )
+
+
+def sync_data_range(html):
+    if not MONTHS:
+        return html
+    range_text = f'2026年1月—{MONTHS[-1]}'
+    return re.sub(r'(数据范围[：:]\s*)2026年1月—\d+月', lambda m: m.group(1) + range_text, html)
 
 
 def apply_data_cache_buster(html, build_tag):
@@ -200,7 +281,7 @@ def precompute_all(df_audit, df_plan):
         dates = pd.to_datetime(sub['核查日期'].dropna())
         daily = dates.dt.day.value_counts()
         month_num = int(m.replace('月', ''))
-        days = [31, 28, 31, 30, 31, 30][month_num - 1]
+        days = month_days(m)
         points = [{'label': f'{d}日', 'value': int(daily.get(d, 0))} for d in range(1, days + 1)]
         cache[('trend', m, '全部')] = points
 
@@ -614,6 +695,7 @@ def sync_top_kpi_placeholders(html, current_data, df_promo, df_approval):
 
 
 def main():
+    global MONTHS
     print(f"=== 市场稽核部重点工作看板生成器 v2 ===")
     print(f"时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
     build_tag = datetime.now().strftime('%Y%m%d%H%M%S')
@@ -621,6 +703,9 @@ def main():
 
     # 加载数据
     df_audit, df_plan, df_promo, df_approval, df_device, df_zone_summary = load_data()
+    MONTHS = detect_available_months(df_audit, df_plan, df_zone_summary)
+    active_month = default_month()
+    print(f"可用月份: {', '.join(MONTHS)}；默认月份: {active_month}")
     current_audit_progress = build_current_audit_progress()
 
     # 预计算所有统计数据
@@ -628,10 +713,10 @@ def main():
 
     # 验证
     print("\n=== 数据验证 ===")
-    c1 = cache[('1月', '全部')]
+    c1 = cache[(MONTHS[0], '全部')]
     print(f"1月/全部: plan={c1['plan']}, audit={c1['audit']}, anomaly={c1['anomaly']}, rate={c1['rate']}")
-    c6 = cache[('6月', '全部')]
-    print(f"6月/全部: plan={c6['plan']}, audit={c6['audit']}, anomaly={c6['anomaly']}, rate={c6['rate']}")
+    c_active = cache[(active_month, '全部')]
+    print(f"{active_month}/全部: plan={c_active['plan']}, audit={c_active['audit']}, anomaly={c_active['anomaly']}, rate={c_active['rate']}")
 
     # 构建 ZD
     print("\n构建 ZD 数据...")
@@ -659,8 +744,10 @@ def main():
     # 生成主看板
     print("\n--- 生成主看板 ---")
     html_main = extract_and_inject_template(HTML_TEMPLATE_MAIN, zd_json)
-    html_main = sync_top_kpi_placeholders(html_main, c6, df_promo, df_approval)
+    html_main = sync_month_controls(html_main, active_month)
+    html_main = sync_top_kpi_placeholders(html_main, c_active, df_promo, df_approval)
     html_main = sync_data_update_time(html_main, update_time)
+    html_main = sync_data_range(html_main)
     html_main = apply_data_cache_buster(html_main, build_tag)
     with open(OUTPUT_MAIN, 'w', encoding='utf-8') as f:
         f.write(html_main)
@@ -669,7 +756,9 @@ def main():
     # 生成陈列稽核看板
     print("\n--- 生成陈列稽核看板 ---")
     html_disp = extract_and_inject_template(HTML_TEMPLATE_DISP, zd_json)
+    html_disp = sync_month_controls(html_disp, active_month)
     html_disp = sync_data_update_time(html_disp, update_time)
+    html_disp = sync_data_range(html_disp)
     html_disp = apply_data_cache_buster(html_disp, build_tag)
     with open(OUTPUT_DISP, 'w', encoding='utf-8') as f:
         f.write(html_disp)
