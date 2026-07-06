@@ -38,6 +38,23 @@ echo Updating store business analysis dashboard...
 if errorlevel 1 goto fail
 
 echo.
+echo Updating schedule of progress dashboard...
+"%PY%" "%~dp0..\scripts\build_material_development_dashboard.py"
+if errorlevel 1 goto fail
+
+robocopy "%~dp0..\dist" "%~dp0Schedule of Progress\dist" material_development_progress_dashboard.html warning-vector.svg /NFL /NDL /NJH /NJS /NP >nul
+if errorlevel 8 goto fail
+
+robocopy "%~dp0..\dist\assets\fonts" "%~dp0Schedule of Progress\dist\assets\fonts" /E /NFL /NDL /NJH /NJS /NP >nul
+if errorlevel 8 goto fail
+
+robocopy "%~dp0..\dist\assets\images" "%~dp0Schedule of Progress\dist\assets\images" /E /NFL /NDL /NJH /NJS /NP >nul
+if errorlevel 8 goto fail
+
+robocopy "%~dp0..\dist\assets\previews" "%~dp0Schedule of Progress\dist\assets\previews" /E /NFL /NDL /NJH /NJS /NP >nul
+if errorlevel 8 goto fail
+
+echo.
 echo Done. Open index.html and press Ctrl+F5 to refresh.
 pause
 exit /b 0

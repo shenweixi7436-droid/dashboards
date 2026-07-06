@@ -6,42 +6,63 @@
   <title>物料/设备看板</title>
   <style>
     @font-face {
-      font-family: "HKYuan";
-      src: url("../assets/fonts/HKYuanW7.ttf") format("truetype");
+      font-family: "HuaKangW7";
+      src: url("file:///C:/Users/shenw/Desktop/看板/字体/华康圆体-W7.ttf") format("truetype");
       font-weight: 500;
       font-display: swap;
     }
 
     @font-face {
-      font-family: "HKYuan";
-      src: url("../assets/fonts/HKYuanW9.ttf") format("truetype");
+      font-family: "HuaKangW8";
+      src: url("file:///C:/Users/shenw/Desktop/看板/字体/华康圆体-W8.ttf") format("truetype");
+      font-weight: 700;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "HuaKangW9";
+      src: url("file:///C:/Users/shenw/Desktop/看板/字体/华康圆体-W9.ttf") format("truetype");
+      font-weight: 800;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "GothamRndBold";
+      src: url("file:///C:/Users/shenw/Desktop/看板/字体/GOTHAMRND-BOLD.otf") format("opentype");
       font-weight: 800;
       font-display: swap;
     }
 
     :root {
-      --page-bg: #dde4ee;
-      --shell-bg: rgba(246, 248, 252, 0.72);
-      --panel-bg: rgba(255, 255, 255, 0.76);
+      --brand-yellow: #ffcc00;
+      --brand-brown: #632c16;
+      --brand-red: #d93924;
+      --page-bg: #fff3bd;
+      --shell-bg: rgba(255, 204, 0, 0.12);
+      --panel-bg: rgba(255, 255, 255, 0.82);
       --panel-strong: rgba(255, 255, 255, 0.9);
-      --ink: #2e3140;
-      --muted: #8d93a3;
-      --line: rgba(114, 124, 146, 0.16);
-      --nav: #27204c;
-      --blue: #cfe2fb;
-      --lilac: #e9e7fb;
-      --peach: #fbd6c8;
-      --mint: #d7efe3;
-      --rose: #f7d5e1;
-      --orange: #e58258;
-      --purple: #8362d6;
-      --sky: #6ea7de;
-      --shadow: 0 22px 60px rgba(75, 84, 110, 0.18);
-      --soft-shadow: 0 14px 30px rgba(84, 94, 122, 0.12);
+      --ink: var(--brand-brown);
+      --muted: rgba(99, 44, 22, 0.62);
+      --line: rgba(99, 44, 22, 0.14);
+      --nav: var(--brand-brown);
+      --blue: rgba(255, 204, 0, 0.30);
+      --lilac: rgba(99, 44, 22, 0.14);
+      --peach: rgba(217, 57, 36, 0.18);
+      --mint: rgba(255, 204, 0, 0.18);
+      --rose: rgba(217, 57, 36, 0.14);
+      --orange: var(--brand-red);
+      --purple: var(--brand-brown);
+      --sky: var(--brand-yellow);
+      --shadow: 0 22px 60px rgba(99, 44, 22, 0.16);
+      --soft-shadow: 0 14px 30px rgba(99, 44, 22, 0.10);
       --radius-xl: 28px;
       --radius-lg: 20px;
       --radius-md: 14px;
-      --font-main: "HKYuan", "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+      --font-main: "HuaKangW7", "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+      --font-level-1: "HuaKangW9", "HuaKangW8", "Microsoft YaHei", sans-serif;
+      --font-level-2: "HuaKangW8", "HuaKangW7", "Microsoft YaHei", sans-serif;
+      --font-level-3: "HuaKangW7", "Microsoft YaHei", sans-serif;
+      --font-number: "GothamRndBold", "Arial Black", Arial, sans-serif;
     }
 
     * {
@@ -54,14 +75,51 @@
       color: var(--ink);
       background:
         radial-gradient(circle at 12% 14%, rgba(255, 255, 255, 0.62), transparent 30%),
-        radial-gradient(circle at 86% 18%, rgba(209, 223, 239, 0.92), transparent 28%),
-        linear-gradient(135deg, #cfd7e4 0%, #eef2f8 45%, #d4dce8 100%);
+        radial-gradient(circle at 84% 16%, rgba(255, 204, 0, 0.36), transparent 28%),
+        linear-gradient(135deg, #fff6cd 0%, #fffdf4 48%, #f6e1d6 100%);
       font-family: var(--font-main);
       letter-spacing: 0;
     }
 
     button {
       font: inherit;
+    }
+
+    h1,
+    .project-title h1 {
+      font-family: var(--font-level-1);
+      font-weight: 800;
+    }
+
+    h2,
+    .panel-title h2,
+    .nav button.active {
+      font-family: var(--font-level-2);
+      font-weight: 700;
+    }
+
+    .panel-title a,
+    .project-title p,
+    .color-band,
+    .progress-item span,
+    .freight-legend,
+    .legend,
+    .device-summary,
+    .chat-meta,
+    .bubble {
+      font-family: var(--font-level-3);
+      font-weight: 500;
+    }
+
+    .inventory-metric strong,
+    .progress-item strong,
+    .freight-axis,
+    .freight-month,
+    .device-label,
+    .points,
+    .chart-tooltip {
+      font-family: var(--font-number);
+      letter-spacing: 0;
     }
 
     .dashboard {
@@ -83,8 +141,8 @@
       min-height: 58px;
       padding: 10px 18px;
       border-radius: 24px;
-      background: rgba(255, 255, 255, 0.64);
-      box-shadow: 0 14px 34px rgba(88, 98, 128, 0.08);
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: 0 14px 34px rgba(99, 44, 22, 0.08);
     }
 
     .nav {
@@ -99,7 +157,7 @@
     .nav button {
       border: 0;
       cursor: pointer;
-      color: #606678;
+      color: rgba(99, 44, 22, 0.72);
       background: transparent;
       border-radius: 999px;
       min-height: 38px;
@@ -115,7 +173,7 @@
     .nav button.active {
       color: #fff;
       background: var(--nav);
-      box-shadow: 0 12px 22px rgba(39, 32, 76, 0.22);
+      box-shadow: 0 12px 22px rgba(99, 44, 22, 0.22);
     }
 
     .avatar,
@@ -126,8 +184,8 @@
       border-radius: 50%;
       font-weight: 800;
       color: #fff;
-      background: linear-gradient(135deg, #f0b766, #f48b78);
-      box-shadow: 0 8px 16px rgba(106, 90, 122, 0.16);
+      background: linear-gradient(135deg, var(--brand-yellow), var(--brand-red));
+      box-shadow: 0 8px 16px rgba(99, 44, 22, 0.16);
     }
 
     .avatar {
@@ -166,10 +224,10 @@
 
     .grid {
       display: grid;
-      grid-template-columns: 1.12fr 0.62fr 0.62fr;
+      grid-template-columns: 1fr 1fr 0.62fr;
       grid-template-areas:
-        "tasks progress progress"
-        "rank tracker chat";
+        "tasks rank rank"
+        "progress tracker chat";
       gap: 18px;
     }
 
@@ -188,6 +246,25 @@
     .rank { grid-area: rank; }
     .tracker { grid-area: tracker; }
     .chat { grid-area: chat; }
+
+    .progress,
+    .rank {
+      cursor: pointer;
+    }
+
+    .tasks,
+    .rank {
+      min-height: 430px;
+    }
+
+    .tasks {
+      width: calc(100% + 42px);
+    }
+
+    .rank {
+      width: calc(100% - 42px);
+      justify-self: end;
+    }
 
     .panel-title {
       display: flex;
@@ -269,7 +346,7 @@
     }
 
     .inventory-metric strong {
-      color: #2e3140;
+      color: var(--ink);
       max-width: 100%;
       overflow: hidden;
       text-overflow: clip;
@@ -341,8 +418,8 @@
 
     .progress {
       display: grid;
-      grid-template-columns: minmax(180px, 0.72fr) minmax(220px, 1fr);
-      gap: 18px;
+      grid-template-columns: minmax(126px, 0.64fr) minmax(160px, 1fr);
+      gap: 12px;
       align-items: center;
     }
 
@@ -351,9 +428,13 @@
       margin-bottom: 0;
     }
 
+    .progress.panel {
+      overflow: hidden;
+    }
+
     .progress-list {
       display: grid;
-      gap: 18px;
+      gap: 10px;
     }
 
     .progress-item {
@@ -382,52 +463,160 @@
     .progress-item strong {
       display: block;
       margin-top: 4px;
-      font-size: 30px;
+      font-size: 22px;
       line-height: 1;
     }
 
-    .ring-wrap {
-      position: relative;
-      width: min(310px, 100%);
-      aspect-ratio: 1;
-      justify-self: center;
-    }
-
-    .ring-wrap svg {
-      width: 100%;
-      height: 100%;
-      filter: drop-shadow(0 18px 14px rgba(82, 94, 122, 0.14));
-      transform: rotate(-90deg);
-    }
-
-    .ring-bg {
-      stroke: rgba(156, 169, 190, 0.18);
-      stroke-width: 10;
-      fill: none;
-    }
-
-    .ring {
-      fill: none;
-      stroke: var(--stroke);
-      stroke-linecap: round;
-      stroke-width: 10;
-      stroke-dasharray: var(--dash) 100;
-      stroke-dashoffset: var(--offset);
-    }
-
-    .ring-center {
-      position: absolute;
-      inset: 28%;
+    .progress-chart {
+      width: min(240px, 100%);
+      min-height: 188px;
       display: grid;
-      place-items: center;
-      border-radius: 50%;
-      background: rgba(231, 239, 248, 0.6);
-      box-shadow: inset 0 2px 14px rgba(90, 105, 135, 0.1);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      align-items: end;
+      gap: 12px;
+      justify-self: center;
+      padding: 16px 14px 12px;
+      border-radius: 24px;
+      background:
+        linear-gradient(180deg, rgba(220, 231, 244, 0.42), rgba(255, 255, 255, 0.12)),
+        repeating-linear-gradient(0deg, transparent 0 38px, rgba(156, 169, 190, 0.12) 39px 40px);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55), 0 18px 18px rgba(82, 94, 122, 0.08);
+    }
+
+    .progress-bar-item {
+      min-width: 0;
+      height: 148px;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      gap: 8px;
+      justify-items: center;
+    }
+
+    .progress-bar-track {
+      width: min(34px, 72%);
+      height: 100%;
+      display: flex;
+      align-items: flex-end;
+      border-radius: 999px;
+      background: rgba(156, 169, 190, 0.16);
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      width: 100%;
+      height: var(--h);
+      min-height: 8px;
+      border-radius: inherit;
+      background: var(--bar-color);
+      box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.38);
+    }
+
+    .progress-bar-label {
+      max-width: 100%;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 800;
+      white-space: nowrap;
     }
 
     .rank-list {
-      display: grid;
-      gap: 16px;
+      display: block;
+    }
+
+    .freight-legend {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 10px;
+      color: var(--muted);
+      font-family: var(--font-level-3);
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .freight-legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .freight-legend i {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+      background: var(--c);
+    }
+
+    .freight-chart {
+      width: 100%;
+      height: 218px;
+      display: block;
+      overflow: visible;
+    }
+
+    .freight-axis,
+    .freight-month {
+      fill: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .freight-grid {
+      stroke: rgba(99, 44, 22, 0.16);
+      stroke-width: 1;
+    }
+
+    .freight-bar {
+      fill: var(--brand-brown);
+      rx: 8;
+    }
+
+    .freight-bar.is-muted,
+    .freight-dot.is-muted,
+    .device-fill.is-muted {
+      opacity: 0.42;
+    }
+
+    .freight-bar.is-selected,
+    .freight-dot.is-selected {
+      fill: var(--brand-red);
+    }
+
+    .freight-line {
+      fill: none;
+      stroke: var(--orange);
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .freight-dot {
+      fill: var(--orange);
+      stroke: rgba(255, 255, 255, 0.72);
+      stroke-width: 3;
+    }
+
+    .freight-summary {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      color: var(--ink);
+      background: rgba(255, 204, 0, 0.16);
+      font-family: var(--font-level-3);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .freight-summary strong {
+      font-family: var(--font-number);
+      font-weight: 800;
+    }
+
+    .freight-summary .top-list {
+      margin-top: 4px;
+      display: block;
+      white-space: normal;
+      overflow-wrap: anywhere;
     }
 
     .rank-item {
@@ -489,11 +678,93 @@
       box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.56);
     }
 
+    .device-chart {
+      height: 178px;
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      align-items: end;
+      gap: 10px;
+      padding: 10px 4px 0;
+    }
+
+    .device-month {
+      height: 100%;
+      min-width: 0;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      gap: 8px;
+      justify-items: center;
+    }
+
+    .device-track {
+      width: min(28px, 70%);
+      height: 100%;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+      border-radius: 999px;
+      background: repeating-linear-gradient(
+        -45deg,
+        rgba(180, 191, 210, 0.12),
+        rgba(180, 191, 210, 0.12) 4px,
+        transparent 4px,
+        transparent 9px
+      );
+    }
+
+    .device-fill {
+      width: 100%;
+      height: var(--h);
+      min-height: 8px;
+      border-radius: inherit;
+      background: var(--brand-brown);
+      box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.46);
+    }
+
+    .device-fill.is-selected {
+      background: var(--brand-red);
+    }
+
+    .device-label {
+      color: var(--muted);
+      font-family: var(--font-number);
+      font-size: 10px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .device-summary {
+      margin-top: 10px;
+      color: var(--ink);
+      font-family: var(--font-level-3);
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 1.45;
+    }
+
+    .chart-tooltip {
+      position: fixed;
+      z-index: 20;
+      display: none;
+      max-width: 220px;
+      padding: 9px 11px;
+      border-radius: 10px;
+      color: #fff;
+      background: rgba(99, 44, 22, 0.94);
+      box-shadow: 0 12px 24px rgba(99, 44, 22, 0.18);
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.55;
+      white-space: pre-line;
+      pointer-events: none;
+    }
+
     .legend {
       display: flex;
       align-items: center;
       gap: 16px;
       color: var(--muted);
+      font-family: var(--font-level-3);
       font-size: 11px;
     }
 
@@ -590,6 +861,13 @@
           "rank tracker"
           "chat chat";
       }
+
+      .tasks,
+      .rank {
+        min-height: auto;
+        width: auto;
+        justify-self: stretch;
+      }
     }
 
     @media (max-width: 720px) {
@@ -664,43 +942,37 @@
           <a href="#" id="totalProjects"></a>
         </div>
         <div class="progress-list" id="progressList"></div>
-        <div class="ring-wrap" aria-label="项目完成进度">
-          <svg viewBox="0 0 120 120" role="img" aria-hidden="true" id="progressRings">
-            <circle class="ring-bg" cx="60" cy="60" r="46"></circle>
-            <circle class="ring-bg" cx="60" cy="60" r="35"></circle>
-            <circle class="ring-bg" cx="60" cy="60" r="24"></circle>
-            <circle class="ring-bg" cx="60" cy="60" r="13"></circle>
-          </svg>
-          <div class="ring-center"></div>
-        </div>
+        <div class="progress-chart" id="progressBars" aria-label="物料设备设计进度柱状图"></div>
       </section>
 
       <section class="panel rank">
         <div class="panel-title">
-          <h2>物料/设备运费数据分析</h2>
-          <a href="#">See All</a>
+          <h2>物料运费分析</h2>
+          <a href="#">跳转详情</a>
         </div>
         <div class="rank-list" id="rankList"></div>
       </section>
 
       <section class="panel tracker">
         <div class="panel-title">
-          <h2>Tracker Detail</h2>
+          <h2>设备出库分析</h2>
           <div class="legend" id="trackerLegend"></div>
-          <a href="#">See All</a>
+          <a href="#">跳转详情</a>
         </div>
-        <div class="bars" id="trackerBars"></div>
+        <div class="device-chart" id="trackerBars"></div>
+        <div class="device-summary" id="deviceSummary"></div>
       </section>
 
       <section class="panel chat">
         <div class="panel-title">
           <h2>售后跟进情况</h2>
-          <a href="#">See All</a>
+          <a href="#">跳转详情</a>
         </div>
         <div class="chat-list" id="chatList"></div>
       </section>
     </section>
   </main>
+  <div class="chart-tooltip" id="chartTooltip"></div>
 
   <script>
     const dashboardData = {
@@ -751,25 +1023,42 @@
         { label: "已完成", value: 23, color: "var(--purple)" },
         { label: "进行中", value: 14, color: "var(--orange)" },
         { label: "待开始", value: 19, color: "var(--sky)" },
-        { label: "已延期", value: 1, color: "#e07190" }
+        { label: "已延期", value: 1, color: "var(--brand-red)" }
       ],
-      rank: [
-        { name: "Candy Medina", role: "Marketing Specialist", points: 85, initials: "CM", color: "#f0b766" },
-        { name: "Robbin Henson", role: "Product Manager", points: 88, initials: "RH", color: "#7aa9d9" },
-        { name: "Maxie Mata", role: "Customer Success", points: 115, initials: "MM", color: "#f5d169" }
+      freight: [
+        { month: "1月", orders: 296, amount: 257176.26 },
+        { month: "2月", orders: 326, amount: 90024.55 },
+        { month: "3月", orders: 214, amount: 152705.77 },
+        { month: "4月", orders: 298, amount: 199707.98 },
+        { month: "5月", orders: 69, amount: 125841.08 }
       ],
-      tracker: {
-        legend: [
-          { label: "Task Done", color: "var(--orange)" },
-          { label: "Need Revision", color: "#c8d8e3" }
+      freightSummary: {
+        month: "5月",
+        abnormalOrders: 69,
+        abnormalFreight: 1595.69,
+        topItems: [
+          { name: "皇家小虎毛毡包34cm", count: 19 },
+          { name: "皇家小虎认证立牌（烤肠)", count: 17 },
+          { name: "皇家小虎围裙（蛋挞款）", count: 8 },
+          { name: "皇家小虎常规礼品卡", count: 7 },
+          { name: "皇家小虎围裙（烤肠款）", count: 5 }
+        ]
+      },
+      device: {
+        monthly: [
+          { month: "1月", qty: 11041 },
+          { month: "2月", qty: 2691 },
+          { month: "3月", qty: 10068 },
+          { month: "4月", qty: 14278 },
+          { month: "5月", qty: 10275 },
+          { month: "6月", qty: 6276 },
+          { month: "7月", qty: 198 }
         ],
-        bars: [
-          [46, 64],
-          [70, 42],
-          [80, 56],
-          [62, 74],
-          [88, 52],
-          [58, 40]
+        summaryMonth: "当月",
+        channels: [
+          { name: "鸣忙", qty: 189 },
+          { name: "省区", qty: 5 },
+          { name: "特殊渠道", qty: 4 }
         ]
       },
       chat: [
@@ -778,7 +1067,98 @@
       ]
     };
 
-    const avatarColors = ["#f0b766", "#f48b78", "#7aa9d9", "#6c5b95", "#d98880"];
+    const avatarColors = ["var(--brand-yellow)", "var(--brand-brown)", "var(--brand-red)"];
+    const linkedState = { selectedMonth: "全部月份" };
+    const linkedMonthlyData = {
+      nav: ["全部月份", "1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
+      freight: [
+        { month: "1月", orders: 296, amount: 257176.26 },
+        { month: "2月", orders: 326, amount: 90024.55 },
+        { month: "3月", orders: 214, amount: 152705.77 },
+        { month: "4月", orders: 298, amount: 199707.98 },
+        { month: "5月", orders: 69, amount: 125841.08 }
+      ],
+      freightSummaryByMonth: {
+        "1月": {
+          month: "1月",
+          abnormalOrders: 296,
+          abnormalFreight: 15612.46,
+          topItems: [
+            { name: "皇家小虎0.8米试吃桌烤肠画面", count: 53 },
+            { name: "皇家小虎物料包", count: 50 },
+            { name: "（福字款）线下专用手提保温袋", count: 30 },
+            { name: "试吃桌#1米2（蛋挞）", count: 27 },
+            { name: "皇家小虎认证立牌（烤肠)", count: 23 }
+          ]
+        },
+        "2月": {
+          month: "2月",
+          abnormalOrders: 326,
+          abnormalFreight: 19559.1,
+          topItems: [
+            { name: "试吃桌#1米2（蛋挞）", count: 69 },
+            { name: "皇家小虎贴纸（小虎元素）", count: 35 },
+            { name: "皇家小虎0.8米试吃桌烤肠画面", count: 31 },
+            { name: "皇家小虎帆布帽（烫画版）", count: 31 },
+            { name: "皇家小虎围裙（烤肠款）", count: 30 }
+          ]
+        },
+        "3月": {
+          month: "3月",
+          abnormalOrders: 214,
+          abnormalFreight: 7591.66,
+          topItems: [
+            { name: "皇家小虎毛毡包34cm", count: 36 },
+            { name: "皇家小虎认证立牌（蛋挞)", count: 28 },
+            { name: "皇家小虎围裙（烤肠款）", count: 25 },
+            { name: "皇家小虎认证立牌（烤肠)", count: 22 },
+            { name: "皇家小虎产品手册", count: 18 }
+          ]
+        },
+        "4月": {
+          month: "4月",
+          abnormalOrders: 298,
+          abnormalFreight: 15030.22,
+          topItems: [
+            { name: "（福字款）线下专用手提保温袋", count: 43 },
+            { name: "皇家小虎围裙（蛋挞款）", count: 42 },
+            { name: "皇家小虎围裙（烤肠款）", count: 29 },
+            { name: "皇家小虎毛毡包34cm", count: 28 },
+            { name: "皇家小虎产品手册", count: 15 }
+          ]
+        },
+        "5月": {
+          month: "5月",
+          abnormalOrders: 69,
+          abnormalFreight: 1595.69,
+          topItems: [
+            { name: "皇家小虎毛毡包34cm", count: 19 },
+            { name: "皇家小虎认证立牌（烤肠)", count: 17 },
+            { name: "皇家小虎围裙（蛋挞款）", count: 8 },
+            { name: "皇家小虎常规礼品卡", count: 7 },
+            { name: "皇家小虎围裙（烤肠款）", count: 5 }
+          ]
+        }
+      },
+      device: [
+        { month: "1月", qty: 11041 },
+        { month: "2月", qty: 2691 },
+        { month: "3月", qty: 10068 },
+        { month: "4月", qty: 14278 },
+        { month: "5月", qty: 10275 },
+        { month: "6月", qty: 6276 },
+        { month: "7月", qty: 198 }
+      ],
+      deviceSummaryByMonth: {
+        "1月": { channels: [{ name: "鸣忙", qty: 1277 }, { name: "省区", qty: 9240 }, { name: "特殊渠道", qty: 524 }] },
+        "2月": { channels: [{ name: "鸣忙", qty: 115 }, { name: "省区", qty: 2392 }, { name: "特殊渠道", qty: 184 }] },
+        "3月": { channels: [{ name: "鸣忙", qty: 1738 }, { name: "省区", qty: 8203 }, { name: "特殊渠道", qty: 127 }] },
+        "4月": { channels: [{ name: "鸣忙", qty: 8994 }, { name: "省区", qty: 5236 }, { name: "特殊渠道", qty: 48 }] },
+        "5月": { channels: [{ name: "鸣忙", qty: 6595 }, { name: "省区", qty: 3601 }, { name: "特殊渠道", qty: 79 }] },
+        "6月": { channels: [{ name: "鸣忙", qty: 4549 }, { name: "省区", qty: 1658 }, { name: "特殊渠道", qty: 69 }] },
+        "7月": { channels: [{ name: "鸣忙", qty: 189 }, { name: "省区", qty: 5 }, { name: "特殊渠道", qty: 4 }] }
+      }
+    };
 
     function avatar(label, color, className = "mini-avatar") {
       return `<span class="${className}" style="background:${color}">${label}</span>`;
@@ -823,38 +1203,106 @@
         </div>
       `).join("");
 
-      const radii = [46, 35, 24, 13];
-      const offsets = [0, 12, 24, 36];
-      const rings = dashboardData.progress.map((item, index) => {
-        const radius = radii[index];
-        const percent = total ? Math.round((item.value / total) * 1000) / 10 : 0;
-        return `<circle class="ring" cx="60" cy="60" r="${radius}" pathLength="100" style="--stroke:${item.color};--dash:${percent};--offset:${offsets[index]}"></circle>`;
+      const max = Math.max(...dashboardData.progress.map((item) => item.value), 1);
+      document.getElementById("progressBars").innerHTML = dashboardData.progress.map((item) => {
+        const height = Math.max(6, Math.round((item.value / max) * 100));
+        return `
+          <div class="progress-bar-item">
+            <div class="progress-bar-track">
+              <i class="progress-bar-fill" style="--h:${height}%;--bar-color:${item.color}"></i>
+            </div>
+            <span class="progress-bar-label">${item.label}</span>
+          </div>
+        `;
       }).join("");
-
-      document.getElementById("progressRings").insertAdjacentHTML("beforeend", rings);
     }
 
     function renderRank() {
-      document.getElementById("rankList").innerHTML = dashboardData.rank.map((item) => `
-        <div class="rank-item">
-          ${avatar(item.initials, item.color, "avatar")}
-          <div><strong>${item.name}</strong><span>${item.role}</span></div>
-          <div class="points">${item.points} Point</div>
+      const data = dashboardData.freight;
+      const maxOrders = Math.max(...data.map((item) => item.orders), 1);
+      const maxAmount = Math.max(...data.map((item) => item.amount), 1);
+      const chart = { left: 44, right: 446, top: 22, bottom: 174 };
+      const step = (chart.right - chart.left) / data.length;
+      const barWidth = Math.min(34, step * 0.38);
+      const yOrder = (value) => chart.bottom - (value / maxOrders) * (chart.bottom - chart.top);
+      const yAmount = (value) => chart.bottom - (value / maxAmount) * (chart.bottom - chart.top);
+      const points = data.map((item, index) => {
+        const x = chart.left + step * index + step / 2;
+        return [x, yAmount(item.amount)];
+      });
+      const linePath = points.map((point, index) => `${index === 0 ? "M" : "L"} ${point[0]} ${point[1]}`).join(" ");
+      const bars = data.map((item, index) => {
+        const x = chart.left + step * index + step / 2 - barWidth / 2;
+        const y = yOrder(item.orders);
+        const h = chart.bottom - y;
+        const tip = `${item.month}\n异常订单量：${item.orders}单\n运费总金额：${formatCurrency(item.amount)}`;
+        return `
+          <rect class="freight-bar has-tip" data-tip="${tip}" x="${x}" y="${y}" width="${barWidth}" height="${h}"></rect>
+          <text class="freight-month" x="${x + barWidth / 2}" y="202" text-anchor="middle">${item.month}</text>
+        `;
+      }).join("");
+      const dots = points.map((point, index) => {
+        const item = data[index];
+        const tip = `${item.month}\n异常订单量：${item.orders}单\n运费总金额：${formatCurrency(item.amount)}`;
+        return `<circle class="freight-dot has-tip" data-tip="${tip}" cx="${point[0]}" cy="${point[1]}" r="5"></circle>`;
+      }).join("");
+
+      document.getElementById("rankList").innerHTML = `
+        <div class="freight-legend">
+          <span><i style="--c:var(--brand-brown)"></i>异常订单量</span>
+          <span><i style="--c:var(--orange)"></i>运费总金额</span>
         </div>
-      `).join("");
+        <svg class="freight-chart" viewBox="0 0 500 218" role="img" aria-label="物料运费分析双轴图">
+          <line class="freight-grid" x1="${chart.left}" y1="${chart.top}" x2="${chart.right}" y2="${chart.top}"></line>
+          <line class="freight-grid" x1="${chart.left}" y1="${(chart.top + chart.bottom) / 2}" x2="${chart.right}" y2="${(chart.top + chart.bottom) / 2}"></line>
+          <line class="freight-grid" x1="${chart.left}" y1="${chart.bottom}" x2="${chart.right}" y2="${chart.bottom}"></line>
+          <text class="freight-axis" x="8" y="${chart.top + 4}">${maxOrders}单</text>
+          <text class="freight-axis" x="8" y="${chart.bottom}">0单</text>
+          <text class="freight-axis" x="456" y="${chart.top + 4}">${formatWan(maxAmount)}</text>
+          <text class="freight-axis" x="456" y="${chart.bottom}">0万</text>
+          ${bars}
+          <path class="freight-line" d="${linePath}"></path>
+          ${dots}
+        </svg>
+        <div class="freight-summary">
+          <div>${dashboardData.freightSummary.month}异常订单<strong>${formatNumber(dashboardData.freightSummary.abnormalOrders)}</strong>个，涉及运费<strong>${formatCurrency(dashboardData.freightSummary.abnormalFreight)}</strong></div>
+          <span class="top-list">${dashboardData.freightSummary.topItems.map((item) => `${item.name}异常订单${item.count}个`).join("；")}</span>
+        </div>
+      `;
+    }
+
+    function formatWan(value) {
+      return `${(Number(value || 0) / 10000).toFixed(1)}万`;
+    }
+
+    function formatCurrency(value) {
+      return `¥${Number(value || 0).toLocaleString("zh-CN", { maximumFractionDigits: 2 })}`;
     }
 
     function renderTracker() {
-      document.getElementById("trackerLegend").innerHTML = dashboardData.tracker.legend.map((item) => `
-        <span><i style="--c:${item.color}"></i>${item.label}</span>
-      `).join("");
+      document.getElementById("trackerLegend").innerHTML = `
+        <span><i style="--c:var(--brand-brown)"></i>设备出库量</span>
+      `;
 
-      document.getElementById("trackerBars").innerHTML = dashboardData.tracker.bars.map((pair) => `
-        <div class="bar-pair">
-          <i class="bar" style="--h:${pair[0]}%;--c:var(--orange)"></i>
-          <i class="bar" style="--h:${pair[1]}%;--c:#c8d8e3"></i>
-        </div>
-      `).join("");
+      const data = dashboardData.device.monthly;
+      const max = Math.max(...data.map((item) => item.qty), 1);
+      document.getElementById("trackerBars").innerHTML = data.map((item) => {
+        const h = Math.max(6, Math.round((item.qty / max) * 100));
+        const tip = `${item.month}\n设备出库量：${formatNumber(item.qty)}台`;
+        return `
+          <div class="device-month">
+            <div class="device-track">
+              <i class="device-fill has-tip" data-tip="${tip}" style="--h:${h}%"></i>
+            </div>
+            <span class="device-label">${item.month}</span>
+          </div>
+        `;
+      }).join("");
+
+      const summary = dashboardData.device.channels
+        .map((item) => `${item.name}渠道发货${formatNumber(item.qty)}台`)
+        .join("、");
+      document.getElementById("deviceSummary").textContent = `${dashboardData.device.summaryMonth}${summary}`;
     }
 
     function renderChat() {
@@ -866,12 +1314,171 @@
 
         return `
           <div class="message ${item.align}">
-            <div class="chat-meta">${item.align === "in" ? avatar(item.from.slice(0, 1), "#e58258") : ""}<span>${item.from}</span></div>
+            <div class="chat-meta">${item.align === "in" ? avatar(item.from.slice(0, 1), "var(--brand-red)") : ""}<span>${item.from}</span></div>
             <div class="bubble">${content}</div>
             <div class="chat-meta">${item.time}</div>
           </div>
         `;
       }).join("");
+    }
+
+    function setupChartTooltips() {
+      const tooltip = document.getElementById("chartTooltip");
+      const show = (event) => {
+        const target = event.target.closest(".has-tip");
+        if (!target) return;
+        tooltip.textContent = target.dataset.tip || "";
+        tooltip.style.display = "block";
+        move(event);
+      };
+      const move = (event) => {
+        if (tooltip.style.display !== "block") return;
+        tooltip.style.left = `${event.clientX + 14}px`;
+        tooltip.style.top = `${event.clientY + 14}px`;
+      };
+      const hide = () => {
+        tooltip.style.display = "none";
+      };
+
+      document.addEventListener("mouseover", show);
+      document.addEventListener("mousemove", move);
+      document.addEventListener("mouseout", (event) => {
+        if (event.target.closest(".has-tip")) hide();
+      });
+    }
+
+    function setupCardLinks() {
+      const links = {
+        rank: "file:///C:/Users/shenw/Documents/New%20project/github-dashboards/Schedule%20of%20Progress/dist/material_freight_dashboard.html",
+        progress: "file:///C:/Users/shenw/Documents/New%20project/github-dashboards/Schedule%20of%20Progress/dist/material_development_progress_dashboard.html"
+      };
+
+      document.querySelector(".panel.rank").addEventListener("click", () => {
+        window.location.href = links.rank;
+      });
+      document.querySelector(".panel.progress").addEventListener("click", () => {
+        window.location.href = links.progress;
+      });
+    }
+
+    function getLinkedMonth(kind) {
+      if (linkedState.selectedMonth !== "全部月份") return linkedState.selectedMonth;
+      return kind === "freight" ? "5月" : "7月";
+    }
+
+    function getMonthClass(month) {
+      if (linkedState.selectedMonth === "全部月份") return "";
+      return linkedState.selectedMonth === month ? " is-selected" : " is-muted";
+    }
+
+    function renderTop() {
+      document.getElementById("navItems").innerHTML = linkedMonthlyData.nav
+        .map((item) => `<button class="${item === linkedState.selectedMonth ? "active" : ""}" data-month="${item}">${item}</button>`)
+        .join("");
+
+      document.querySelectorAll("#navItems button").forEach((button) => {
+        button.addEventListener("click", () => {
+          linkedState.selectedMonth = button.dataset.month;
+          renderTop();
+          renderRank();
+          renderTracker();
+        });
+      });
+
+      document.getElementById("projectName").textContent = "物料/设备看板";
+      document.getElementById("projectSubtitle").textContent = "物料进度、设备状态与任务追踪";
+    }
+
+    function renderRank() {
+      const data = linkedMonthlyData.freight;
+      const maxOrders = Math.max(...data.map((item) => item.orders), 1);
+      const maxAmount = Math.max(...data.map((item) => item.amount), 1);
+      const chart = { left: 44, right: 446, top: 22, bottom: 174 };
+      const step = (chart.right - chart.left) / data.length;
+      const barWidth = Math.min(34, step * 0.38);
+      const yOrder = (value) => chart.bottom - (value / maxOrders) * (chart.bottom - chart.top);
+      const yAmount = (value) => chart.bottom - (value / maxAmount) * (chart.bottom - chart.top);
+      const points = data.map((item, index) => {
+        const x = chart.left + step * index + step / 2;
+        return [x, yAmount(item.amount)];
+      });
+      const linePath = points.map((point, index) => `${index === 0 ? "M" : "L"} ${point[0]} ${point[1]}`).join(" ");
+      const bars = data.map((item, index) => {
+        const x = chart.left + step * index + step / 2 - barWidth / 2;
+        const y = yOrder(item.orders);
+        const h = chart.bottom - y;
+        const tip = `${item.month}\n异常订单量：${item.orders}单\n运费总金额：${formatCurrency(item.amount)}`;
+        return `
+          <rect class="freight-bar has-tip${getMonthClass(item.month)}" data-tip="${tip}" x="${x}" y="${y}" width="${barWidth}" height="${h}"></rect>
+          <text class="freight-month" x="${x + barWidth / 2}" y="202" text-anchor="middle">${item.month}</text>
+        `;
+      }).join("");
+      const dots = points.map((point, index) => {
+        const item = data[index];
+        const tip = `${item.month}\n异常订单量：${item.orders}单\n运费总金额：${formatCurrency(item.amount)}`;
+        return `<circle class="freight-dot has-tip${getMonthClass(item.month)}" data-tip="${tip}" cx="${point[0]}" cy="${point[1]}" r="5"></circle>`;
+      }).join("");
+      const summaryMonth = getLinkedMonth("freight");
+      const summary = linkedMonthlyData.freightSummaryByMonth[summaryMonth] || {
+        month: summaryMonth,
+        abnormalOrders: 0,
+        abnormalFreight: 0,
+        topItems: []
+      };
+
+      document.getElementById("rankList").innerHTML = `
+        <div class="freight-legend">
+          <span><i style="--c:var(--brand-brown)"></i>异常订单量</span>
+          <span><i style="--c:var(--orange)"></i>运费总金额</span>
+        </div>
+        <svg class="freight-chart" viewBox="0 0 500 218" role="img" aria-label="物料运费分析双轴图">
+          <line class="freight-grid" x1="${chart.left}" y1="${chart.top}" x2="${chart.right}" y2="${chart.top}"></line>
+          <line class="freight-grid" x1="${chart.left}" y1="${(chart.top + chart.bottom) / 2}" x2="${chart.right}" y2="${(chart.top + chart.bottom) / 2}"></line>
+          <line class="freight-grid" x1="${chart.left}" y1="${chart.bottom}" x2="${chart.right}" y2="${chart.bottom}"></line>
+          <text class="freight-axis" x="8" y="${chart.top + 4}">${maxOrders}单</text>
+          <text class="freight-axis" x="8" y="${chart.bottom}">0单</text>
+          <text class="freight-axis" x="456" y="${chart.top + 4}">${formatWan(maxAmount)}</text>
+          <text class="freight-axis" x="456" y="${chart.bottom}">0万</text>
+          ${bars}
+          <path class="freight-line" d="${linePath}"></path>
+          ${dots}
+        </svg>
+        <div class="freight-summary">
+          <div>${summary.month}异常订单<strong>${formatNumber(summary.abnormalOrders)}</strong>个，涉及运费<strong>${formatCurrency(summary.abnormalFreight)}</strong></div>
+          <span class="top-list">${summary.topItems.length ? summary.topItems.map((item) => `${item.name}异常订单${item.count}个`).join("；") : "暂无异常订单明细"}</span>
+        </div>
+      `;
+    }
+
+    function renderTracker() {
+      document.getElementById("trackerLegend").innerHTML = `
+        <span><i style="--c:var(--brand-brown)"></i>设备出库量</span>
+      `;
+
+      const data = linkedMonthlyData.device;
+      const max = Math.max(...data.map((item) => item.qty), 1);
+      document.getElementById("trackerBars").innerHTML = data.map((item) => {
+        const h = Math.max(6, Math.round((item.qty / max) * 100));
+        const tip = `${item.month}\n设备出库量：${formatNumber(item.qty)}台`;
+        return `
+          <div class="device-month">
+            <div class="device-track">
+              <i class="device-fill has-tip${getMonthClass(item.month)}" data-tip="${tip}" style="--h:${h}%"></i>
+            </div>
+            <span class="device-label">${item.month}</span>
+          </div>
+        `;
+      }).join("");
+
+      const summaryMonth = getLinkedMonth("device");
+      const summary = linkedMonthlyData.deviceSummaryByMonth[summaryMonth] || {
+        channels: [
+          { name: "鸣忙", qty: 0 },
+          { name: "省区", qty: 0 },
+          { name: "特殊渠道", qty: 0 }
+        ]
+      };
+      document.getElementById("deviceSummary").textContent = `${summaryMonth}${summary.channels.map((item) => `${item.name}渠道发货${formatNumber(item.qty)}台`).join("、")}`;
     }
 
     renderTop();
@@ -880,6 +1487,8 @@
     renderRank();
     renderTracker();
     renderChat();
+    setupChartTooltips();
+    setupCardLinks();
   </script>
 </body>
 </html>
