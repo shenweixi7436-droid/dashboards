@@ -670,7 +670,7 @@ svg text{font-family:'华康圆体-W7','HKYuanW7','Microsoft YaHei',sans-serif}
   <div class="placeholder-body market-order-body" id="marketOrderBody"></div>
 </div>
 <div class="card" id="targetPieCard" data-card="7" onclick="openDetail(7)">
-  <div class="card-hd"><span class="card-title">&#128200; 智能设备稽核</span><span id="targetPieBadge" class="card-badge">6月</span></div>
+    <div class="card-hd"><span class="card-title">&#128200; 智能设备稽核</span></div>
   <div id="targetPie" style="width:100%;height:315px;display:flex;align-items:center;justify-content:center">
     <div style="display:flex;align-items:center;justify-content:center;gap:28px;width:100%">
       <div style="width:148px;height:148px;border-radius:50%;background:conic-gradient(#fcc900 0 80.6%, #703a1e 80.6% 99.0%, #ec5f74 99.0% 100%);position:relative;box-shadow:inset 0 0 0 1px rgba(0,0,0,.04)"></div>
@@ -779,7 +779,7 @@ function setMainMonthData(){
     return {month:month,total:0,qualified:0,unqualified:0,rows:[],provinceIssues:[],headers:["流程发起时间","费用类型","签呈号","省区","客户名称","发起人","问题类型"]};
   }
   function emptyMarketOrder(month){
-    return {month:month,caseCount:0,customerCount:0,punishCount:0,internalCount:0,otherNotes:[]};
+    return {month:month,caseCount:0,customerCount:0,punishCount:0,internalCount:0,unverifiedCount:0,otherNotes:[]};
   }
   function normalizeMonthKey(month){
     var text=String(month||"");
@@ -900,7 +900,6 @@ function renderTargetPie(d){
   '</div>';
   var foot=items.map(function(it){return it.n+" "+Number(it.v||0).toLocaleString()+" \u5bb6";}).join(" \u00b7 ");
   document.getElementById("targetPieFoot").textContent=foot;
-  document.getElementById("targetPieBadge").textContent=currentMonth;
 }
 
 function renderStoreAuditCard(){
@@ -959,11 +958,12 @@ function bindStoreAuditLink(){
 }
 
 function renderMarketOrderGovernance(){
-  var data=window.MARKET_ORDER_GOVERNANCE||{caseCount:0,customerCount:0,punishCount:0,internalCount:0,otherNotes:[]};
+  var data=window.MARKET_ORDER_GOVERNANCE||{caseCount:0,customerCount:0,punishCount:0,internalCount:0,unverifiedCount:0,otherNotes:[]};
   var caseCount=Number(data.caseCount)||0;
   var customerCount=Number(data.customerCount)||0;
   var punishCount=Number(data.punishCount)||0;
   var internalCount=Number(data.internalCount)||0;
+  var unverifiedCount=Number(data.unverifiedCount)||0;
   var top=document.querySelector(".market-order-kpi-card");
   if(top){
     var main=top.querySelector(".kpi-live-main");
@@ -977,10 +977,7 @@ function renderMarketOrderGovernance(){
   }
   var el=document.getElementById("marketOrderBody");
   if(!el) return;
-  var notes=(data.otherNotes||[]).filter(Boolean);
-  var noteHtml=notes.length
-    ? '<div class="market-order-note">其他处理方式：<b>'+notes.map(function(t){return escH(String(t));}).join("；")+'</b>。</div>'
-    : '<div class="market-order-note">本月暂无其他处理方式。</div>';
+  var noteHtml='<div class="market-order-note">本月累计溯源窜货 <b>'+caseCount.toLocaleString()+'起</b>，通报处罚 <b>'+punishCount.toLocaleString()+'起</b>，内部处理 <b>'+internalCount.toLocaleString()+'起</b>，未查实 <b>'+unverifiedCount.toLocaleString()+'起</b>。</div>';
   el.innerHTML=
     '<div class="market-order-metrics">'+
       '<div class="market-order-metric"><div class="market-order-label">累计溯源窜货</div><div class="market-order-value">'+caseCount.toLocaleString()+'<span class="unit">起</span></div></div>'+
@@ -1229,8 +1226,6 @@ function refreshAll(){
       '<div class="device-status-note">\u56e0\u51b0\u67dc\u65e0\u6cd5\u8ba1\u7b97\u8fbe\u6807\u7387\uff0c\u663e\u793a\u5f00\u673a\u7387</div></div>';
     var el=document.getElementById("targetPie");
     if(el) el.innerHTML=html;
-    var badge=document.getElementById("targetPieBadge");
-    if(badge) badge.textContent=currentMonth==="\u5168\u5e74"?"\u5168\u5e74":currentMonth;
   })();
 
 // Card4 - Results
@@ -1604,7 +1599,7 @@ function renderDetail(cardIdx){
   }
 
   function renderMarketOrderDetail(){
-    var detail = window.MARKET_ORDER_GOVERNANCE || {month:currentMonth,caseCount:0,customerCount:0,punishCount:0,internalCount:0,provinceRank:[],customerRank:[],otherNotes:[]};
+    var detail = window.MARKET_ORDER_GOVERNANCE || {month:currentMonth,caseCount:0,customerCount:0,punishCount:0,internalCount:0,unverifiedCount:0,provinceRank:[],customerRank:[],otherNotes:[]};
     var monthText = displayMonthText(detail.month || currentMonth);
     var provinceRows = detail.provinceRank || [];
     var customerRows = detail.customerRank || [];
@@ -1628,10 +1623,12 @@ function renderDetail(cardIdx){
       '<div class="dkpi-item"><div class="dkpi-label">锁定具体客户</div><div class="dkpi-val" style="color:#ec5f74">'+Number(detail.customerCount||0).toLocaleString()+'个</div></div>'+
       '<div class="dkpi-item"><div class="dkpi-label">通报处罚</div><div class="dkpi-val" style="color:#fcc900">'+Number(detail.punishCount||0).toLocaleString()+'起</div></div>'+
       '<div class="dkpi-item"><div class="dkpi-label">省区内部处理</div><div class="dkpi-val" style="color:#703a1e">'+Number(detail.internalCount||0).toLocaleString()+'起</div></div>';
-    var notes = (detail.otherNotes || []).filter(Boolean);
+    var caseCount = Number(detail.caseCount||0);
+    var punishCount = Number(detail.punishCount||0);
+    var internalCount = Number(detail.internalCount||0);
+    var unverifiedCount = Number(detail.unverifiedCount||0);
     document.getElementById("detailAlerts").innerHTML =
-      '<div class="d-alert info">数据说明：本页展示当前月份市场秩序治理结果，左侧按省份汇总窜货投诉次数，右侧按客户名称统计出现次数，并按数量降序排列。</div>'+
-      (notes.length ? '<div class="d-alert info">其他处理方式：'+notes.map(function(t){return escH(String(t));}).join('；')+'。</div>' : '');
+      '<div class="d-alert info">数据说明：本页展示当前月份市场秩序治理结果，左侧按省份汇总窜货投诉次数，右侧按客户名称统计出现次数，并按数量降序排列。本月累计溯源窜货 '+caseCount.toLocaleString()+'起，通报处罚 '+punishCount.toLocaleString()+'起，内部处理 '+internalCount.toLocaleString()+'起，未查实 '+unverifiedCount.toLocaleString()+'起。</div>';
     document.getElementById("detailChart").innerHTML =
       '<div class="market-order-detail-grid">'+
         '<div class="market-order-detail-table"><div class="market-order-detail-title">窜货投诉数据汇总</div>'+
@@ -1651,13 +1648,11 @@ function renderDetail(cardIdx){
   }
 
   function renderDeviceDetail(){
-    var detail = window.DEVICE_DETAIL || {month:(new Date().getMonth()+1),summary:[],sections:[]};
-    var monthText = displayMonthText(detail.month);
+    var detail = window.DEVICE_DETAIL || {summary:[],sections:[]};
     var summary = detail.summary || [];
     var sections = detail.sections || [];
     document.getElementById("detailTitle").textContent = "智能设备稽核明细";
     document.getElementById("detailKpiRow").innerHTML =
-      '<div class="dkpi-item"><div class="dkpi-label">当前月份</div><div class="dkpi-val" style="color:#703a1e">全部 · '+monthText+'</div></div>'+
       summary.map(function(item){
         return '<div class="dkpi-item"><div class="dkpi-label">'+escH(item.name || "-")+'投放量</div>'+
           '<div class="dkpi-val" style="color:#d93924">'+Number(item.volume||0).toLocaleString()+'</div>'+

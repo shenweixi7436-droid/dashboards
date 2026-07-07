@@ -312,6 +312,7 @@ def build_market_order(wb):
         "customerRows": defaultdict(int),
         "punish": set(),
         "internal": set(),
+        "unverified": set(),
         "others": {},
     })
     months = set()
@@ -342,6 +343,8 @@ def build_market_order(wb):
             bucket["punish"].add(seq)
         elif method in {"内部处理", "内部沟通处理"}:
             bucket["internal"].add(seq)
+        elif method == "未查实":
+            bucket["unverified"].add(seq)
         elif method:
             note = f"窜货{seq}{province}{city}{method}"
             bucket["others"][seq] = note
@@ -375,6 +378,7 @@ def build_market_order(wb):
             "customerCount": len(bucket["customers"]),
             "punishCount": len(bucket["punish"]),
             "internalCount": len(bucket["internal"]),
+            "unverifiedCount": len(bucket["unverified"]),
             "otherNotes": list(bucket["others"].values()),
             "provinceRank": province_rank,
             "customerRank": customer_rank,

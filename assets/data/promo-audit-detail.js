@@ -102,10 +102,22 @@ window.PROMO_AUDIT_DETAIL_BY_MONTH = {
       "经销商",
       "稽核方式"
     ],
-    "total": 0,
+    "total": 1,
     "qualified": 0,
-    "unqualified": 0,
-    "rows": []
+    "unqualified": 1,
+    "rows": [
+      {
+        "row": 11,
+        "values": [
+          "泽泽",
+          "湖南",
+          "长沙",
+          "线下-长沙吉鲜岛贸易有限公司",
+          "线下"
+        ],
+        "result": "不合格"
+      }
+    ]
   }
 };
 window.PROMO_AUDIT_DETAIL = window.PROMO_AUDIT_DETAIL_BY_MONTH[window.MAIN_SELECTED_MONTH || "7月"] || {
@@ -118,8 +130,20 @@ window.PROMO_AUDIT_DETAIL = window.PROMO_AUDIT_DETAIL_BY_MONTH[window.MAIN_SELEC
     "经销商",
     "稽核方式"
   ],
-  "total": 0,
+  "total": 1,
   "qualified": 0,
-  "unqualified": 0,
-  "rows": []
+  "unqualified": 1,
+  "rows": [
+    {
+      "row": 11,
+      "values": [
+        "泽泽",
+        "湖南",
+        "长沙",
+        "线下-长沙吉鲜岛贸易有限公司",
+        "线下"
+      ],
+      "result": "不合格"
+    }
+  ]
 };
