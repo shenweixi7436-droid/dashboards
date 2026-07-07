@@ -335,12 +335,12 @@ def build_market_order(wb):
         bucket["cases"].add(seq)
         province = norm(row[4] if len(row) > 4 else "")
         city = norm(row[5] if len(row) > 5 else "")
-        method = norm(row[11] if len(row) > 11 else "")
+        method = norm(row[13] if len(row) > 13 else "")
         if province:
             bucket["provinceCases"][province].add(seq)
-        if method == "已通报处罚":
+        if method in {"营销中心通报处罚", "省区通报处罚"}:
             bucket["punish"].add(seq)
-        elif method == "内部沟通处理":
+        elif method in {"内部处理", "内部沟通处理"}:
             bucket["internal"].add(seq)
         elif method:
             note = f"窜货{seq}{province}{city}{method}"
