@@ -142,41 +142,85 @@ window.APPROVAL_PIES_BY_MONTH = {
   },
   "7月": {
     "month": "7月",
-    "total": 32,
-    "qualified": 27,
-    "unqualified": 5,
-    "rate": 84.4,
+    "total": 139,
+    "qualified": 105,
+    "unqualified": 34,
+    "rate": 75.5,
     "issues": [
       {
         "name": "着装不规范",
-        "value": 3
+        "value": 24
       },
       {
         "name": "未使用公司最新品牌logo今日水印相机",
-        "value": 2
+        "value": 9
+      },
+      {
+        "name": "着装不规范且未使用公司最新品牌logo今日水印相机",
+        "value": 1
       }
     ],
     "dressIssues": [
       {
-        "name": "帽子,口罩",
-        "value": 2
+        "name": "口罩",
+        "value": 15
       },
       {
-        "name": "口罩",
+        "name": "帽子,口罩",
+        "value": 8
+      },
+      {
+        "name": "帽子,围裙,口罩",
+        "value": 1
+      },
+      {
+        "name": "帽子",
         "value": 1
       }
     ],
     "provinceIssues": [
       {
+        "province": "山东省区",
+        "value": 17
+      },
+      {
+        "province": "浙江省区",
+        "value": 5
+      },
+      {
         "province": "山西省区",
-        "value": 3
+        "value": 4
       },
       {
         "province": "江苏省区",
         "value": 1
       },
       {
-        "province": "山东省区",
+        "province": "安徽省区",
+        "value": 1
+      },
+      {
+        "province": "内蒙省区",
+        "value": 1
+      },
+      {
+        "province": "川渝藏大区",
+        "value": 1
+      },
+      {
+        "province": "湖北省区",
+        "value": 1
+      },
+      {
+        "province": "西北大区",
+        "value": 1
+      },
+      {
+        "province": "河南省区",
+        "value": 1
+      },
+      {
+        "province": "辽宁省区",
         "value": 1
       }
     ]
@@ -184,41 +228,85 @@ window.APPROVAL_PIES_BY_MONTH = {
 };
 window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH || "7月"] || {
   "month": "7月",
-  "total": 32,
-  "qualified": 27,
-  "unqualified": 5,
-  "rate": 84.4,
+  "total": 139,
+  "qualified": 105,
+  "unqualified": 34,
+  "rate": 75.5,
   "issues": [
     {
       "name": "着装不规范",
-      "value": 3
+      "value": 24
     },
     {
       "name": "未使用公司最新品牌logo今日水印相机",
-      "value": 2
+      "value": 9
+    },
+    {
+      "name": "着装不规范且未使用公司最新品牌logo今日水印相机",
+      "value": 1
     }
   ],
   "dressIssues": [
     {
-      "name": "帽子,口罩",
-      "value": 2
+      "name": "口罩",
+      "value": 15
     },
     {
-      "name": "口罩",
+      "name": "帽子,口罩",
+      "value": 8
+    },
+    {
+      "name": "帽子,围裙,口罩",
+      "value": 1
+    },
+    {
+      "name": "帽子",
       "value": 1
     }
   ],
   "provinceIssues": [
     {
+      "province": "山东省区",
+      "value": 17
+    },
+    {
+      "province": "浙江省区",
+      "value": 5
+    },
+    {
       "province": "山西省区",
-      "value": 3
+      "value": 4
     },
     {
       "province": "江苏省区",
       "value": 1
     },
     {
-      "province": "山东省区",
+      "province": "安徽省区",
+      "value": 1
+    },
+    {
+      "province": "内蒙省区",
+      "value": 1
+    },
+    {
+      "province": "川渝藏大区",
+      "value": 1
+    },
+    {
+      "province": "湖北省区",
+      "value": 1
+    },
+    {
+      "province": "西北大区",
+      "value": 1
+    },
+    {
+      "province": "河南省区",
+      "value": 1
+    },
+    {
+      "province": "辽宁省区",
       "value": 1
     }
   ]

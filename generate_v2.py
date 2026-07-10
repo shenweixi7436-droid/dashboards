@@ -34,7 +34,7 @@ OUTPUT_AUDIT_PROGRESS = PROJECT_DIR + r'\assets\data\current-audit-progress.js'
 # 省区→战区映射
 ZONE_MAP = {
     '云南': '区域经营部', '川渝藏': '区域经营部', '广西': '区域经营部',
-    '浙江': '区域经营部', '湖南': '区域经营部', '苏北': '区域经营部',
+    '浙江': '区域经营部', '湖南': '区域经营部', '江苏': '区域经营部', '苏北': '区域经营部',
     '苏南': '区域经营部', '宁夏': '区域经营部',
     '陕西': '区域经营部', '甘肃': '区域经营部', '青海': '区域经营部', '新疆': '区域经营部',
     '山东': '山东战区',
@@ -238,10 +238,11 @@ def precompute_all(df_audit, df_plan):
             }
 
     # 省区级计划统计:(月份, 省份) -> {plan, invest}
+    plan_prov_col = '省区清洗-合并陕甘青宁新' if '省区清洗-合并陕甘青宁新' in df_plan.columns else '省区清洗-按最新'
     plan_prov = {}
     for m in all_months:
         sub = df_plan if m is None else df_plan[df_plan['月份'] == m]
-        grouped = sub.groupby('省区清洗-按最新')
+        grouped = sub.groupby(plan_prov_col)
         for prov, grp in grouped:
             if prov not in plan_prov:
                 plan_prov[prov] = {}
