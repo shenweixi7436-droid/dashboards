@@ -4,18 +4,18 @@ window.DEVICE_CHANNEL_STATUS_BY_MONTH = {
     "items": [
       {
         "name": "保温柜",
-        "volume": 14770,
-        "rate": 0.522766139375802
+        "volume": 14826,
+        "rate": 0.59
       },
       {
         "name": "烤肠机",
-        "volume": 8259,
-        "rate": 0.67869746551171
+        "volume": 8300,
+        "rate": 0.69
       },
       {
         "name": "冰柜",
-        "volume": 1483,
-        "rate": 0.604180714767363
+        "volume": 1484,
+        "rate": 0.69
       }
     ]
   },
@@ -24,18 +24,18 @@ window.DEVICE_CHANNEL_STATUS_BY_MONTH = {
     "items": [
       {
         "name": "保温柜",
-        "volume": 14770,
-        "rate": 0.522766139375802
+        "volume": 14826,
+        "rate": 0.59
       },
       {
         "name": "烤肠机",
-        "volume": 8259,
-        "rate": 0.67869746551171
+        "volume": 8300,
+        "rate": 0.69
       },
       {
         "name": "冰柜",
-        "volume": 1483,
-        "rate": 0.604180714767363
+        "volume": 1484,
+        "rate": 0.69
       }
     ]
   },
@@ -44,18 +44,18 @@ window.DEVICE_CHANNEL_STATUS_BY_MONTH = {
     "items": [
       {
         "name": "保温柜",
-        "volume": 14770,
-        "rate": 0.522766139375802
+        "volume": 14826,
+        "rate": 0.59
       },
       {
         "name": "烤肠机",
-        "volume": 8259,
-        "rate": 0.67869746551171
+        "volume": 8300,
+        "rate": 0.69
       },
       {
         "name": "冰柜",
-        "volume": 1483,
-        "rate": 0.604180714767363
+        "volume": 1484,
+        "rate": 0.69
       }
     ]
   },
@@ -64,18 +64,18 @@ window.DEVICE_CHANNEL_STATUS_BY_MONTH = {
     "items": [
       {
         "name": "保温柜",
-        "volume": 14770,
-        "rate": 0.522766139375802
+        "volume": 14826,
+        "rate": 0.59
       },
       {
         "name": "烤肠机",
-        "volume": 8259,
-        "rate": 0.67869746551171
+        "volume": 8300,
+        "rate": 0.69
       },
       {
         "name": "冰柜",
-        "volume": 1483,
-        "rate": 0.604180714767363
+        "volume": 1484,
+        "rate": 0.69
       }
     ]
   },
@@ -84,18 +84,18 @@ window.DEVICE_CHANNEL_STATUS_BY_MONTH = {
     "items": [
       {
         "name": "保温柜",
-        "volume": 14770,
-        "rate": 0.522766139375802
+        "volume": 14826,
+        "rate": 0.59
       },
       {
         "name": "烤肠机",
-        "volume": 8259,
-        "rate": 0.67869746551171
+        "volume": 8300,
+        "rate": 0.69
       },
       {
         "name": "冰柜",
-        "volume": 1483,
-        "rate": 0.604180714767363
+        "volume": 1484,
+        "rate": 0.69
       }
     ]
   },
@@ -104,18 +104,18 @@ window.DEVICE_CHANNEL_STATUS_BY_MONTH = {
     "items": [
       {
         "name": "保温柜",
-        "volume": 14770,
-        "rate": 0.522766139375802
+        "volume": 14826,
+        "rate": 0.59
       },
       {
         "name": "烤肠机",
-        "volume": 8259,
-        "rate": 0.67869746551171
+        "volume": 8300,
+        "rate": 0.69
       },
       {
         "name": "冰柜",
-        "volume": 1483,
-        "rate": 0.604180714767363
+        "volume": 1484,
+        "rate": 0.69
       }
     ]
   },
@@ -124,18 +124,18 @@ window.DEVICE_CHANNEL_STATUS_BY_MONTH = {
     "items": [
       {
         "name": "保温柜",
-        "volume": 14770,
-        "rate": 0.522766139375802
+        "volume": 14826,
+        "rate": 0.59
       },
       {
         "name": "烤肠机",
-        "volume": 8259,
-        "rate": 0.67869746551171
+        "volume": 8300,
+        "rate": 0.69
       },
       {
         "name": "冰柜",
-        "volume": 1483,
-        "rate": 0.604180714767363
+        "volume": 1484,
+        "rate": 0.69
       }
     ]
   }
@@ -145,18 +145,18 @@ window.DEVICE_CHANNEL_STATUS = window.DEVICE_CHANNEL_STATUS_BY_MONTH[window.MAIN
   "items": [
     {
       "name": "保温柜",
-      "volume": 14770,
-      "rate": 0.522766139375802
+      "volume": 14826,
+      "rate": 0.59
     },
     {
       "name": "烤肠机",
-      "volume": 8259,
-      "rate": 0.67869746551171
+      "volume": 8300,
+      "rate": 0.69
     },
     {
       "name": "冰柜",
-      "volume": 1483,
-      "rate": 0.604180714767363
+      "volume": 1484,
+      "rate": 0.69
     }
   ]
 };
