@@ -236,6 +236,8 @@ window.getNiceTicks = function(min,max,tickCount){
 // === 全局参数 ===
 var THR_A = 80; // A 类阈值（累计金额 % ）
 var THR_B = 95; // B 类阈值
+var THR_TOTAL_RATIO = 30; // 运费占总费用比阈值
+var THR_GOODS_RATIO = 30; // 运费占货值比阈值
 
 // 错配标签判定
 // 战略：A 类（前 80% 金额）
@@ -451,48 +453,95 @@ function recompute(){
 function initFilters(){
   var fc=$('topbar-filter-container');
   var html='';
-  // ABC 阈值
-  html+='<div class="thr-group"><span class="thr-label">A 类阈值</span>';
-  html+='<input type="number" class="fb-num" id="thr-a" value="'+THR_A+'" min="50" max="95" onchange="updateThresholds()">';
+  html+='<div class="thr-group" title="使用数据源中的‘运费占总费用比’列"><span class="thr-label">运费/总费用阈值</span>';
+  html+='<input type="number" class="fb-num" id="thr-total-ratio" value="'+THR_TOTAL_RATIO+'" min="0" max="100" step="1" onchange="updateThresholds()">';
   html+='<span class="thr-unit">%</span></div>';
-  html+='<div class="thr-group"><span class="thr-label">B 类阈值</span>';
-  html+='<input type="number" class="fb-num" id="thr-b" value="'+THR_B+'" min="60" max="99" onchange="updateThresholds()">';
+  html+='<div class="thr-group" title="使用数据源中的‘运费占货值比’列"><span class="thr-label">运费/货值阈值</span>';
+  html+='<input type="number" class="fb-num" id="thr-goods-ratio" value="'+THR_GOODS_RATIO+'" min="0" max="500" step="1" onchange="updateThresholds()">';
   html+='<span class="thr-unit">%</span></div>';
+  html+='<div class="thr-group"><span class="thr-label">月份</span>';
+  html+='<select class="fb-select" id="month-select" onchange="changeMonth(this.value)">';
+  window.FREIGHT_PAYLOAD.months.forEach(function(month){
+    html+='<option value="'+month.month+'" '+(month.month===window.FREIGHT_CURRENT.month?'selected':'')+'>'+month.month+'</option>';
+  });
+  html+='</select></div>';
   fc.innerHTML=html;
   fc.style.display='flex';
   $('topbar-vdiv').style.display='block';
 }
 
 function updateThresholds(){
-  var a=parseFloat($('thr-a').value)||80;
-  var b=parseFloat($('thr-b').value)||95;
-  if(a>=b){b=Math.min(99,a+5);$('thr-b').value=b;}
-  THR_A=a;THR_B=b;
+  THR_TOTAL_RATIO=Math.max(0,parseFloat($('thr-total-ratio').value)||0);
+  THR_GOODS_RATIO=Math.max(0,parseFloat($('thr-goods-ratio').value)||0);
   recompute();
-  window.toast('ABC 阈值已更新：'+a+'% / '+b+'%');
+  window.toast('运费占比阈值已更新：'+THR_TOTAL_RATIO+'% / '+THR_GOODS_RATIO+'%');
+}
+
+function applyCurrentMonthRows(){
+  _categories=window.FREIGHT_CURRENT.rows.map(function(row){
+    return{
+      name:row.name,
+      amt:Number(row.freightAmount||0),
+      orders:Number(row.orders||0),
+      abnormalOrders:Number(row.abnormalOrders||0),
+      shipmentQuantity:Number(row.shipmentQuantity||0),
+      freightRatio:Number(row.freightRatio||0),
+      goodsFreightRatio:Number(row.goodsFreightRatio||0)
+    };
+  });
+}
+
+function changeMonth(monthLabel){
+  var selected=window.FREIGHT_PAYLOAD.months.find(function(month){return month.month===monthLabel;});
+  if(!selected)return;
+  window.FREIGHT_CURRENT=selected;
+  applyCurrentMonthRows();
+  recompute();
+}
+
+function calculateThresholdStats(){
+  var totalByMaterial={},goodsByMaterial={},totalCount=0,goodsCount=0;
+  var allMonths=window.FREIGHT_CURRENT.month==='全年';
+  var monthValue=Number(window.FREIGHT_CURRENT.monthValue);
+  var materials=window.FREIGHT_PAYLOAD.ratioMaterials||[];
+  (window.FREIGHT_PAYLOAD.ratioRecords||[]).forEach(function(record){
+    if(!allMonths&&Number(record[0])!==monthValue)return;
+    var material=materials[record[1]]||'未命名物料';
+    if(Number(record[2])>THR_TOTAL_RATIO){
+      totalCount+=1;
+      totalByMaterial[material]=(totalByMaterial[material]||0)+1;
+    }
+    if(Number(record[3])>THR_GOODS_RATIO){
+      goodsCount+=1;
+      goodsByMaterial[material]=(goodsByMaterial[material]||0)+1;
+    }
+  });
+  return{totalCount:totalCount,goodsCount:goodsCount,totalByMaterial:totalByMaterial,goodsByMaterial:goodsByMaterial};
 }
 
 // === 渲染调度 ===
 function renderAll(){
+  window.FREIGHT_THRESHOLD_STATS=calculateThresholdStats();
   renderKPI();
   drawPareto();
   drawMismatch();
   drawABC();
   renderTable();
-  $('ti').innerHTML='<b>'+window.FREIGHT_CURRENT.month+'</b> · 数据截至 '+window.FREIGHT_PAYLOAD.dataThrough+' · '+_filtered.length+' 个物料';
+  $('ti').innerHTML='<b>'+window.FREIGHT_CURRENT.month+'</b> · 总费用异常 '+window.FREIGHT_THRESHOLD_STATS.totalCount+' 单 · 货值异常 '+window.FREIGHT_THRESHOLD_STATS.goodsCount+' 单';
 }
 
 function renderKPI(){
   var cards=window.FREIGHT_CURRENT.cards;
   var moneyExact=Number(cards.freight||0).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});
   var orders=Number(cards.orders||0).toLocaleString('zh-CN');
-  var abnormal=Number(cards.abnormalOrders||0).toLocaleString('zh-CN');
+  var abnormal=Number(window.FREIGHT_THRESHOLD_STATS.totalCount||0).toLocaleString('zh-CN');
   var ratio=Number(cards.freightRatio||0).toFixed(2)+'%';
+  var periodLabel=window.FREIGHT_CURRENT.month==='全年'?'全年':'本月';
   var html=
-  '<div class="kc k0"><div class="kc-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12h8M12 7v10"/></svg></div><div class="kl">本月运费</div><div class="kv">¥'+moneyExact+'</div><div class="ku">'+window.FREIGHT_CURRENT.month+'运费金额合计</div></div>'+ 
-  '<div class="kc k1"><div class="kc-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg></div><div class="kl">本月订单数</div><div class="kv">'+orders+' 单</div><div class="ku">按出库单号去重统计</div></div>'+ 
-  '<div class="kc k3"><div class="kc-icon"><svg viewBox="0 0 24 24"><path d="M12 3L2 20h20L12 3z"/><path d="M12 9v5M12 17h.01"/></svg></div><div class="kl">本月异常订单数</div><div class="kv" style="color:var(--rd)">'+abnormal+' 单</div><div class="ku">运费占总费用比超过 30%</div></div>'+ 
-  '<div class="kc k2"><div class="kc-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 16l8-8M9 9h.01M15 15h.01"/></svg></div><div class="kl">当月整体运费占比</div><div class="kv">'+ratio+'</div><div class="ku">运费 ÷（货值 + 包材人工 + 运费）</div></div>';
+  '<div class="kc k0"><div class="kc-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12h8M12 7v10"/></svg></div><div class="kl">'+periodLabel+'运费</div><div class="kv">¥'+moneyExact+'</div><div class="ku">'+window.FREIGHT_CURRENT.month+'运费金额合计</div></div>'+ 
+  '<div class="kc k1"><div class="kc-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg></div><div class="kl">'+periodLabel+'订单数</div><div class="kv">'+orders+' 单</div><div class="ku">按出库单号去重统计</div></div>'+ 
+  '<div class="kc k3"><div class="kc-icon"><svg viewBox="0 0 24 24"><path d="M12 3L2 20h20L12 3z"/><path d="M12 9v5M12 17h.01"/></svg></div><div class="kl">'+periodLabel+'异常订单数</div><div class="kv" style="color:var(--rd)">'+abnormal+' 单</div><div class="ku">运费占总费用比超过 '+THR_TOTAL_RATIO+'%</div></div>'+ 
+  '<div class="kc k2"><div class="kc-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 16l8-8M9 9h.01M15 15h.01"/></svg></div><div class="kl">'+(window.FREIGHT_CURRENT.month==='全年'?'全年':'当月')+'整体运费占比</div><div class="kv">'+ratio+'</div><div class="ku">运费 ÷（货值 + 包材人工 + 运费）</div></div>';
   $('kpi').innerHTML=html;
 }
 
@@ -839,18 +888,22 @@ function renderTable(){
     '<th>排名</th>'+ 
     '<th>物料名称</th>'+ 
     '<th style="text-align:right">订单数</th>'+ 
-    '<th style="text-align:right">异常订单</th>'+ 
+    '<th style="text-align:right">总费用异常</th>'+ 
+    '<th style="text-align:right">货值异常</th>'+ 
     '<th style="text-align:right">发货数量</th>'+ 
     '<th style="text-align:right">运费金额</th>'+ 
     '<th style="text-align:right">运费金额占比</th>'+ 
     '<th style="text-align:right">整体运费占比</th>'+ 
   '</tr></thead><tbody>';
   _filtered.forEach(function(c){
+    var totalAbnormal=window.FREIGHT_THRESHOLD_STATS.totalByMaterial[c.name]||0;
+    var goodsAbnormal=window.FREIGHT_THRESHOLD_STATS.goodsByMaterial[c.name]||0;
     html+='<tr>'+ 
       '<td>'+c.rank+'</td>'+ 
       '<td>'+c.name+'</td>'+ 
       '<td style="text-align:right">'+c.orders+'</td>'+ 
-      '<td style="text-align:right;color:'+(c.abnormalOrders>0?'var(--rd)':'var(--t3)')+'">'+c.abnormalOrders+'</td>'+ 
+      '<td style="text-align:right;color:'+(totalAbnormal>0?'var(--rd)':'var(--t3)')+'">'+totalAbnormal+'</td>'+ 
+      '<td style="text-align:right;color:'+(goodsAbnormal>0?'var(--am)':'var(--t3)')+'">'+goodsAbnormal+'</td>'+ 
       '<td style="text-align:right">'+Number(c.shipmentQuantity||0).toLocaleString('zh-CN')+'</td>'+ 
       '<td style="text-align:right;font-weight:600">¥'+Number(c.amt||0).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})+'</td>'+ 
       '<td style="text-align:right">'+window.fmtP(c.amtPct)+'</td>'+ 
@@ -879,16 +932,7 @@ document.addEventListener('drop',function(e){
 
 window.addEventListener('load',function(){
   window.FREIGHT_CURRENT=window.FREIGHT_PAYLOAD.months[window.FREIGHT_PAYLOAD.months.length-1];
-  _categories=window.FREIGHT_CURRENT.rows.map(function(row){
-    return{
-      name:row.name,
-      amt:Number(row.freightAmount||0),
-      orders:Number(row.orders||0),
-      abnormalOrders:Number(row.abnormalOrders||0),
-      shipmentQuantity:Number(row.shipmentQuantity||0),
-      freightRatio:Number(row.freightRatio||0)
-    };
-  });
+  applyCurrentMonthRows();
   $('es').style.display='none';
   $('db').style.display='flex';
   initFilters();
