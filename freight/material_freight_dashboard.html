@@ -178,7 +178,7 @@ html,body{min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI
     <div class="kpi-row" id="kpi"></div>
 
     <div class="cd" style="height:480px;display:flex;flex-direction:column">
-      <div class="ch" style="flex-shrink:0"><div><div class="ct">物料运费帕累托图</div><div class="cs">柱形=运费金额（从大到小排序），折线=累计占比；红色虚线=A 类阈值（默认 80%）</div></div></div>
+      <div class="ch" style="flex-shrink:0"><div><div class="ct">物料货值与运费对比</div><div class="cs">柱形=货值（供应链单价 × 发货数量），折线=运费；A 类=运费/总费用超过阈值，B 类=运费/货值超过阈值</div></div></div>
       <div class="chart-wrap"><canvas id="c-pareto"></canvas></div>
     </div>
 
@@ -188,14 +188,14 @@ html,body{min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI
         <div class="chart-wrap"><canvas id="c-mismatch"></canvas></div>
       </div>
       <div class="cd" style="height:460px;display:flex;flex-direction:column">
-        <div class="ch" style="flex-shrink:0"><div><div class="ct">运费 ABC 分级对比</div><div class="cs">A/B/C 三类的物料数与运费金额双对照</div></div></div>
+        <div class="ch" style="flex-shrink:0"><div><div class="ct">运费阈值分级对比</div><div class="cs">A 类=运费/总费用超阈值；B 类=运费/货值超阈值；C 类=其余物料</div></div></div>
         <div class="chart-wrap"><canvas id="c-abc"></canvas></div>
         <div class="legend-row" id="legend-abc"></div>
       </div>
     </div>
 
     <div class="cd" style="height:520px;display:flex;flex-direction:column">
-      <div class="ch" style="flex-shrink:0"><div><div class="ct">物料运费明细诊断表</div><div class="cs">按运费金额降序排列；同时展示订单量、异常订单和整体运费占比</div></div></div>
+      <div class="ch" style="flex-shrink:0"><div><div class="ct">物料运费明细诊断表</div><div class="cs">按当期货值降序排列；同步展示货值、运费以及 A/B 类异常订单</div></div></div>
       <div id="tw" style="flex:1;min-height:0;overflow:auto;border:1px solid #e2e8f0;border-radius:8px"></div>
     </div>
   </div>
@@ -239,21 +239,10 @@ var THR_B = 95; // B 类阈值
 var THR_TOTAL_RATIO = 30; // 运费占总费用比阈值
 var THR_GOODS_RATIO = 30; // 运费占货值比阈值
 
-// 错配标签判定
-// 战略：A 类（前 80% 金额）
-// 重点：B 类（80%-95% 金额）且订单数占比合理（不超过金额占比的 1.5 倍）
-// 分散错配：B 类但订单数占比 > 金额占比 1.5 倍 OR C 类但订单数占比 > 5%
-// 碎片：C 类（后 5% 金额）且订单数占比 < 5%
 function getMismatchTag(c){
-  var amtPct=c.amtPct, ordPct=c.ordPct;
-  if(c.tier==='A')return{key:'strategy',l:'战略品',c:'tag-strategy'};
-  if(c.tier==='B'){
-    if(ordPct>amtPct*1.5)return{key:'mismatch',l:'分散错配',c:'tag-mismatch'};
-    return{key:'key',l:'重点品',c:'tag-key'};
-  }
-  // C 类
-  if(ordPct>amtPct*2)return{key:'mismatch',l:'分散错配',c:'tag-mismatch'};
-  return{key:'fragment',l:'碎片品',c:'tag-fragment'};
+  if(c.tier==='A')return{key:'strategy',l:'A类异常',c:'tag-strategy'};
+  if(c.tier==='B')return{key:'key',l:'B类异常',c:'tag-key'};
+  return{key:'fragment',l:'正常',c:'tag-fragment'};
 }
 
 // === Demo 数据生成 ===
@@ -431,8 +420,8 @@ function buildFromRaw(){
 
 function recompute(){
   if(!_categories.length)return;
-  // 按金额降序
-  _filtered=_categories.slice().sort(function(a,b){return b.amt-a.amt;});
+  // 主图按货值降序；分类由顶部两个运费占比阈值决定
+  _filtered=_categories.slice().sort(function(a,b){return (b.goodsValue||0)-(a.goodsValue||0);});
   var totalAmt=_filtered.reduce(function(s,c){return s+c.amt;},0);
   var totalOrders=_filtered.reduce(function(s,c){return s+c.orders;},0);
   var cum=0;
@@ -442,8 +431,8 @@ function recompute(){
     c.ordPct=totalOrders>0?c.orders/totalOrders:0;
     cum+=c.amt;
     c.cumAmtPct=cum/totalAmt;
-    if(c.cumAmtPct*100<=THR_A)c.tier='A';
-    else if(c.cumAmtPct*100<=THR_B)c.tier='B';
+    if(c.freightRatio>THR_TOTAL_RATIO)c.tier='A';
+    else if(c.goodsFreightRatio>THR_GOODS_RATIO)c.tier='B';
     else c.tier='C';
     c.mismatch=getMismatchTag(c);
   });
@@ -453,10 +442,10 @@ function recompute(){
 function initFilters(){
   var fc=$('topbar-filter-container');
   var html='';
-  html+='<div class="thr-group" title="使用数据源中的‘运费占总费用比’列"><span class="thr-label">运费/总费用阈值</span>';
+  html+='<div class="thr-group" title="A 类：使用数据源中的‘运费占总费用比’列"><span class="thr-label">A类 · 运费/总费用</span>';
   html+='<input type="number" class="fb-num" id="thr-total-ratio" value="'+THR_TOTAL_RATIO+'" min="0" max="100" step="1" onchange="updateThresholds()">';
   html+='<span class="thr-unit">%</span></div>';
-  html+='<div class="thr-group" title="使用数据源中的‘运费占货值比’列"><span class="thr-label">运费/货值阈值</span>';
+  html+='<div class="thr-group" title="B 类：使用数据源中的‘运费占货值比’列"><span class="thr-label">B类 · 运费/货值</span>';
   html+='<input type="number" class="fb-num" id="thr-goods-ratio" value="'+THR_GOODS_RATIO+'" min="0" max="500" step="1" onchange="updateThresholds()">';
   html+='<span class="thr-unit">%</span></div>';
   html+='<div class="thr-group"><span class="thr-label">月份</span>';
@@ -485,6 +474,7 @@ function applyCurrentMonthRows(){
       orders:Number(row.orders||0),
       abnormalOrders:Number(row.abnormalOrders||0),
       shipmentQuantity:Number(row.shipmentQuantity||0),
+      goodsValue:Number(row.goodsValue||0),
       freightRatio:Number(row.freightRatio||0),
       goodsFreightRatio:Number(row.goodsFreightRatio||0)
     };
@@ -527,7 +517,7 @@ function renderAll(){
   drawMismatch();
   drawABC();
   renderTable();
-  $('ti').innerHTML='<b>'+window.FREIGHT_CURRENT.month+'</b> · 总费用异常 '+window.FREIGHT_THRESHOLD_STATS.totalCount+' 单 · 货值异常 '+window.FREIGHT_THRESHOLD_STATS.goodsCount+' 单';
+  $('ti').innerHTML='<b>'+window.FREIGHT_CURRENT.month+'</b> · A类异常 '+window.FREIGHT_THRESHOLD_STATS.totalCount+' 单 · B类异常 '+window.FREIGHT_THRESHOLD_STATS.goodsCount+' 单';
 }
 
 function renderKPI(){
@@ -545,7 +535,7 @@ function renderKPI(){
   $('kpi').innerHTML=html;
 }
 
-// === 图 1：物料运费帕累托图（柱形+累计折线）===
+// === 图 1：物料货值与运费对比（货值柱形+运费折线）===
 function drawPareto(){
   var canvas=$('c-pareto');
   if(!canvas)return;
@@ -559,68 +549,72 @@ function drawPareto(){
   var pw=Math.max(1,W-pad.l-pad.r), ph=Math.max(1,H-pad.t-pad.b);
   var n=_filtered.length;
 
-  var maxAmt=Math.max.apply(null,_filtered.map(function(c){return c.amt;}));
-  var yTicks=window.getNiceTicks(0,maxAmt*1.05,5);
-  var maxY=yTicks.max;
+  var maxGoods=Math.max.apply(null,_filtered.map(function(c){return c.goodsValue||0;}));
+  var maxFreight=Math.max.apply(null,_filtered.map(function(c){return c.amt||0;}));
+  var goodsTicks=window.getNiceTicks(0,maxGoods*1.05,5);
+  var freightTicks=window.getNiceTicks(0,maxFreight*1.05,5);
 
   function xOf(i){return pad.l+(i+0.5)/n*pw;}
-  function yOfAmt(v){return pad.t+ph-v/maxY*ph;}
-  function yOfPct(v){return pad.t+ph-v*ph;} // v 是 0-1 的累计百分比
+  function yOfGoods(v){return pad.t+ph-v/goodsTicks.max*ph;}
+  function yOfFreight(v){return pad.t+ph-v/freightTicks.max*ph;}
 
-  // 网格 + 左纵轴刻度（金额）
+  // 网格 + 左纵轴刻度（货值）
   ctx.strokeStyle='#f1f5f9';ctx.lineWidth=1;
   ctx.fillStyle='#94a3b8';ctx.font='10px sans-serif';ctx.textAlign='right';ctx.textBaseline='middle';
-  yTicks.ticks.forEach(function(t){
-    var y=yOfAmt(t);
+  goodsTicks.ticks.forEach(function(t){
+    var y=yOfGoods(t);
     ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(pad.l+pw,y);ctx.stroke();
     ctx.fillText('¥'+window.fmtN(t),pad.l-6,y);
   });
-  // 右纵轴刻度（百分比）
+  // 右纵轴刻度（运费）
   ctx.textAlign='left';
-  [0,0.25,0.5,0.75,1.0].forEach(function(p){
-    var y=yOfPct(p);
-    ctx.fillText((p*100).toFixed(0)+'%',pad.l+pw+6,y);
+  freightTicks.ticks.forEach(function(t){
+    var y=yOfFreight(t);
+    ctx.fillText('¥'+window.fmtN(t),pad.l+pw+6,y);
   });
 
-  // 阈值水平线 A（红虚线）和 B（橙虚线）
-  [{p:THR_A/100,c:'#dc2626',l:'A 类阈值 '+THR_A+'%'},
-   {p:THR_B/100,c:'#f59e0b',l:'B 类阈值 '+THR_B+'%'}].forEach(function(r){
-    var y=yOfPct(r.p);
-    ctx.strokeStyle=r.c;ctx.lineWidth=1.5;ctx.setLineDash([6,4]);
-    ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(pad.l+pw,y);ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.fillStyle=r.c;ctx.font='600 10px sans-serif';ctx.textAlign='right';ctx.textBaseline='bottom';
-    ctx.fillText(r.l,pad.l+pw-4,y-2);
-  });
-
-  // 柱形（金额，按 tier 配色）
+  // 货值柱形，颜色表示 A/B/C 阈值分类
   var barW=Math.min(40,pw/n*0.7);
   var hits=[];
-  var tierColor={A:'#b45309',B:'#0891b2',C:'#94a3b8'};
+  var tierColor={A:'#ef4444',B:'#f59e0b',C:'#0891b2'};
   _filtered.forEach(function(c,i){
     var x=xOf(i)-barW/2;
-    var yT=yOfAmt(c.amt);
-    var yB=yOfAmt(0);
+    var yT=yOfGoods(c.goodsValue||0);
+    var yB=yOfGoods(0);
     ctx.fillStyle=tierColor[c.tier];
     window.roundRect(ctx,x,yT,barW,yB-yT,3);ctx.fill();
     hits.push({x:x,y:yT,w:barW,h:yB-yT,c:c});
   });
 
-  // 累计折线（深褐）
-  ctx.strokeStyle='#92400e';ctx.lineWidth=2.5;
+  // 各物料运费折线
+  ctx.strokeStyle='#7c3aed';ctx.lineWidth=2.5;
   ctx.beginPath();
   _filtered.forEach(function(c,i){
-    var x=xOf(i),y=yOfPct(c.cumAmtPct);
+    var x=xOf(i),y=yOfFreight(c.amt);
     if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
   });
   ctx.stroke();
-  // 折线节点
   _filtered.forEach(function(c,i){
-    var x=xOf(i),y=yOfPct(c.cumAmtPct);
+    var x=xOf(i),y=yOfFreight(c.amt);
     ctx.fillStyle='#fff';
     ctx.beginPath();ctx.arc(x,y,4.5,0,Math.PI*2);ctx.fill();
-    ctx.fillStyle='#92400e';
+    ctx.fillStyle='#7c3aed';
     ctx.beginPath();ctx.arc(x,y,3,0,Math.PI*2);ctx.fill();
+  });
+
+  // 图例与阈值含义
+  var legend=[
+    {c:'#0891b2',l:'货值柱（颜色按分类）'},
+    {c:'#7c3aed',l:'运费折线'},
+    {c:'#ef4444',l:'A类：运费/总费用 > '+THR_TOTAL_RATIO+'%'},
+    {c:'#f59e0b',l:'B类：运费/货值 > '+THR_GOODS_RATIO+'%'}
+  ];
+  var lx=pad.l;
+  ctx.font='600 10px sans-serif';ctx.textAlign='left';ctx.textBaseline='middle';
+  legend.forEach(function(item){
+    ctx.fillStyle=item.c;ctx.fillRect(lx,pad.t-22,12,4);
+    ctx.fillStyle='#475569';ctx.fillText(item.l,lx+17,pad.t-20);
+    lx+=ctx.measureText(item.l).width+38;
   });
 
   // X 轴：品类名（旋转）
@@ -638,9 +632,9 @@ function drawPareto(){
   // 双轴标题
   ctx.fillStyle='#475569';ctx.font='600 11px sans-serif';
   ctx.save();ctx.translate(16,pad.t+ph/2);ctx.rotate(-Math.PI/2);
-  ctx.textAlign='center';ctx.fillText('物料运费（元）',0,0);ctx.restore();
+  ctx.textAlign='center';ctx.fillText('货值（元）',0,0);ctx.restore();
   ctx.save();ctx.translate(W-16,pad.t+ph/2);ctx.rotate(Math.PI/2);
-  ctx.textAlign='center';ctx.fillText('累计占比',0,0);ctx.restore();
+  ctx.textAlign='center';ctx.fillText('运费（元）',0,0);ctx.restore();
 
   canvas.onmousemove=function(e){
     var r=canvas.getBoundingClientRect();
@@ -650,11 +644,11 @@ function drawPareto(){
       if(mx>=h.x&&mx<=h.x+h.w&&my>=pad.t&&my<=pad.t+ph){
         var c=h.c;
         var html='<b>'+c.name+'</b>'+
-          '排名：第 '+c.rank+' / '+n+'<br>'+
-          '运费金额：¥'+window.fmtN(c.amt)+' ('+window.fmtP(c.amtPct)+')<br>'+ 
-          '累计金额占比：'+window.fmtP(c.cumAmtPct)+'<br>'+
-          '订单数：'+c.orders+' 笔 ('+window.fmtP(c.ordPct)+')<br>'+
-          '分级：<span style="color:'+tierColor[c.tier]+';font-weight:700">'+c.tier+' 类</span> · '+c.mismatch.l;
+          '货值：¥'+Number(c.goodsValue||0).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})+'<br>'+
+          '运费：¥'+Number(c.amt||0).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})+'<br>'+
+          '运费/总费用：'+Number(c.freightRatio||0).toFixed(2)+'%<br>'+
+          '运费/货值：'+Number(c.goodsFreightRatio||0).toFixed(2)+'%<br>'+
+          '分级：<span style="color:'+tierColor[c.tier]+';font-weight:700">'+c.tier+' 类</span>';
         window.showTip(e,html);return;
       }
     }
@@ -888,12 +882,13 @@ function renderTable(){
     '<th>排名</th>'+ 
     '<th>物料名称</th>'+ 
     '<th style="text-align:right">订单数</th>'+ 
-    '<th style="text-align:right">总费用异常</th>'+ 
-    '<th style="text-align:right">货值异常</th>'+ 
+    '<th style="text-align:right">A类异常</th>'+
+    '<th style="text-align:right">B类异常</th>'+
     '<th style="text-align:right">发货数量</th>'+ 
+    '<th style="text-align:right">货值</th>'+
     '<th style="text-align:right">运费金额</th>'+ 
-    '<th style="text-align:right">运费金额占比</th>'+ 
-    '<th style="text-align:right">整体运费占比</th>'+ 
+    '<th style="text-align:right">运费/总费用</th>'+
+    '<th style="text-align:right">运费/货值</th>'+
   '</tr></thead><tbody>';
   _filtered.forEach(function(c){
     var totalAbnormal=window.FREIGHT_THRESHOLD_STATS.totalByMaterial[c.name]||0;
@@ -905,9 +900,10 @@ function renderTable(){
       '<td style="text-align:right;color:'+(totalAbnormal>0?'var(--rd)':'var(--t3)')+'">'+totalAbnormal+'</td>'+ 
       '<td style="text-align:right;color:'+(goodsAbnormal>0?'var(--am)':'var(--t3)')+'">'+goodsAbnormal+'</td>'+ 
       '<td style="text-align:right">'+Number(c.shipmentQuantity||0).toLocaleString('zh-CN')+'</td>'+ 
+      '<td style="text-align:right">¥'+Number(c.goodsValue||0).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})+'</td>'+
       '<td style="text-align:right;font-weight:600">¥'+Number(c.amt||0).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})+'</td>'+ 
-      '<td style="text-align:right">'+window.fmtP(c.amtPct)+'</td>'+ 
       '<td style="text-align:right">'+Number(c.freightRatio||0).toFixed(2)+'%</td>'+ 
+      '<td style="text-align:right">'+Number(c.goodsFreightRatio||0).toFixed(2)+'%</td>'+
     '</tr>';
   });
   html+='</tbody></table>';
