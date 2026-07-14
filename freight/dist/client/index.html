@@ -422,6 +422,7 @@ function recompute(){
   if(!_categories.length)return;
   // 主图按货值降序；分类由顶部两个运费占比阈值决定
   _filtered=_categories.slice().sort(function(a,b){return (b.goodsValue||0)-(a.goodsValue||0);});
+  window.FREIGHT_THRESHOLD_STATS=calculateThresholdStats();
   var totalAmt=_filtered.reduce(function(s,c){return s+c.amt;},0);
   var totalOrders=_filtered.reduce(function(s,c){return s+c.orders;},0);
   var cum=0;
@@ -431,8 +432,8 @@ function recompute(){
     c.ordPct=totalOrders>0?c.orders/totalOrders:0;
     cum+=c.amt;
     c.cumAmtPct=cum/totalAmt;
-    if(c.freightRatio>THR_TOTAL_RATIO)c.tier='A';
-    else if(c.goodsFreightRatio>THR_GOODS_RATIO)c.tier='B';
+    if(window.FREIGHT_THRESHOLD_STATS.totalByMaterial[c.name]>0)c.tier='A';
+    else if(window.FREIGHT_THRESHOLD_STATS.goodsByMaterial[c.name]>0)c.tier='B';
     else c.tier='C';
     c.mismatch=getMismatchTag(c);
   });
