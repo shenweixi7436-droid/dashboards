@@ -184,7 +184,7 @@ html,body{min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI
 
     <div class="row-2" style="align-items:stretch">
       <div class="cd" style="height:460px;display:flex;flex-direction:column">
-        <div class="ch" style="flex-shrink:0"><div><div class="ct">订单数 × 运费金额 分布矩阵</div><div class="cs">横轴=订单数，纵轴=运费金额；用于识别高频低费与低频高费物料</div></div></div>
+        <div class="ch" style="flex-shrink:0"><div><div class="ct">异常订单数 × 异常运费金额 分布矩阵</div><div class="cs">横轴=A 类异常订单数，纵轴=异常订单运费合计；随月份和运费/总费用阈值联动</div></div></div>
         <div class="chart-wrap"><canvas id="c-mismatch"></canvas></div>
       </div>
       <div class="cd" style="height:460px;display:flex;flex-direction:column">
@@ -491,7 +491,8 @@ function changeMonth(monthLabel){
 }
 
 function calculateThresholdStats(){
-  var totalByMaterial={},goodsByMaterial={},totalCount=0,goodsCount=0;
+  var totalByMaterial={},goodsByMaterial={},totalFreightByMaterial={},goodsFreightByMaterial={};
+  var totalOrders={},goodsOrders={};
   var allMonths=window.FREIGHT_CURRENT.month==='全年';
   var monthValue=Number(window.FREIGHT_CURRENT.monthValue);
   var materials=window.FREIGHT_PAYLOAD.ratioMaterials||[];
@@ -499,15 +500,26 @@ function calculateThresholdStats(){
     if(!allMonths&&Number(record[0])!==monthValue)return;
     var material=materials[record[1]]||'未命名物料';
     if(Number(record[2])>THR_TOTAL_RATIO){
-      totalCount+=1;
+      var totalOrderKey=String(record[5]);
+      if(!totalOrders[totalOrderKey])totalOrders[totalOrderKey]=true;
       totalByMaterial[material]=(totalByMaterial[material]||0)+1;
+      totalFreightByMaterial[material]=(totalFreightByMaterial[material]||0)+Number(record[4]||0);
     }
     if(Number(record[3])>THR_GOODS_RATIO){
-      goodsCount+=1;
+      var goodsOrderKey=String(record[5]);
+      if(!goodsOrders[goodsOrderKey])goodsOrders[goodsOrderKey]=true;
       goodsByMaterial[material]=(goodsByMaterial[material]||0)+1;
+      goodsFreightByMaterial[material]=(goodsFreightByMaterial[material]||0)+Number(record[4]||0);
     }
   });
-  return{totalCount:totalCount,goodsCount:goodsCount,totalByMaterial:totalByMaterial,goodsByMaterial:goodsByMaterial};
+  return{
+    totalCount:Object.keys(totalOrders).length,
+    goodsCount:Object.keys(goodsOrders).length,
+    totalByMaterial:totalByMaterial,
+    goodsByMaterial:goodsByMaterial,
+    totalFreightByMaterial:totalFreightByMaterial,
+    goodsFreightByMaterial:goodsFreightByMaterial
+  };
 }
 
 // === 渲染调度 ===
@@ -658,7 +670,7 @@ function drawPareto(){
   canvas.onmouseleave=window.hideTip;
 }
 
-// === 图 2：订单数 × 运费金额 分布矩阵 ===
+// === 图 2：异常订单数 × 异常运费金额 分布矩阵 ===
 function drawMismatch(){
   var canvas=$('c-mismatch');
   if(!canvas)return;
@@ -670,81 +682,67 @@ function drawMismatch(){
 
   var pad={t:30,r:24,b:48,l:60};
   var pw=Math.max(1,W-pad.l-pad.r), ph=Math.max(1,H-pad.t-pad.b);
+  var stats=window.FREIGHT_THRESHOLD_STATS;
+  var points=_filtered.map(function(c){
+    return{
+      c:c,
+      abnormalOrders:Number(stats.totalByMaterial[c.name]||0),
+      abnormalFreight:Number(stats.totalFreightByMaterial[c.name]||0)
+    };
+  }).filter(function(p){return p.abnormalOrders>0;});
 
-  var maxOrdPct=Math.max.apply(null,_filtered.map(function(c){return c.ordPct;}));
-  var maxAmtPct=Math.max.apply(null,_filtered.map(function(c){return c.amtPct;}));
-  var xMax=Math.ceil(maxOrdPct*100/2)*2/100; // 取整到 2%
-  var yMax=Math.ceil(maxAmtPct*100/5)*5/100; // 取整到 5%
-  if(xMax<=0)xMax=0.05;
-  if(yMax<=0)yMax=0.10;
+  if(!points.length){
+    ctx.fillStyle='#94a3b8';ctx.font='600 13px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText('当前月份和阈值下没有 A 类异常订单',W/2,H/2);
+    canvas.onmousemove=null;canvas.onmouseleave=null;
+    return;
+  }
 
-  function xOf(v){return pad.l+v/xMax*pw;}
-  function yOf(v){return pad.t+ph-v/yMax*ph;}
-
-  // 背景：理想对角线（订单占比 = 金额占比）
-  ctx.strokeStyle='#cbd5e1';ctx.lineWidth=1.2;ctx.setLineDash([4,4]);
-  ctx.beginPath();
-  ctx.moveTo(pad.l,pad.t+ph);
-  // 对角线：x=y 对应屏幕坐标的对角线
-  // 实际意义：x 轴单位 xMax 对应右端，y 轴单位 yMax 对应顶端
-  // 完美对应线 ordPct = amtPct，即 x/xMax 同等比例对应 y/yMax 时
-  // 因为 xMax 和 yMax 不一样，对角线在屏幕上不是 45 度
-  // 取较小的范围画对角线
-  var lineMax=Math.min(xMax,yMax);
-  ctx.lineTo(xOf(lineMax),yOf(lineMax));
-  ctx.stroke();
-  ctx.setLineDash([]);
+  var maxOrders=Math.max.apply(null,points.map(function(p){return p.abnormalOrders;}));
+  var maxFreight=Math.max.apply(null,points.map(function(p){return p.abnormalFreight;}));
+  var xTicks=window.getNiceTicks(0,maxOrders*1.12,5);
+  var yTicks=window.getNiceTicks(0,maxFreight*1.12,5);
+  function xOf(v){return pad.l+v/xTicks.max*pw;}
+  function yOf(v){return pad.t+ph-v/yTicks.max*ph;}
 
   // 网格
   ctx.strokeStyle='#f1f5f9';ctx.lineWidth=1;
-  var xTicks=window.getNiceTicks(0,xMax*100,5);
-  var yTicks=window.getNiceTicks(0,yMax*100,5);
   ctx.fillStyle='#94a3b8';ctx.font='10px sans-serif';
   ctx.textAlign='right';ctx.textBaseline='middle';
   yTicks.ticks.forEach(function(t){
-    var y=yOf(t/100);
+    var y=yOf(t);
     ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(pad.l+pw,y);ctx.stroke();
-    ctx.fillText(t.toFixed(0)+'%',pad.l-6,y);
+    ctx.fillText('¥'+window.fmtN(t),pad.l-6,y);
   });
   ctx.textAlign='center';ctx.textBaseline='top';
   xTicks.ticks.forEach(function(t){
-    var x=xOf(t/100);
+    var x=xOf(t);
     ctx.beginPath();ctx.moveTo(x,pad.t);ctx.lineTo(x,pad.t+ph);ctx.stroke();
-    ctx.fillText(t.toFixed(0)+'%',x,pad.t+ph+6);
+    ctx.fillText(Math.round(t).toLocaleString('zh-CN'),x,pad.t+ph+6);
   });
 
   ctx.fillStyle='#475569';ctx.font='600 11px sans-serif';
   ctx.textAlign='center';
-  ctx.fillText('订单数占比',pad.l+pw/2,H-12);
+  ctx.fillText('A 类异常订单数（单）',pad.l+pw/2,H-12);
   ctx.save();ctx.translate(16,pad.t+ph/2);ctx.rotate(-Math.PI/2);
-  ctx.fillText('金额占比（贡献产出）',0,0);ctx.restore();
+  ctx.fillText('异常订单运费金额（元）',0,0);ctx.restore();
 
-  // 危险区角标
-  ctx.fillStyle='rgba(220,38,38,0.7)';ctx.font='600 10px sans-serif';
-  ctx.textAlign='right';ctx.textBaseline='bottom';
-  ctx.fillText('高频低费区',pad.l+pw-4,pad.t+ph-4);
-  ctx.fillStyle='rgba(180,83,9,0.7)';ctx.textAlign='left';ctx.textBaseline='top';
-  ctx.fillText('★ 战略品（左上）',pad.l+4,pad.t+4);
-
-  // 散点
-  var tierColor={A:'#b45309',B:'#0891b2',C:'#94a3b8'};
-  var maxAmtAbs=Math.max.apply(null,_filtered.map(function(c){return c.amt;}));
-  var bubbles=_filtered.map(function(c){
-    var rad=Math.max(5,Math.sqrt(c.amt/maxAmtAbs)*22);
-    return{x:xOf(c.ordPct),y:yOf(c.amtPct),r:rad,c:c};
+  // 气泡：大小同样表示异常运费金额，便于快速识别重点物料
+  var bubbles=points.map(function(p){
+    var rad=Math.max(7,Math.sqrt(p.abnormalFreight/maxFreight)*22);
+    return{x:xOf(p.abnormalOrders),y:yOf(p.abnormalFreight),r:rad,p:p};
   });
   bubbles.sort(function(a,b){return b.r-a.r;});
   bubbles.forEach(function(b){
-    var color=tierColor[b.c.tier];
+    var color='#ef4444';
     ctx.fillStyle=color;ctx.globalAlpha=0.55;
     ctx.beginPath();ctx.arc(b.x,b.y,b.r,0,Math.PI*2);ctx.fill();
     ctx.globalAlpha=1;
     ctx.strokeStyle=color;ctx.lineWidth=1.5;ctx.stroke();
-    // 大气泡里写品类名
-    if(b.r>=14){
+    if(b.r>=12){
       ctx.fillStyle='#fff';ctx.font='600 11px sans-serif';
       ctx.textAlign='center';ctx.textBaseline='middle';
-      var lbl=b.c.name.length>4?b.c.name.substring(0,4):b.c.name;
+      var lbl=b.p.c.name.length>4?b.p.c.name.substring(0,4):b.p.c.name;
       ctx.fillText(lbl,b.x,b.y);
     }
   });
@@ -756,13 +754,12 @@ function drawMismatch(){
       var b=bubbles[i];
       var dx=mx-b.x, dy=my-b.y;
       if(dx*dx+dy*dy<=b.r*b.r){
-        var c=b.c;
+        var p=b.p,c=p.c;
         var html='<b>'+c.name+'</b>'+
-          '订单数占比：'+window.fmtP(c.ordPct)+'<br>'+
-          '金额占比：'+window.fmtP(c.amtPct)+'<br>'+
-          '运费金额：¥'+window.fmtN(c.amt)+'<br>'+ 
-          '订单数：'+c.orders+' 笔<br>'+
-          '分级：<span style="color:'+tierColor[c.tier]+';font-weight:700">'+c.tier+' 类</span> · '+c.mismatch.l;
+          'A 类异常订单：'+p.abnormalOrders+' 单<br>'+
+          '异常订单运费：¥'+Number(p.abnormalFreight).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})+'<br>'+
+          '异常单均运费：¥'+Number(p.abnormalFreight/p.abnormalOrders).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})+'<br>'+
+          'A 类阈值：运费/总费用 > '+THR_TOTAL_RATIO+'%';
         window.showTip(e,html);return;
       }
     }
