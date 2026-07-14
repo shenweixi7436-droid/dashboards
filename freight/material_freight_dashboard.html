@@ -1,859 +1,905 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>物料运费看板</title>
-  <style>
-    @font-face {
-      font-family: "GothamRndBold";
-      src: url("assets/GOTHAMRND-BOLD.otf") format("opentype");
-      font-weight: 800;
-      font-style: normal;
-      font-display: swap;
-    }
-
-    @font-face {
-      font-family: "HKYuanW7";
-      src: url("assets/华康圆体-W7.ttf") format("truetype");
-      font-weight: 500;
-      font-style: normal;
-      font-display: swap;
-    }
-
-    @font-face {
-      font-family: "HKYuanW8";
-      src: url("assets/华康圆体-W8.ttf") format("truetype");
-      font-weight: 700;
-      font-style: normal;
-      font-display: swap;
-    }
-
-    @font-face {
-      font-family: "HKYuanW9";
-      src: url("assets/华康圆体-W9.ttf") format("truetype");
-      font-weight: 800;
-      font-style: normal;
-      font-display: swap;
-    }
-
-    :root {
-      --bg: #f5f5f5;
-      --card: #ffffff;
-      --text: #333333;
-      --muted: #999999;
-      --line: #e9e9e9;
-      --red: #d93924;
-      --pink: rgb(236, 95, 116);
-      --brown: rgb(112, 58, 30);
-      --yellow: rgb(252, 201, 0);
-      --soft: #fff6d9;
-      --shadow: 0 1px 6px rgba(0, 0, 0, .07);
-      --shadow-hover: 0 4px 12px rgba(0, 0, 0, .12);
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      min-height: 100vh;
-      background: var(--bg);
-      color: var(--text);
-      font-family: "HKYuanW7", "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
-    }
-
-    .page {
-      width: min(1440px, 100%);
-      margin: 0 auto;
-      padding: 20px;
-    }
-
-    .month-row {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 20px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .month-label {
-      font-family: "HKYuanW8", "Microsoft YaHei", sans-serif;
-      font-size: 15px;
-      font-weight: 700;
-      color: #333;
-      padding-left: 10px;
-      border-left: 4px solid var(--brown);
-      margin-right: 4px;
-      white-space: nowrap;
-    }
-
-    .month-btn {
-      padding: 4px 14px;
-      border-radius: 16px;
-      font-size: 12px;
-      background: #fff;
-      color: #666;
-      border: 1px solid #e0e0e0;
-      cursor: pointer;
-      transition: all .2s;
-      font-family: "HKYuanW7", "Microsoft YaHei", sans-serif;
-    }
-
-    .month-btn:hover {
-      border-color: var(--yellow);
-      color: var(--brown);
-    }
-
-    .month-btn.on {
-      background: var(--yellow);
-      border-color: var(--yellow);
-      color: #111;
-    }
-
-    .top-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 16px;
-      margin-bottom: 22px;
-    }
-
-    .metric,
-    .panel {
-      position: relative;
-      overflow: hidden;
-      border-radius: 12px;
-      background: var(--card);
-      box-shadow: var(--shadow);
-    }
-
-    .metric {
-      min-height: 124px;
-      padding: 20px 24px;
-      transition: transform .15s, box-shadow .15s;
-    }
-
-    .metric:hover,
-    .panel:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-hover);
-    }
-
-    .metric::before,
-    .panel::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 4px;
-      height: 100%;
-      border-radius: 12px 0 0 12px;
-      background: var(--brown);
-    }
-
-    .metric:nth-child(2)::before { background: var(--pink); }
-    .metric:nth-child(3)::before { background: var(--red); }
-    .metric:nth-child(4)::before { background: var(--red); }
-
-    .title {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      min-width: 0;
-      font-family: "HKYuanW8", "Microsoft YaHei", sans-serif;
-      font-size: 18px;
-      font-weight: 800;
-      letter-spacing: 0;
-      line-height: 1.25;
-    }
-
-    .icon {
-      display: inline-grid;
-      place-items: center;
-      flex: 0 0 auto;
-      width: 24px;
-      height: 24px;
-      border-radius: 6px;
-      border: 1px solid var(--yellow);
-      background: #fff;
-      color: var(--red);
-      font-size: 13px;
-      font-family: "HKYuanW8", "Microsoft YaHei", sans-serif;
-      font-weight: 800;
-    }
-
-    .metric-value {
-      margin-top: 16px;
-      text-align: right;
-      color: var(--pink);
-      font-family: "GothamRndBold", "HKYuanW9", "Arial Black", sans-serif;
-      font-size: 34px;
-      line-height: 1;
-      font-weight: 800;
-      word-break: keep-all;
-      letter-spacing: 0;
-    }
-
-    .metric:first-child .metric-value { color: var(--brown); }
-
-    .unit {
-      margin-left: 2px;
-      color: var(--red);
-      font-size: 20px;
-      font-family: "HKYuanW8", "Microsoft YaHei", sans-serif;
-      font-weight: 700;
-    }
-
-    .sub {
-      margin-top: 8px;
-      text-align: right;
-      color: #777;
-      font-size: 12px;
-      line-height: 1.3;
-    }
-
-    .sub strong { color: var(--red); }
-
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .panel {
-      padding: 20px 24px;
-      transition: transform .15s, box-shadow .15s;
-    }
-
-    .panel-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-
-    .badge {
-      border: 1px solid var(--yellow);
-      color: var(--brown);
-      background: #fff;
-      border-radius: 10px;
-      padding: 2px 10px;
-      font-size: 11px;
-      font-family: "HKYuanW7", "Microsoft YaHei", sans-serif;
-      white-space: nowrap;
-    }
-
-    .big-number {
-      color: var(--red);
-      font-family: "GothamRndBold", "HKYuanW9", "Arial Black", sans-serif;
-      font-size: 34px;
-      line-height: 1.2;
-      font-weight: 800;
-      margin-bottom: 4px;
-      letter-spacing: 0;
-    }
-
-    .summary {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-      color: #666;
-      font-size: 13px;
-      margin-bottom: 16px;
-    }
-
-    .summary strong { color: var(--red); }
-
-    .panel-block {
-      display: grid;
-      gap: 18px;
-    }
-
-    .split-chart {
-      display: grid;
-      gap: 16px;
-    }
-
-    .chart-card {
-      border: 1px solid #f0f0f0;
-      border-radius: 12px;
-      padding: 14px 16px 12px;
-      background: linear-gradient(180deg, #fff, #fffdf8);
-    }
-
-    .chart-card.pink {
-      background: linear-gradient(180deg, #fff, #fff7fa);
-    }
-
-    .chart-headline {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 10px;
-    }
-
-    .chart-title {
-      font-size: 13px;
-      color: #444;
-      font-family: "HKYuanW8", "Microsoft YaHei", sans-serif;
-      font-weight: 700;
-    }
-
-    .chart-total {
-      color: var(--red);
-      font-family: "GothamRndBold", "HKYuanW9", "Arial Black", sans-serif;
-      font-size: 22px;
-      line-height: 1;
-      white-space: nowrap;
-    }
-
-    .chart-meta {
-      margin-bottom: 12px;
-      color: #888;
-      font-size: 12px;
-      line-height: 1.5;
-    }
-
-    .viz-scroll {
-      overflow-x: auto;
-      overflow-y: hidden;
-      padding-bottom: 4px;
-    }
-
-    .viz-scroll::-webkit-scrollbar {
-      height: 8px;
-    }
-
-    .viz-scroll::-webkit-scrollbar-thumb {
-      background: #ddd;
-      border-radius: 999px;
-    }
-
-    .column-chart {
-      display: flex;
-      align-items: flex-end;
-      gap: 12px;
-      min-height: 236px;
-      padding-top: 8px;
-    }
-
-    .column-item {
-      width: 74px;
-      flex: 0 0 74px;
-      display: grid;
-      grid-template-rows: auto 152px auto auto;
-      gap: 8px;
-      align-items: end;
-    }
-
-    .column-value {
-      min-height: 32px;
-      text-align: center;
-      color: var(--red);
-      font-family: "GothamRndBold", "HKYuanW9", "Arial Black", sans-serif;
-      font-size: 16px;
-      line-height: 1.1;
-      letter-spacing: 0;
-      white-space: nowrap;
-    }
-
-    .column-track {
-      position: relative;
-      height: 152px;
-      border-radius: 12px 12px 10px 10px;
-      background: linear-gradient(180deg, #faf7f2, #f1f3f4);
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      overflow: hidden;
-    }
-
-    .column-bar {
-      width: 44px;
-      min-height: 4px;
-      border-radius: 12px 12px 0 0;
-      background: linear-gradient(180deg, #9a5a31, #6f391d);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.35);
-    }
-
-    .column-bar.pink {
-      background: linear-gradient(180deg, #ff8aa1, #ec5f74);
-    }
-
-    .column-bar.gold {
-      background: linear-gradient(180deg, #ffd861, #f0a400);
-    }
-
-    .column-label {
-      font-size: 12px;
-      line-height: 1.35;
-      color: #555;
-      text-align: center;
-      word-break: break-all;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      min-height: 32px;
-    }
-
-    .column-sub {
-      font-size: 11px;
-      line-height: 1.3;
-      color: #8d8d8d;
-      text-align: center;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .line-chart-wrap {
-      overflow-x: auto;
-      overflow-y: hidden;
-      padding-bottom: 4px;
-    }
-
-    .line-chart {
-      min-height: 248px;
-      display: block;
-    }
-
-    .chart-note {
-      margin-top: 8px;
-      color: #8b8b8b;
-      font-size: 12px;
-      line-height: 1.5;
-    }
-
-    .tip-target {
-      cursor: pointer;
-    }
-
-    .tooltip {
-      position: fixed;
-      z-index: 30;
-      max-width: 280px;
-      padding: 10px 12px;
-      border-radius: 10px;
-      background: rgba(51, 51, 51, .95);
-      color: #fff;
-      font-size: 12px;
-      line-height: 1.5;
-      box-shadow: 0 8px 20px rgba(0,0,0,.18);
-      pointer-events: none;
-      opacity: 0;
-      transform: translateY(6px);
-      transition: opacity .12s ease, transform .12s ease;
-    }
-
-    .tooltip.on {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .bars {
-      display: grid;
-      gap: 10px;
-      padding-right: 2px;
-    }
-
-    .bar-row {
-      display: grid;
-      grid-template-columns: 150px 1fr 86px;
-      align-items: center;
-      gap: 10px;
-      font-size: 13px;
-      font-family: "HKYuanW7", "Microsoft YaHei", sans-serif;
-    }
-
-    .bar-label {
-      color: #555;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .track {
-      position: relative;
-      height: 14px;
-      overflow: hidden;
-      border-radius: 8px;
-      background: #f1f3f4;
-    }
-
-    .fill {
-      height: 100%;
-      min-width: 5px;
-      border-radius: inherit;
-      background: var(--brown);
-    }
-
-    .bar-value {
-      color: var(--red);
-      text-align: right;
-      white-space: nowrap;
-      font-family: "GothamRndBold", "HKYuanW9", "Arial Black", sans-serif;
-      font-weight: 800;
-      letter-spacing: 0;
-    }
-
-    .hint {
-      margin-top: 16px;
-      color: #999;
-      font-size: 12px;
-      line-height: 1.7;
-    }
-
-    @media (max-width: 1100px) {
-      .top-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .dashboard-grid { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 640px) {
-      .page { padding: 12px; }
-      .top-grid { grid-template-columns: 1fr; }
-      .metric, .panel { padding: 18px 20px; }
-      .bar-row { grid-template-columns: 104px 1fr; }
-      .bar-value { grid-column: 2; text-align: left; }
-      .column-item {
-        width: 64px;
-        flex-basis: 64px;
-      }
-      .column-bar {
-        width: 38px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>物料运费分析仪表板</title>
+<style>
+:root{
+  --bg:#fef3c7;--surface:#ffffff;--bdr:#fde68a;--bdr-focus:#fcd34d;
+  --acc:#b45309;--acc-hover:#92400e;--acc-soft:#fef3c7;
+  --gr:#10b981;--rd:#dc2626;--am:#f59e0b;--bl:#3b82f6;--cy:#0891b2;--vl:#7c3aed;
+  --tx:#0f172a;--t2:#475569;--t3:#64748b;--t4:#94a3b8;
+  --r:16px;--rs:8px;
+  --sh:0 4px 6px -1px rgba(0,0,0,.05),0 2px 4px -2px rgba(0,0,0,.05);
+  --sh-hover:0 10px 15px -3px rgba(0,0,0,.08),0 4px 6px -4px rgba(0,0,0,.04);
+  --sh-modal:0 20px 25px -5px rgba(0,0,0,.1),0 8px 10px -6px rgba(0,0,0,.1);
+
+  /* ABC 分级配色 */
+  --c-a:#b45309;  /* A 类战略品 - 主题褐色 */
+  --c-b:#0891b2;  /* B 类重点品 - 青 */
+  --c-c:#94a3b8;  /* C 类长尾品 - 灰 */
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",sans-serif;background:#f1f5f9;color:var(--tx);font-size:13px;-webkit-font-smoothing:antialiased}
+
+#topbar{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid #e2e8f0;padding:0 28px;height:60px;display:flex;align-items:center;gap:16px;box-shadow:var(--sh)}
+.brand{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.brand-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--acc),#d97706);box-shadow:0 4px 10px rgba(180,83,9,.25)}
+.brand-icon svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.brand-name{font-size:16px;font-weight:700;letter-spacing:-.02em;color:var(--tx)}
+.brand-sub{font-size:11px;color:var(--t3);letter-spacing:.02em;margin-top:2px}
+.vdiv{width:1px;height:24px;background:#e2e8f0}
+.topbar-info{font-size:12px;color:var(--t3);flex-shrink:0;text-align:right}.topbar-info b{color:var(--tx);font-weight:600}
+.upload-area{display:flex;align-items:center;gap:12px;flex-shrink:0;margin-left:auto}
+
+#topbar-filter-container{display:none;align-items:center;gap:14px;flex:1;padding-left:8px;flex-wrap:wrap}
+.fb-group{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--tx)}
+.fb-group label{font-weight:600;white-space:nowrap;color:var(--t2);font-size:12px}
+.fb-select{padding:6px 12px;padding-right:32px;border:1px solid #e2e8f0;border-radius:var(--rs);font-size:13px;font-family:inherit;color:var(--tx);background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 10px center / 14px;appearance:none;-webkit-appearance:none;cursor:pointer;outline:none;min-width:130px;font-weight:500}
+.fb-select:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(180,83,9,.15)}
+.fb-num{padding:6px 8px;border:1px solid #e2e8f0;border-radius:var(--rs);font-size:13px;width:60px;text-align:center;font-family:inherit;color:var(--tx);outline:none;font-variant-numeric:tabular-nums;font-weight:600}
+.fb-num:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(180,83,9,.15)}
+.thr-group{display:flex;align-items:center;gap:6px;padding:4px 12px;background:var(--acc-soft);border:1px solid var(--bdr);border-radius:var(--rs)}
+.thr-group .thr-label{font-size:11px;font-weight:700;color:var(--acc);letter-spacing:.02em}
+.thr-group .thr-unit{color:var(--t4);font-size:11px}
+
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--rs);font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;transition:all .2s ease;border:1px solid transparent}
+.btn-primary{background:var(--acc);color:#fff;box-shadow:0 2px 4px rgba(180,83,9,.2)}
+.btn-primary:hover{background:var(--acc-hover);transform:translateY(-1px);box-shadow:0 4px 8px rgba(180,83,9,.3)}
+.btn-primary svg{width:14px;height:14px;stroke:#fff;fill:none}
+.btn-outline{background:#fff;border-color:#e2e8f0;color:var(--t2)}
+.btn-outline:hover{border-color:var(--acc);color:var(--acc);background:var(--acc-soft)}
+.btn-outline svg{width:14px;height:14px;stroke:currentColor;fill:none}
+#file-input{display:none}
+
+#main{padding:24px 28px 48px;display:flex;flex-direction:column;gap:24px;max-width:1440px;margin:0 auto}
+
+#empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:480px;gap:16px;background:var(--surface);border:2px dashed #e2e8f0;border-radius:24px;cursor:pointer;transition:all .2s;padding:60px;box-shadow:var(--sh)}
+#empty-state:hover{border-color:var(--acc);background:var(--acc-soft)}
+.es-icon{width:80px;height:80px;border-radius:24px;background:#fff;box-shadow:var(--sh);display:flex;align-items:center;justify-content:center;margin-bottom:8px}
+.es-icon svg{width:36px;height:36px;color:var(--acc);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.es-title{font-size:20px;font-weight:700;color:var(--tx)}
+.es-sub{font-size:14px;color:var(--t3);text-align:center;line-height:1.6;max-width:480px}
+.es-hint{font-size:12px;color:var(--t4);margin-top:12px}
+.es-format{display:flex;gap:8px}.es-tag{padding:4px 12px;background:#fff;border:1px solid #e2e8f0;border-radius:20px;font-size:12px;font-weight:600;color:var(--t2)}
+
+#toast{position:fixed;top:80px;left:50%;transform:translateX(-50%);padding:12px 24px;border-radius:8px;font-size:13px;font-weight:600;z-index:300;opacity:0;transition:all .3s cubic-bezier(0.16, 1, 0.3, 1);pointer-events:none;background:var(--tx);color:#fff;box-shadow:var(--sh-modal);margin-top:-10px}
+#toast.show{opacity:1;margin-top:0}#toast.err{background:var(--rd)}
+
+.mp-row{display:flex;align-items:center;gap:16px;padding:12px 0;border-bottom:1px solid #f1f5f9}.mp-row:last-child{border-bottom:none}
+.mp-label{width:130px;flex-shrink:0;font-size:13px;font-weight:600;color:var(--tx)}.mp-label .mp-hint{font-weight:500;color:var(--rd);font-size:11px;display:block;margin-top:4px}
+.mp-select{flex:1;padding:8px 12px;padding-right:32px;border:1px solid #e2e8f0;border-radius:var(--rs);font-size:13px;font-family:inherit;color:var(--tx);background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 10px center / 14px;appearance:none;-webkit-appearance:none;cursor:pointer;outline:none;transition:all .2s}
+.mp-select:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(180,83,9,.15)}
+.mp-preview{font-size:11px;color:var(--t4);width:180px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.kc{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:20px 24px;position:relative;overflow:hidden;box-shadow:var(--sh);transition:all .2s ease;display:flex;flex-direction:column}
+.kc::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--acc)}
+.kc.k0::before{background:linear-gradient(90deg,var(--acc),#d97706)}
+.kc.k1::before{background:linear-gradient(90deg,var(--gr),#34d399)}
+.kc.k2::before{background:linear-gradient(90deg,var(--rd),#f87171)}
+.kc.k3::before{background:linear-gradient(90deg,var(--am),#fbbf24)}
+.kc:hover{box-shadow:var(--sh-hover);transform:translateY(-2px)}
+.kc-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.kc-icon svg{width:20px;height:20px;stroke-width:2;stroke:currentColor;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.k0 .kc-icon{background:var(--acc-soft);color:var(--acc)}
+.k1 .kc-icon{background:#f0fdf4;color:var(--gr)}
+.k2 .kc-icon{background:#fef2f2;color:var(--rd)}
+.k3 .kc-icon{background:#fffbeb;color:var(--am)}
+.kl{font-size:13px;font-weight:600;color:var(--t3);margin-bottom:6px;letter-spacing:0.02em}
+.kv{font-size:28px;font-weight:800;color:var(--tx);line-height:1.2;font-variant-numeric:tabular-nums}
+.ku{font-size:12px;color:var(--t4);margin-top:8px;font-weight:500}
+
+.cd{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:24px;box-shadow:var(--sh);min-width:0;overflow:hidden;display:flex;flex-direction:column}
+.ch{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:12px;flex-shrink:0}
+.ct{font-size:16px;font-weight:700;color:var(--tx);letter-spacing:-.01em}
+.cs{font-size:12px;color:var(--t3);margin-top:6px;line-height:1.5}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.chart-wrap{position:relative;width:100%;flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column}
+.chart-wrap canvas{display:block;max-width:100%;margin:auto}
+
+.legend-row{display:flex;justify-content:center;gap:16px;font-size:12px;color:var(--t2);flex-wrap:wrap;flex-shrink:0;padding-top:8px}
+.legend-row .lg-item{display:flex;align-items:center;gap:6px}
+.legend-row .lg-dot{width:10px;height:10px;border-radius:3px}
+
+.dtbl{width:100%;border-collapse:collapse;font-size:13px}
+.dtbl th{text-align:left;font-size:12px;font-weight:600;color:var(--t3);padding:12px 16px;border-bottom:1px solid #e2e8f0;background:#fafafa;position:sticky;top:0;z-index:2;white-space:nowrap}
+.dtbl td{padding:12px 16px;border-bottom:1px solid #e2e8f0;white-space:nowrap;color:var(--tx);font-variant-numeric:tabular-nums}
+.dtbl th:first-child, .dtbl td:first-child{padding-left:24px}
+.dtbl th:last-child, .dtbl td:last-child{padding-right:24px}
+.dtbl td:first-child{font-weight:600}
+.dtbl tr:hover td{background:rgba(180,83,9,0.03)}
+.dtbl tr:last-child td{border-bottom:none}
+.st-tag{display:inline-block;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:700;text-align:center;min-width:60px}
+.tag-strategy{background:rgba(180,83,9,0.12);color:#92400e}
+.tag-key{background:rgba(8,145,178,0.12);color:#155e75}
+.tag-mismatch{background:rgba(220,38,38,0.12);color:#991b1b}
+.tag-fragment{background:rgba(148,163,184,0.15);color:#475569}
+
+#tip{position:fixed;z-index:400;pointer-events:none;background:rgba(15,23,42,.95);backdrop-filter:blur(4px);color:#f8fafc;padding:12px 16px;border-radius:8px;font-size:12px;line-height:1.6;box-shadow:var(--sh-modal);opacity:0;transition:opacity .15s ease;max-width:340px;border:1px solid rgba(255,255,255,.1)}
+#tip.show{opacity:1}
+#tip b{color:#fff;font-size:13px;display:block;margin-bottom:6px;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:4px}
+
+@media(max-width:1000px){.kpi-row,.row-2{grid-template-columns:1fr}}
+@media(max-width:768px){
+  #topbar{padding:12px 16px;flex-wrap:wrap;height:auto}
+  #topbar-filter-container{width:100%;flex:none;padding-left:0;order:3;margin-top:8px;flex-wrap:wrap}
+  .vdiv{display:none}
+  .topbar-info{display:none}
+  #main{padding:16px}
+  .kpi-row{grid-template-columns:1fr 1fr}
+}
+.upload-area .btn{display:none}
+.upload-area .topbar-info{display:block}
+</style>
 </head>
 <body>
-  <main class="page">
-    <section class="month-row" id="monthFilter"></section>
-    <section class="top-grid" id="topCards"></section>
-    <section class="dashboard-grid" id="panels"></section>
-    <section class="hint" id="hint"></section>
-  </main>
+<input type="file" id="file-input" accept=".xlsx,.xls,.csv" style="display:none">
+<div id="toast"></div>
+<div id="topbar">
+  <div class="brand">
+    <div class="brand-icon">
+      <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+    </div>
+    <div><div class="brand-name">物料运费分析</div><div class="brand-sub">Material Freight Analysis</div></div>
+  </div>
+  <div class="vdiv" id="topbar-vdiv" style="display:none"></div>
+  <div id="topbar-filter-container"></div>
+  <div class="upload-area">
+    <div class="topbar-info" id="ti"></div>
+    <button class="btn btn-outline" onclick="downloadTemplate()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>下载模板</button>
+    <button class="btn btn-primary" onclick="$('file-input').click()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>上传数据</button>
+  </div>
+</div>
 
-  <script>
-    const payload = {"sourceFile":"2026年年度物料运费情况分析更新前更新子表.xlsx","sourceSheet":"数据明细","sourceModified":"2026-07-13 10:03","dataThrough":"2026-05-31","month":"5月","cards":{"freight":125841.08,"orders":6413,"abnormalOrders":26,"freightRatio":8.74,"shipmentQuantity":808695.0},"rows":[{"name":"皇家小虎1.2米试吃桌","orders":1648,"abnormalOrders":0,"shipmentQuantity":1648.0,"freightAmount":53258.6,"freightRatio":12.32,"abnormalAvgFreight":0.0},{"name":"皇家小虎0.8米试吃桌","orders":679,"abnormalOrders":0,"shipmentQuantity":680.0,"freightAmount":12608.04,"freightRatio":12.32,"abnormalAvgFreight":0.0},{"name":"皇家小虎毛毡包34cm","orders":260,"abnormalOrders":11,"shipmentQuantity":33037.0,"freightAmount":10572.86,"freightRatio":8.93,"abnormalAvgFreight":43.61},{"name":"皇家小虎空气炸锅5L","orders":713,"abnormalOrders":0,"shipmentQuantity":715.0,"freightAmount":8608.88,"freightRatio":8.98,"abnormalAvgFreight":0.0},{"name":"皇家小虎铝箔袋S4线下款（承重5-8kg）","orders":292,"abnormalOrders":0,"shipmentQuantity":114950.0,"freightAmount":8184.79,"freightRatio":9.41,"abnormalAvgFreight":0.0},{"name":"皇家小虎PE材质气球50cm","orders":939,"abnormalOrders":0,"shipmentQuantity":188400.0,"freightAmount":8019.06,"freightRatio":4.74,"abnormalAvgFreight":0.0},{"name":"皇家小虎扇子18cm","orders":328,"abnormalOrders":0,"shipmentQuantity":164000.0,"freightAmount":6434.4,"freightRatio":4.95,"abnormalAvgFreight":0.0},{"name":"皇家小虎铝箔袋S2线下款（承重3-5kg）","orders":295,"abnormalOrders":0,"shipmentQuantity":106950.0,"freightAmount":5784.35,"freightRatio":9.02,"abnormalAvgFreight":0.0},{"name":"皇家小虎坐姿公仔24cm","orders":499,"abnormalOrders":0,"shipmentQuantity":5340.0,"freightAmount":4225.91,"freightRatio":4.53,"abnormalAvgFreight":0.0},{"name":"皇家小虎贴纸","orders":161,"abnormalOrders":0,"shipmentQuantity":161000.0,"freightAmount":2125.21,"freightRatio":8.79,"abnormalAvgFreight":0.0},{"name":"皇家小虎显眼包（帆布版）","orders":28,"abnormalOrders":0,"shipmentQuantity":950.0,"freightAmount":1275.33,"freightRatio":6.13,"abnormalAvgFreight":0.0},{"name":"皇家小虎围裙","orders":153,"abnormalOrders":6,"shipmentQuantity":4011.0,"freightAmount":1231.18,"freightRatio":3.77,"abnormalAvgFreight":8.7},{"name":"皇家小虎帆布帽（烫画版）","orders":131,"abnormalOrders":1,"shipmentQuantity":2153.0,"freightAmount":781.84,"freightRatio":4.28,"abnormalAvgFreight":4.8},{"name":"皇家小虎认证立牌","orders":56,"abnormalOrders":6,"shipmentQuantity":582.0,"freightAmount":682.7,"freightRatio":11.32,"abnormalAvgFreight":4.83},{"name":"皇家小虎物料包","orders":84,"abnormalOrders":0,"shipmentQuantity":84.0,"freightAmount":516.72,"freightRatio":13.93,"abnormalAvgFreight":0.0},{"name":"皇家小虎产品手册","orders":20,"abnormalOrders":0,"shipmentQuantity":11800.0,"freightAmount":433.28,"freightRatio":11.84,"abnormalAvgFreight":0.0},{"name":"皇家小虎道旗仅旗面（蛋挞/烤肠款）","orders":39,"abnormalOrders":0,"shipmentQuantity":234.0,"freightAmount":362.7,"freightRatio":1.69,"abnormalAvgFreight":0.0},{"name":"可生物降解背心袋","orders":5,"abnormalOrders":0,"shipmentQuantity":10000.0,"freightAmount":192.3,"freightRatio":12.39,"abnormalAvgFreight":0.0},{"name":"皇家小虎黄色短袖","orders":35,"abnormalOrders":0,"shipmentQuantity":70.0,"freightAmount":168.08,"freightRatio":8.61,"abnormalAvgFreight":0.0},{"name":"皇家小虎冲锋衣（单壳）","orders":19,"abnormalOrders":0,"shipmentQuantity":57.0,"freightAmount":127.79,"freightRatio":2.41,"abnormalAvgFreight":0.0},{"name":"皇家小虎常规礼品卡","orders":10,"abnormalOrders":2,"shipmentQuantity":1393.0,"freightAmount":83.7,"freightRatio":4.71,"abnormalAvgFreight":4.65},{"name":"皇家小虎三角立牌","orders":8,"abnormalOrders":0,"shipmentQuantity":139.0,"freightAmount":75.94,"freightRatio":8.2,"abnormalAvgFreight":0.0},{"name":"皇家小虎气膜人偶服2m","orders":5,"abnormalOrders":0,"shipmentQuantity":5.0,"freightAmount":32.94,"freightRatio":0.99,"abnormalAvgFreight":0.0},{"name":"皇家小虎黑色立式展架含蛋挞+烤肠画面","orders":1,"abnormalOrders":0,"shipmentQuantity":1.0,"freightAmount":20.0,"freightRatio":13.07,"abnormalAvgFreight":0.0},{"name":"皇家小虎海报（四年销量）","orders":2,"abnormalOrders":0,"shipmentQuantity":300.0,"freightAmount":17.67,"freightRatio":1.92,"abnormalAvgFreight":0.0},{"name":"皇家小虎虎头挂件10cm","orders":1,"abnormalOrders":0,"shipmentQuantity":46.0,"freightAmount":6.61,"freightRatio":1.41,"abnormalAvgFreight":0.0},{"name":"皇家小虎1m层架压条","orders":1,"abnormalOrders":0,"shipmentQuantity":50.0,"freightAmount":6.0,"freightRatio":10.34,"abnormalAvgFreight":0.0},{"name":"皇家小虎PVC硬片跳跳卡","orders":1,"abnormalOrders":0,"shipmentQuantity":100.0,"freightAmount":4.2,"freightRatio":8.2,"abnormalAvgFreight":0.0}],"metricDefinitions":{"freight":"当月明细行运费合计","orders":"按出库单号去重后的当月订单数","abnormalOrders":"运费占总费用比超过30%的去重出库单数","freightRatio":"运费合计 ÷（货值合计 + 仓储人工包材合计 + 运费合计）"},"months":[{"month":"全年","monthValue":"全年","cards":{"freight":825455.64,"orders":34746,"abnormalOrders":440,"freightRatio":9.78,"shipmentQuantity":4213518.0},"compare":{"freight":null,"orders":null,"abnormalOrders":null,"freightRatio":null},"rows":[{"name":"皇家小虎1.2米试吃桌","orders":12198,"abnormalOrders":41,"shipmentQuantity":12199.0,"freightAmount":415701.8,"freightRatio":12.84,"abnormalAvgFreight":136.17},{"name":"皇家小虎毛毡包34cm","orders":1310,"abnormalOrders":68,"shipmentQuantity":186230.0,"freightAmount":70239.15,"freightRatio":10.34,"abnormalAvgFreight":58.76},{"name":"皇家小虎铝箔袋S4线下款（承重5-8kg）","orders":1496,"abnormalOrders":44,"shipmentQuantity":641751.0,"freightAmount":60615.54,"freightRatio":12.08,"abnormalAvgFreight":137.49},{"name":"皇家小虎0.8米试吃桌","orders":2744,"abnormalOrders":52,"shipmentQuantity":2751.0,"freightAmount":50721.83,"freightRatio":12.18,"abnormalAvgFreight":82.4},{"name":"皇家小虎PE材质气球50cm","orders":4637,"abnormalOrders":5,"shipmentQuantity":923800.0,"freightAmount":44847.35,"freightRatio":5.35,"abnormalAvgFreight":78.8},{"name":"皇家小虎铝箔袋S2线下款（承重3-5kg）","orders":1155,"abnormalOrders":7,"shipmentQuantity":454490.0,"freightAmount":29335.59,"freightRatio":10.55,"abnormalAvgFreight":46.79},{"name":"皇家小虎认证立牌","orders":1278,"abnormalOrders":17,"shipmentQuantity":21391.0,"freightAmount":21762.25,"freightRatio":9.97,"abnormalAvgFreight":6.37},{"name":"皇家小虎空气炸锅5L","orders":1583,"abnormalOrders":0,"shipmentQuantity":1585.0,"freightAmount":18207.28,"freightRatio":8.61,"abnormalAvgFreight":0.0},{"name":"皇家小虎坐姿公仔24cm","orders":1857,"abnormalOrders":0,"shipmentQuantity":19337.0,"freightAmount":17750.35,"freightRatio":5.19,"abnormalAvgFreight":0.0},{"name":"皇家小虎围裙","orders":1386,"abnormalOrders":69,"shipmentQuantity":31181.0,"freightAmount":17439.24,"freightRatio":6.62,"abnormalAvgFreight":32.76},{"name":"皇家小虎贴纸","orders":1105,"abnormalOrders":21,"shipmentQuantity":923694.0,"freightAmount":16130.38,"freightRatio":11.18,"abnormalAvgFreight":50.89},{"name":"皇家小虎虎头挂件10cm","orders":944,"abnormalOrders":0,"shipmentQuantity":50596.0,"freightAmount":14682.87,"freightRatio":2.81,"abnormalAvgFreight":0.0},{"name":"可生物降解背心袋","orders":342,"abnormalOrders":13,"shipmentQuantity":563452.0,"freightAmount":9274.73,"freightRatio":10.75,"abnormalAvgFreight":37.51},{"name":"皇家小虎扇子18cm","orders":373,"abnormalOrders":0,"shipmentQuantity":186340.0,"freightAmount":7291.48,"freightRatio":4.93,"abnormalAvgFreight":0.0},{"name":"皇家小虎帆布帽（烫画版）","orders":660,"abnormalOrders":20,"shipmentQuantity":11864.0,"freightAmount":6513.51,"freightRatio":6.28,"abnormalAvgFreight":33.55},{"name":"皇家小虎PVC硬片跳跳卡","orders":639,"abnormalOrders":11,"shipmentQuantity":60000.0,"freightAmount":6043.7,"freightRatio":16.5,"abnormalAvgFreight":22.41},{"name":"皇家小虎产品手册","orders":219,"abnormalOrders":19,"shipmentQuantity":88982.0,"freightAmount":4200.62,"freightRatio":14.54,"abnormalAvgFreight":33.12},{"name":"皇家小虎显眼包（帆布版）","orders":88,"abnormalOrders":1,"shipmentQuantity":2528.0,"freightAmount":3443.87,"freightRatio":6.21,"abnormalAvgFreight":37.0},{"name":"皇家小虎物料包","orders":284,"abnormalOrders":50,"shipmentQuantity":284.0,"freightAmount":2441.57,"freightRatio":18.24,"abnormalAvgFreight":20.9},{"name":"皇家小虎圆耳头箍","orders":30,"abnormalOrders":0,"shipmentQuantity":12340.0,"freightAmount":2068.33,"freightRatio":3.88,"abnormalAvgFreight":0.0},{"name":"皇家小虎黄色短袖","orders":114,"abnormalOrders":0,"shipmentQuantity":636.0,"freightAmount":1246.7,"freightRatio":7.27,"abnormalAvgFreight":0.0},{"name":"皇家小虎气膜人偶服2m","orders":111,"abnormalOrders":0,"shipmentQuantity":157.0,"freightAmount":1123.26,"freightRatio":1.07,"abnormalAvgFreight":0.0},{"name":"皇家小虎道旗仅旗面（蛋挞/烤肠款）","orders":112,"abnormalOrders":0,"shipmentQuantity":591.0,"freightAmount":1046.25,"freightRatio":1.92,"abnormalAvgFreight":0.0},{"name":"皇家小虎冲锋衣（单壳）","orders":130,"abnormalOrders":0,"shipmentQuantity":478.0,"freightAmount":1040.92,"freightRatio":2.34,"abnormalAvgFreight":0.0},{"name":"皇家小虎三角立牌","orders":65,"abnormalOrders":7,"shipmentQuantity":1261.0,"freightAmount":849.25,"freightRatio":9.86,"abnormalAvgFreight":7.65},{"name":"皇家小虎1m层架压条","orders":83,"abnormalOrders":3,"shipmentQuantity":11806.0,"freightAmount":640.94,"freightRatio":5.05,"abnormalAvgFreight":4.5},{"name":"皇家小虎黄色卫衣","orders":44,"abnormalOrders":0,"shipmentQuantity":171.0,"freightAmount":269.0,"freightRatio":2.23,"abnormalAvgFreight":0.0},{"name":"皇家小虎海报（四年销量）","orders":35,"abnormalOrders":12,"shipmentQuantity":991.0,"freightAmount":203.84,"freightRatio":6.19,"abnormalAvgFreight":5.55},{"name":"皇家小虎四角帐篷3米*3米","orders":5,"abnormalOrders":0,"shipmentQuantity":5.0,"freightAmount":156.3,"freightRatio":7.79,"abnormalAvgFreight":0.0},{"name":"皇家小虎常规礼品卡","orders":23,"abnormalOrders":3,"shipmentQuantity":2626.0,"freightAmount":147.74,"freightRatio":4.42,"abnormalAvgFreight":4.5},{"name":"皇家小虎黑色立式展架含蛋挞+烤肠画面","orders":1,"abnormalOrders":0,"shipmentQuantity":1.0,"freightAmount":20.0,"freightRatio":13.07,"abnormalAvgFreight":0.0}]},{"month":"1月","monthValue":1,"cards":{"freight":257176.26,"orders":9853,"abnormalOrders":132,"freightRatio":10.35,"shipmentQuantity":966966.0},"compare":{"freight":null,"orders":null,"abnormalOrders":null,"freightRatio":null},"rows":[{"name":"皇家小虎1.2米试吃桌","orders":4490,"abnormalOrders":9,"shipmentQuantity":4490.0,"freightAmount":158625.0,"freightRatio":13.17,"abnormalAvgFreight":126.67},{"name":"皇家小虎毛毡包34cm","orders":312,"abnormalOrders":8,"shipmentQuantity":53436.0,"freightAmount":19988.5,"freightRatio":10.24,"abnormalAvgFreight":40.93},{"name":"皇家小虎铝箔袋S4线下款（承重5-8kg）","orders":302,"abnormalOrders":12,"shipmentQuantity":142950.0,"freightAmount":14461.35,"freightRatio":12.78,"abnormalAvgFreight":161.0},{"name":"皇家小虎0.8米试吃桌","orders":649,"abnormalOrders":32,"shipmentQuantity":654.0,"freightAmount":13288.16,"freightRatio":13.08,"abnormalAvgFreight":80.38},{"name":"皇家小虎铝箔袋S2线下款（承重3-5kg）","orders":259,"abnormalOrders":2,"shipmentQuantity":115040.0,"freightAmount":9965.47,"freightRatio":13.58,"abnormalAvgFreight":45.5},{"name":"皇家小虎PE材质气球50cm","orders":976,"abnormalOrders":0,"shipmentQuantity":192000.0,"freightAmount":8695.75,"freightRatio":4.95,"abnormalAvgFreight":0.0},{"name":"皇家小虎认证立牌","orders":323,"abnormalOrders":0,"shipmentQuantity":4809.0,"freightAmount":6105.5,"freightRatio":11.97,"abnormalAvgFreight":0.0},{"name":"皇家小虎贴纸","orders":317,"abnormalOrders":2,"shipmentQuantity":265004.0,"freightAmount":5558.48,"freightRatio":12.95,"abnormalAvgFreight":9.75},{"name":"皇家小虎虎头挂件10cm","orders":446,"abnormalOrders":0,"shipmentQuantity":22566.0,"freightAmount":4761.5,"freightRatio":2.05,"abnormalAvgFreight":0.0},{"name":"皇家小虎坐姿公仔24cm","orders":435,"abnormalOrders":0,"shipmentQuantity":4447.0,"freightAmount":3598.54,"freightRatio":4.55,"abnormalAvgFreight":0.0},{"name":"皇家小虎PVC硬片跳跳卡","orders":539,"abnormalOrders":0,"shipmentQuantity":27200.0,"freightAmount":2568.9,"freightRatio":14.68,"abnormalAvgFreight":0.0},{"name":"皇家小虎围裙","orders":268,"abnormalOrders":0,"shipmentQuantity":5036.0,"freightAmount":2325.89,"freightRatio":5.45,"abnormalAvgFreight":0.0},{"name":"皇家小虎帆布帽（烫画版）","orders":185,"abnormalOrders":6,"shipmentQuantity":3620.0,"freightAmount":1786.4,"freightRatio":5.64,"abnormalAvgFreight":21.07},{"name":"皇家小虎产品手册","orders":58,"abnormalOrders":3,"shipmentQuantity":34712.0,"freightAmount":1448.31,"freightRatio":13.04,"abnormalAvgFreight":4.35},{"name":"可生物降解背心袋","orders":44,"abnormalOrders":0,"shipmentQuantity":80300.0,"freightAmount":1105.36,"freightRatio":9.09,"abnormalAvgFreight":0.0},{"name":"皇家小虎物料包","orders":50,"abnormalOrders":50,"shipmentQuantity":50.0,"freightAmount":1045.0,"freightRatio":33.76,"abnormalAvgFreight":20.9},{"name":"皇家小虎气膜人偶服2m","orders":52,"abnormalOrders":0,"shipmentQuantity":79.0,"freightAmount":483.22,"freightRatio":0.92,"abnormalAvgFreight":0.0},{"name":"皇家小虎冲锋衣（单壳）","orders":41,"abnormalOrders":0,"shipmentQuantity":164.0,"freightAmount":359.0,"freightRatio":2.34,"abnormalAvgFreight":0.0},{"name":"皇家小虎道旗仅旗面（蛋挞/烤肠款）","orders":29,"abnormalOrders":0,"shipmentQuantity":89.0,"freightAmount":238.8,"freightRatio":2.84,"abnormalAvgFreight":0.0},{"name":"皇家小虎1m层架压条","orders":24,"abnormalOrders":3,"shipmentQuantity":2576.0,"freightAmount":172.8,"freightRatio":6.02,"abnormalAvgFreight":4.5},{"name":"皇家小虎三角立牌","orders":17,"abnormalOrders":3,"shipmentQuantity":327.0,"freightAmount":155.7,"freightRatio":7.07,"abnormalAvgFreight":4.8},{"name":"皇家小虎扇子18cm","orders":13,"abnormalOrders":0,"shipmentQuantity":6240.0,"freightAmount":151.0,"freightRatio":3.08,"abnormalAvgFreight":0.0},{"name":"皇家小虎显眼包（帆布版）","orders":7,"abnormalOrders":0,"shipmentQuantity":181.0,"freightAmount":122.5,"freightRatio":3.17,"abnormalAvgFreight":0.0},{"name":"皇家小虎黄色卫衣","orders":11,"abnormalOrders":0,"shipmentQuantity":25.0,"freightAmount":56.5,"freightRatio":3.12,"abnormalAvgFreight":0.0},{"name":"皇家小虎圆耳头箍","orders":3,"abnormalOrders":0,"shipmentQuantity":700.0,"freightAmount":51.33,"freightRatio":1.73,"abnormalAvgFreight":0.0},{"name":"皇家小虎海报（四年销量）","orders":8,"abnormalOrders":2,"shipmentQuantity":270.0,"freightAmount":48.6,"freightRatio":5.41,"abnormalAvgFreight":4.8},{"name":"皇家小虎四角帐篷3米*3米","orders":1,"abnormalOrders":0,"shipmentQuantity":1.0,"freightAmount":8.7,"freightRatio":2.3,"abnormalAvgFreight":0.0}]},{"month":"2月","monthValue":2,"cards":{"freight":90024.55,"orders":2683,"abnormalOrders":118,"freightRatio":12.03,"shipmentQuantity":378143.0},"compare":{"freight":-65.0,"orders":-72.8,"abnormalOrders":-10.6,"freightRatio":16.2},"rows":[{"name":"皇家小虎1.2米试吃桌","orders":916,"abnormalOrders":30,"shipmentQuantity":916.0,"freightAmount":35450.1,"freightRatio":14.24,"abnormalAvgFreight":128.0},{"name":"皇家小虎铝箔袋S4线下款（承重5-8kg）","orders":247,"abnormalOrders":6,"shipmentQuantity":111700.0,"freightAmount":12409.3,"freightRatio":13.85,"abnormalAvgFreight":101.07},{"name":"皇家小虎PE材质气球50cm","orders":405,"abnormalOrders":4,"shipmentQuantity":80400.0,"freightAmount":7919.7,"freightRatio":10.17,"abnormalAvgFreight":80.0},{"name":"皇家小虎0.8米试吃桌","orders":206,"abnormalOrders":20,"shipmentQuantity":206.0,"freightAmount":6102.1,"freightRatio":17.99,"abnormalAvgFreight":85.65},{"name":"皇家小虎虎头挂件10cm","orders":84,"abnormalOrders":0,"shipmentQuantity":7470.0,"freightAmount":5952.0,"freightRatio":7.36,"abnormalAvgFreight":0.0},{"name":"皇家小虎毛毡包34cm","orders":108,"abnormalOrders":12,"shipmentQuantity":16689.0,"freightAmount":5949.9,"freightRatio":9.8,"abnormalAvgFreight":30.52},{"name":"皇家小虎围裙","orders":136,"abnormalOrders":19,"shipmentQuantity":3349.0,"freightAmount":3302.2,"freightRatio":10.98,"abnormalAvgFreight":30.05},{"name":"皇家小虎坐姿公仔24cm","orders":152,"abnormalOrders":0,"shipmentQuantity":1556.0,"freightAmount":2331.8,"freightRatio":8.11,"abnormalAvgFreight":0.0},{"name":"皇家小虎贴纸","orders":86,"abnormalOrders":7,"shipmentQuantity":68400.0,"freightAmount":2314.1,"freightRatio":19.32,"abnormalAvgFreight":41.57},{"name":"皇家小虎帆布帽（烫画版）","orders":139,"abnormalOrders":10,"shipmentQuantity":3420.0,"freightAmount":2271.85,"freightRatio":7.49,"abnormalAvgFreight":42.7},{"name":"皇家小虎铝箔袋S2线下款（承重3-5kg）","orders":66,"abnormalOrders":3,"shipmentQuantity":25450.0,"freightAmount":1960.1,"freightRatio":12.23,"abnormalAvgFreight":44.0},{"name":"皇家小虎认证立牌","orders":53,"abnormalOrders":1,"shipmentQuantity":773.0,"freightAmount":1191.3,"freightRatio":14.08,"abnormalAvgFreight":7.0},{"name":"可生物降解背心袋","orders":29,"abnormalOrders":2,"shipmentQuantity":42275.0,"freightAmount":784.5,"freightRatio":11.82,"abnormalAvgFreight":24.7},{"name":"皇家小虎显眼包（帆布版）","orders":6,"abnormalOrders":1,"shipmentQuantity":156.0,"freightAmount":411.1,"freightRatio":11.3,"abnormalAvgFreight":37.0},{"name":"皇家小虎PVC硬片跳跳卡","orders":13,"abnormalOrders":0,"shipmentQuantity":5100.0,"freightAmount":383.7,"freightRatio":13.33,"abnormalAvgFreight":0.0},{"name":"皇家小虎产品手册","orders":19,"abnormalOrders":3,"shipmentQuantity":6250.0,"freightAmount":379.4,"freightRatio":17.55,"abnormalAvgFreight":12.33},{"name":"皇家小虎扇子18cm","orders":7,"abnormalOrders":0,"shipmentQuantity":3640.0,"freightAmount":344.0,"freightRatio":11.06,"abnormalAvgFreight":0.0},{"name":"皇家小虎气膜人偶服2m","orders":8,"abnormalOrders":0,"shipmentQuantity":8.0,"freightAmount":191.0,"freightRatio":3.48,"abnormalAvgFreight":0.0},{"name":"皇家小虎四角帐篷3米*3米","orders":4,"abnormalOrders":0,"shipmentQuantity":4.0,"freightAmount":147.6,"freightRatio":9.07,"abnormalAvgFreight":0.0},{"name":"皇家小虎冲锋衣（单壳）","orders":11,"abnormalOrders":0,"shipmentQuantity":20.0,"freightAmount":60.9,"freightRatio":3.18,"abnormalAvgFreight":0.0},{"name":"皇家小虎三角立牌","orders":5,"abnormalOrders":0,"shipmentQuantity":120.0,"freightAmount":58.5,"freightRatio":7.28,"abnormalAvgFreight":0.0},{"name":"皇家小虎黄色卫衣","orders":8,"abnormalOrders":0,"shipmentQuantity":19.0,"freightAmount":48.5,"freightRatio":3.51,"abnormalAvgFreight":0.0},{"name":"皇家小虎海报（四年销量）","orders":7,"abnormalOrders":2,"shipmentQuantity":136.0,"freightAmount":38.4,"freightRatio":7.98,"abnormalAvgFreight":4.8},{"name":"皇家小虎道旗仅旗面（蛋挞/烤肠款）","orders":1,"abnormalOrders":0,"shipmentQuantity":6.0,"freightAmount":12.0,"freightRatio":2.15,"abnormalAvgFreight":0.0},{"name":"皇家小虎1m层架压条","orders":2,"abnormalOrders":0,"shipmentQuantity":80.0,"freightAmount":10.5,"freightRatio":10.45,"abnormalAvgFreight":0.0}]},{"month":"3月","monthValue":3,"cards":{"freight":152705.77,"orders":6585,"abnormalOrders":72,"freightRatio":9.47,"shipmentQuantity":842135.0},"compare":{"freight":69.6,"orders":145.4,"abnormalOrders":-39.0,"freightRatio":-21.3},"rows":[{"name":"皇家小虎1.2米试吃桌","orders":2373,"abnormalOrders":0,"shipmentQuantity":2373.0,"freightAmount":78057.7,"freightRatio":12.51,"abnormalAvgFreight":0.0},{"name":"皇家小虎毛毡包34cm","orders":210,"abnormalOrders":18,"shipmentQuantity":24907.0,"freightAmount":13196.33,"freightRatio":13.95,"abnormalAvgFreight":95.23},{"name":"皇家小虎认证立牌","orders":778,"abnormalOrders":7,"shipmentQuantity":14239.0,"freightAmount":12578.24,"freightRatio":8.82,"abnormalAvgFreight":7.02},{"name":"皇家小虎铝箔袋S4线下款（承重5-8kg）","orders":297,"abnormalOrders":5,"shipmentQuantity":119301.0,"freightAmount":8994.33,"freightRatio":9.91,"abnormalAvgFreight":95.78},{"name":"皇家小虎0.8米试吃桌","orders":446,"abnormalOrders":0,"shipmentQuantity":446.0,"freightAmount":7507.5,"freightRatio":11.31,"abnormalAvgFreight":0.0},{"name":"皇家小虎PE材质气球50cm","orders":735,"abnormalOrders":0,"shipmentQuantity":146600.0,"freightAmount":5485.76,"freightRatio":4.19,"abnormalAvgFreight":0.0},{"name":"可生物降解背心袋","orders":173,"abnormalOrders":6,"shipmentQuantity":278525.0,"freightAmount":5038.62,"freightRatio":11.72,"abnormalAvgFreight":44.55},{"name":"皇家小虎铝箔袋S2线下款（承重3-5kg）","orders":165,"abnormalOrders":1,"shipmentQuantity":66350.0,"freightAmount":4496.85,"freightRatio":11.06,"abnormalAvgFreight":53.0},{"name":"皇家小虎围裙","orders":286,"abnormalOrders":23,"shipmentQuantity":6409.0,"freightAmount":3558.38,"freightRatio":6.6,"abnormalAvgFreight":16.32},{"name":"皇家小虎坐姿公仔24cm","orders":364,"abnormalOrders":0,"shipmentQuantity":3880.0,"freightAmount":3287.93,"freightRatio":4.83,"abnormalAvgFreight":0.0},{"name":"皇家小虎贴纸","orders":173,"abnormalOrders":7,"shipmentQuantity":109550.0,"freightAmount":2072.25,"freightRatio":12.04,"abnormalAvgFreight":95.31},{"name":"皇家小虎虎头挂件10cm","orders":211,"abnormalOrders":0,"shipmentQuantity":10570.0,"freightAmount":2066.32,"freightRatio":1.91,"abnormalAvgFreight":0.0},{"name":"皇家小虎帆布帽（烫画版）","orders":110,"abnormalOrders":2,"shipmentQuantity":1576.0,"freightAmount":1014.41,"freightRatio":7.33,"abnormalAvgFreight":46.35},{"name":"皇家小虎PVC硬片跳跳卡","orders":34,"abnormalOrders":5,"shipmentQuantity":9900.0,"freightAmount":900.14,"freightRatio":16.08,"abnormalAvgFreight":12.77},{"name":"皇家小虎显眼包（帆布版）","orders":23,"abnormalOrders":0,"shipmentQuantity":778.0,"freightAmount":850.33,"freightRatio":5.05,"abnormalAvgFreight":0.0},{"name":"皇家小虎产品手册","orders":83,"abnormalOrders":5,"shipmentQuantity":22970.0,"freightAmount":754.2,"freightRatio":10.59,"abnormalAvgFreight":11.14},{"name":"皇家小虎圆耳头箍","orders":5,"abnormalOrders":0,"shipmentQuantity":2200.0,"freightAmount":694.0,"freightRatio":7.06,"abnormalAvgFreight":0.0},{"name":"皇家小虎扇子18cm","orders":25,"abnormalOrders":0,"shipmentQuantity":12460.0,"freightAmount":362.08,"freightRatio":3.71,"abnormalAvgFreight":0.0},{"name":"皇家小虎1m层架压条","orders":47,"abnormalOrders":0,"shipmentQuantity":8050.0,"freightAmount":355.62,"freightRatio":4.18,"abnormalAvgFreight":0.0},{"name":"皇家小虎冲锋衣（单壳）","orders":38,"abnormalOrders":0,"shipmentQuantity":136.0,"freightAmount":324.4,"freightRatio":2.57,"abnormalAvgFreight":0.0},{"name":"皇家小虎物料包","orders":50,"abnormalOrders":0,"shipmentQuantity":50.0,"freightAmount":318.38,"freightRatio":14.35,"abnormalAvgFreight":0.0},{"name":"皇家小虎气膜人偶服2m","orders":29,"abnormalOrders":0,"shipmentQuantity":37.0,"freightAmount":216.2,"freightRatio":0.88,"abnormalAvgFreight":0.0},{"name":"皇家小虎道旗仅旗面（蛋挞/烤肠款）","orders":18,"abnormalOrders":0,"shipmentQuantity":108.0,"freightAmount":201.62,"freightRatio":2.02,"abnormalAvgFreight":0.0},{"name":"皇家小虎三角立牌","orders":14,"abnormalOrders":1,"shipmentQuantity":404.0,"freightAmount":173.26,"freightRatio":6.6,"abnormalAvgFreight":6.72},{"name":"皇家小虎黄色卫衣","orders":23,"abnormalOrders":0,"shipmentQuantity":120.0,"freightAmount":153.71,"freightRatio":1.84,"abnormalAvgFreight":0.0},{"name":"皇家小虎海报（四年销量）","orders":7,"abnormalOrders":2,"shipmentQuantity":126.0,"freightAmount":37.23,"freightRatio":8.67,"abnormalAvgFreight":7.14},{"name":"皇家小虎常规礼品卡","orders":2,"abnormalOrders":0,"shipmentQuantity":70.0,"freightAmount":9.98,"freightRatio":10.19,"abnormalAvgFreight":0.0}]},{"month":"4月","monthValue":4,"cards":{"freight":199707.98,"orders":9212,"abnormalOrders":92,"freightRatio":9.25,"shipmentQuantity":1217579.0},"compare":{"freight":30.8,"orders":39.9,"abnormalOrders":27.8,"freightRatio":-2.3},"rows":[{"name":"皇家小虎1.2米试吃桌","orders":2771,"abnormalOrders":2,"shipmentQuantity":2772.0,"freightAmount":90310.4,"freightRatio":12.41,"abnormalAvgFreight":246.33},{"name":"皇家小虎毛毡包34cm","orders":420,"abnormalOrders":19,"shipmentQuantity":58161.0,"freightAmount":20531.56,"freightRatio":9.76,"abnormalAvgFreight":58.34},{"name":"皇家小虎铝箔袋S4线下款（承重5-8kg）","orders":358,"abnormalOrders":21,"shipmentQuantity":152850.0,"freightAmount":16565.77,"freightRatio":13.67,"abnormalAvgFreight":146.38},{"name":"皇家小虎PE材质气球50cm","orders":1582,"abnormalOrders":1,"shipmentQuantity":316400.0,"freightAmount":14727.08,"freightRatio":5.16,"abnormalAvgFreight":74.0},{"name":"皇家小虎0.8米试吃桌","orders":764,"abnormalOrders":0,"shipmentQuantity":765.0,"freightAmount":11216.03,"freightRatio":10.0,"abnormalAvgFreight":0.0},{"name":"皇家小虎空气炸锅5L","orders":870,"abnormalOrders":0,"shipmentQuantity":870.0,"freightAmount":9598.4,"freightRatio":8.29,"abnormalAvgFreight":0.0},{"name":"皇家小虎铝箔袋S2线下款（承重3-5kg）","orders":370,"abnormalOrders":1,"shipmentQuantity":140700.0,"freightAmount":7128.82,"freightRatio":8.5,"abnormalAvgFreight":51.5},{"name":"皇家小虎围裙","orders":543,"abnormalOrders":21,"shipmentQuantity":12376.0,"freightAmount":7021.59,"freightRatio":6.74,"abnormalAvgFreight":56.04},{"name":"皇家小虎坐姿公仔24cm","orders":407,"abnormalOrders":0,"shipmentQuantity":4114.0,"freightAmount":4306.17,"freightRatio":5.9,"abnormalAvgFreight":0.0},{"name":"皇家小虎贴纸","orders":368,"abnormalOrders":5,"shipmentQuantity":319740.0,"freightAmount":4060.34,"freightRatio":8.47,"abnormalAvgFreight":18.2},{"name":"皇家小虎PVC硬片跳跳卡","orders":52,"abnormalOrders":6,"shipmentQuantity":17700.0,"freightAmount":2186.76,"freightRatio":20.62,"abnormalAvgFreight":24.52},{"name":"可生物降解背心袋","orders":91,"abnormalOrders":5,"shipmentQuantity":152352.0,"freightAmount":2153.95,"freightRatio":9.4,"abnormalAvgFreight":34.19},{"name":"皇家小虎虎头挂件10cm","orders":202,"abnormalOrders":0,"shipmentQuantity":9944.0,"freightAmount":1896.44,"freightRatio":1.87,"abnormalAvgFreight":0.0},{"name":"皇家小虎圆耳头箍","orders":22,"abnormalOrders":0,"shipmentQuantity":9440.0,"freightAmount":1323.0,"freightRatio":3.26,"abnormalAvgFreight":0.0},{"name":"皇家小虎认证立牌","orders":68,"abnormalOrders":3,"shipmentQuantity":988.0,"freightAmount":1204.51,"freightRatio":11.71,"abnormalAvgFreight":6.56},{"name":"皇家小虎产品手册","orders":39,"abnormalOrders":8,"shipmentQuantity":13250.0,"freightAmount":1185.43,"freightRatio":24.49,"abnormalAvgFreight":65.44},{"name":"皇家小虎黄色短袖","orders":79,"abnormalOrders":0,"shipmentQuantity":566.0,"freightAmount":1078.62,"freightRatio":7.1,"abnormalAvgFreight":0.0},{"name":"皇家小虎显眼包（帆布版）","orders":24,"abnormalOrders":0,"shipmentQuantity":463.0,"freightAmount":784.61,"freightRatio":7.6,"abnormalAvgFreight":0.0},{"name":"皇家小虎帆布帽（烫画版）","orders":95,"abnormalOrders":1,"shipmentQuantity":1095.0,"freightAmount":659.01,"freightRatio":6.86,"abnormalAvgFreight":20.1},{"name":"皇家小虎物料包","orders":100,"abnormalOrders":0,"shipmentQuantity":100.0,"freightAmount":561.47,"freightRatio":12.87,"abnormalAvgFreight":0.0},{"name":"皇家小虎三角立牌","orders":21,"abnormalOrders":3,"shipmentQuantity":271.0,"freightAmount":385.85,"freightRatio":18.79,"abnormalAvgFreight":10.8},{"name":"皇家小虎道旗仅旗面（蛋挞/烤肠款）","orders":25,"abnormalOrders":0,"shipmentQuantity":154.0,"freightAmount":231.13,"freightRatio":1.63,"abnormalAvgFreight":0.0},{"name":"皇家小虎气膜人偶服2m","orders":17,"abnormalOrders":0,"shipmentQuantity":28.0,"freightAmount":199.9,"freightRatio":1.07,"abnormalAvgFreight":0.0},{"name":"皇家小虎冲锋衣（单壳）","orders":21,"abnormalOrders":0,"shipmentQuantity":101.0,"freightAmount":168.83,"freightRatio":1.82,"abnormalAvgFreight":0.0},{"name":"皇家小虎1m层架压条","orders":9,"abnormalOrders":0,"shipmentQuantity":1050.0,"freightAmount":96.02,"freightRatio":8.25,"abnormalAvgFreight":0.0},{"name":"皇家小虎海报（四年销量）","orders":11,"abnormalOrders":6,"shipmentQuantity":159.0,"freightAmount":61.94,"freightRatio":11.04,"abnormalAvgFreight":5.52},{"name":"皇家小虎常规礼品卡","orders":11,"abnormalOrders":1,"shipmentQuantity":1163.0,"freightAmount":54.06,"freightRatio":3.67,"abnormalAvgFreight":4.2},{"name":"皇家小虎黄色卫衣","orders":2,"abnormalOrders":0,"shipmentQuantity":7.0,"freightAmount":10.29,"freightRatio":2.1,"abnormalAvgFreight":0.0}]},{"month":"5月","monthValue":5,"cards":{"freight":125841.08,"orders":6413,"abnormalOrders":26,"freightRatio":8.74,"shipmentQuantity":808695.0},"compare":{"freight":-37.0,"orders":-30.4,"abnormalOrders":-71.7,"freightRatio":-5.5},"rows":[{"name":"皇家小虎1.2米试吃桌","orders":1648,"abnormalOrders":0,"shipmentQuantity":1648.0,"freightAmount":53258.6,"freightRatio":12.32,"abnormalAvgFreight":0.0},{"name":"皇家小虎0.8米试吃桌","orders":679,"abnormalOrders":0,"shipmentQuantity":680.0,"freightAmount":12608.04,"freightRatio":12.32,"abnormalAvgFreight":0.0},{"name":"皇家小虎毛毡包34cm","orders":260,"abnormalOrders":11,"shipmentQuantity":33037.0,"freightAmount":10572.86,"freightRatio":8.93,"abnormalAvgFreight":43.61},{"name":"皇家小虎空气炸锅5L","orders":713,"abnormalOrders":0,"shipmentQuantity":715.0,"freightAmount":8608.88,"freightRatio":8.98,"abnormalAvgFreight":0.0},{"name":"皇家小虎铝箔袋S4线下款（承重5-8kg）","orders":292,"abnormalOrders":0,"shipmentQuantity":114950.0,"freightAmount":8184.79,"freightRatio":9.41,"abnormalAvgFreight":0.0},{"name":"皇家小虎PE材质气球50cm","orders":939,"abnormalOrders":0,"shipmentQuantity":188400.0,"freightAmount":8019.06,"freightRatio":4.74,"abnormalAvgFreight":0.0},{"name":"皇家小虎扇子18cm","orders":328,"abnormalOrders":0,"shipmentQuantity":164000.0,"freightAmount":6434.4,"freightRatio":4.95,"abnormalAvgFreight":0.0},{"name":"皇家小虎铝箔袋S2线下款（承重3-5kg）","orders":295,"abnormalOrders":0,"shipmentQuantity":106950.0,"freightAmount":5784.35,"freightRatio":9.02,"abnormalAvgFreight":0.0},{"name":"皇家小虎坐姿公仔24cm","orders":499,"abnormalOrders":0,"shipmentQuantity":5340.0,"freightAmount":4225.91,"freightRatio":4.53,"abnormalAvgFreight":0.0},{"name":"皇家小虎贴纸","orders":161,"abnormalOrders":0,"shipmentQuantity":161000.0,"freightAmount":2125.21,"freightRatio":8.79,"abnormalAvgFreight":0.0},{"name":"皇家小虎显眼包（帆布版）","orders":28,"abnormalOrders":0,"shipmentQuantity":950.0,"freightAmount":1275.33,"freightRatio":6.13,"abnormalAvgFreight":0.0},{"name":"皇家小虎围裙","orders":153,"abnormalOrders":6,"shipmentQuantity":4011.0,"freightAmount":1231.18,"freightRatio":3.77,"abnormalAvgFreight":8.7},{"name":"皇家小虎帆布帽（烫画版）","orders":131,"abnormalOrders":1,"shipmentQuantity":2153.0,"freightAmount":781.84,"freightRatio":4.28,"abnormalAvgFreight":4.8},{"name":"皇家小虎认证立牌","orders":56,"abnormalOrders":6,"shipmentQuantity":582.0,"freightAmount":682.7,"freightRatio":11.32,"abnormalAvgFreight":4.83},{"name":"皇家小虎物料包","orders":84,"abnormalOrders":0,"shipmentQuantity":84.0,"freightAmount":516.72,"freightRatio":13.93,"abnormalAvgFreight":0.0},{"name":"皇家小虎产品手册","orders":20,"abnormalOrders":0,"shipmentQuantity":11800.0,"freightAmount":433.28,"freightRatio":11.84,"abnormalAvgFreight":0.0},{"name":"皇家小虎道旗仅旗面（蛋挞/烤肠款）","orders":39,"abnormalOrders":0,"shipmentQuantity":234.0,"freightAmount":362.7,"freightRatio":1.69,"abnormalAvgFreight":0.0},{"name":"可生物降解背心袋","orders":5,"abnormalOrders":0,"shipmentQuantity":10000.0,"freightAmount":192.3,"freightRatio":12.39,"abnormalAvgFreight":0.0},{"name":"皇家小虎黄色短袖","orders":35,"abnormalOrders":0,"shipmentQuantity":70.0,"freightAmount":168.08,"freightRatio":8.61,"abnormalAvgFreight":0.0},{"name":"皇家小虎冲锋衣（单壳）","orders":19,"abnormalOrders":0,"shipmentQuantity":57.0,"freightAmount":127.79,"freightRatio":2.41,"abnormalAvgFreight":0.0},{"name":"皇家小虎常规礼品卡","orders":10,"abnormalOrders":2,"shipmentQuantity":1393.0,"freightAmount":83.7,"freightRatio":4.71,"abnormalAvgFreight":4.65},{"name":"皇家小虎三角立牌","orders":8,"abnormalOrders":0,"shipmentQuantity":139.0,"freightAmount":75.94,"freightRatio":8.2,"abnormalAvgFreight":0.0},{"name":"皇家小虎气膜人偶服2m","orders":5,"abnormalOrders":0,"shipmentQuantity":5.0,"freightAmount":32.94,"freightRatio":0.99,"abnormalAvgFreight":0.0},{"name":"皇家小虎黑色立式展架含蛋挞+烤肠画面","orders":1,"abnormalOrders":0,"shipmentQuantity":1.0,"freightAmount":20.0,"freightRatio":13.07,"abnormalAvgFreight":0.0},{"name":"皇家小虎海报（四年销量）","orders":2,"abnormalOrders":0,"shipmentQuantity":300.0,"freightAmount":17.67,"freightRatio":1.92,"abnormalAvgFreight":0.0},{"name":"皇家小虎虎头挂件10cm","orders":1,"abnormalOrders":0,"shipmentQuantity":46.0,"freightAmount":6.61,"freightRatio":1.41,"abnormalAvgFreight":0.0},{"name":"皇家小虎1m层架压条","orders":1,"abnormalOrders":0,"shipmentQuantity":50.0,"freightAmount":6.0,"freightRatio":10.34,"abnormalAvgFreight":0.0},{"name":"皇家小虎PVC硬片跳跳卡","orders":1,"abnormalOrders":0,"shipmentQuantity":100.0,"freightAmount":4.2,"freightRatio":8.2,"abnormalAvgFreight":0.0}]}]};
-    const fmt = new Intl.NumberFormat("zh-CN");
-    const money = (n) => "¥" + fmt.format(Number(n || 0).toFixed(2));
-    const number = (n) => fmt.format(Number(n || 0));
-    const percent = (n) => Number(n || 0).toFixed(1) + "%";
-    let current = payload.months[payload.months.length - 1];
+<div id="main">
+  <div id="es" onclick="$('file-input').click()">
+    <div class="es-icon"><svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg></div>
+    <div class="es-title">上传采购明细，揭示精力与金额的错配真相</div>
+    <div class="es-sub">按品类聚合所有采购订单，用 ABC 分级 + 帕累托原理识别哪些品类是真正的资金大头，哪些品类在悄悄消耗团队精力。</div>
+    <button class="btn btn-primary" onclick="event.stopPropagation();$('file-input').click()">选择 Excel 文件</button>
+    <div class="es-hint">必需包含：品类名称、订单金额；可选：订单日期、订单编号</div>
+    <div class="es-format"><span class="es-tag">.xlsx</span><span class="es-tag">.xls</span><span class="es-tag">.csv</span></div>
+  </div>
 
-    function compareText(value) {
-      if (value === null || value === undefined || Number.isNaN(Number(value))) {
-        return "/";
-      }
-      const numeric = Number(value);
-      const sign = numeric > 0 ? "+" : "";
-      return `环比上月 ${sign}${numeric.toFixed(1)}%`;
-    }
+  <div id="mp" style="display:none">
+    <div class="cd" style="max-width:680px;margin:0 auto">
+      <div class="ch"><div><div class="ct">字段映射设置</div><div class="cs">请确认每一列的业务角色</div></div></div>
+      <div id="mf"></div>
+      <div style="margin-top:32px;display:flex;gap:12px;justify-content:flex-end;border-top:1px solid #e2e8f0;padding-top:20px">
+        <button class="btn btn-outline" onclick="$('mp').style.display='none';$('es').style.display='flex'">取消</button>
+        <button class="btn btn-primary" onclick="confirmM()">完成并生成报告</button>
+      </div>
+    </div>
+  </div>
 
-    function topRows(key, limit = 16) {
-      return [...current.rows]
-        .sort((a, b) => Number(b[key] || 0) - Number(a[key] || 0))
-        .slice(0, limit);
-    }
+  <div id="db" style="display:none;flex-direction:column;gap:24px">
+    <div class="kpi-row" id="kpi"></div>
 
-    function renderMonthFilter() {
-      document.getElementById("monthFilter").innerHTML = `
-        <span class="month-label">月份</span>
-        ${payload.months.map((month) => `
-          <button class="month-btn ${month.month === current.month ? "on" : ""}" data-month="${month.month}">
-            ${month.month}
-          </button>
-        `).join("")}
-      `;
-      document.querySelectorAll(".month-btn").forEach((button) => {
-        button.addEventListener("click", () => {
-          current = payload.months.find((month) => month.month === button.dataset.month) || current;
-          render();
-        });
+    <div class="cd" style="height:480px;display:flex;flex-direction:column">
+      <div class="ch" style="flex-shrink:0"><div><div class="ct">物料运费帕累托图</div><div class="cs">柱形=运费金额（从大到小排序），折线=累计占比；红色虚线=A 类阈值（默认 80%）</div></div></div>
+      <div class="chart-wrap"><canvas id="c-pareto"></canvas></div>
+    </div>
+
+    <div class="row-2" style="align-items:stretch">
+      <div class="cd" style="height:460px;display:flex;flex-direction:column">
+        <div class="ch" style="flex-shrink:0"><div><div class="ct">订单数 × 运费金额 分布矩阵</div><div class="cs">横轴=订单数，纵轴=运费金额；用于识别高频低费与低频高费物料</div></div></div>
+        <div class="chart-wrap"><canvas id="c-mismatch"></canvas></div>
+      </div>
+      <div class="cd" style="height:460px;display:flex;flex-direction:column">
+        <div class="ch" style="flex-shrink:0"><div><div class="ct">运费 ABC 分级对比</div><div class="cs">A/B/C 三类的物料数与运费金额双对照</div></div></div>
+        <div class="chart-wrap"><canvas id="c-abc"></canvas></div>
+        <div class="legend-row" id="legend-abc"></div>
+      </div>
+    </div>
+
+    <div class="cd" style="height:520px;display:flex;flex-direction:column">
+      <div class="ch" style="flex-shrink:0"><div><div class="ct">物料运费明细诊断表</div><div class="cs">按运费金额降序排列；同时展示订单量、异常订单和整体运费占比</div></div></div>
+      <div id="tw" style="flex:1;min-height:0;overflow:auto;border:1px solid #e2e8f0;border-radius:8px"></div>
+    </div>
+  </div>
+</div>
+<div id="tip"></div>
+
+<script src="material_freight_dashboard_data.js"></script>
+<script>
+// === 全局工具方法 ===
+window.$ = function(id){return document.getElementById(id)};
+window.fmtN = function(v){if(v==null||isNaN(v))return'-';var a=Math.abs(v);if(a>=1e8)return(v/1e8).toFixed(2)+'亿';if(a>=1e4)return(v/1e4).toFixed(1)+'万';return Math.round(v).toLocaleString('zh-CN')};
+window.fmtP = function(v){return(v*100).toFixed(1)+'%'};
+window.setupHiDPI = function(c,w,h){
+  var d=window.devicePixelRatio||1;
+  c.width=w*d;c.height=h*d;
+  c.style.width=w+'px';c.style.height=h+'px';
+  var x=c.getContext('2d');
+  if(x)x.scale(d,d);
+  return x;
+};
+window.roundRect = function(ctx,x,y,w,h,r){if(h<0){y+=h;h=-h}if(w<0){x+=w;w=-w}r=Math.min(r,w/2,h/2);ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath()};
+window.toast = function(msg,isErr){var t=$('toast');t.innerHTML=isErr?'<span style="color:#f43f5e">⚠️</span> '+msg:'<span style="color:#10b981">✅</span> '+msg;t.className=isErr?'show err':'show';setTimeout(function(){t.className=''},3000)};
+window.showTip = function(e,html){var tip=$('tip');tip.innerHTML=html;tip.classList.add('show');var tx=e.clientX+16,ty=e.clientY-10;var tw=tip.offsetWidth||220;if(tx+tw>window.innerWidth-10)tx=e.clientX-tw-10;if(tx<10)tx=10;if(ty<10)ty=e.clientY+20;tip.style.left=tx+'px';tip.style.top=ty+'px'};
+window.hideTip = function(){$('tip').classList.remove('show')};
+window.getNiceTicks = function(min,max,tickCount){
+  var span=max-min;
+  if(span===0)span=Math.max(Math.abs(max),1);
+  var step=Math.pow(10,Math.floor(Math.log10(span/tickCount)));
+  var err=(span/tickCount)/step;
+  if(err<=1.5)step*=1;else if(err<=3)step*=2;else if(err<=7.5)step*=5;else step*=10;
+  var niceMin=Math.floor(min/step)*step;
+  var niceMax=Math.ceil(max/step)*step;
+  var ticks=[];
+  for(var v=niceMin;v<=niceMax+step*0.5;v+=step)ticks.push(v);
+  return{min:niceMin,max:niceMax,step:step,ticks:ticks};
+};
+
+// === 全局参数 ===
+var THR_A = 80; // A 类阈值（累计金额 % ）
+var THR_B = 95; // B 类阈值
+
+// 错配标签判定
+// 战略：A 类（前 80% 金额）
+// 重点：B 类（80%-95% 金额）且订单数占比合理（不超过金额占比的 1.5 倍）
+// 分散错配：B 类但订单数占比 > 金额占比 1.5 倍 OR C 类但订单数占比 > 5%
+// 碎片：C 类（后 5% 金额）且订单数占比 < 5%
+function getMismatchTag(c){
+  var amtPct=c.amtPct, ordPct=c.ordPct;
+  if(c.tier==='A')return{key:'strategy',l:'战略品',c:'tag-strategy'};
+  if(c.tier==='B'){
+    if(ordPct>amtPct*1.5)return{key:'mismatch',l:'分散错配',c:'tag-mismatch'};
+    return{key:'key',l:'重点品',c:'tag-key'};
+  }
+  // C 类
+  if(ordPct>amtPct*2)return{key:'mismatch',l:'分散错配',c:'tag-mismatch'};
+  return{key:'fragment',l:'碎片品',c:'tag-fragment'};
+}
+
+// === Demo 数据生成 ===
+// 设计：22 个品类，呈现强烈的帕累托分布
+function genDemo(){
+  var seed=42;
+  function rand(){seed=(seed*9301+49297)%233280;return seed/233280;}
+
+  // 22 个品类，按金额降序设计
+  var rows=[
+    // A 类大宗（占 80% 金额，订单数 25%）
+    ['钢材',          1200000, 18],
+    ['塑料粒子',      850000,  22],
+    ['电子元器件',    680000,  35],
+    ['包装纸箱',      520000,  28],
+    // B 类中等（占 15% 金额，订单数 30%）
+    ['印刷油墨',      180000,  24],
+    ['五金紧固件',    140000,  42],  // 错配候选：金额中、订单多
+    ['标签贴纸',      120000,  31],
+    ['润滑油',        95000,   18],
+    ['工业胶水',      78000,   22],
+    ['密封件',        62000,   28],  // 错配候选
+    // C 类长尾（占 5% 金额，订单数 45%）
+    ['办公耗材',      35000,   86],  // 严重错配：金额小、订单极多
+    ['维修配件',      28000,   72],  // 严重错配
+    ['防护用品',      22000,   45],
+    ['工具备件',      18000,   38],
+    ['清洁用品',      14000,   52],  // 错配
+    ['打印纸',        9500,    34],
+    ['工服工鞋',      7800,    28],
+    ['办公家具',      6200,    9],
+    ['安全标识',      4800,    19],
+    ['消毒物品',      3500,    24],
+    ['食堂物资',      2800,    31],  // 错配：极小金额、订单不少
+    ['其他杂项',      1500,    18]
+  ];
+
+  return rows.map(function(r){
+    return{name:r[0], amt:r[1], orders:r[2]};
+  });
+}
+
+function downloadTemplate(){
+  var demo=genDemo();
+  // 模板里展开成订单流水（每条 = 一笔订单），让用户更直观
+  var orders=[];
+  demo.forEach(function(c){
+    var perOrder=c.amt/c.orders;
+    for(var i=0;i<c.orders;i++){
+      // 在月内随机分布一个日期
+      var month=Math.floor(Math.random()*12)+1;
+      var day=Math.floor(Math.random()*28)+1;
+      var dt=new Date(2025,month-1,day);
+      // 单笔金额浮动 ±20%
+      var orderAmt=Math.round(perOrder*(0.8+Math.random()*0.4));
+      orders.push({
+        '订单日期':dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0'),
+        '品类名称':c.name,
+        '订单金额':orderAmt
       });
     }
+  });
+  // 按日期排序
+  orders.sort(function(a,b){return a['订单日期'].localeCompare(b['订单日期']);});
+  var ws=XLSX.utils.json_to_sheet(orders);
+  ws['!cols']=[{wch:12},{wch:18},{wch:14}];
+  var wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,'采购订单');
+  XLSX.writeFile(wb,'采购品类集中度分析模板.xlsx');
+  window.toast('模板已下载');
+}
 
-    function renderCards() {
-      const cards = [
-        ["运", "本月运费", money(current.cards.freight), "", compareText(current.compare.freight)],
-        ["单", "本月订单数", number(current.cards.orders), "单", compareText(current.compare.orders)],
-        ["异", "本月异常订单数", number(current.cards.abnormalOrders), "单", compareText(current.compare.abnormalOrders)],
-        ["占", "当月整体运费占比", percent(current.cards.freightRatio), "", compareText(current.compare.freightRatio)],
-      ];
-
-      document.getElementById("topCards").innerHTML = cards.map(([icon, title, value, unit, sub]) => `
-        <article class="metric">
-          <div class="title"><span class="icon">${icon}</span>${title}</div>
-          <div class="metric-value">${value}${unit ? `<span class="unit">${unit}</span>` : ""}</div>
-          <div class="sub">${sub}</div>
-        </article>
-      `).join("");
+// === 字段智能识别 ===
+function guessField(headers,keywords){
+  for(var i=0;i<keywords.length;i++){
+    for(var j=0;j<headers.length;j++){
+      if(String(headers[j]||'').indexOf(keywords[i])>=0)return headers[j];
     }
+  }
+  return null;
+}
 
-    function barRows(key, unit, formatter = number, limit = 16, filterFn = null) {
-      const rows = (filterFn ? current.rows.filter(filterFn) : current.rows)
-        .sort((a, b) => Number(b[key] || 0) - Number(a[key] || 0))
-        .slice(0, limit);
-      const max = Math.max(1, ...rows.map((row) => Number(row[key] || 0)));
-      return `<div class="bars">` + rows.map((row) => {
-        const value = Number(row[key] || 0);
-        const width = Math.max(value / max * 100, value > 0 ? 3 : 0);
-        return `
-          <div class="bar-row" title="${row.name}">
-            <div class="bar-label">${row.name}</div>
-            <div class="track"><div class="fill" style="width:${width}%"></div></div>
-            <div class="bar-value">${formatter(value, row)}${unit}</div>
-          </div>
-        `;
-      }).join("") + `</div>`;
+var _rawData=null, _headers=null, _mapping=null;
+var _categories=[]; // 已聚合的品类
+var _filtered=[];   // 当前筛选后的品类
+
+function processFile(file){
+  var rdr=new FileReader();
+  rdr.onload=function(e){
+    try{
+      var data=new Uint8Array(e.target.result);
+      var wb=XLSX.read(data,{type:'array',cellDates:true});
+      var ws=wb.Sheets[wb.SheetNames[0]];
+      var arr=XLSX.utils.sheet_to_json(ws,{header:1,defval:null,raw:false});
+      arr=arr.filter(function(r){return r&&r.some(function(c){return c!=null&&c!==''})});
+      if(arr.length<2){window.toast('数据为空',true);return;}
+      _headers=arr[0];
+      _rawData=arr.slice(1);
+      showMappingPanel();
+    }catch(err){
+      console.error(err);
+      window.toast('文件解析失败：'+err.message,true);
     }
+  };
+  rdr.readAsArrayBuffer(file);
+}
 
-    function renderPanels() {
-      document.getElementById("panels").innerHTML = `
-        <article class="panel">
-          <div class="panel-head">
-            <div class="title"><span class="icon">异</span>各物料异常订单量</div>
-            <span class="badge">${current.month}</span>
-          </div>
-          <div class="big-number">${number(current.cards.abnormalOrders)}单</div>
-          <div class="summary"><span>异常标准：<strong>运费占比超30%</strong></span><span>仅显示当月异常物料</span></div>
-          ${barRows(
-            "abnormalOrders",
-            "",
-            (value, row) => `${number(value)}单 · 均价${money(row.abnormalAvgFreight)}`,
-            16,
-            (row) => Number(row.abnormalOrders || 0) > 0,
-          )}
-        </article>
+function showMappingPanel(){
+  var fields=[
+    {k:'cat',l:'品类名称',req:true,kw:['品类','类别','分类','物料','名称','商品']},
+    {k:'amt',l:'订单金额',req:true,kw:['金额','合计','应付','付款','采购金额']},
+    {k:'date',l:'订单日期',req:false,kw:['日期','时间','下单','订单日']}
+  ];
+  var html='';
+  fields.forEach(function(f){
+    var guess=guessField(_headers,f.kw);
+    var preview=guess?_rawData.slice(0,3).map(function(r){return r[_headers.indexOf(guess)]}).filter(function(v){return v!=null}).join('，'):'';
+    html+='<div class="mp-row"><div class="mp-label">'+f.l+(f.req?'<span style="color:var(--rd)">*</span>':'')+(f.req?'<span class="mp-hint">必填</span>':'')+'</div>';
+    html+='<select class="mp-select" id="mp_'+f.k+'">';
+    html+='<option value="">'+(f.req?'-- 请选择 --':'（不映射）')+'</option>';
+    _headers.forEach(function(h){
+      html+='<option value="'+h+'"'+(h===guess?' selected':'')+'>'+h+'</option>';
+    });
+    html+='</select>';
+    html+='<div class="mp-preview" title="'+preview+'">'+(preview||'<span style="color:var(--t4)">无示例</span>')+'</div>';
+    html+='</div>';
+  });
+  $('mf').innerHTML=html;
+  $('es').style.display='none';
+  $('mp').style.display='block';
+}
 
-        <article class="panel">
-          <div class="panel-head">
-            <div class="title"><span class="icon">发</span>各物料发货数量</div>
-            <span class="badge">${current.month}</span>
-          </div>
-          <div class="big-number">${number(current.cards.shipmentQuantity)}件</div>
-          <div class="summary"><span>字段：<strong>总数量</strong></span><span>按物料名称清洗汇总</span></div>
-          ${barRows("shipmentQuantity", "件")}
-        </article>
-
-        <article class="panel">
-          <div class="panel-head">
-            <div class="title"><span class="icon">单</span>各物料订单数</div>
-            <span class="badge">${current.month}</span>
-          </div>
-          <div class="big-number">${number(current.cards.orders)}单</div>
-          <div class="summary"><span>字段：<strong>出库单号</strong></span><span>统计方式：去重</span></div>
-          ${barRows("orders", "单")}
-        </article>
-
-        <article class="panel">
-          <div class="panel-head">
-            <div class="title"><span class="icon">金</span>各物料运费金额</div>
-            <span class="badge">${current.month}</span>
-          </div>
-          <div class="big-number">${money(current.cards.freight)}</div>
-          <div class="summary"><span>整体运费占比：<strong>${percent(current.cards.freightRatio)}</strong></span><span>按运费金额排序</span></div>
-          ${barRows("freightAmount", "", money)}
-        </article>
-      `;
+function confirmM(){
+  var fields=['cat','amt','date'];
+  var labels={cat:'品类名称',amt:'订单金额',date:'订单日期'};
+  var req=['cat','amt'];
+  var mapping={};
+  for(var i=0;i<fields.length;i++){
+    var v=$('mp_'+fields[i]).value;
+    if(req.indexOf(fields[i])>=0&&!v){
+      window.toast('请选择「'+labels[fields[i]]+'」必填字段',true);
+      return;
     }
+    mapping[fields[i]]=v;
+  }
+  _mapping=mapping;
+  $('mp').style.display='none';
+  $('db').style.display='flex';
+  requestAnimationFrame(function(){
+    requestAnimationFrame(buildFromRaw);
+  });
+  window.toast('已生成集中度报告');
+}
 
-    function renderHint() {
-      document.getElementById("hint").innerHTML = `数据来源：${payload.sourceFile} / ${payload.sourceSheet}。当前月份：${current.month}。`;
+function buildFromRaw(){
+  // 按品类聚合订单
+  var byCat={};
+  for(var i=0;i<_rawData.length;i++){
+    var r=_rawData[i];
+    var idx=function(k){return _mapping[k]?_headers.indexOf(_mapping[k]):-1;};
+    var cat=r[idx('cat')];
+    if(cat==null||cat==='')continue;
+    cat=String(cat).trim();
+    var amt=parseFloat(String(r[idx('amt')]).replace(/[^\d.\-]/g,''))||0;
+    if(amt<=0)continue;
+    if(!byCat[cat])byCat[cat]={name:cat,amt:0,orders:0};
+    byCat[cat].amt+=amt;
+    byCat[cat].orders+=1;
+  }
+  _categories=Object.keys(byCat).map(function(k){return byCat[k];});
+  if(!_categories.length){window.toast('未识别到有效采购数据',true);return;}
+  initFilters();
+  recompute();
+}
+
+function recompute(){
+  if(!_categories.length)return;
+  // 按金额降序
+  _filtered=_categories.slice().sort(function(a,b){return b.amt-a.amt;});
+  var totalAmt=_filtered.reduce(function(s,c){return s+c.amt;},0);
+  var totalOrders=_filtered.reduce(function(s,c){return s+c.orders;},0);
+  var cum=0;
+  _filtered.forEach(function(c,i){
+    c.rank=i+1;
+    c.amtPct=totalAmt>0?c.amt/totalAmt:0;
+    c.ordPct=totalOrders>0?c.orders/totalOrders:0;
+    cum+=c.amt;
+    c.cumAmtPct=cum/totalAmt;
+    if(c.cumAmtPct*100<=THR_A)c.tier='A';
+    else if(c.cumAmtPct*100<=THR_B)c.tier='B';
+    else c.tier='C';
+    c.mismatch=getMismatchTag(c);
+  });
+  renderAll();
+}
+
+function initFilters(){
+  var fc=$('topbar-filter-container');
+  var html='';
+  // ABC 阈值
+  html+='<div class="thr-group"><span class="thr-label">A 类阈值</span>';
+  html+='<input type="number" class="fb-num" id="thr-a" value="'+THR_A+'" min="50" max="95" onchange="updateThresholds()">';
+  html+='<span class="thr-unit">%</span></div>';
+  html+='<div class="thr-group"><span class="thr-label">B 类阈值</span>';
+  html+='<input type="number" class="fb-num" id="thr-b" value="'+THR_B+'" min="60" max="99" onchange="updateThresholds()">';
+  html+='<span class="thr-unit">%</span></div>';
+  fc.innerHTML=html;
+  fc.style.display='flex';
+  $('topbar-vdiv').style.display='block';
+}
+
+function updateThresholds(){
+  var a=parseFloat($('thr-a').value)||80;
+  var b=parseFloat($('thr-b').value)||95;
+  if(a>=b){b=Math.min(99,a+5);$('thr-b').value=b;}
+  THR_A=a;THR_B=b;
+  recompute();
+  window.toast('ABC 阈值已更新：'+a+'% / '+b+'%');
+}
+
+// === 渲染调度 ===
+function renderAll(){
+  renderKPI();
+  drawPareto();
+  drawMismatch();
+  drawABC();
+  renderTable();
+  $('ti').innerHTML='<b>'+window.FREIGHT_CURRENT.month+'</b> · 数据截至 '+window.FREIGHT_PAYLOAD.dataThrough+' · '+_filtered.length+' 个物料';
+}
+
+function renderKPI(){
+  var cards=window.FREIGHT_CURRENT.cards;
+  var moneyExact=Number(cards.freight||0).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});
+  var orders=Number(cards.orders||0).toLocaleString('zh-CN');
+  var abnormal=Number(cards.abnormalOrders||0).toLocaleString('zh-CN');
+  var ratio=Number(cards.freightRatio||0).toFixed(2)+'%';
+  var html=
+  '<div class="kc k0"><div class="kc-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12h8M12 7v10"/></svg></div><div class="kl">本月运费</div><div class="kv">¥'+moneyExact+'</div><div class="ku">'+window.FREIGHT_CURRENT.month+'运费金额合计</div></div>'+ 
+  '<div class="kc k1"><div class="kc-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg></div><div class="kl">本月订单数</div><div class="kv">'+orders+' 单</div><div class="ku">按出库单号去重统计</div></div>'+ 
+  '<div class="kc k3"><div class="kc-icon"><svg viewBox="0 0 24 24"><path d="M12 3L2 20h20L12 3z"/><path d="M12 9v5M12 17h.01"/></svg></div><div class="kl">本月异常订单数</div><div class="kv" style="color:var(--rd)">'+abnormal+' 单</div><div class="ku">运费占总费用比超过 30%</div></div>'+ 
+  '<div class="kc k2"><div class="kc-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 16l8-8M9 9h.01M15 15h.01"/></svg></div><div class="kl">当月整体运费占比</div><div class="kv">'+ratio+'</div><div class="ku">运费 ÷（货值 + 包材人工 + 运费）</div></div>';
+  $('kpi').innerHTML=html;
+}
+
+// === 图 1：物料运费帕累托图（柱形+累计折线）===
+function drawPareto(){
+  var canvas=$('c-pareto');
+  if(!canvas)return;
+  var wrap=canvas.parentElement;
+  var W=wrap.clientWidth, H=wrap.clientHeight;
+  if(W<60||H<60)return;
+  var ctx=window.setupHiDPI(canvas,W,H);
+  if(!_filtered.length)return;
+
+  var pad={t:30,r:60,b:80,l:64};
+  var pw=Math.max(1,W-pad.l-pad.r), ph=Math.max(1,H-pad.t-pad.b);
+  var n=_filtered.length;
+
+  var maxAmt=Math.max.apply(null,_filtered.map(function(c){return c.amt;}));
+  var yTicks=window.getNiceTicks(0,maxAmt*1.05,5);
+  var maxY=yTicks.max;
+
+  function xOf(i){return pad.l+(i+0.5)/n*pw;}
+  function yOfAmt(v){return pad.t+ph-v/maxY*ph;}
+  function yOfPct(v){return pad.t+ph-v*ph;} // v 是 0-1 的累计百分比
+
+  // 网格 + 左纵轴刻度（金额）
+  ctx.strokeStyle='#f1f5f9';ctx.lineWidth=1;
+  ctx.fillStyle='#94a3b8';ctx.font='10px sans-serif';ctx.textAlign='right';ctx.textBaseline='middle';
+  yTicks.ticks.forEach(function(t){
+    var y=yOfAmt(t);
+    ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(pad.l+pw,y);ctx.stroke();
+    ctx.fillText('¥'+window.fmtN(t),pad.l-6,y);
+  });
+  // 右纵轴刻度（百分比）
+  ctx.textAlign='left';
+  [0,0.25,0.5,0.75,1.0].forEach(function(p){
+    var y=yOfPct(p);
+    ctx.fillText((p*100).toFixed(0)+'%',pad.l+pw+6,y);
+  });
+
+  // 阈值水平线 A（红虚线）和 B（橙虚线）
+  [{p:THR_A/100,c:'#dc2626',l:'A 类阈值 '+THR_A+'%'},
+   {p:THR_B/100,c:'#f59e0b',l:'B 类阈值 '+THR_B+'%'}].forEach(function(r){
+    var y=yOfPct(r.p);
+    ctx.strokeStyle=r.c;ctx.lineWidth=1.5;ctx.setLineDash([6,4]);
+    ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(pad.l+pw,y);ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle=r.c;ctx.font='600 10px sans-serif';ctx.textAlign='right';ctx.textBaseline='bottom';
+    ctx.fillText(r.l,pad.l+pw-4,y-2);
+  });
+
+  // 柱形（金额，按 tier 配色）
+  var barW=Math.min(40,pw/n*0.7);
+  var hits=[];
+  var tierColor={A:'#b45309',B:'#0891b2',C:'#94a3b8'};
+  _filtered.forEach(function(c,i){
+    var x=xOf(i)-barW/2;
+    var yT=yOfAmt(c.amt);
+    var yB=yOfAmt(0);
+    ctx.fillStyle=tierColor[c.tier];
+    window.roundRect(ctx,x,yT,barW,yB-yT,3);ctx.fill();
+    hits.push({x:x,y:yT,w:barW,h:yB-yT,c:c});
+  });
+
+  // 累计折线（深褐）
+  ctx.strokeStyle='#92400e';ctx.lineWidth=2.5;
+  ctx.beginPath();
+  _filtered.forEach(function(c,i){
+    var x=xOf(i),y=yOfPct(c.cumAmtPct);
+    if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+  });
+  ctx.stroke();
+  // 折线节点
+  _filtered.forEach(function(c,i){
+    var x=xOf(i),y=yOfPct(c.cumAmtPct);
+    ctx.fillStyle='#fff';
+    ctx.beginPath();ctx.arc(x,y,4.5,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#92400e';
+    ctx.beginPath();ctx.arc(x,y,3,0,Math.PI*2);ctx.fill();
+  });
+
+  // X 轴：品类名（旋转）
+  ctx.fillStyle='#475569';ctx.font='11px sans-serif';
+  _filtered.forEach(function(c,i){
+    ctx.save();
+    ctx.translate(xOf(i),pad.t+ph+10);
+    ctx.rotate(-Math.PI/4);
+    ctx.textAlign='right';ctx.textBaseline='middle';
+    var lbl=c.name.length>8?c.name.substring(0,8)+'…':c.name;
+    ctx.fillText(lbl,0,0);
+    ctx.restore();
+  });
+
+  // 双轴标题
+  ctx.fillStyle='#475569';ctx.font='600 11px sans-serif';
+  ctx.save();ctx.translate(16,pad.t+ph/2);ctx.rotate(-Math.PI/2);
+  ctx.textAlign='center';ctx.fillText('物料运费（元）',0,0);ctx.restore();
+  ctx.save();ctx.translate(W-16,pad.t+ph/2);ctx.rotate(Math.PI/2);
+  ctx.textAlign='center';ctx.fillText('累计占比',0,0);ctx.restore();
+
+  canvas.onmousemove=function(e){
+    var r=canvas.getBoundingClientRect();
+    var mx=e.clientX-r.left, my=e.clientY-r.top;
+    for(var i=0;i<hits.length;i++){
+      var h=hits[i];
+      if(mx>=h.x&&mx<=h.x+h.w&&my>=pad.t&&my<=pad.t+ph){
+        var c=h.c;
+        var html='<b>'+c.name+'</b>'+
+          '排名：第 '+c.rank+' / '+n+'<br>'+
+          '运费金额：¥'+window.fmtN(c.amt)+' ('+window.fmtP(c.amtPct)+')<br>'+ 
+          '累计金额占比：'+window.fmtP(c.cumAmtPct)+'<br>'+
+          '订单数：'+c.orders+' 笔 ('+window.fmtP(c.ordPct)+')<br>'+
+          '分级：<span style="color:'+tierColor[c.tier]+';font-weight:700">'+c.tier+' 类</span> · '+c.mismatch.l;
+        window.showTip(e,html);return;
+      }
     }
+    window.hideTip();
+  };
+  canvas.onmouseleave=window.hideTip;
+}
 
-    function render() {
-      renderMonthFilter();
-      renderCards();
-      renderPanels();
-      renderHint();
+// === 图 2：订单数 × 运费金额 分布矩阵 ===
+function drawMismatch(){
+  var canvas=$('c-mismatch');
+  if(!canvas)return;
+  var wrap=canvas.parentElement;
+  var W=wrap.clientWidth, H=wrap.clientHeight;
+  if(W<60||H<60)return;
+  var ctx=window.setupHiDPI(canvas,W,H);
+  if(!_filtered.length)return;
+
+  var pad={t:30,r:24,b:48,l:60};
+  var pw=Math.max(1,W-pad.l-pad.r), ph=Math.max(1,H-pad.t-pad.b);
+
+  var maxOrdPct=Math.max.apply(null,_filtered.map(function(c){return c.ordPct;}));
+  var maxAmtPct=Math.max.apply(null,_filtered.map(function(c){return c.amtPct;}));
+  var xMax=Math.ceil(maxOrdPct*100/2)*2/100; // 取整到 2%
+  var yMax=Math.ceil(maxAmtPct*100/5)*5/100; // 取整到 5%
+  if(xMax<=0)xMax=0.05;
+  if(yMax<=0)yMax=0.10;
+
+  function xOf(v){return pad.l+v/xMax*pw;}
+  function yOf(v){return pad.t+ph-v/yMax*ph;}
+
+  // 背景：理想对角线（订单占比 = 金额占比）
+  ctx.strokeStyle='#cbd5e1';ctx.lineWidth=1.2;ctx.setLineDash([4,4]);
+  ctx.beginPath();
+  ctx.moveTo(pad.l,pad.t+ph);
+  // 对角线：x=y 对应屏幕坐标的对角线
+  // 实际意义：x 轴单位 xMax 对应右端，y 轴单位 yMax 对应顶端
+  // 完美对应线 ordPct = amtPct，即 x/xMax 同等比例对应 y/yMax 时
+  // 因为 xMax 和 yMax 不一样，对角线在屏幕上不是 45 度
+  // 取较小的范围画对角线
+  var lineMax=Math.min(xMax,yMax);
+  ctx.lineTo(xOf(lineMax),yOf(lineMax));
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // 网格
+  ctx.strokeStyle='#f1f5f9';ctx.lineWidth=1;
+  var xTicks=window.getNiceTicks(0,xMax*100,5);
+  var yTicks=window.getNiceTicks(0,yMax*100,5);
+  ctx.fillStyle='#94a3b8';ctx.font='10px sans-serif';
+  ctx.textAlign='right';ctx.textBaseline='middle';
+  yTicks.ticks.forEach(function(t){
+    var y=yOf(t/100);
+    ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(pad.l+pw,y);ctx.stroke();
+    ctx.fillText(t.toFixed(0)+'%',pad.l-6,y);
+  });
+  ctx.textAlign='center';ctx.textBaseline='top';
+  xTicks.ticks.forEach(function(t){
+    var x=xOf(t/100);
+    ctx.beginPath();ctx.moveTo(x,pad.t);ctx.lineTo(x,pad.t+ph);ctx.stroke();
+    ctx.fillText(t.toFixed(0)+'%',x,pad.t+ph+6);
+  });
+
+  ctx.fillStyle='#475569';ctx.font='600 11px sans-serif';
+  ctx.textAlign='center';
+  ctx.fillText('订单数占比',pad.l+pw/2,H-12);
+  ctx.save();ctx.translate(16,pad.t+ph/2);ctx.rotate(-Math.PI/2);
+  ctx.fillText('金额占比（贡献产出）',0,0);ctx.restore();
+
+  // 危险区角标
+  ctx.fillStyle='rgba(220,38,38,0.7)';ctx.font='600 10px sans-serif';
+  ctx.textAlign='right';ctx.textBaseline='bottom';
+  ctx.fillText('高频低费区',pad.l+pw-4,pad.t+ph-4);
+  ctx.fillStyle='rgba(180,83,9,0.7)';ctx.textAlign='left';ctx.textBaseline='top';
+  ctx.fillText('★ 战略品（左上）',pad.l+4,pad.t+4);
+
+  // 散点
+  var tierColor={A:'#b45309',B:'#0891b2',C:'#94a3b8'};
+  var maxAmtAbs=Math.max.apply(null,_filtered.map(function(c){return c.amt;}));
+  var bubbles=_filtered.map(function(c){
+    var rad=Math.max(5,Math.sqrt(c.amt/maxAmtAbs)*22);
+    return{x:xOf(c.ordPct),y:yOf(c.amtPct),r:rad,c:c};
+  });
+  bubbles.sort(function(a,b){return b.r-a.r;});
+  bubbles.forEach(function(b){
+    var color=tierColor[b.c.tier];
+    ctx.fillStyle=color;ctx.globalAlpha=0.55;
+    ctx.beginPath();ctx.arc(b.x,b.y,b.r,0,Math.PI*2);ctx.fill();
+    ctx.globalAlpha=1;
+    ctx.strokeStyle=color;ctx.lineWidth=1.5;ctx.stroke();
+    // 大气泡里写品类名
+    if(b.r>=14){
+      ctx.fillStyle='#fff';ctx.font='600 11px sans-serif';
+      ctx.textAlign='center';ctx.textBaseline='middle';
+      var lbl=b.c.name.length>4?b.c.name.substring(0,4):b.c.name;
+      ctx.fillText(lbl,b.x,b.y);
     }
+  });
 
-    render();
-  </script>
-  <script>
-    (() => {
-      const anomalyPanels = [{"month":"全年","feeTotal":{"title":"运费占总费用比超30%","total":440,"materials":19,"rows":[{"name":"皇家小虎围裙","value":69},{"name":"皇家小虎毛毡包34cm","value":68},{"name":"皇家小虎0.8米试吃桌","value":52},{"name":"皇家小虎物料包","value":50},{"name":"皇家小虎铝箔袋S4线下款（承重5-8kg）","value":44},{"name":"皇家小虎1.2米试吃桌","value":41},{"name":"皇家小虎贴纸","value":21},{"name":"皇家小虎帆布帽（烫画版）","value":20},{"name":"皇家小虎产品手册","value":19},{"name":"皇家小虎认证立牌","value":17}]},"goodsValue":{"title":"运费占货值比超30%","total":1068,"materials":20,"rows":[{"name":"皇家小虎围裙","value":145},{"name":"皇家小虎铝箔袋S4线下款（承重5-8kg）","value":138},{"name":"皇家小虎1.2米试吃桌","value":128},{"name":"皇家小虎毛毡包34cm","value":108},{"name":"皇家小虎认证立牌","value":108},{"name":"皇家小虎贴纸","value":89},{"name":"皇家小虎0.8米试吃桌","value":84},{"name":"皇家小虎帆布帽（烫画版）","value":54},{"name":"皇家小虎物料包","value":50},{"name":"皇家小虎产品手册","value":46}]}},{"month":"1月","feeTotal":{"title":"运费占总费用比超30%","total":132,"materials":12,"rows":[{"name":"皇家小虎物料包","value":50},{"name":"皇家小虎0.8米试吃桌","value":32},{"name":"皇家小虎铝箔袋S4线下款（承重5-8kg）","value":12},{"name":"皇家小虎1.2米试吃桌","value":9},{"name":"皇家小虎毛毡包34cm","value":8},{"name":"皇家小虎帆布帽（烫画版）","value":6},{"name":"皇家小虎三角立牌","value":3},{"name":"皇家小虎1m层架压条","value":3},{"name":"皇家小虎产品手册","value":3},{"name":"皇家小虎海报（四年销量）","value":2}]},"goodsValue":{"title":"运费占货值比超30%","total":297,"materials":15,"rows":[{"name":"皇家小虎0.8米试吃桌","value":53},{"name":"皇家小虎物料包","value":50},{"name":"皇家小虎铝箔袋S4线下款（承重5-8kg）","value":36},{"name":"皇家小虎1.2米试吃桌","value":35},{"name":"皇家小虎认证立牌","value":29},{"name":"皇家小虎贴纸","value":28},{"name":"皇家小虎帆布帽（烫画版）","value":16},{"name":"皇家小虎铝箔袋S2线下款（承重3-5kg）","value":13},{"name":"皇家小虎毛毡包34cm","value":11},{"name":"皇家小虎围裙","value":8}]}},{"month":"2月","feeTotal":{"title":"运费占总费用比超30%","total":118,"materials":14,"rows":[{"name":"皇家小虎1.2米试吃桌","value":30},{"name":"皇家小虎0.8米试吃桌","value":20},{"name":"皇家小虎围裙","value":19},{"name":"皇家小虎毛毡包34cm","value":12},{"name":"皇家小虎帆布帽（烫画版）","value":10},{"name":"皇家小虎贴纸","value":7},{"name":"皇家小虎铝箔袋S4线下款（承重5-8kg）","value":6},{"name":"皇家小虎PE材质气球50cm","value":4},{"name":"皇家小虎铝箔袋S2线下款（承重3-5kg）","value":3},{"name":"皇家小虎产品手册","value":3}]},"goodsValue":{"title":"运费占货值比超30%","total":302,"materials":15,"rows":[{"name":"皇家小虎1.2米试吃桌","value":81},{"name":"皇家小虎贴纸","value":36},{"name":"皇家小虎围裙","value":34},{"name":"皇家小虎铝箔袋S4线下款（承重5-8kg）","value":34},{"name":"皇家小虎0.8米试吃桌","value":31},{"name":"皇家小虎帆布帽（烫画版）","value":26},{"name":"皇家小虎PE材质气球50cm","value":18},{"name":"皇家小虎毛毡包34cm","value":14},{"name":"皇家小虎认证立牌","value":11},{"name":"皇家小虎铝箔袋S2线下款（承重3-5kg）","value":7}]}},{"month":"3月","feeTotal":{"title":"运费占总费用比超30%","total":72,"materials":12,"rows":[{"name":"皇家小虎围裙","value":23},{"name":"皇家小虎毛毡包34cm","value":18},{"name":"皇家小虎认证立牌","value":7},{"name":"皇家小虎贴纸","value":7},{"name":"可生物降解背心袋","value":6},{"name":"皇家小虎铝箔袋S4线下款（承重5-8kg）","value":5},{"name":"皇家小虎PVC硬片跳跳卡","value":5},{"name":"皇家小虎产品手册","value":5},{"name":"皇家小虎海报（四年销量）","value":2},{"name":"皇家小虎帆布帽（烫画版）","value":2}]},"goodsValue":{"title":"运费占货值比超30%","total":178,"materials":13,"rows":[{"name":"皇家小虎认证立牌","value":43},{"name":"皇家小虎毛毡包34cm","value":36},{"name":"皇家小虎围裙","value":33},{"name":"皇家小虎产品手册","value":18},{"name":"皇家小虎贴纸","value":14},{"name":"皇家小虎铝箔袋S4线下款（承重5-8kg）","value":11},{"name":"可生物降解背心袋","value":11},{"name":"皇家小虎PVC硬片跳跳卡","value":8},{"name":"皇家小虎帆布帽（烫画版）","value":8},{"name":"皇家小虎铝箔袋S2线下款（承重3-5kg）","value":5}]}},{"month":"4月","feeTotal":{"title":"运费占总费用比超30%","total":92,"materials":15,"rows":[{"name":"皇家小虎围裙","value":21},{"name":"皇家小虎铝箔袋S4线下款（承重5-8kg）","value":21},{"name":"皇家小虎毛毡包34cm","value":19},{"name":"皇家小虎产品手册","value":8},{"name":"皇家小虎海报（四年销量）","value":6},{"name":"皇家小虎PVC硬片跳跳卡","value":6},{"name":"可生物降解背心袋","value":5},{"name":"皇家小虎贴纸","value":5},{"name":"皇家小虎认证立牌","value":3},{"name":"皇家小虎三角立牌","value":3}]},"goodsValue":{"title":"运费占货值比超30%","total":222,"materials":17,"rows":[{"name":"皇家小虎围裙","value":57},{"name":"皇家小虎铝箔袋S4线下款（承重5-8kg）","value":51},{"name":"皇家小虎毛毡包34cm","value":28},{"name":"皇家小虎产品手册","value":15},{"name":"皇家小虎三角立牌","value":13},{"name":"皇家小虎PVC硬片跳跳卡","value":13},{"name":"皇家小虎PE材质气球50cm","value":11},{"name":"皇家小虎贴纸","value":11},{"name":"可生物降解背心袋","value":9},{"name":"皇家小虎认证立牌","value":8}]}},{"month":"5月","feeTotal":{"title":"运费占总费用比超30%","total":26,"materials":5,"rows":[{"name":"皇家小虎毛毡包34cm","value":11},{"name":"皇家小虎围裙","value":6},{"name":"皇家小虎认证立牌","value":6},{"name":"皇家小虎常规礼品卡","value":2},{"name":"皇家小虎帆布帽（烫画版）","value":1}]},"goodsValue":{"title":"运费占货值比超30%","total":69,"materials":9,"rows":[{"name":"皇家小虎毛毡包34cm","value":19},{"name":"皇家小虎认证立牌","value":17},{"name":"皇家小虎围裙","value":13},{"name":"皇家小虎常规礼品卡","value":7},{"name":"皇家小虎铝箔袋S4线下款（承重5-8kg）","value":6},{"name":"皇家小虎铝箔袋S2线下款（承重3-5kg）","value":3},{"name":"皇家小虎1.2米试吃桌","value":2},{"name":"皇家小虎帆布帽（烫画版）","value":1},{"name":"皇家小虎产品手册","value":1}]}}];
-      const fmt2 = new Intl.NumberFormat("zh-CN");
-      const money2 = (n) => `¥${fmt2.format(Number(n || 0).toFixed(2))}`;
-      const number2 = (n) => fmt2.format(Number(n || 0));
-      const percent2 = (n) => `${Number(n || 0).toFixed(1)}%`;
-      const monthSeries2 = payload.months.filter((item) => item.month !== "全年");
-
-      function escapeHtml2(value) {
-        return String(value ?? "")
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/"/g, "&quot;")
-          .replace(/'/g, "&#39;");
+  canvas.onmousemove=function(e){
+    var r=canvas.getBoundingClientRect();
+    var mx=e.clientX-r.left, my=e.clientY-r.top;
+    for(var i=0;i<bubbles.length;i++){
+      var b=bubbles[i];
+      var dx=mx-b.x, dy=my-b.y;
+      if(dx*dx+dy*dy<=b.r*b.r){
+        var c=b.c;
+        var html='<b>'+c.name+'</b>'+
+          '订单数占比：'+window.fmtP(c.ordPct)+'<br>'+
+          '金额占比：'+window.fmtP(c.amtPct)+'<br>'+
+          '运费金额：¥'+window.fmtN(c.amt)+'<br>'+ 
+          '订单数：'+c.orders+' 笔<br>'+
+          '分级：<span style="color:'+tierColor[c.tier]+';font-weight:700">'+c.tier+' 类</span> · '+c.mismatch.l;
+        window.showTip(e,html);return;
       }
+    }
+    window.hideTip();
+  };
+  canvas.onmouseleave=window.hideTip;
+}
 
-      function compareText2(value) {
-        if (value === null || value === undefined || Number.isNaN(Number(value))) return "/";
-        const numeric = Number(value);
-        return `环比上月 ${numeric > 0 ? "+" : ""}${numeric.toFixed(1)}%`;
+// === 图 3：ABC 分级对比（环形对比图）===
+function drawABC(){
+  var canvas=$('c-abc');
+  if(!canvas)return;
+  var wrap=canvas.parentElement;
+  var W=wrap.clientWidth, H=wrap.clientHeight;
+  if(W<60||H<60)return;
+  var ctx=window.setupHiDPI(canvas,W,H);
+  if(!_filtered.length)return;
+
+  var totalAmt=_filtered.reduce(function(s,c){return s+c.amt;},0);
+  var totalOrd=_filtered.reduce(function(s,c){return s+c.orders;},0);
+  var totalCnt=_filtered.length;
+  var stats={A:{cnt:0,amt:0,ord:0},B:{cnt:0,amt:0,ord:0},C:{cnt:0,amt:0,ord:0}};
+  _filtered.forEach(function(c){
+    stats[c.tier].cnt++;
+    stats[c.tier].amt+=c.amt;
+    stats[c.tier].ord+=c.orders;
+  });
+
+  var tiers=['A','B','C'];
+  var tierColor={A:'#b45309',B:'#0891b2',C:'#94a3b8'};
+  var tierBg={A:'rgba(180,83,9,0.15)',B:'rgba(8,145,178,0.15)',C:'rgba(148,163,184,0.15)'};
+
+  // 用三个并排的环形图：品类数 / 金额 / 订单数 各一个
+  var cy=H/2-10;
+  var availW=W-40;
+  var donutR=Math.min(availW/3.5/2,(H-80)/2);
+  var donuts=[
+    {label:'物料数',cx:20+availW/6,total:totalCnt,values:tiers.map(function(t){return{tier:t,v:stats[t].cnt};}),fmt:function(v){return v+' 个';}},
+    {label:'运费金额',cx:20+availW/2,total:totalAmt,values:tiers.map(function(t){return{tier:t,v:stats[t].amt};}),fmt:function(v){return '¥'+window.fmtN(v);}},
+    {label:'订单数',cx:20+availW*5/6,total:totalOrd,values:tiers.map(function(t){return{tier:t,v:stats[t].ord};}),fmt:function(v){return v+' 笔';}}
+  ];
+
+  var hits=[];
+  donuts.forEach(function(d){
+    // 标题
+    ctx.fillStyle='#475569';ctx.font='600 12px sans-serif';
+    ctx.textAlign='center';ctx.textBaseline='top';
+    ctx.fillText(d.label,d.cx,20);
+    // 中心总值
+    ctx.fillStyle='#0f172a';ctx.font='700 14px sans-serif';
+    ctx.textBaseline='middle';
+    ctx.fillText(d.fmt(d.total),d.cx,cy);
+
+    // 画环
+    var startAngle=-Math.PI/2;
+    d.values.forEach(function(v){
+      if(v.v<=0)return;
+      var pct=v.v/d.total;
+      var endAngle=startAngle+pct*Math.PI*2;
+      ctx.fillStyle=tierColor[v.tier];
+      ctx.beginPath();
+      ctx.arc(d.cx,cy,donutR,startAngle,endAngle);
+      ctx.arc(d.cx,cy,donutR*0.6,endAngle,startAngle,true);
+      ctx.closePath();ctx.fill();
+      // 扇区标签：% 在外围
+      var midAngle=(startAngle+endAngle)/2;
+      var labelR=donutR*1.18;
+      var lx=d.cx+Math.cos(midAngle)*labelR;
+      var ly=cy+Math.sin(midAngle)*labelR;
+      if(pct>=0.05){
+        ctx.fillStyle=tierColor[v.tier];
+        ctx.font='600 11px sans-serif';
+        ctx.textAlign='center';ctx.textBaseline='middle';
+        ctx.fillText((pct*100).toFixed(0)+'%',lx,ly);
       }
+      hits.push({cx:d.cx,cy:cy,r1:donutR*0.6,r2:donutR,a1:startAngle,a2:endAngle,
+        tier:v.tier,v:v.v,pct:pct,label:d.label,fmt:d.fmt});
+      startAngle=endAngle;
+    });
+  });
 
-      function shortLabel2(value, length = 8) {
-        const text = String(value ?? "");
-        return text.length > length ? `${text.slice(0, length)}…` : text;
+  // 图例（底部）
+  var legend=$('legend-abc');
+  if(legend){
+    legend.innerHTML=tiers.map(function(t){
+      return'<div class="lg-item"><span class="lg-dot" style="background:'+tierColor[t]+'"></span>'+t+' 类（'+stats[t].cnt+' 个物料）</div>';
+    }).join('');
+  }
+
+  canvas.onmousemove=function(e){
+    var r=canvas.getBoundingClientRect();
+    var mx=e.clientX-r.left, my=e.clientY-r.top;
+    for(var i=0;i<hits.length;i++){
+      var h=hits[i];
+      var dx=mx-h.cx, dy=my-h.cy;
+      var dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<h.r1||dist>h.r2)continue;
+      var ang=Math.atan2(dy,dx);
+      // 归一化到 -PI/2 起始
+      var a1=h.a1, a2=h.a2;
+      // 把 ang 调整到 [a1, a1+2pi)
+      while(ang<a1)ang+=Math.PI*2;
+      if(ang>=a1&&ang<=a2){
+        var html='<b>'+h.tier+' 类 · '+h.label+'</b>'+
+          h.label+'：'+h.fmt(h.v)+'<br>'+
+          '占比：'+(h.pct*100).toFixed(1)+'%';
+        window.showTip(e,html);return;
       }
+    }
+    window.hideTip();
+  };
+  canvas.onmouseleave=window.hideTip;
+}
 
-      function ensureTooltip2() {
-        let tooltip = document.getElementById("dashboardTooltip");
-        if (!tooltip) {
-          tooltip = document.createElement("div");
-          tooltip.id = "dashboardTooltip";
-          tooltip.className = "tooltip";
-          document.body.appendChild(tooltip);
-        }
-        return tooltip;
-      }
+// === 明细诊断表 ===
+function renderTable(){
+  var html='<table class="dtbl"><thead><tr>'+ 
+    '<th>排名</th>'+ 
+    '<th>物料名称</th>'+ 
+    '<th style="text-align:right">订单数</th>'+ 
+    '<th style="text-align:right">异常订单</th>'+ 
+    '<th style="text-align:right">发货数量</th>'+ 
+    '<th style="text-align:right">运费金额</th>'+ 
+    '<th style="text-align:right">运费金额占比</th>'+ 
+    '<th style="text-align:right">整体运费占比</th>'+ 
+  '</tr></thead><tbody>';
+  _filtered.forEach(function(c){
+    html+='<tr>'+ 
+      '<td>'+c.rank+'</td>'+ 
+      '<td>'+c.name+'</td>'+ 
+      '<td style="text-align:right">'+c.orders+'</td>'+ 
+      '<td style="text-align:right;color:'+(c.abnormalOrders>0?'var(--rd)':'var(--t3)')+'">'+c.abnormalOrders+'</td>'+ 
+      '<td style="text-align:right">'+Number(c.shipmentQuantity||0).toLocaleString('zh-CN')+'</td>'+ 
+      '<td style="text-align:right;font-weight:600">¥'+Number(c.amt||0).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})+'</td>'+ 
+      '<td style="text-align:right">'+window.fmtP(c.amtPct)+'</td>'+ 
+      '<td style="text-align:right">'+Number(c.freightRatio||0).toFixed(2)+'%</td>'+ 
+    '</tr>';
+  });
+  html+='</tbody></table>';
+  $('tw').innerHTML=html;
+}
 
-      function bindTooltips2() {
-        const tooltip = ensureTooltip2();
-        document.querySelectorAll(".tip-target").forEach((node) => {
-          node.onmousemove = (event) => {
-            tooltip.innerHTML = node.dataset.tip || "";
-            tooltip.classList.add("on");
-            const offset = 14;
-            tooltip.style.left = `${Math.min(window.innerWidth - 12 - tooltip.offsetWidth, event.clientX + offset)}px`;
-            tooltip.style.top = `${Math.max(12, event.clientY - tooltip.offsetHeight - offset)}px`;
-          };
-          node.onmouseleave = () => tooltip.classList.remove("on");
-        });
-      }
+// === 启动 ===
+$('file-input').addEventListener('change',function(e){
+  var f=e.target.files[0];
+  if(f)processFile(f);
+  e.target.value='';
+});
 
-      function anomalyFor(month) {
-        return anomalyPanels.find((item) => item.month === month) || anomalyPanels[0];
-      }
+['dragenter','dragover'].forEach(function(ev){
+  document.addEventListener(ev,function(e){e.preventDefault();e.stopPropagation();});
+});
+document.addEventListener('drop',function(e){
+  e.preventDefault();e.stopPropagation();
+  var f=e.dataTransfer&&e.dataTransfer.files[0];
+  if(f)processFile(f);
+});
 
-      function topRowsBy2(rows, key, limit = 10, filterFn = null, sorter = null) {
-        const list = filterFn ? rows.filter(filterFn) : [...rows];
-        return list.sort(sorter || ((a, b) => Number(b[key] || 0) - Number(a[key] || 0))).slice(0, limit);
-      }
+window.addEventListener('load',function(){
+  window.FREIGHT_CURRENT=window.FREIGHT_PAYLOAD.months[window.FREIGHT_PAYLOAD.months.length-1];
+  _categories=window.FREIGHT_CURRENT.rows.map(function(row){
+    return{
+      name:row.name,
+      amt:Number(row.freightAmount||0),
+      orders:Number(row.orders||0),
+      abnormalOrders:Number(row.abnormalOrders||0),
+      shipmentQuantity:Number(row.shipmentQuantity||0),
+      freightRatio:Number(row.freightRatio||0)
+    };
+  });
+  $('es').style.display='none';
+  $('db').style.display='flex';
+  initFilters();
+  requestAnimationFrame(function(){
+    requestAnimationFrame(recompute);
+  });
+});
 
-      function renderColumnChart2(rows, options = {}) {
-        const { color = "", valueFormatter = (value) => number2(value), subFormatter = () => "" } = options;
-        const list = rows || [];
-        const max = Math.max(1, ...list.map((row) => Number(row.value ?? row.orders ?? 0)));
-        return `<div class="viz-scroll"><div class="column-chart" style="min-width:${Math.max(520, list.length * 86)}px">${list.map((row) => {
-          const raw = Number(row.value ?? row.orders ?? 0);
-          const detail = subFormatter(row);
-          return `<div class="column-item tip-target" data-tip="${escapeHtml2(`${row.name}<br>${valueFormatter(raw, row)}${detail ? `<br>${detail}` : ""}`)}"><div class="column-value">${valueFormatter(raw, row)}</div><div class="column-track"><div class="column-bar ${color}" style="height:${Math.max(6, raw / max * 100)}%"></div></div><div class="column-label">${escapeHtml2(row.name)}</div><div class="column-sub">${escapeHtml2(detail || "")}</div></div>`;
-        }).join("")}</div></div>`;
-      }
-
-      function renderLineChart2(points, options = {}) {
-        const { color = "#7a3f20", activeColor = "#ec5f74", activeIndex = -1, height = 240, labelFormatter = (item) => item.label, valueFormatter = (value) => number2(value), tipFormatter = (item) => `${item.label}<br>${valueFormatter(item.value)}` } = options;
-        const width = Math.max(560, points.length * 88);
-        const padding = { top: 22, right: 28, bottom: 60, left: 24 };
-        const max = Math.max(1, ...points.map((item) => Number(item.value || 0)));
-        const innerWidth = width - padding.left - padding.right;
-        const innerHeight = height - padding.top - padding.bottom;
-        const step = points.length > 1 ? innerWidth / (points.length - 1) : 0;
-        const getX = (index) => padding.left + step * index;
-        const getY = (value) => padding.top + (1 - Number(value || 0) / max) * innerHeight;
-        const grid = [0, .25, .5, .75, 1].map((ratio) => {
-          const y = padding.top + innerHeight * ratio;
-          return `<line x1="${padding.left}" y1="${y}" x2="${width - padding.right}" y2="${y}" stroke="#eeeeee" stroke-width="1" />`;
-        }).join("");
-        return `<div class="line-chart-wrap"><svg class="line-chart" viewBox="0 0 ${width} ${height}" style="width:${width}px" preserveAspectRatio="xMinYMin meet">${grid}<polyline points="${points.map((item, index) => `${getX(index)},${getY(item.value)}`).join(" ")}" fill="none" stroke="${color}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></polyline>${points.map((item, index) => { const x = getX(index); const y = getY(item.value); const active = index === activeIndex; const circleColor = active ? activeColor : color; const lineColor = active ? "rgba(236,95,116,.18)" : "rgba(122,63,32,.08)"; return `<g><line x1="${x}" y1="${padding.top}" x2="${x}" y2="${padding.top + innerHeight}" stroke="${lineColor}" stroke-width="${active ? 2 : 1}"></line><circle class="tip-target" data-tip="${escapeHtml2(tipFormatter(item, index))}" cx="${x}" cy="${y}" r="${active ? 6 : 5}" fill="#fff" stroke="${circleColor}" stroke-width="3"></circle><text x="${x}" y="${y - 12}" text-anchor="middle" font-size="12" fill="${circleColor}" font-family="Microsoft YaHei, PingFang SC, sans-serif">${escapeHtml2(valueFormatter(item.value))}</text><text x="${x}" y="${height - 22}" text-anchor="middle" font-size="12" fill="${active ? activeColor : "#666"}" font-family="Microsoft YaHei, PingFang SC, sans-serif">${escapeHtml2(shortLabel2(labelFormatter(item), 8))}</text></g>`; }).join("")}</svg></div>`;
-      }
-
-      function renderFreightRows2(currentRows) {
-        const list = topRowsBy2(currentRows, "freightAmount", 16);
-        const max = Math.max(1, ...list.map((item) => Number(item.freightAmount || 0)));
-        return `<div class="bars">${list.map((row) => `<div class="bar-row" title="${escapeHtml2(row.name)}"><div class="bar-label">${escapeHtml2(row.name)}</div><div class="track"><div class="fill" style="width:${Math.max(Number(row.freightAmount || 0) / max * 100, Number(row.freightAmount || 0) > 0 ? 3 : 0)}%"></div></div><div class="bar-value">${money2(row.freightAmount)}</div></div>`).join("")}</div>`;
-      }
-
-      function renderDashboardView() {
-        const monthFilter = document.getElementById("monthFilter");
-        const topCards = document.getElementById("topCards");
-        const panels = document.getElementById("panels");
-        const hint = document.getElementById("hint");
-
-        monthFilter.innerHTML = `<span class="month-label">月份</span>${payload.months.map((month) => `<button class="month-btn ${month.month === current.month ? "on" : ""}" data-month="${month.month}">${month.month}</button>`).join("")}`;
-        monthFilter.querySelectorAll(".month-btn").forEach((button) => {
-          button.onclick = () => {
-            current = payload.months.find((month) => month.month === button.dataset.month) || current;
-            renderDashboardView();
-          };
-        });
-
-        const cards = [
-          ["运", "本月运费", money2(current.cards.freight), "", compareText2(current.compare.freight)],
-          ["单", "本月订单数", number2(current.cards.orders), "单", compareText2(current.compare.orders)],
-          ["异", "本月异常订单数", number2(current.cards.abnormalOrders), "单", compareText2(current.compare.abnormalOrders)],
-          ["占", "当月整体运费占比", percent2(current.cards.freightRatio), "", compareText2(current.compare.freightRatio)],
-        ];
-        topCards.innerHTML = cards.map(([icon, title, value, unit, sub]) => `<article class="metric"><div class="title"><span class="icon">${icon}</span>${title}</div><div class="metric-value">${value}${unit ? `<span class="unit">${unit}</span>` : ""}</div><div class="sub">${sub}</div></article>`).join("");
-
-        const anomaly = anomalyFor(current.month);
-        const shipmentTop10 = topRowsBy2(current.rows, "shipmentQuantity", 10).map((row) => ({ label: row.name, value: Number(row.shipmentQuantity || 0) }));
-        const shipmentByMonth = monthSeries2.map((month) => ({ label: month.month, value: Number(month.cards.shipmentQuantity || 0) }));
-        const activeMonthIndex = monthSeries2.findIndex((item) => item.month === current.month);
-        const orderColumns = [...current.rows].filter((row) => Number(row.orders || 0) > 0).sort((a, b) => Number(b.freightAmount || 0) - Number(a.freightAmount || 0)).map((row) => ({ name: row.name, value: Number(row.orders || 0), freightAmount: Number(row.freightAmount || 0) }));
-
-        panels.innerHTML = `
-          <article class="panel">
-            <div class="panel-head"><div class="title"><span class="icon">异</span>各物料异常订单量</div><span class="badge">${current.month}</span></div>
-            <div class="panel-block">
-              <div class="split-chart">
-                <section class="chart-card">
-                  <div class="chart-headline"><div class="chart-title">${anomaly.feeTotal.title}</div><div class="chart-total">${number2(anomaly.feeTotal.total)}单</div></div>
-                  <div class="chart-meta">涉及 ${number2(anomaly.feeTotal.materials)} 个物料，按去重订单数展示</div>
-                  ${renderColumnChart2(anomaly.feeTotal.rows, { valueFormatter: (value) => `${number2(value)}单` })}
-                </section>
-                <section class="chart-card pink">
-                  <div class="chart-headline"><div class="chart-title">${anomaly.goodsValue.title}</div><div class="chart-total">${number2(anomaly.goodsValue.total)}单</div></div>
-                  <div class="chart-meta">与上方分开展示，颜色区分不同口径</div>
-                  ${renderColumnChart2(anomaly.goodsValue.rows, { color: "pink", valueFormatter: (value) => `${number2(value)}单` })}
-                </section>
-              </div>
-            </div>
-          </article>
-          <article class="panel">
-            <div class="panel-head"><div class="title"><span class="icon">发</span>各物料发货数量</div><span class="badge">${current.month}</span></div>
-            <div class="panel-block">
-              <div>
-                <div class="big-number">${number2(current.cards.shipmentQuantity)}件</div>
-                <div class="summary"><span>当月发货最多的前 10 个物料</span><span>悬浮查看对应明细</span></div>
-                ${renderLineChart2(shipmentTop10, { activeColor: "#f0a400", activeIndex: shipmentTop10.length ? 0 : -1, valueFormatter: (value) => `${number2(value)}件` })}
-              </div>
-              <div class="chart-card">
-                <div class="chart-headline"><div class="chart-title">截至最新月份每月发货数量</div><div class="chart-total">${current.month === "全年" ? "全年" : current.month}</div></div>
-                <div class="chart-meta">选择某月时，该月会以高亮颜色显示</div>
-                ${renderLineChart2(shipmentByMonth, { activeIndex: current.month === "全年" ? -1 : activeMonthIndex, valueFormatter: (value) => `${number2(value)}件`, tipFormatter: (item) => `${item.label}<br>发货数量：${number2(item.value)}件` })}
-              </div>
-            </div>
-          </article>
-          <article class="panel">
-            <div class="panel-head"><div class="title"><span class="icon">单</span>各物料订单数</div><span class="badge">${current.month}</span></div>
-            <div class="big-number">${number2(current.cards.orders)}单</div>
-            <div class="summary"><span>保留去重订单逻辑</span><span>按当月运费金额由高到低排序</span></div>
-            ${renderColumnChart2(orderColumns, { color: "gold", valueFormatter: (value) => `${number2(value)}单`, subFormatter: (row) => `运费 ${money2(row.freightAmount)}` })}
-            <div class="chart-note">柱高表示订单数量，底部补充该物料对应的运费求和。</div>
-          </article>
-          <article class="panel">
-            <div class="panel-head"><div class="title"><span class="icon">金</span>各物料运费金额</div><span class="badge">${current.month}</span></div>
-            <div class="big-number">${money2(current.cards.freight)}</div>
-            <div class="summary"><span>整体运费占比：<strong>${percent2(current.cards.freightRatio)}</strong></span><span>按运费金额排序</span></div>
-            ${renderFreightRows2(current.rows)}
-          </article>
-        `;
-
-        hint.innerHTML = `数据来源：${payload.sourceFile} / ${payload.sourceSheet}；数据截至 ${payload.dataThrough}，源文件更新于 ${payload.sourceModified}。订单数按出库单号去重；异常订单指运费占总费用比超过 30%；整体运费占比 = 运费 ÷（货值 + 仓储人工包材 + 运费）。当前月份：${current.month}。`;
-        bindTooltips2();
-      }
-
-      renderDashboardView();
-    })();
-  </script>
+window.addEventListener('resize',function(){
+  if(_filtered&&_filtered.length)renderAll();
+});
+</script>
 </body>
 </html>
