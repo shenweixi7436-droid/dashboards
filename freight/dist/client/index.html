@@ -545,6 +545,7 @@ function renderAll(){
 
 function renderHighlights(){
   if(!_categories.length){$('highlights').innerHTML='';return;}
+  var period=window.FREIGHT_CURRENT.month;
   var highestFreight=_categories.reduce(function(best,c){return !best||c.amt>best.amt?c:best;},null);
   var highestOrders=_categories.reduce(function(best,c){return !best||c.orders>best.orders?c:best;},null);
   function money(v){return '¥'+Number(v||0).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});}
@@ -552,13 +553,13 @@ function renderHighlights(){
   function goodsRatio(c){return Number(c.goodsFreightRatio||0).toFixed(2)+'%';}
   var html=
     '<div class="highlight-card" title="'+highestFreight.name+'">'+
-      '<div class="highlight-label">物料运费金额最高</div>'+
+      '<div class="highlight-label">'+period+' · 物料运费金额最高</div>'+
       '<div class="highlight-name">'+highestFreight.name+'</div>'+
       '<div class="highlight-value">'+money(highestFreight.amt)+'</div>'+
       '<div class="highlight-meta">累计运费 '+money(highestFreight.amt)+' · 产生订单 '+orders(highestFreight.orders)+' · 运费/货值 '+goodsRatio(highestFreight)+'</div>'+
     '</div>'+
     '<div class="highlight-card" title="'+highestOrders.name+'">'+
-      '<div class="highlight-label">物料订单数量最多</div>'+
+      '<div class="highlight-label">'+period+' · 物料订单数量最多</div>'+
       '<div class="highlight-name">'+highestOrders.name+'</div>'+
       '<div class="highlight-value">'+orders(highestOrders.orders)+'</div>'+
       '<div class="highlight-meta">累计运费 '+money(highestOrders.amt)+' · 产生订单 '+orders(highestOrders.orders)+' · 运费/货值 '+goodsRatio(highestOrders)+'</div>'+
