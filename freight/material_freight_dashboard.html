@@ -73,6 +73,13 @@ html,body{min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI
 .mp-select:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(180,83,9,.15)}
 .mp-preview{font-size:11px;color:var(--t4);width:180px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
+.highlight-row{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.highlight-card{min-width:0;background:linear-gradient(135deg,#ffd426 0%,#ffc400 100%);border:2px solid #6b2f13;border-radius:20px;padding:16px 28px;color:#71310f;box-shadow:0 5px 12px rgba(113,49,15,.14);display:flex;flex-direction:column;justify-content:center;min-height:120px;transition:transform .2s ease,box-shadow .2s ease}
+.highlight-card:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(113,49,15,.2)}
+.highlight-label{font-size:13px;font-weight:600;line-height:1.2;opacity:.86}
+.highlight-name{font-size:21px;font-weight:800;line-height:1.25;margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.highlight-value{font-size:32px;font-weight:900;line-height:1.05;margin-top:8px;font-variant-numeric:tabular-nums}
+.highlight-meta{font-size:12px;font-weight:600;line-height:1.5;margin-top:7px;opacity:.9}
 .kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
 .kc{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:20px 24px;position:relative;overflow:hidden;box-shadow:var(--sh);transition:all .2s ease;display:flex;flex-direction:column}
 .kc::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--acc)}
@@ -128,6 +135,7 @@ html,body{min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI
   .vdiv{display:none}
   .topbar-info{display:none}
   #main{padding:16px}
+  .highlight-row{grid-template-columns:1fr}
   .kpi-row{grid-template-columns:1fr 1fr}
 }
 .upload-area .btn{display:none}
@@ -175,6 +183,7 @@ html,body{min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI
   </div>
 
   <div id="db" style="display:none;flex-direction:column;gap:24px">
+    <div class="highlight-row" id="highlights"></div>
     <div class="kpi-row" id="kpi"></div>
 
     <div class="cd" style="height:480px;display:flex;flex-direction:column">
@@ -525,12 +534,36 @@ function calculateThresholdStats(){
 // === 渲染调度 ===
 function renderAll(){
   window.FREIGHT_THRESHOLD_STATS=calculateThresholdStats();
+  renderHighlights();
   renderKPI();
   drawPareto();
   drawMismatch();
   drawABC();
   renderTable();
   $('ti').innerHTML='<b>'+window.FREIGHT_CURRENT.month+'</b> · A类异常 '+window.FREIGHT_THRESHOLD_STATS.totalCount+' 单 · B类异常 '+window.FREIGHT_THRESHOLD_STATS.goodsCount+' 单';
+}
+
+function renderHighlights(){
+  if(!_categories.length){$('highlights').innerHTML='';return;}
+  var highestFreight=_categories.reduce(function(best,c){return !best||c.amt>best.amt?c:best;},null);
+  var highestOrders=_categories.reduce(function(best,c){return !best||c.orders>best.orders?c:best;},null);
+  function money(v){return '¥'+Number(v||0).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});}
+  function orders(v){return Number(v||0).toLocaleString('zh-CN')+' 单';}
+  function goodsRatio(c){return Number(c.goodsFreightRatio||0).toFixed(2)+'%';}
+  var html=
+    '<div class="highlight-card" title="'+highestFreight.name+'">'+
+      '<div class="highlight-label">物料运费金额最高</div>'+
+      '<div class="highlight-name">'+highestFreight.name+'</div>'+
+      '<div class="highlight-value">'+money(highestFreight.amt)+'</div>'+
+      '<div class="highlight-meta">累计运费 '+money(highestFreight.amt)+' · 产生订单 '+orders(highestFreight.orders)+' · 运费/货值 '+goodsRatio(highestFreight)+'</div>'+
+    '</div>'+
+    '<div class="highlight-card" title="'+highestOrders.name+'">'+
+      '<div class="highlight-label">物料订单数量最多</div>'+
+      '<div class="highlight-name">'+highestOrders.name+'</div>'+
+      '<div class="highlight-value">'+orders(highestOrders.orders)+'</div>'+
+      '<div class="highlight-meta">累计运费 '+money(highestOrders.amt)+' · 产生订单 '+orders(highestOrders.orders)+' · 运费/货值 '+goodsRatio(highestOrders)+'</div>'+
+    '</div>';
+  $('highlights').innerHTML=html;
 }
 
 function renderKPI(){
