@@ -74,12 +74,25 @@ html,body{min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI
 .mp-preview{font-size:11px;color:var(--t4);width:180px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
 .highlight-row{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
-.highlight-card{min-width:0;background:linear-gradient(135deg,#ffd426 0%,#ffc400 100%);border:2px solid #6b2f13;border-radius:20px;padding:16px 28px;color:#71310f;box-shadow:0 5px 12px rgba(113,49,15,.14);display:flex;flex-direction:column;justify-content:center;min-height:120px;transition:transform .2s ease,box-shadow .2s ease}
+.highlight-card{min-width:0;position:relative;background:linear-gradient(135deg,#ffd426 0%,#ffc400 100%);border:2px solid #6b2f13;border-radius:20px;padding:16px 150px 16px 28px;color:#71310f;box-shadow:0 5px 12px rgba(113,49,15,.14);display:flex;flex-direction:column;justify-content:center;min-height:120px;transition:transform .2s ease,box-shadow .2s ease}
 .highlight-card:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(113,49,15,.2)}
 .highlight-label{font-size:13px;font-weight:600;line-height:1.2;opacity:.86}
 .highlight-name{font-size:21px;font-weight:800;line-height:1.25;margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .highlight-value{font-size:32px;font-weight:900;line-height:1.05;margin-top:8px;font-variant-numeric:tabular-nums}
 .highlight-meta{font-size:12px;font-weight:600;line-height:1.5;margin-top:7px;opacity:.9}
+.highlight-link{position:absolute;right:24px;top:50%;transform:translateY(-50%);border:1.5px solid #71310f;border-radius:999px;background:rgba(255,255,255,.48);color:#71310f;padding:8px 15px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;transition:all .2s ease}
+.highlight-link:hover{background:#fff;transform:translateY(-50%) translateX(2px)}
+.rank-modal{position:fixed;inset:0;z-index:600;background:rgba(15,23,42,.5);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:24px}
+.rank-dialog{width:min(980px,96vw);max-height:88vh;background:#fff;border:2px solid #6b2f13;border-radius:24px;box-shadow:var(--sh-modal);padding:28px 32px;overflow:auto;color:#71310f}
+.rank-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:22px}
+.rank-title{font-size:25px;font-weight:900;line-height:1.25}.rank-sub{font-size:13px;margin-top:7px;color:#8b5a43}
+.rank-close{width:36px;height:36px;border:1px solid #d7c1b7;border-radius:50%;background:#fff;color:#71310f;font-size:22px;line-height:1;cursor:pointer;flex-shrink:0}.rank-close:hover{background:#fff7ed}
+.rank-legend{display:flex;gap:18px;align-items:center;font-size:12px;font-weight:700;margin-bottom:14px}.rank-legend span{display:flex;align-items:center;gap:6px}.rank-swatch{width:18px;height:7px;border-radius:4px}.rank-swatch.primary{background:#ffc400}.rank-swatch.secondary{background:#71310f}
+.rank-list{display:flex;flex-direction:column;gap:14px}
+.rank-row{display:grid;grid-template-columns:minmax(190px,260px) minmax(260px,1fr) 130px;gap:18px;align-items:center}
+.rank-name{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.rank-no{display:inline-flex;width:24px;height:24px;border-radius:50%;align-items:center;justify-content:center;background:#fff3bf;margin-right:8px;font-size:11px}
+.rank-bars{display:flex;flex-direction:column;gap:5px}.rank-track{height:12px;border:1px solid #d7c1b7;border-radius:7px;overflow:hidden;background:#fff}.rank-fill{height:100%;min-width:2px;border-radius:6px}.rank-fill.primary{background:#ffc400}.rank-fill.secondary{background:#71310f}
+.rank-values{text-align:right;font-size:12px;font-weight:700;line-height:1.55}.rank-values .secondary{color:#8b5a43}
 .kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
 .kc{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:20px 24px;position:relative;overflow:hidden;box-shadow:var(--sh);transition:all .2s ease;display:flex;flex-direction:column}
 .kc::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--acc)}
@@ -136,6 +149,8 @@ html,body{min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI
   .topbar-info{display:none}
   #main{padding:16px}
   .highlight-row{grid-template-columns:1fr}
+  .highlight-card{padding-right:28px;padding-bottom:58px}.highlight-link{right:28px;top:auto;bottom:16px;transform:none}.highlight-link:hover{transform:translateX(2px)}
+  .rank-row{grid-template-columns:minmax(130px,180px) 1fr 100px;gap:10px}.rank-dialog{padding:22px 18px}.rank-title{font-size:20px}
   .kpi-row{grid-template-columns:1fr 1fr}
 }
 .upload-area .btn{display:none}
@@ -207,6 +222,16 @@ html,body{min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI
       <div class="ch" style="flex-shrink:0"><div><div class="ct">物料运费明细诊断表</div><div class="cs">按当期货值降序排列；同步展示货值、运费以及 A/B 类异常订单</div></div></div>
       <div id="tw" style="flex:1;min-height:0;overflow:auto;border:1px solid #e2e8f0;border-radius:8px"></div>
     </div>
+  </div>
+</div>
+<div class="rank-modal" id="rank-modal" onclick="if(event.target===this)closeTop10()">
+  <div class="rank-dialog" role="dialog" aria-modal="true" aria-labelledby="rank-modal-title">
+    <div class="rank-head">
+      <div><div class="rank-title" id="rank-modal-title"></div><div class="rank-sub" id="rank-modal-sub"></div></div>
+      <button class="rank-close" type="button" aria-label="关闭" onclick="closeTop10()">×</button>
+    </div>
+    <div class="rank-legend" id="rank-modal-legend"></div>
+    <div class="rank-list" id="rank-modal-list"></div>
   </div>
 </div>
 <div id="tip"></div>
@@ -557,15 +582,55 @@ function renderHighlights(){
       '<div class="highlight-name">'+highestFreight.name+'</div>'+
       '<div class="highlight-value">'+money(highestFreight.amt)+'</div>'+
       '<div class="highlight-meta">累计运费 '+money(highestFreight.amt)+' · 产生订单 '+orders(highestFreight.orders)+' · 运费/货值 '+goodsRatio(highestFreight)+'</div>'+
+      '<button class="highlight-link" type="button" onclick="event.stopPropagation();openTop10(\'freight\')">查看前10名 →</button>'+
     '</div>'+
     '<div class="highlight-card" title="'+highestOrders.name+'">'+
       '<div class="highlight-label">'+period+' · 物料订单数量最多</div>'+
       '<div class="highlight-name">'+highestOrders.name+'</div>'+
       '<div class="highlight-value">'+orders(highestOrders.orders)+'</div>'+
       '<div class="highlight-meta">累计运费 '+money(highestOrders.amt)+' · 产生订单 '+orders(highestOrders.orders)+' · 运费/货值 '+goodsRatio(highestOrders)+'</div>'+
+      '<button class="highlight-link" type="button" onclick="event.stopPropagation();openTop10(\'orders\')">查看前10名 →</button>'+
     '</div>';
   $('highlights').innerHTML=html;
 }
+
+function openTop10(type){
+  var byFreight=type==='freight';
+  var rows=_categories.slice().sort(function(a,b){return byFreight?b.amt-a.amt:b.orders-a.orders;}).slice(0,10);
+  var maxAmt=Math.max.apply(null,rows.map(function(c){return c.amt||0;}));
+  var maxOrders=Math.max.apply(null,rows.map(function(c){return c.orders||0;}));
+  var period=window.FREIGHT_CURRENT.month;
+  function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(ch){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch];});}
+  function money(v){return '¥'+Number(v||0).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});}
+  function orders(v){return Number(v||0).toLocaleString('zh-CN')+' 单';}
+  $('rank-modal-title').textContent=period+' · '+(byFreight?'物料运费金额前10名':'物料订单数量前10名');
+  $('rank-modal-sub').textContent=byFreight?'按运费金额从高到低排序；黄色为运费，棕色为订单数':'按订单数量从高到低排序；黄色为订单数，棕色为运费';
+  $('rank-modal-legend').innerHTML=byFreight?
+    '<span><i class="rank-swatch primary"></i>运费金额</span><span><i class="rank-swatch secondary"></i>订单数量</span>':
+    '<span><i class="rank-swatch primary"></i>订单数量</span><span><i class="rank-swatch secondary"></i>运费金额</span>';
+  $('rank-modal-list').innerHTML=rows.map(function(c,i){
+    var amountPct=maxAmt>0?c.amt/maxAmt*100:0;
+    var orderPct=maxOrders>0?c.orders/maxOrders*100:0;
+    var primaryPct=byFreight?amountPct:orderPct;
+    var secondaryPct=byFreight?orderPct:amountPct;
+    var primaryValue=byFreight?money(c.amt):orders(c.orders);
+    var secondaryValue=byFreight?orders(c.orders):money(c.amt);
+    return '<div class="rank-row">'+
+      '<div class="rank-name" title="'+esc(c.name)+'"><span class="rank-no">'+(i+1)+'</span>'+esc(c.name)+'</div>'+
+      '<div class="rank-bars"><div class="rank-track"><div class="rank-fill primary" style="width:'+primaryPct.toFixed(2)+'%"></div></div><div class="rank-track"><div class="rank-fill secondary" style="width:'+secondaryPct.toFixed(2)+'%"></div></div></div>'+
+      '<div class="rank-values"><div>'+primaryValue+'</div><div class="secondary">'+secondaryValue+'</div></div>'+
+    '</div>';
+  }).join('');
+  $('rank-modal').style.display='flex';
+  document.body.style.overflow='hidden';
+}
+
+function closeTop10(){
+  $('rank-modal').style.display='none';
+  document.body.style.overflow='';
+}
+
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&$('rank-modal').style.display==='flex')closeTop10();});
 
 function renderKPI(){
   var cards=window.FREIGHT_CURRENT.cards;
