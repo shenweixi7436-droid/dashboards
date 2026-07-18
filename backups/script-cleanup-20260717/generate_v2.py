@@ -30,7 +30,6 @@ HTML_TEMPLATE_DISP = PROJECT_DIR + r'\display-audit-dashboard.html'
 OUTPUT_MAIN = PROJECT_DIR + r'\index.html'
 OUTPUT_DISP = PROJECT_DIR + r'\display-audit-dashboard.html'
 OUTPUT_AUDIT_PROGRESS = PROJECT_DIR + r'\assets\data\current-audit-progress.js'
-OUTPUT_DASHBOARD_SNAPSHOT = PROJECT_DIR + r'\assets\data\dashboard-snapshot.js'
 
 # 省区→战区映射
 ZONE_MAP = {
@@ -612,11 +611,6 @@ def extract_and_inject_template(html_path, zd_json_str):
         content = f.read()
     
     zd_start = content.find('var ZD =')
-    snapshot_src = 'assets/data/dashboard-snapshot.js'
-    if zd_start < 0:
-        if snapshot_src in content:
-            return content
-        raise RuntimeError(f'Cannot locate ZD data source in {html_path}')
     zd_json_start = content.find('{', zd_start)
     
     # 找 ZD JSON 结束（匹配花括号）
@@ -631,12 +625,6 @@ def extract_and_inject_template(html_path, zd_json_str):
     
     before = content[:zd_start]
     after = content[zd_end:]
-    script_start = content.rfind('<script', 0, zd_start)
-    if script_start < 0:
-        raise RuntimeError(f'Cannot locate ZD script block in {html_path}')
-    if snapshot_src not in content:
-        snapshot_tag = f'<script src="{snapshot_src}"></script>\n'
-        before = before[:script_start] + snapshot_tag + before[script_start:]
     
     # 修正模板中的字体路径为本地 fonts/ 目录
     before = before.replace("url('assets/fonts/", "url('fonts/")
@@ -674,7 +662,7 @@ def extract_and_inject_template(html_path, zd_json_str):
     
     print(f"  模板前半: {len(before)} 字符, 模板后半: {len(after)} 字符")
     
-    return before + after
+    return before + 'var ZD = ' + zd_json_str + after
 
 
 def sync_top_kpi_placeholders(html, current_data, df_promo, df_approval):
@@ -752,8 +740,6 @@ def main():
     # 注入模板
     print("\n注入 HTML 模板...")
     zd_json = json.dumps(zd, ensure_ascii=False, separators=(',', ':'), cls=NpEncoder)
-    with open(OUTPUT_DASHBOARD_SNAPSHOT, 'w', encoding='utf-8') as f:
-        f.write('var ZD = ' + zd_json + ';\n')
     print(f"  ZD JSON: {len(zd_json):,} 字符")
 
     # 生成主看板

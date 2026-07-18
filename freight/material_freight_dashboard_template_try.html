@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>物料运费看板 - 模板试装版</title>
+<style>
+:root{
+  --bg:#f1f5f9;--surface:#ffffff;--bdr:#e2e8f0;--bdr-focus:#fcd34d;
+  --acc:#b45309;--acc-hover:#92400e;--acc-soft:#fef3c7;
+  --gr:#10b981;--rd:#dc2626;--am:#f59e0b;--bl:#3b82f6;--cy:#0891b2;--vl:#7c3aed;
+  --tx:#0f172a;--t2:#475569;--t3:#64748b;--t4:#94a3b8;
+  --r:16px;--rs:8px;
+  --sh:0 4px 6px -1px rgba(0,0,0,.05),0 2px 4px -2px rgba(0,0,0,.05);
+  --sh-hover:0 10px 15px -3px rgba(0,0,0,.08),0 4px 6px -4px rgba(0,0,0,.04);
+  --pink:#ec5f74;--brown:#703a1e;--yellow:#fbbf24;--soft:#fff7ed;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--tx);font-size:13px;-webkit-font-smoothing:antialiased}
+body{padding-bottom:40px}
+#topbar{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--bdr);padding:0 28px;height:60px;display:flex;align-items:center;gap:16px;box-shadow:var(--sh)}
+.brand{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.brand-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--acc),#d97706);box-shadow:0 4px 10px rgba(180,83,9,.25);color:#fff;font-size:18px;font-weight:700}
+.brand-name{font-size:16px;font-weight:700;letter-spacing:-.02em;color:var(--tx)}
+.brand-sub{font-size:11px;color:var(--t3);letter-spacing:.02em;margin-top:2px}
+#monthbar{display:flex;gap:10px;flex-wrap:wrap;margin-left:auto;align-items:center}
+.month-label{font-size:12px;color:var(--t3);font-weight:700}
+.month-btn{padding:6px 14px;border-radius:999px;border:1px solid var(--bdr);background:#fff;color:var(--t2);cursor:pointer;font-size:12px;font-weight:600;transition:all .2s}
+.month-btn:hover{border-color:var(--yellow);color:var(--acc)}
+.month-btn.on{background:var(--yellow);border-color:var(--yellow);color:#111}
+#main{padding:24px 28px 0;display:flex;flex-direction:column;gap:24px;max-width:1440px;margin:0 auto}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.kc{background:#fff;border:1px solid var(--bdr);border-radius:16px;padding:20px 24px;position:relative;overflow:hidden;box-shadow:var(--sh);transition:all .2s ease;display:flex;flex-direction:column}
+.kc::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--acc)}
+.kc.k0::before{background:linear-gradient(90deg,var(--acc),#d97706)}
+.kc.k1::before{background:linear-gradient(90deg,var(--gr),#34d399)}
+.kc.k2::before{background:linear-gradient(90deg,var(--rd),#f87171)}
+.kc.k3::before{background:linear-gradient(90deg,var(--am),#fbbf24)}
+.kc:hover,.cd:hover{box-shadow:var(--sh-hover);transform:translateY(-2px)}
+.kc-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:17px;font-weight:700}
+.k0 .kc-icon{background:var(--acc-soft);color:var(--acc)}
+.k1 .kc-icon{background:#f0fdf4;color:var(--gr)}
+.k2 .kc-icon{background:#fef2f2;color:var(--rd)}
+.k3 .kc-icon{background:#fffbeb;color:var(--am)}
+.kl{font-size:13px;font-weight:600;color:var(--t3);margin-bottom:6px;letter-spacing:.02em}
+.kv{font-size:28px;font-weight:800;color:var(--tx);line-height:1.2;font-variant-numeric:tabular-nums}
+.ku{font-size:12px;color:var(--t4);margin-top:8px;font-weight:500}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.cd{background:#fff;border:1px solid var(--bdr);border-radius:16px;padding:24px;box-shadow:var(--sh);min-width:0;overflow:hidden;display:flex;flex-direction:column;transition:all .2s ease}
+.ch{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:12px;flex-shrink:0}
+.ct{font-size:16px;font-weight:700;color:var(--tx);letter-spacing:-.01em}
+.cs{font-size:12px;color:var(--t3);margin-top:6px;line-height:1.5}
+.big-number{font-size:36px;font-weight:800;color:var(--rd);line-height:1.1;font-variant-numeric:tabular-nums;margin-bottom:10px}
+.summary{display:flex;gap:18px;flex-wrap:wrap;color:var(--t3);font-size:12px;margin-bottom:16px}
+.summary strong{color:var(--rd)}
+.badge{border:1px solid #fcd34d;color:var(--acc);background:#fff;border-radius:10px;padding:2px 10px;font-size:11px;font-weight:700;white-space:nowrap}
+.chart-card{border:1px solid #eef2f7;border-radius:14px;padding:14px 16px;background:linear-gradient(180deg,#fff,#fffbf5)}
+.chart-card.pink{background:linear-gradient(180deg,#fff,#fff7fa)}
+.chart-head{display:flex;justify-content:space-between;gap:12px;align-items:baseline;margin-bottom:8px}
+.chart-title{font-size:13px;font-weight:700;color:var(--t2)}
+.chart-total{font-size:22px;font-weight:800;color:var(--rd)}
+.chart-meta{font-size:12px;color:var(--t4);margin-bottom:12px;line-height:1.5}
+.stack{display:grid;gap:16px}
+.viz-scroll{overflow:auto hidden;padding-bottom:6px}
+.columns{display:flex;align-items:flex-end;gap:12px;min-height:236px}
+.col{width:72px;flex:0 0 72px;display:grid;grid-template-rows:auto 154px auto auto;gap:8px;align-items:end}
+.col-value{font-size:15px;font-weight:800;color:var(--rd);text-align:center;min-height:32px}
+.col-track{height:154px;border-radius:12px 12px 10px 10px;background:linear-gradient(180deg,#faf7f2,#f1f5f9);display:flex;align-items:flex-end;justify-content:center;overflow:hidden}
+.col-bar{width:44px;min-height:6px;border-radius:12px 12px 0 0;background:linear-gradient(180deg,#9a5a31,#6f391d)}
+.col-bar.pink{background:linear-gradient(180deg,#ff8aa1,#ec5f74)}
+.col-bar.gold{background:linear-gradient(180deg,#ffd861,#f0a400)}
+.col-label{font-size:12px;line-height:1.35;color:#555;text-align:center;word-break:break-all;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:32px}
+.col-sub{font-size:11px;line-height:1.3;color:#8d8d8d;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.line-wrap{overflow:auto hidden;padding-bottom:6px}
+.line-svg{display:block}
+.bars{display:grid;gap:10px}
+.bar-row{display:grid;grid-template-columns:150px 1fr 90px;align-items:center;gap:10px;font-size:13px}
+.bar-label{color:#555;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.track{position:relative;height:14px;overflow:hidden;border-radius:8px;background:#f1f3f4}
+.fill{height:100%;min-width:5px;border-radius:inherit;background:var(--brown)}
+.bar-value{color:var(--rd);text-align:right;white-space:nowrap;font-weight:800}
+.hint{font-size:12px;color:var(--t4);line-height:1.7}
+.tooltip{position:fixed;z-index:300;max-width:280px;padding:10px 12px;border-radius:10px;background:rgba(15,23,42,.95);color:#fff;font-size:12px;line-height:1.5;pointer-events:none;opacity:0;transform:translateY(6px);transition:opacity .12s ease,transform .12s ease;box-shadow:0 20px 25px -5px rgba(0,0,0,.1),0 8px 10px -6px rgba(0,0,0,.1)}
+.tooltip.on{opacity:1;transform:translateY(0)}
+.tip-target{cursor:pointer}
+@media(max-width:1000px){.kpi-row,.row-2{grid-template-columns:1fr}}
+@media(max-width:768px){#topbar{padding:12px 16px;flex-wrap:wrap;height:auto}#monthbar{width:100%;justify-content:flex-start;margin-left:0}#main{padding:16px}.kpi-row{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.kpi-row{grid-template-columns:1fr}.col{width:64px;flex-basis:64px}.col-bar{width:38px}.bar-row{grid-template-columns:104px 1fr}.bar-value{grid-column:2;text-align:left}}
+</style>
+</head>
+<body>
+<div id="topbar">
+  <div class="brand">
+    <div class="brand-icon">运</div>
+    <div>
+      <div class="brand-name">物料运费看板</div>
+      <div class="brand-sub">Freight Dashboard Template Try</div>
+    </div>
+  </div>
+  <div id="monthbar"></div>
+</div>
+
+<div id="main">
+  <div class="kpi-row" id="kpi"></div>
+  <div class="row-2" id="grid"></div>
+  <div class="hint" id="hint"></div>
+</div>
+<div class="tooltip" id="tip"></div>
+
+<script>
+const payload = {"sourceFile": "2026年年度物料运费情况分析更新前更新子表.xlsx", "sourceSheet": "数据明细", "month": "5月", "cards": {"freight": 125841.08, "orders": 6413, "abnormalOrders": 26, "freightRatio": 9.67, "shipmentQuantity": 808695.0}, "rows": [{"name": "皇家小虎1.2米试吃桌", "orders": 1648, "abnormalOrders": 0, "shipmentQuantity": 1648.0, "freightAmount": 53258.6, "freightRatio": 14.17, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎0.8米试吃桌", "orders": 679, "abnormalOrders": 0, "shipmentQuantity": 680.0, "freightAmount": 12608.04, "freightRatio": 14.26, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎毛毡包34cm", "orders": 260, "abnormalOrders": 11, "shipmentQuantity": 33037.0, "freightAmount": 10572.86, "freightRatio": 9.85, "abnormalAvgFreight": 43.61}, {"name": "皇家小虎空气炸锅5L", "orders": 713, "abnormalOrders": 0, "shipmentQuantity": 715.0, "freightAmount": 8608.88, "freightRatio": 10.03, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎铝箔袋S4线下款（承重5-8kg）", "orders": 292, "abnormalOrders": 0, "shipmentQuantity": 114950.0, "freightAmount": 8184.79, "freightRatio": 10.47, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎PE材质气球50cm", "orders": 939, "abnormalOrders": 0, "shipmentQuantity": 188400.0, "freightAmount": 8019.06, "freightRatio": 5.04, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎扇子18cm", "orders": 328, "abnormalOrders": 0, "shipmentQuantity": 164000.0, "freightAmount": 6434.4, "freightRatio": 5.23, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎铝箔袋S2线下款（承重3-5kg）", "orders": 295, "abnormalOrders": 0, "shipmentQuantity": 106950.0, "freightAmount": 5784.35, "freightRatio": 10.02, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎坐姿公仔24cm", "orders": 499, "abnormalOrders": 0, "shipmentQuantity": 5340.0, "freightAmount": 4225.91, "freightRatio": 4.8, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎贴纸", "orders": 161, "abnormalOrders": 0, "shipmentQuantity": 161000.0, "freightAmount": 2125.21, "freightRatio": 9.78, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎显眼包（帆布版）", "orders": 28, "abnormalOrders": 0, "shipmentQuantity": 950.0, "freightAmount": 1275.33, "freightRatio": 6.55, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎围裙", "orders": 153, "abnormalOrders": 6, "shipmentQuantity": 4011.0, "freightAmount": 1231.18, "freightRatio": 3.96, "abnormalAvgFreight": 8.7}, {"name": "皇家小虎帆布帽（烫画版）", "orders": 131, "abnormalOrders": 1, "shipmentQuantity": 2153.0, "freightAmount": 781.84, "freightRatio": 4.54, "abnormalAvgFreight": 4.8}, {"name": "皇家小虎认证立牌", "orders": 56, "abnormalOrders": 6, "shipmentQuantity": 582.0, "freightAmount": 682.7, "freightRatio": 13.03, "abnormalAvgFreight": 4.83}, {"name": "皇家小虎物料包", "orders": 84, "abnormalOrders": 0, "shipmentQuantity": 84.0, "freightAmount": 516.72, "freightRatio": 17.09, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎产品手册", "orders": 20, "abnormalOrders": 0, "shipmentQuantity": 11800.0, "freightAmount": 433.28, "freightRatio": 13.6, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎道旗仅旗面（蛋挞/烤肠款）", "orders": 39, "abnormalOrders": 0, "shipmentQuantity": 234.0, "freightAmount": 362.7, "freightRatio": 1.72, "abnormalAvgFreight": 0.0}, {"name": "可生物降解背心袋", "orders": 5, "abnormalOrders": 0, "shipmentQuantity": 10000.0, "freightAmount": 192.3, "freightRatio": 14.24, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎黄色短袖", "orders": 35, "abnormalOrders": 0, "shipmentQuantity": 70.0, "freightAmount": 168.08, "freightRatio": 9.8, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎冲锋衣（单壳）", "orders": 19, "abnormalOrders": 0, "shipmentQuantity": 57.0, "freightAmount": 127.79, "freightRatio": 2.49, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎常规礼品卡", "orders": 10, "abnormalOrders": 2, "shipmentQuantity": 1393.0, "freightAmount": 83.7, "freightRatio": 5.01, "abnormalAvgFreight": 4.65}, {"name": "皇家小虎三角立牌", "orders": 8, "abnormalOrders": 0, "shipmentQuantity": 139.0, "freightAmount": 75.94, "freightRatio": 9.11, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎气膜人偶服2m", "orders": 5, "abnormalOrders": 0, "shipmentQuantity": 5.0, "freightAmount": 32.94, "freightRatio": 1.0, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎黑色立式展架含蛋挞+烤肠画面", "orders": 1, "abnormalOrders": 0, "shipmentQuantity": 1.0, "freightAmount": 20.0, "freightRatio": 15.27, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎海报（四年销量）", "orders": 2, "abnormalOrders": 0, "shipmentQuantity": 300.0, "freightAmount": 17.67, "freightRatio": 1.96, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎虎头挂件10cm", "orders": 1, "abnormalOrders": 0, "shipmentQuantity": 46.0, "freightAmount": 6.61, "freightRatio": 1.44, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎1m层架压条", "orders": 1, "abnormalOrders": 0, "shipmentQuantity": 50.0, "freightAmount": 6.0, "freightRatio": 12.0, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎PVC硬片跳跳卡", "orders": 1, "abnormalOrders": 0, "shipmentQuantity": 100.0, "freightAmount": 4.2, "freightRatio": 9.33, "abnormalAvgFreight": 0.0}], "months": [{"month": "全年", "monthValue": "全年", "cards": {"freight": 825455.64, "orders": 34746, "abnormalOrders": 440, "freightRatio": 10.99, "shipmentQuantity": 4213518.0}, "compare": {"freight": null, "orders": null, "abnormalOrders": null, "freightRatio": null}, "rows": [{"name": "皇家小虎1.2米试吃桌", "orders": 12198, "abnormalOrders": 41, "shipmentQuantity": 12199.0, "freightAmount": 415701.8, "freightRatio": 14.95, "abnormalAvgFreight": 139.49}, {"name": "皇家小虎毛毡包34cm", "orders": 1310, "abnormalOrders": 68, "shipmentQuantity": 186230.0, "freightAmount": 70239.15, "freightRatio": 11.61, "abnormalAvgFreight": 58.76}, {"name": "皇家小虎铝箔袋S4线下款（承重5-8kg）", "orders": 1496, "abnormalOrders": 44, "shipmentQuantity": 641751.0, "freightAmount": 60615.54, "freightRatio": 13.89, "abnormalAvgFreight": 140.62}, {"name": "皇家小虎0.8米试吃桌", "orders": 2744, "abnormalOrders": 52, "shipmentQuantity": 2751.0, "freightAmount": 50721.83, "freightRatio": 14.18, "abnormalAvgFreight": 82.4}, {"name": "皇家小虎PE材质气球50cm", "orders": 4637, "abnormalOrders": 5, "shipmentQuantity": 923800.0, "freightAmount": 44847.35, "freightRatio": 5.75, "abnormalAvgFreight": 78.8}, {"name": "皇家小虎铝箔袋S2线下款（承重3-5kg）", "orders": 1155, "abnormalOrders": 7, "shipmentQuantity": 454490.0, "freightAmount": 29335.59, "freightRatio": 11.95, "abnormalAvgFreight": 46.79}, {"name": "皇家小虎认证立牌", "orders": 1278, "abnormalOrders": 17, "shipmentQuantity": 21391.0, "freightAmount": 21762.25, "freightRatio": 11.3, "abnormalAvgFreight": 9.0}, {"name": "皇家小虎空气炸锅5L", "orders": 1583, "abnormalOrders": 0, "shipmentQuantity": 1585.0, "freightAmount": 18207.28, "freightRatio": 9.57, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎坐姿公仔24cm", "orders": 1857, "abnormalOrders": 0, "shipmentQuantity": 19337.0, "freightAmount": 17750.35, "freightRatio": 5.56, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎围裙", "orders": 1386, "abnormalOrders": 69, "shipmentQuantity": 31181.0, "freightAmount": 17439.24, "freightRatio": 7.22, "abnormalAvgFreight": 37.98}, {"name": "皇家小虎贴纸", "orders": 1105, "abnormalOrders": 21, "shipmentQuantity": 923694.0, "freightAmount": 16130.38, "freightRatio": 12.94, "abnormalAvgFreight": 50.89}, {"name": "皇家小虎虎头挂件10cm", "orders": 944, "abnormalOrders": 0, "shipmentQuantity": 50596.0, "freightAmount": 14682.87, "freightRatio": 2.91, "abnormalAvgFreight": 0.0}, {"name": "可生物降解背心袋", "orders": 342, "abnormalOrders": 13, "shipmentQuantity": 563452.0, "freightAmount": 9274.73, "freightRatio": 12.19, "abnormalAvgFreight": 37.51}, {"name": "皇家小虎扇子18cm", "orders": 373, "abnormalOrders": 0, "shipmentQuantity": 186340.0, "freightAmount": 7291.48, "freightRatio": 5.22, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎帆布帽（烫画版）", "orders": 660, "abnormalOrders": 20, "shipmentQuantity": 11864.0, "freightAmount": 6513.51, "freightRatio": 6.86, "abnormalAvgFreight": 33.55}, {"name": "皇家小虎PVC硬片跳跳卡", "orders": 639, "abnormalOrders": 11, "shipmentQuantity": 60000.0, "freightAmount": 6043.7, "freightRatio": 22.38, "abnormalAvgFreight": 101.86}, {"name": "皇家小虎产品手册", "orders": 219, "abnormalOrders": 19, "shipmentQuantity": 88982.0, "freightAmount": 4200.62, "freightRatio": 17.48, "abnormalAvgFreight": 33.12}, {"name": "皇家小虎显眼包（帆布版）", "orders": 88, "abnormalOrders": 1, "shipmentQuantity": 2528.0, "freightAmount": 3443.87, "freightRatio": 6.65, "abnormalAvgFreight": 37.0}, {"name": "皇家小虎物料包", "orders": 284, "abnormalOrders": 50, "shipmentQuantity": 284.0, "freightAmount": 2441.57, "freightRatio": 23.88, "abnormalAvgFreight": 20.9}, {"name": "皇家小虎圆耳头箍", "orders": 30, "abnormalOrders": 0, "shipmentQuantity": 12340.0, "freightAmount": 2068.33, "freightRatio": 4.04, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎黄色短袖", "orders": 114, "abnormalOrders": 0, "shipmentQuantity": 636.0, "freightAmount": 1246.7, "freightRatio": 8.0, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎气膜人偶服2m", "orders": 111, "abnormalOrders": 0, "shipmentQuantity": 157.0, "freightAmount": 1123.26, "freightRatio": 1.09, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎道旗仅旗面（蛋挞/烤肠款）", "orders": 112, "abnormalOrders": 0, "shipmentQuantity": 591.0, "freightAmount": 1046.25, "freightRatio": 1.97, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎冲锋衣（单壳）", "orders": 130, "abnormalOrders": 0, "shipmentQuantity": 478.0, "freightAmount": 1040.92, "freightRatio": 2.42, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎三角立牌", "orders": 65, "abnormalOrders": 7, "shipmentQuantity": 1261.0, "freightAmount": 849.25, "freightRatio": 11.22, "abnormalAvgFreight": 7.65}, {"name": "皇家小虎1m层架压条", "orders": 83, "abnormalOrders": 3, "shipmentQuantity": 11806.0, "freightAmount": 640.94, "freightRatio": 5.43, "abnormalAvgFreight": 4.5}, {"name": "皇家小虎黄色卫衣", "orders": 44, "abnormalOrders": 0, "shipmentQuantity": 171.0, "freightAmount": 269.0, "freightRatio": 2.31, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎海报（四年销量）", "orders": 35, "abnormalOrders": 12, "shipmentQuantity": 991.0, "freightAmount": 203.84, "freightRatio": 6.86, "abnormalAvgFreight": 5.55}, {"name": "皇家小虎四角帐篷3米*3米", "orders": 5, "abnormalOrders": 0, "shipmentQuantity": 5.0, "freightAmount": 156.3, "freightRatio": 8.56, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎常规礼品卡", "orders": 23, "abnormalOrders": 3, "shipmentQuantity": 2626.0, "freightAmount": 147.74, "freightRatio": 4.69, "abnormalAvgFreight": 4.5}, {"name": "皇家小虎黑色立式展架含蛋挞+烤肠画面", "orders": 1, "abnormalOrders": 0, "shipmentQuantity": 1.0, "freightAmount": 20.0, "freightRatio": 15.27, "abnormalAvgFreight": 0.0}]}, {"month": "1月", "monthValue": 1, "cards": {"freight": 257176.26, "orders": 9853, "abnormalOrders": 132, "freightRatio": 11.81, "shipmentQuantity": 966966.0}, "compare": {"freight": null, "orders": null, "abnormalOrders": null, "freightRatio": null}, "rows": [{"name": "皇家小虎1.2米试吃桌", "orders": 4490, "abnormalOrders": 9, "shipmentQuantity": 4490.0, "freightAmount": 158625.0, "freightRatio": 15.49, "abnormalAvgFreight": 126.67}, {"name": "皇家小虎毛毡包34cm", "orders": 312, "abnormalOrders": 8, "shipmentQuantity": 53436.0, "freightAmount": 19988.5, "freightRatio": 11.51, "abnormalAvgFreight": 40.93}, {"name": "皇家小虎铝箔袋S4线下款（承重5-8kg）", "orders": 302, "abnormalOrders": 12, "shipmentQuantity": 142950.0, "freightAmount": 14461.35, "freightRatio": 14.88, "abnormalAvgFreight": 161.0}, {"name": "皇家小虎0.8米试吃桌", "orders": 649, "abnormalOrders": 32, "shipmentQuantity": 654.0, "freightAmount": 13288.16, "freightRatio": 15.63, "abnormalAvgFreight": 80.38}, {"name": "皇家小虎铝箔袋S2线下款（承重3-5kg）", "orders": 259, "abnormalOrders": 2, "shipmentQuantity": 115040.0, "freightAmount": 9965.47, "freightRatio": 16.04, "abnormalAvgFreight": 45.5}, {"name": "皇家小虎PE材质气球50cm", "orders": 976, "abnormalOrders": 0, "shipmentQuantity": 192000.0, "freightAmount": 8695.75, "freightRatio": 5.36, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎认证立牌", "orders": 323, "abnormalOrders": 0, "shipmentQuantity": 4809.0, "freightAmount": 6105.5, "freightRatio": 14.11, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎贴纸", "orders": 317, "abnormalOrders": 2, "shipmentQuantity": 265004.0, "freightAmount": 5558.48, "freightRatio": 15.54, "abnormalAvgFreight": 9.75}, {"name": "皇家小虎虎头挂件10cm", "orders": 446, "abnormalOrders": 0, "shipmentQuantity": 22566.0, "freightAmount": 4761.5, "freightRatio": 2.11, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎坐姿公仔24cm", "orders": 435, "abnormalOrders": 0, "shipmentQuantity": 4447.0, "freightAmount": 3598.54, "freightRatio": 4.9, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎PVC硬片跳跳卡", "orders": 539, "abnormalOrders": 0, "shipmentQuantity": 27200.0, "freightAmount": 2568.9, "freightRatio": 20.99, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎围裙", "orders": 268, "abnormalOrders": 0, "shipmentQuantity": 5036.0, "freightAmount": 2325.89, "freightRatio": 5.96, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎帆布帽（烫画版）", "orders": 185, "abnormalOrders": 6, "shipmentQuantity": 3620.0, "freightAmount": 1786.4, "freightRatio": 6.17, "abnormalAvgFreight": 21.07}, {"name": "皇家小虎产品手册", "orders": 58, "abnormalOrders": 3, "shipmentQuantity": 34712.0, "freightAmount": 1448.31, "freightRatio": 15.45, "abnormalAvgFreight": 4.35}, {"name": "可生物降解背心袋", "orders": 44, "abnormalOrders": 0, "shipmentQuantity": 80300.0, "freightAmount": 1105.36, "freightRatio": 10.2, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎物料包", "orders": 50, "abnormalOrders": 50, "shipmentQuantity": 50.0, "freightAmount": 1045.0, "freightRatio": 58.06, "abnormalAvgFreight": 20.9}, {"name": "皇家小虎气膜人偶服2m", "orders": 52, "abnormalOrders": 0, "shipmentQuantity": 79.0, "freightAmount": 483.22, "freightRatio": 0.93, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎冲锋衣（单壳）", "orders": 41, "abnormalOrders": 0, "shipmentQuantity": 164.0, "freightAmount": 359.0, "freightRatio": 2.43, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎道旗仅旗面（蛋挞/烤肠款）", "orders": 29, "abnormalOrders": 0, "shipmentQuantity": 89.0, "freightAmount": 238.8, "freightRatio": 2.98, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎1m层架压条", "orders": 24, "abnormalOrders": 3, "shipmentQuantity": 2576.0, "freightAmount": 172.8, "freightRatio": 6.71, "abnormalAvgFreight": 4.5}, {"name": "皇家小虎三角立牌", "orders": 17, "abnormalOrders": 3, "shipmentQuantity": 327.0, "freightAmount": 155.7, "freightRatio": 7.94, "abnormalAvgFreight": 4.8}, {"name": "皇家小虎扇子18cm", "orders": 13, "abnormalOrders": 0, "shipmentQuantity": 6240.0, "freightAmount": 151.0, "freightRatio": 3.23, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎显眼包（帆布版）", "orders": 7, "abnormalOrders": 0, "shipmentQuantity": 181.0, "freightAmount": 122.5, "freightRatio": 3.3, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎黄色卫衣", "orders": 11, "abnormalOrders": 0, "shipmentQuantity": 25.0, "freightAmount": 56.5, "freightRatio": 3.32, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎圆耳头箍", "orders": 3, "abnormalOrders": 0, "shipmentQuantity": 700.0, "freightAmount": 51.33, "freightRatio": 1.77, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎海报（四年销量）", "orders": 8, "abnormalOrders": 2, "shipmentQuantity": 270.0, "freightAmount": 48.6, "freightRatio": 6.0, "abnormalAvgFreight": 4.8}, {"name": "皇家小虎四角帐篷3米*3米", "orders": 1, "abnormalOrders": 0, "shipmentQuantity": 1.0, "freightAmount": 8.7, "freightRatio": 2.38, "abnormalAvgFreight": 0.0}]}, {"month": "2月", "monthValue": 2, "cards": {"freight": 90024.55, "orders": 2683, "abnormalOrders": 118, "freightRatio": 13.97, "shipmentQuantity": 378143.0}, "compare": {"freight": -65.0, "orders": -72.8, "abnormalOrders": -10.6, "freightRatio": 18.3}, "rows": [{"name": "皇家小虎1.2米试吃桌", "orders": 916, "abnormalOrders": 30, "shipmentQuantity": 916.0, "freightAmount": 35450.1, "freightRatio": 16.97, "abnormalAvgFreight": 128.0}, {"name": "皇家小虎铝箔袋S4线下款（承重5-8kg）", "orders": 247, "abnormalOrders": 6, "shipmentQuantity": 111700.0, "freightAmount": 12409.3, "freightRatio": 16.34, "abnormalAvgFreight": 101.07}, {"name": "皇家小虎PE材质气球50cm", "orders": 405, "abnormalOrders": 4, "shipmentQuantity": 80400.0, "freightAmount": 7919.7, "freightRatio": 11.66, "abnormalAvgFreight": 80.0}, {"name": "皇家小虎0.8米试吃桌", "orders": 206, "abnormalOrders": 20, "shipmentQuantity": 206.0, "freightAmount": 6102.1, "freightRatio": 22.79, "abnormalAvgFreight": 85.65}, {"name": "皇家小虎虎头挂件10cm", "orders": 84, "abnormalOrders": 0, "shipmentQuantity": 7470.0, "freightAmount": 5952.0, "freightRatio": 7.98, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎毛毡包34cm", "orders": 108, "abnormalOrders": 12, "shipmentQuantity": 16689.0, "freightAmount": 5949.9, "freightRatio": 10.97, "abnormalAvgFreight": 30.52}, {"name": "皇家小虎围裙", "orders": 136, "abnormalOrders": 19, "shipmentQuantity": 3349.0, "freightAmount": 3302.2, "freightRatio": 12.72, "abnormalAvgFreight": 33.21}, {"name": "皇家小虎坐姿公仔24cm", "orders": 152, "abnormalOrders": 0, "shipmentQuantity": 1556.0, "freightAmount": 2331.8, "freightRatio": 9.08, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎贴纸", "orders": 86, "abnormalOrders": 7, "shipmentQuantity": 68400.0, "freightAmount": 2314.1, "freightRatio": 25.06, "abnormalAvgFreight": 41.57}, {"name": "皇家小虎帆布帽（烫画版）", "orders": 139, "abnormalOrders": 10, "shipmentQuantity": 3420.0, "freightAmount": 2271.85, "freightRatio": 8.3, "abnormalAvgFreight": 42.7}, {"name": "皇家小虎铝箔袋S2线下款（承重3-5kg）", "orders": 66, "abnormalOrders": 3, "shipmentQuantity": 25450.0, "freightAmount": 1960.1, "freightRatio": 14.26, "abnormalAvgFreight": 44.0}, {"name": "皇家小虎认证立牌", "orders": 53, "abnormalOrders": 1, "shipmentQuantity": 773.0, "freightAmount": 1191.3, "freightRatio": 17.12, "abnormalAvgFreight": 7.0}, {"name": "可生物降解背心袋", "orders": 29, "abnormalOrders": 2, "shipmentQuantity": 42275.0, "freightAmount": 784.5, "freightRatio": 13.75, "abnormalAvgFreight": 24.7}, {"name": "皇家小虎显眼包（帆布版）", "orders": 6, "abnormalOrders": 1, "shipmentQuantity": 156.0, "freightAmount": 411.1, "freightRatio": 12.85, "abnormalAvgFreight": 37.0}, {"name": "皇家小虎PVC硬片跳跳卡", "orders": 13, "abnormalOrders": 0, "shipmentQuantity": 5100.0, "freightAmount": 383.7, "freightRatio": 16.72, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎产品手册", "orders": 19, "abnormalOrders": 3, "shipmentQuantity": 6250.0, "freightAmount": 379.4, "freightRatio": 22.48, "abnormalAvgFreight": 12.33}, {"name": "皇家小虎扇子18cm", "orders": 7, "abnormalOrders": 0, "shipmentQuantity": 3640.0, "freightAmount": 344.0, "freightRatio": 12.6, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎气膜人偶服2m", "orders": 8, "abnormalOrders": 0, "shipmentQuantity": 8.0, "freightAmount": 191.0, "freightRatio": 3.63, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎四角帐篷3米*3米", "orders": 4, "abnormalOrders": 0, "shipmentQuantity": 4.0, "freightAmount": 147.6, "freightRatio": 10.11, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎冲锋衣（单壳）", "orders": 11, "abnormalOrders": 0, "shipmentQuantity": 20.0, "freightAmount": 60.9, "freightRatio": 3.38, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎三角立牌", "orders": 5, "abnormalOrders": 0, "shipmentQuantity": 120.0, "freightAmount": 58.5, "freightRatio": 8.12, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎黄色卫衣", "orders": 8, "abnormalOrders": 0, "shipmentQuantity": 19.0, "freightAmount": 48.5, "freightRatio": 3.75, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎海报（四年销量）", "orders": 7, "abnormalOrders": 2, "shipmentQuantity": 136.0, "freightAmount": 38.4, "freightRatio": 9.41, "abnormalAvgFreight": 4.8}, {"name": "皇家小虎道旗仅旗面（蛋挞/烤肠款）", "orders": 1, "abnormalOrders": 0, "shipmentQuantity": 6.0, "freightAmount": 12.0, "freightRatio": 2.22, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎1m层架压条", "orders": 2, "abnormalOrders": 0, "shipmentQuantity": 80.0, "freightAmount": 10.5, "freightRatio": 13.12, "abnormalAvgFreight": 0.0}]}, {"month": "3月", "monthValue": 3, "cards": {"freight": 152705.77, "orders": 6585, "abnormalOrders": 72, "freightRatio": 10.56, "shipmentQuantity": 842135.0}, "compare": {"freight": 69.6, "orders": 145.4, "abnormalOrders": -39.0, "freightRatio": -24.4}, "rows": [{"name": "皇家小虎1.2米试吃桌", "orders": 2373, "abnormalOrders": 0, "shipmentQuantity": 2373.0, "freightAmount": 78057.7, "freightRatio": 14.43, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎毛毡包34cm", "orders": 210, "abnormalOrders": 18, "shipmentQuantity": 24907.0, "freightAmount": 13196.33, "freightRatio": 16.3, "abnormalAvgFreight": 95.23}, {"name": "皇家小虎认证立牌", "orders": 778, "abnormalOrders": 7, "shipmentQuantity": 14239.0, "freightAmount": 12578.24, "freightRatio": 9.82, "abnormalAvgFreight": 12.03}, {"name": "皇家小虎铝箔袋S4线下款（承重5-8kg）", "orders": 297, "abnormalOrders": 5, "shipmentQuantity": 119301.0, "freightAmount": 8994.33, "freightRatio": 11.09, "abnormalAvgFreight": 114.94}, {"name": "皇家小虎0.8米试吃桌", "orders": 446, "abnormalOrders": 0, "shipmentQuantity": 446.0, "freightAmount": 7507.5, "freightRatio": 12.95, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎PE材质气球50cm", "orders": 735, "abnormalOrders": 0, "shipmentQuantity": 146600.0, "freightAmount": 5485.76, "freightRatio": 4.43, "abnormalAvgFreight": 0.0}, {"name": "可生物降解背心袋", "orders": 173, "abnormalOrders": 6, "shipmentQuantity": 278525.0, "freightAmount": 5038.62, "freightRatio": 13.4, "abnormalAvgFreight": 44.55}, {"name": "皇家小虎铝箔袋S2线下款（承重3-5kg）", "orders": 165, "abnormalOrders": 1, "shipmentQuantity": 66350.0, "freightAmount": 4496.85, "freightRatio": 12.55, "abnormalAvgFreight": 53.0}, {"name": "皇家小虎围裙", "orders": 286, "abnormalOrders": 23, "shipmentQuantity": 6409.0, "freightAmount": 3558.38, "freightRatio": 7.16, "abnormalAvgFreight": 18.45}, {"name": "皇家小虎坐姿公仔24cm", "orders": 364, "abnormalOrders": 0, "shipmentQuantity": 3880.0, "freightAmount": 3287.93, "freightRatio": 5.14, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎贴纸", "orders": 173, "abnormalOrders": 7, "shipmentQuantity": 109550.0, "freightAmount": 2072.25, "freightRatio": 14.01, "abnormalAvgFreight": 95.31}, {"name": "皇家小虎虎头挂件10cm", "orders": 211, "abnormalOrders": 0, "shipmentQuantity": 10570.0, "freightAmount": 2066.32, "freightRatio": 1.96, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎帆布帽（烫画版）", "orders": 110, "abnormalOrders": 2, "shipmentQuantity": 1576.0, "freightAmount": 1014.41, "freightRatio": 8.05, "abnormalAvgFreight": 46.35}, {"name": "皇家小虎PVC硬片跳跳卡", "orders": 34, "abnormalOrders": 5, "shipmentQuantity": 9900.0, "freightAmount": 900.14, "freightRatio": 20.21, "abnormalAvgFreight": 22.99}, {"name": "皇家小虎显眼包（帆布版）", "orders": 23, "abnormalOrders": 0, "shipmentQuantity": 778.0, "freightAmount": 850.33, "freightRatio": 5.33, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎产品手册", "orders": 83, "abnormalOrders": 5, "shipmentQuantity": 22970.0, "freightAmount": 754.2, "freightRatio": 12.16, "abnormalAvgFreight": 11.14}, {"name": "皇家小虎圆耳头箍", "orders": 5, "abnormalOrders": 0, "shipmentQuantity": 2200.0, "freightAmount": 694.0, "freightRatio": 7.6, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎扇子18cm", "orders": 25, "abnormalOrders": 0, "shipmentQuantity": 12460.0, "freightAmount": 362.08, "freightRatio": 3.87, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎1m层架压条", "orders": 47, "abnormalOrders": 0, "shipmentQuantity": 8050.0, "freightAmount": 355.62, "freightRatio": 4.42, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎冲锋衣（单壳）", "orders": 38, "abnormalOrders": 0, "shipmentQuantity": 136.0, "freightAmount": 324.4, "freightRatio": 2.65, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎物料包", "orders": 50, "abnormalOrders": 0, "shipmentQuantity": 50.0, "freightAmount": 318.38, "freightRatio": 17.69, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎气膜人偶服2m", "orders": 29, "abnormalOrders": 0, "shipmentQuantity": 37.0, "freightAmount": 216.2, "freightRatio": 0.89, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎道旗仅旗面（蛋挞/烤肠款）", "orders": 18, "abnormalOrders": 0, "shipmentQuantity": 108.0, "freightAmount": 201.62, "freightRatio": 2.07, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎三角立牌", "orders": 14, "abnormalOrders": 1, "shipmentQuantity": 404.0, "freightAmount": 173.26, "freightRatio": 7.15, "abnormalAvgFreight": 6.72}, {"name": "皇家小虎黄色卫衣", "orders": 23, "abnormalOrders": 0, "shipmentQuantity": 120.0, "freightAmount": 153.71, "freightRatio": 1.88, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎海报（四年销量）", "orders": 7, "abnormalOrders": 2, "shipmentQuantity": 126.0, "freightAmount": 37.23, "freightRatio": 9.85, "abnormalAvgFreight": 7.14}, {"name": "皇家小虎常规礼品卡", "orders": 2, "abnormalOrders": 0, "shipmentQuantity": 70.0, "freightAmount": 9.98, "freightRatio": 11.88, "abnormalAvgFreight": 0.0}]}, {"month": "4月", "monthValue": 4, "cards": {"freight": 199707.98, "orders": 9212, "abnormalOrders": 92, "freightRatio": 10.29, "shipmentQuantity": 1217579.0}, "compare": {"freight": 30.8, "orders": 39.9, "abnormalOrders": 27.8, "freightRatio": -2.6}, "rows": [{"name": "皇家小虎1.2米试吃桌", "orders": 2771, "abnormalOrders": 2, "shipmentQuantity": 2772.0, "freightAmount": 90310.4, "freightRatio": 14.29, "abnormalAvgFreight": 369.5}, {"name": "皇家小虎毛毡包34cm", "orders": 420, "abnormalOrders": 19, "shipmentQuantity": 58161.0, "freightAmount": 20531.56, "freightRatio": 10.86, "abnormalAvgFreight": 58.34}, {"name": "皇家小虎铝箔袋S4线下款（承重5-8kg）", "orders": 358, "abnormalOrders": 21, "shipmentQuantity": 152850.0, "freightAmount": 16565.77, "freightRatio": 15.94, "abnormalAvgFreight": 146.38}, {"name": "皇家小虎PE材质气球50cm", "orders": 1582, "abnormalOrders": 1, "shipmentQuantity": 316400.0, "freightAmount": 14727.08, "freightRatio": 5.51, "abnormalAvgFreight": 74.0}, {"name": "皇家小虎0.8米试吃桌", "orders": 764, "abnormalOrders": 0, "shipmentQuantity": 765.0, "freightAmount": 11216.03, "freightRatio": 11.28, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎空气炸锅5L", "orders": 870, "abnormalOrders": 0, "shipmentQuantity": 870.0, "freightAmount": 9598.4, "freightRatio": 9.19, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎铝箔袋S2线下款（承重3-5kg）", "orders": 370, "abnormalOrders": 1, "shipmentQuantity": 140700.0, "freightAmount": 7128.82, "freightRatio": 9.38, "abnormalAvgFreight": 51.5}, {"name": "皇家小虎围裙", "orders": 543, "abnormalOrders": 21, "shipmentQuantity": 12376.0, "freightAmount": 7021.59, "freightRatio": 7.32, "abnormalAvgFreight": 72.06}, {"name": "皇家小虎坐姿公仔24cm", "orders": 407, "abnormalOrders": 0, "shipmentQuantity": 4114.0, "freightAmount": 4306.17, "freightRatio": 6.34, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎贴纸", "orders": 368, "abnormalOrders": 5, "shipmentQuantity": 319740.0, "freightAmount": 4060.34, "freightRatio": 9.41, "abnormalAvgFreight": 18.2}, {"name": "皇家小虎PVC硬片跳跳卡", "orders": 52, "abnormalOrders": 6, "shipmentQuantity": 17700.0, "freightAmount": 2186.76, "freightRatio": 27.45, "abnormalAvgFreight": 167.59}, {"name": "可生物降解背心袋", "orders": 91, "abnormalOrders": 5, "shipmentQuantity": 152352.0, "freightAmount": 2153.95, "freightRatio": 10.47, "abnormalAvgFreight": 34.19}, {"name": "皇家小虎虎头挂件10cm", "orders": 202, "abnormalOrders": 0, "shipmentQuantity": 9944.0, "freightAmount": 1896.44, "freightRatio": 1.91, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎圆耳头箍", "orders": 22, "abnormalOrders": 0, "shipmentQuantity": 9440.0, "freightAmount": 1323.0, "freightRatio": 3.38, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎认证立牌", "orders": 68, "abnormalOrders": 3, "shipmentQuantity": 988.0, "freightAmount": 1204.51, "freightRatio": 13.55, "abnormalAvgFreight": 10.94}, {"name": "皇家小虎产品手册", "orders": 39, "abnormalOrders": 8, "shipmentQuantity": 13250.0, "freightAmount": 1185.43, "freightRatio": 33.14, "abnormalAvgFreight": 65.44}, {"name": "皇家小虎黄色短袖", "orders": 79, "abnormalOrders": 0, "shipmentQuantity": 566.0, "freightAmount": 1078.62, "freightRatio": 7.78, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎显眼包（帆布版）", "orders": 24, "abnormalOrders": 0, "shipmentQuantity": 463.0, "freightAmount": 784.61, "freightRatio": 8.27, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎帆布帽（烫画版）", "orders": 95, "abnormalOrders": 1, "shipmentQuantity": 1095.0, "freightAmount": 659.01, "freightRatio": 7.52, "abnormalAvgFreight": 20.1}, {"name": "皇家小虎物料包", "orders": 100, "abnormalOrders": 0, "shipmentQuantity": 100.0, "freightAmount": 561.47, "freightRatio": 15.6, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎三角立牌", "orders": 21, "abnormalOrders": 3, "shipmentQuantity": 271.0, "freightAmount": 385.85, "freightRatio": 23.73, "abnormalAvgFreight": 10.8}, {"name": "皇家小虎道旗仅旗面（蛋挞/烤肠款）", "orders": 25, "abnormalOrders": 0, "shipmentQuantity": 154.0, "freightAmount": 231.13, "freightRatio": 1.67, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎气膜人偶服2m", "orders": 17, "abnormalOrders": 0, "shipmentQuantity": 28.0, "freightAmount": 199.9, "freightRatio": 1.08, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎冲锋衣（单壳）", "orders": 21, "abnormalOrders": 0, "shipmentQuantity": 101.0, "freightAmount": 168.83, "freightRatio": 1.86, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎1m层架压条", "orders": 9, "abnormalOrders": 0, "shipmentQuantity": 1050.0, "freightAmount": 96.02, "freightRatio": 9.14, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎海报（四年销量）", "orders": 11, "abnormalOrders": 6, "shipmentQuantity": 159.0, "freightAmount": 61.94, "freightRatio": 12.99, "abnormalAvgFreight": 5.52}, {"name": "皇家小虎常规礼品卡", "orders": 11, "abnormalOrders": 1, "shipmentQuantity": 1163.0, "freightAmount": 54.06, "freightRatio": 3.87, "abnormalAvgFreight": 4.2}, {"name": "皇家小虎黄色卫衣", "orders": 2, "abnormalOrders": 0, "shipmentQuantity": 7.0, "freightAmount": 10.29, "freightRatio": 2.16, "abnormalAvgFreight": 0.0}]}, {"month": "5月", "monthValue": 5, "cards": {"freight": 125841.08, "orders": 6413, "abnormalOrders": 26, "freightRatio": 9.67, "shipmentQuantity": 808695.0}, "compare": {"freight": -37.0, "orders": -30.4, "abnormalOrders": -71.7, "freightRatio": -6.0}, "rows": [{"name": "皇家小虎1.2米试吃桌", "orders": 1648, "abnormalOrders": 0, "shipmentQuantity": 1648.0, "freightAmount": 53258.6, "freightRatio": 14.17, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎0.8米试吃桌", "orders": 679, "abnormalOrders": 0, "shipmentQuantity": 680.0, "freightAmount": 12608.04, "freightRatio": 14.26, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎毛毡包34cm", "orders": 260, "abnormalOrders": 11, "shipmentQuantity": 33037.0, "freightAmount": 10572.86, "freightRatio": 9.85, "abnormalAvgFreight": 43.61}, {"name": "皇家小虎空气炸锅5L", "orders": 713, "abnormalOrders": 0, "shipmentQuantity": 715.0, "freightAmount": 8608.88, "freightRatio": 10.03, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎铝箔袋S4线下款（承重5-8kg）", "orders": 292, "abnormalOrders": 0, "shipmentQuantity": 114950.0, "freightAmount": 8184.79, "freightRatio": 10.47, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎PE材质气球50cm", "orders": 939, "abnormalOrders": 0, "shipmentQuantity": 188400.0, "freightAmount": 8019.06, "freightRatio": 5.04, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎扇子18cm", "orders": 328, "abnormalOrders": 0, "shipmentQuantity": 164000.0, "freightAmount": 6434.4, "freightRatio": 5.23, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎铝箔袋S2线下款（承重3-5kg）", "orders": 295, "abnormalOrders": 0, "shipmentQuantity": 106950.0, "freightAmount": 5784.35, "freightRatio": 10.02, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎坐姿公仔24cm", "orders": 499, "abnormalOrders": 0, "shipmentQuantity": 5340.0, "freightAmount": 4225.91, "freightRatio": 4.8, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎贴纸", "orders": 161, "abnormalOrders": 0, "shipmentQuantity": 161000.0, "freightAmount": 2125.21, "freightRatio": 9.78, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎显眼包（帆布版）", "orders": 28, "abnormalOrders": 0, "shipmentQuantity": 950.0, "freightAmount": 1275.33, "freightRatio": 6.55, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎围裙", "orders": 153, "abnormalOrders": 6, "shipmentQuantity": 4011.0, "freightAmount": 1231.18, "freightRatio": 3.96, "abnormalAvgFreight": 8.7}, {"name": "皇家小虎帆布帽（烫画版）", "orders": 131, "abnormalOrders": 1, "shipmentQuantity": 2153.0, "freightAmount": 781.84, "freightRatio": 4.54, "abnormalAvgFreight": 4.8}, {"name": "皇家小虎认证立牌", "orders": 56, "abnormalOrders": 6, "shipmentQuantity": 582.0, "freightAmount": 682.7, "freightRatio": 13.03, "abnormalAvgFreight": 4.83}, {"name": "皇家小虎物料包", "orders": 84, "abnormalOrders": 0, "shipmentQuantity": 84.0, "freightAmount": 516.72, "freightRatio": 17.09, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎产品手册", "orders": 20, "abnormalOrders": 0, "shipmentQuantity": 11800.0, "freightAmount": 433.28, "freightRatio": 13.6, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎道旗仅旗面（蛋挞/烤肠款）", "orders": 39, "abnormalOrders": 0, "shipmentQuantity": 234.0, "freightAmount": 362.7, "freightRatio": 1.72, "abnormalAvgFreight": 0.0}, {"name": "可生物降解背心袋", "orders": 5, "abnormalOrders": 0, "shipmentQuantity": 10000.0, "freightAmount": 192.3, "freightRatio": 14.24, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎黄色短袖", "orders": 35, "abnormalOrders": 0, "shipmentQuantity": 70.0, "freightAmount": 168.08, "freightRatio": 9.8, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎冲锋衣（单壳）", "orders": 19, "abnormalOrders": 0, "shipmentQuantity": 57.0, "freightAmount": 127.79, "freightRatio": 2.49, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎常规礼品卡", "orders": 10, "abnormalOrders": 2, "shipmentQuantity": 1393.0, "freightAmount": 83.7, "freightRatio": 5.01, "abnormalAvgFreight": 4.65}, {"name": "皇家小虎三角立牌", "orders": 8, "abnormalOrders": 0, "shipmentQuantity": 139.0, "freightAmount": 75.94, "freightRatio": 9.11, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎气膜人偶服2m", "orders": 5, "abnormalOrders": 0, "shipmentQuantity": 5.0, "freightAmount": 32.94, "freightRatio": 1.0, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎黑色立式展架含蛋挞+烤肠画面", "orders": 1, "abnormalOrders": 0, "shipmentQuantity": 1.0, "freightAmount": 20.0, "freightRatio": 15.27, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎海报（四年销量）", "orders": 2, "abnormalOrders": 0, "shipmentQuantity": 300.0, "freightAmount": 17.67, "freightRatio": 1.96, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎虎头挂件10cm", "orders": 1, "abnormalOrders": 0, "shipmentQuantity": 46.0, "freightAmount": 6.61, "freightRatio": 1.44, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎1m层架压条", "orders": 1, "abnormalOrders": 0, "shipmentQuantity": 50.0, "freightAmount": 6.0, "freightRatio": 12.0, "abnormalAvgFreight": 0.0}, {"name": "皇家小虎PVC硬片跳跳卡", "orders": 1, "abnormalOrders": 0, "shipmentQuantity": 100.0, "freightAmount": 4.2, "freightRatio": 9.33, "abnormalAvgFreight": 0.0}]}]};
+const anomalyPanels = [
+  {
+    month: "全年",
+    feeTotal: { title: "运费占总费用比超30%", rows: [] },
+    goodsValue: { title: "运费占货值比超30%", rows: [] }
+  },
+  {
+    month: "5月",
+    feeTotal: { title: "运费占总费用比超30%", rows: [
+      { name: "皇家小虎毛毡包34cm", value: 11 },
+      { name: "皇家小虎围裙", value: 6 },
+      { name: "皇家小虎认证立牌", value: 6 },
+      { name: "皇家小虎常规礼品卡", value: 2 },
+      { name: "皇家小虎帆布帽（烫画版）", value: 1 }
+    ]},
+    goodsValue: { title: "运费占货值比超30%", rows: [
+      { name: "皇家小虎毛毡包34cm", value: 19 },
+      { name: "皇家小虎认证立牌", value: 17 },
+      { name: "皇家小虎围裙", value: 13 },
+      { name: "皇家小虎常规礼品卡", value: 7 },
+      { name: "皇家小虎铝箔袋S4线下款（承重5-8kg）", value: 6 },
+      { name: "皇家小虎铝箔袋S2线下款（承重3-5kg）", value: 3 },
+      { name: "皇家小虎1.2米试吃桌", value: 2 },
+      { name: "皇家小虎帆布帽（烫画版）", value: 1 },
+      { name: "皇家小虎产品手册", value: 1 }
+    ]}
+  }
+];
+const fmt = new Intl.NumberFormat("zh-CN");
+const money = (n) => `¥${fmt.format(Number(n || 0).toFixed(2))}`;
+const number = (n) => fmt.format(Number(n || 0));
+const percent = (n) => `${Number(n || 0).toFixed(1)}%`;
+const monthSeries = payload.months.filter((item) => item.month !== "全年");
+let current = payload.months[payload.months.length - 1];
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function compareText(value) {
+  if (value === null || value === undefined || Number.isNaN(Number(value))) return "/";
+  const numeric = Number(value);
+  return `环比上月 ${numeric > 0 ? "+" : ""}${numeric.toFixed(1)}%`;
+}
+
+function shortLabel(value, len = 8) {
+  const text = String(value ?? "");
+  return text.length > len ? `${text.slice(0, len)}…` : text;
+}
+
+function topRowsBy(rows, key, limit = 10, sorter = null) {
+  return [...rows].sort(sorter || ((a, b) => Number(b[key] || 0) - Number(a[key] || 0))).slice(0, limit);
+}
+
+function getAnomaly() {
+  return anomalyPanels.find((item) => item.month === current.month) || anomalyPanels[anomalyPanels.length - 1];
+}
+
+function ensureTip() {
+  return document.getElementById("tip");
+}
+
+function bindTips() {
+  const tip = ensureTip();
+  document.querySelectorAll(".tip-target").forEach((node) => {
+    node.onmousemove = (event) => {
+      tip.innerHTML = node.dataset.tip || "";
+      tip.classList.add("on");
+      const offset = 14;
+      tip.style.left = `${Math.min(window.innerWidth - 12 - tip.offsetWidth, event.clientX + offset)}px`;
+      tip.style.top = `${Math.max(12, event.clientY - tip.offsetHeight - offset)}px`;
+    };
+    node.onmouseleave = () => tip.classList.remove("on");
+  });
+}
+
+function renderColumns(rows, options = {}) {
+  const { color = "", valueFormatter = (value) => number(value), subFormatter = () => "" } = options;
+  const max = Math.max(1, ...rows.map((row) => Number(row.value ?? row.orders ?? 0)));
+  return `<div class="viz-scroll"><div class="columns" style="min-width:${Math.max(520, rows.length * 86)}px">${rows.map((row) => {
+    const raw = Number(row.value ?? row.orders ?? 0);
+    const detail = subFormatter(row);
+    return `<div class="col tip-target" data-tip="${escapeHtml(`${row.name}<br>${valueFormatter(raw, row)}${detail ? `<br>${detail}` : ""}`)}">
+      <div class="col-value">${valueFormatter(raw, row)}</div>
+      <div class="col-track"><div class="col-bar ${color}" style="height:${Math.max(6, raw / max * 100)}%"></div></div>
+      <div class="col-label">${escapeHtml(row.name)}</div>
+      <div class="col-sub">${escapeHtml(detail || "")}</div>
+    </div>`;
+  }).join("")}</div></div>`;
+}
+
+function renderLine(points, options = {}) {
+  const { color = "#7a3f20", activeColor = "#ec5f74", activeIndex = -1, height = 240, valueFormatter = (value) => number(value), tipFormatter = (item) => `${item.label}<br>${valueFormatter(item.value)}` } = options;
+  const width = Math.max(560, points.length * 88);
+  const padding = { top: 22, right: 28, bottom: 60, left: 24 };
+  const max = Math.max(1, ...points.map((item) => Number(item.value || 0)));
+  const innerWidth = width - padding.left - padding.right;
+  const innerHeight = height - padding.top - padding.bottom;
+  const step = points.length > 1 ? innerWidth / (points.length - 1) : 0;
+  const getX = (index) => padding.left + step * index;
+  const getY = (value) => padding.top + (1 - Number(value || 0) / max) * innerHeight;
+  const grid = [0, .25, .5, .75, 1].map((ratio) => {
+    const y = padding.top + innerHeight * ratio;
+    return `<line x1="${padding.left}" y1="${y}" x2="${width - padding.right}" y2="${y}" stroke="#eeeeee" stroke-width="1" />`;
+  }).join("");
+  return `<div class="line-wrap"><svg class="line-svg" viewBox="0 0 ${width} ${height}" style="width:${width}px" preserveAspectRatio="xMinYMin meet">
+    ${grid}
+    <polyline points="${points.map((item, index) => `${getX(index)},${getY(item.value)}`).join(" ")}" fill="none" stroke="${color}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></polyline>
+    ${points.map((item, index) => {
+      const x = getX(index);
+      const y = getY(item.value);
+      const active = index === activeIndex;
+      const pointColor = active ? activeColor : color;
+      return `<g>
+        <line x1="${x}" y1="${padding.top}" x2="${x}" y2="${padding.top + innerHeight}" stroke="${active ? "rgba(236,95,116,.18)" : "rgba(122,63,32,.08)"}" stroke-width="${active ? 2 : 1}"></line>
+        <circle class="tip-target" data-tip="${escapeHtml(tipFormatter(item, index))}" cx="${x}" cy="${y}" r="${active ? 6 : 5}" fill="#fff" stroke="${pointColor}" stroke-width="3"></circle>
+        <text x="${x}" y="${y - 12}" text-anchor="middle" font-size="12" fill="${pointColor}" font-family="Microsoft YaHei, PingFang SC, sans-serif">${escapeHtml(valueFormatter(item.value))}</text>
+        <text x="${x}" y="${height - 22}" text-anchor="middle" font-size="12" fill="${active ? activeColor : "#666"}" font-family="Microsoft YaHei, PingFang SC, sans-serif">${escapeHtml(shortLabel(item.label, 8))}</text>
+      </g>`;
+    }).join("")}
+  </svg></div>`;
+}
+
+function renderBars(rows) {
+  const max = Math.max(1, ...rows.map((row) => Number(row.freightAmount || 0)));
+  return `<div class="bars">${rows.map((row) => `
+    <div class="bar-row" title="${escapeHtml(row.name)}">
+      <div class="bar-label">${escapeHtml(row.name)}</div>
+      <div class="track"><div class="fill" style="width:${Math.max(Number(row.freightAmount || 0) / max * 100, Number(row.freightAmount || 0) > 0 ? 3 : 0)}%"></div></div>
+      <div class="bar-value">${money(row.freightAmount)}</div>
+    </div>
+  `).join("")}</div>`;
+}
+
+function render() {
+  document.getElementById("monthbar").innerHTML = `<span class="month-label">月份</span>${payload.months.map((month) => `<button class="month-btn ${month.month === current.month ? "on" : ""}" data-month="${month.month}">${month.month}</button>`).join("")}`;
+  document.querySelectorAll(".month-btn").forEach((button) => {
+    button.onclick = () => {
+      current = payload.months.find((month) => month.month === button.dataset.month) || current;
+      render();
+    };
+  });
+
+  const kpis = [
+    ["运", "本月运费", money(current.cards.freight), compareText(current.compare.freight)],
+    ["单", "本月订单数", `${number(current.cards.orders)}单`, compareText(current.compare.orders)],
+    ["异", "本月异常订单数", `${number(current.cards.abnormalOrders)}单`, compareText(current.compare.abnormalOrders)],
+    ["占", "当月整体运费占比", percent(current.cards.freightRatio), compareText(current.compare.freightRatio)],
+  ];
+  document.getElementById("kpi").innerHTML = kpis.map((item, index) => `
+    <article class="kc k${index}">
+      <div class="kc-icon">${item[0]}</div>
+      <div class="kl">${item[1]}</div>
+      <div class="kv">${item[2]}</div>
+      <div class="ku">${item[3]}</div>
+    </article>
+  `).join("");
+
+  const anomaly = getAnomaly();
+  const shipmentTop10 = topRowsBy(current.rows, "shipmentQuantity", 10).map((row) => ({ label: row.name, value: Number(row.shipmentQuantity || 0) }));
+  const shipmentByMonth = monthSeries.map((month) => ({ label: month.month, value: Number(month.cards.shipmentQuantity || 0) }));
+  const activeMonthIndex = monthSeries.findIndex((item) => item.month === current.month);
+  const orderColumns = [...current.rows]
+    .filter((row) => Number(row.orders || 0) > 0)
+    .sort((a, b) => Number(b.freightAmount || 0) - Number(a.freightAmount || 0))
+    .map((row) => ({ name: row.name, value: Number(row.orders || 0), freightAmount: Number(row.freightAmount || 0) }));
+  const freightRows = topRowsBy(current.rows, "freightAmount", 16);
+
+  document.getElementById("grid").innerHTML = `
+    <article class="cd">
+      <div class="ch"><div><div class="ct">各物料异常订单量</div><div class="cs">保留模板卡片结构，只替换成物料运费看板逻辑</div></div><span class="badge">${current.month}</span></div>
+      <div class="stack">
+        <section class="chart-card">
+          <div class="chart-head"><div class="chart-title">${anomaly.feeTotal.title}</div><div class="chart-total">${number(anomaly.feeTotal.rows.reduce((sum, row) => sum + row.value, 0))}单</div></div>
+          <div class="chart-meta">按去重异常订单数展示</div>
+          ${renderColumns(anomaly.feeTotal.rows, { valueFormatter: (value) => `${number(value)}单` })}
+        </section>
+        <section class="chart-card pink">
+          <div class="chart-head"><div class="chart-title">${anomaly.goodsValue.title}</div><div class="chart-total">${number(anomaly.goodsValue.rows.reduce((sum, row) => sum + row.value, 0))}单</div></div>
+          <div class="chart-meta">第二组口径单独展示，颜色区分</div>
+          ${renderColumns(anomaly.goodsValue.rows, { color: "pink", valueFormatter: (value) => `${number(value)}单` })}
+        </section>
+      </div>
+    </article>
+
+    <article class="cd">
+      <div class="ch"><div><div class="ct">各物料发货数量</div><div class="cs">沿用模板的大卡片形式，上下两组图</div></div><span class="badge">${current.month}</span></div>
+      <div class="stack">
+        <section>
+          <div class="big-number">${number(current.cards.shipmentQuantity)}件</div>
+          <div class="summary"><span>当月前 10 个发货最多的物料</span><span>悬浮查看明细</span></div>
+          ${renderLine(shipmentTop10, { activeColor: "#f0a400", activeIndex: shipmentTop10.length ? 0 : -1, valueFormatter: (value) => `${number(value)}件` })}
+        </section>
+        <section class="chart-card">
+          <div class="chart-head"><div class="chart-title">截至最新月份每月发货数量</div><div class="chart-total">${current.month === "全年" ? "全年" : current.month}</div></div>
+          <div class="chart-meta">选中月份高亮显示</div>
+          ${renderLine(shipmentByMonth, { activeIndex: current.month === "全年" ? -1 : activeMonthIndex, valueFormatter: (value) => `${number(value)}件`, tipFormatter: (item) => `${item.label}<br>发货数量：${number(item.value)}件` })}
+        </section>
+      </div>
+    </article>
+
+    <article class="cd">
+      <div class="ch"><div><div class="ct">各物料订单数</div><div class="cs">保留去重逻辑，按运费金额由高到低排序</div></div><span class="badge">${current.month}</span></div>
+      <div class="big-number">${number(current.cards.orders)}单</div>
+      <div class="summary"><span>柱高表示订单数</span><span>底部补充运费求和</span></div>
+      ${renderColumns(orderColumns, { color: "gold", valueFormatter: (value) => `${number(value)}单`, subFormatter: (row) => `运费 ${money(row.freightAmount)}` })}
+    </article>
+
+    <article class="cd">
+      <div class="ch"><div><div class="ct">各物料运费金额</div><div class="cs">保留模板表意方式，继续按运费金额排序</div></div><span class="badge">${current.month}</span></div>
+      <div class="big-number">${money(current.cards.freight)}</div>
+      <div class="summary"><span>整体运费占比：<strong>${percent(current.cards.freightRatio)}</strong></span><span>Top 16 物料</span></div>
+      ${renderBars(freightRows)}
+    </article>
+  `;
+
+  document.getElementById("hint").innerHTML = `数据来源：${payload.sourceFile} / ${payload.sourceSheet}。当前月份：${current.month}。这是套用“采购品类集中度分析”模板样式的试装版。`;
+  bindTips();
+}
+
+render();
+</script>
+</body>
+</html>

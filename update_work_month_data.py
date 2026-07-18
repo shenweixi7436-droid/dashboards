@@ -12,6 +12,7 @@ from openpyxl import load_workbook
 ROOT = Path(__file__).resolve().parent
 SOURCE = Path("C:/Users/shenw/Desktop/看板/市场稽核部重点工作.xlsx")
 DATA_DIR = ROOT / "assets" / "data"
+MARKET_ORDER_IMAGE_DIR = ROOT / "assets" / "images" / "market-order"
 
 PROMO_AUDIT_SHEET = "推广促销稽核"
 PROMO_PLAN_SHEET = "推广促销计划"
@@ -139,7 +140,8 @@ def build_promo(wb):
         if not month:
             continue
         months.add(month)
-        province = values[0]
+        # Column B is the provincial manager; column C is the province name.
+        province = norm(raw_row[2] if len(raw_row) >= 3 else "")
         if province:
             audit_by_month_province[month][province] += 1
         label = result_label(result)
@@ -310,12 +312,66 @@ def build_market_order(wb):
         "customers": set(),
         "provinceCases": defaultdict(set),
         "customerRows": defaultdict(int),
+        "locked": set(),
         "punish": set(),
         "internal": set(),
         "unverified": set(),
         "others": {},
+        "caseDetails": {},
+        "caseDetailOrder": [],
     })
     months = set()
+
+    def sheet_headers(ws):
+        return {norm(ws.cell(1, col).value): col - 1 for col in range(1, ws.max_column + 1)}
+
+    case_headers = sheet_headers(ws_cases)
+
+    def cell_value(row, header, fallback_index=None):
+        idx = case_headers.get(header)
+        if idx is None:
+            idx = fallback_index
+        if idx is None or idx >= len(row):
+            return ""
+        return norm(row[idx])
+
+    def is_dispimg(value):
+        return bool(re.search(r"(?:_xlfn\.)?DISPIMG\s*\(", norm(value), re.IGNORECASE))
+
+    def normalize_verified(value):
+        text = re.sub(r"\s+", "", norm(value))
+        if "未查实" in text:
+            return "未查实"
+        if "已查实" in text:
+            return "已查实"
+        return text
+
+    def build_image_map(ws):
+        image_map = defaultdict(list)
+        images = getattr(ws, "_images", [])
+        if not images:
+            return image_map
+        MARKET_ORDER_IMAGE_DIR.mkdir(parents=True, exist_ok=True)
+        for idx, img in enumerate(images, start=1):
+            anchor = getattr(img, "anchor", None)
+            if not hasattr(anchor, "_from"):
+                continue
+            row_no = anchor._from.row + 1
+            col_no = anchor._from.col + 1
+            fmt = (getattr(img, "format", None) or "png").lower()
+            ext = "jpg" if fmt == "jpeg" else fmt
+            filename = f"market-order-r{row_no}-c{col_no}-{idx}.{ext}"
+            target = MARKET_ORDER_IMAGE_DIR / filename
+            try:
+                target.write_bytes(img._data())
+                image_map[(row_no, col_no)].append(f"assets/images/market-order/{filename}")
+            except Exception:
+                continue
+        return image_map
+
+    case_image_map = build_image_map(ws_cases)
+    smuggler_col = case_headers.get("窜货方")
+    penalty_col = case_headers.get("处罚通告清单")
 
     def is_2026(value):
         text = norm(value)
@@ -324,7 +380,7 @@ def build_market_order(wb):
         m = re.search(r"20\d{2}", text)
         return bool(m and int(m.group(0)) == 2026)
 
-    for row in ws_cases.iter_rows(min_row=2, values_only=True):
+    for row_no, row in enumerate(ws_cases.iter_rows(min_row=2, values_only=True), start=2):
         if not row or not is_2026(row[0] if len(row) > 0 else ""):
             continue
         month = month_label(row[1] if len(row) > 1 else "")
@@ -336,9 +392,12 @@ def build_market_order(wb):
         bucket["cases"].add(seq)
         province = norm(row[4] if len(row) > 4 else "")
         city = norm(row[5] if len(row) > 5 else "")
-        method = norm(row[13] if len(row) > 13 else "")
+        verified = normalize_verified(cell_value(row, "查实情况", 10))
+        method = cell_value(row, "处理结果", 13)
         if province:
             bucket["provinceCases"][province].add(seq)
+        if verified == "已查实":
+            bucket["locked"].add(seq)
         if method in {"营销中心通报处罚", "省区通报处罚"}:
             bucket["punish"].add(seq)
         elif method in {"内部处理", "内部沟通处理"}:
@@ -348,6 +407,39 @@ def build_market_order(wb):
         elif method:
             note = f"窜货{seq}{province}{city}{method}"
             bucket["others"][seq] = note
+        penalty_images = case_image_map.get((row_no, penalty_col + 1), []) if penalty_col is not None else []
+        smuggler_has_image = bool(case_image_map.get((row_no, smuggler_col + 1), [])) if smuggler_col is not None else False
+        smuggler_value = cell_value(row, "窜货方", 12)
+        penalty_notice = cell_value(row, "处罚通告清单", 14)
+        case_detail = {
+            "seq": seq,
+            "auditDate": cell_value(row, "稽核日期", 3),
+            "province": province,
+            "city": city,
+            "feedback": cell_value(row, "投诉反馈人", 6),
+            "batch": cell_value(row, "投诉批次", 9),
+            "verified": verified,
+            "remark": cell_value(row, "备注", 11),
+            "smuggler": "" if smuggler_has_image or is_dispimg(smuggler_value) else smuggler_value,
+            "result": method,
+            "penaltyNotice": "" if is_dispimg(penalty_notice) else penalty_notice,
+            "penaltyImages": penalty_images,
+        }
+        if seq not in bucket["caseDetails"]:
+            bucket["caseDetails"][seq] = case_detail
+            bucket["caseDetailOrder"].append(seq)
+        else:
+            existing = bucket["caseDetails"][seq]
+            for key, value in case_detail.items():
+                if key == "penaltyImages":
+                    existing[key] = list(dict.fromkeys((existing.get(key) or []) + (value or [])))
+                elif key == "verified" and value:
+                    # The last source row is the current verification status.
+                    existing[key] = value
+                elif key in {"remark", "result", "penaltyNotice"} and value:
+                    existing[key] = value
+                elif not existing.get(key) and value:
+                    existing[key] = value
 
     for row in ws_customers.iter_rows(min_row=2, values_only=True):
         if not row:
@@ -363,6 +455,16 @@ def build_market_order(wb):
     payload = {}
     for month in sorted(months, key=month_key):
         bucket = monthly[month]
+        case_details = []
+        for seq in bucket["caseDetailOrder"]:
+            if seq not in bucket["caseDetails"]:
+                continue
+            detail = dict(bucket["caseDetails"][seq])
+            if seq in bucket["locked"]:
+                detail["verified"] = "已查实"
+            else:
+                detail["verified"] = normalize_verified(detail.get("verified")) or "未查实"
+            case_details.append(detail)
         province_rank = sorted(
             ({"name": name, "count": len(seq_set)} for name, seq_set in bucket["provinceCases"].items()),
             key=lambda item: (-item["count"], item["name"])
@@ -376,12 +478,14 @@ def build_market_order(wb):
             "source": "市场稽核部重点工作.xlsx / 市场秩序治理",
             "caseCount": len(bucket["cases"]),
             "customerCount": len(bucket["customers"]),
+            "lockedCustomerCount": len(bucket["locked"]),
             "punishCount": len(bucket["punish"]),
             "internalCount": len(bucket["internal"]),
             "unverifiedCount": len(bucket["unverified"]),
             "otherNotes": list(bucket["others"].values()),
             "provinceRank": province_rank,
             "customerRank": customer_rank,
+            "caseDetails": case_details,
         }
     return payload, months
 
