@@ -45,13 +45,13 @@ window.DEVICE_DETAIL_BY_MONTH = {
           ],
           [
             "鸣忙",
-            "0",
+            "#VALUE!",
             "-",
             "-",
-            "0",
-            "0",
-            "0",
-            "#DIV/0!"
+            "#VALUE!",
+            "#VALUE!",
+            "#VALUE!",
+            "#VALUE!"
           ],
           [
             "CVS",
@@ -100,13 +100,13 @@ window.DEVICE_DETAIL_BY_MONTH = {
           ],
           [
             "鸣忙",
-            "0",
+            "#VALUE!",
             "-",
             "-",
-            "0",
-            "0",
-            "0",
-            "#DIV/0!"
+            "#VALUE!",
+            "#VALUE!",
+            "#VALUE!",
+            "#VALUE!"
           ],
           [
             "CVS",
@@ -219,13 +219,13 @@ window.DEVICE_DETAIL_BY_MONTH = {
           ],
           [
             "鸣忙",
-            "0",
+            "#VALUE!",
             "-",
             "-",
-            "0",
-            "0",
-            "0",
-            "#DIV/0!"
+            "#VALUE!",
+            "#VALUE!",
+            "#VALUE!",
+            "#VALUE!"
           ],
           [
             "CVS",
@@ -274,13 +274,13 @@ window.DEVICE_DETAIL_BY_MONTH = {
           ],
           [
             "鸣忙",
-            "0",
+            "#VALUE!",
             "-",
             "-",
-            "0",
-            "0",
-            "0",
-            "#DIV/0!"
+            "#VALUE!",
+            "#VALUE!",
+            "#VALUE!",
+            "#VALUE!"
           ],
           [
             "CVS",
@@ -393,13 +393,13 @@ window.DEVICE_DETAIL_BY_MONTH = {
           ],
           [
             "鸣忙",
-            "0",
+            "#VALUE!",
             "-",
             "-",
-            "0",
-            "0",
-            "0",
-            "#DIV/0!"
+            "#VALUE!",
+            "#VALUE!",
+            "#VALUE!",
+            "#VALUE!"
           ],
           [
             "CVS",
@@ -448,13 +448,13 @@ window.DEVICE_DETAIL_BY_MONTH = {
           ],
           [
             "鸣忙",
-            "0",
+            "#VALUE!",
             "-",
             "-",
-            "0",
-            "0",
-            "0",
-            "#DIV/0!"
+            "#VALUE!",
+            "#VALUE!",
+            "#VALUE!",
+            "#VALUE!"
           ],
           [
             "CVS",
@@ -567,13 +567,13 @@ window.DEVICE_DETAIL_BY_MONTH = {
           ],
           [
             "鸣忙",
-            "0",
+            "#VALUE!",
             "-",
             "-",
-            "0",
-            "0",
-            "0",
-            "#DIV/0!"
+            "#VALUE!",
+            "#VALUE!",
+            "#VALUE!",
+            "#VALUE!"
           ],
           [
             "CVS",
@@ -622,13 +622,13 @@ window.DEVICE_DETAIL_BY_MONTH = {
           ],
           [
             "鸣忙",
-            "0",
+            "#VALUE!",
             "-",
             "-",
-            "0",
-            "0",
-            "0",
-            "#DIV/0!"
+            "#VALUE!",
+            "#VALUE!",
+            "#VALUE!",
+            "#VALUE!"
           ],
           [
             "CVS",
@@ -741,13 +741,13 @@ window.DEVICE_DETAIL_BY_MONTH = {
           ],
           [
             "鸣忙",
-            "0",
+            "#VALUE!",
             "-",
             "-",
-            "0",
-            "0",
-            "0",
-            "#DIV/0!"
+            "#VALUE!",
+            "#VALUE!",
+            "#VALUE!",
+            "#VALUE!"
           ],
           [
             "CVS",
@@ -796,13 +796,13 @@ window.DEVICE_DETAIL_BY_MONTH = {
           ],
           [
             "鸣忙",
-            "0",
+            "#VALUE!",
             "-",
             "-",
-            "0",
-            "0",
-            "0",
-            "#DIV/0!"
+            "#VALUE!",
+            "#VALUE!",
+            "#VALUE!",
+            "#VALUE!"
           ],
           [
             "CVS",
@@ -915,13 +915,13 @@ window.DEVICE_DETAIL_BY_MONTH = {
           ],
           [
             "鸣忙",
-            "0",
+            "#VALUE!",
             "-",
             "-",
-            "0",
-            "0",
-            "0",
-            "#DIV/0!"
+            "#VALUE!",
+            "#VALUE!",
+            "#VALUE!",
+            "#VALUE!"
           ],
           [
             "CVS",
@@ -970,13 +970,13 @@ window.DEVICE_DETAIL_BY_MONTH = {
           ],
           [
             "鸣忙",
-            "0",
+            "#VALUE!",
             "-",
             "-",
-            "0",
-            "0",
-            "0",
-            "#DIV/0!"
+            "#VALUE!",
+            "#VALUE!",
+            "#VALUE!",
+            "#VALUE!"
           ],
           [
             "CVS",
@@ -1089,13 +1089,13 @@ window.DEVICE_DETAIL_BY_MONTH = {
           ],
           [
             "鸣忙",
-            "0",
+            "#VALUE!",
             "-",
             "-",
-            "0",
-            "0",
-            "0",
-            "#DIV/0!"
+            "#VALUE!",
+            "#VALUE!",
+            "#VALUE!",
+            "#VALUE!"
           ],
           [
             "CVS",
@@ -1144,13 +1144,13 @@ window.DEVICE_DETAIL_BY_MONTH = {
           ],
           [
             "鸣忙",
-            "0",
+            "#VALUE!",
             "-",
             "-",
-            "0",
-            "0",
-            "0",
-            "#DIV/0!"
+            "#VALUE!",
+            "#VALUE!",
+            "#VALUE!",
+            "#VALUE!"
           ],
           [
             "CVS",
@@ -1264,13 +1264,13 @@ window.DEVICE_DETAIL = window.DEVICE_DETAIL_BY_MONTH[window.MAIN_SELECTED_MONTH 
         ],
         [
           "鸣忙",
-          "0",
+          "#VALUE!",
           "-",
           "-",
-          "0",
-          "0",
-          "0",
-          "#DIV/0!"
+          "#VALUE!",
+          "#VALUE!",
+          "#VALUE!",
+          "#VALUE!"
         ],
         [
           "CVS",
@@ -1319,13 +1319,13 @@ window.DEVICE_DETAIL = window.DEVICE_DETAIL_BY_MONTH[window.MAIN_SELECTED_MONTH 
         ],
         [
           "鸣忙",
-          "0",
+          "#VALUE!",
           "-",
           "-",
-          "0",
-          "0",
-          "0",
-          "#DIV/0!"
+          "#VALUE!",
+          "#VALUE!",
+          "#VALUE!",
+          "#VALUE!"
         ],
         [
           "CVS",
