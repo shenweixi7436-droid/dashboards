@@ -15,7 +15,7 @@ window.DEVICE_CHANNEL_STATUS_BY_MONTH = {
       {
         "name": "冰柜",
         "volume": 1484,
-        "rate": 0.69
+        "rate": 0.725067385444744
       }
     ]
   },
@@ -35,7 +35,7 @@ window.DEVICE_CHANNEL_STATUS_BY_MONTH = {
       {
         "name": "冰柜",
         "volume": 1484,
-        "rate": 0.69
+        "rate": 0.725067385444744
       }
     ]
   },
@@ -55,7 +55,7 @@ window.DEVICE_CHANNEL_STATUS_BY_MONTH = {
       {
         "name": "冰柜",
         "volume": 1484,
-        "rate": 0.69
+        "rate": 0.725067385444744
       }
     ]
   },
@@ -75,7 +75,7 @@ window.DEVICE_CHANNEL_STATUS_BY_MONTH = {
       {
         "name": "冰柜",
         "volume": 1484,
-        "rate": 0.69
+        "rate": 0.725067385444744
       }
     ]
   },
@@ -95,7 +95,7 @@ window.DEVICE_CHANNEL_STATUS_BY_MONTH = {
       {
         "name": "冰柜",
         "volume": 1484,
-        "rate": 0.69
+        "rate": 0.725067385444744
       }
     ]
   },
@@ -115,7 +115,7 @@ window.DEVICE_CHANNEL_STATUS_BY_MONTH = {
       {
         "name": "冰柜",
         "volume": 1484,
-        "rate": 0.69
+        "rate": 0.725067385444744
       }
     ]
   },
@@ -135,7 +135,7 @@ window.DEVICE_CHANNEL_STATUS_BY_MONTH = {
       {
         "name": "冰柜",
         "volume": 1484,
-        "rate": 0.69
+        "rate": 0.725067385444744
       }
     ]
   }
@@ -156,7 +156,7 @@ window.DEVICE_CHANNEL_STATUS = window.DEVICE_CHANNEL_STATUS_BY_MONTH[window.MAIN
     {
       "name": "冰柜",
       "volume": 1484,
-      "rate": 0.69
+      "rate": 0.725067385444744
     }
   ]
 };
