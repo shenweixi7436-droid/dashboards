@@ -2,6 +2,29 @@
 <!-- deploy-refresh: 2026-06-15-index-dashboard -->
 <html lang="zh-CN">
 <head>
+<script id="display-audit-early-navigation-fix">
+  (function () {
+    var targetPath = "./display-audit-dashboard.html";
+
+    function navigateFromDisplayAuditCard(event) {
+      var target = event.target;
+      if (target && target.nodeType !== 1) target = target.parentElement;
+      if (!target || !target.closest) return;
+
+      var card = target.closest(".top-kpi-row .kc");
+      if (!card || !/陈列稽核/.test(card.textContent || "")) return;
+
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      window.location.assign(new URL(targetPath, document.baseURI).href);
+    }
+
+    window.addEventListener("pointerdown", navigateFromDisplayAuditCard, true);
+    window.addEventListener("click", navigateFromDisplayAuditCard, true);
+  })();
+</script>
+<script src="./display-audit-navigation-v4.js?v=20260724-3"></script>
+<script src="./display-audit-navigation.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>市场稽核部智能数字化看板系统</title>
@@ -546,20 +569,20 @@ svg text{font-family:'华康圆体-W7','HKYuanW7','Microsoft YaHei',sans-serif}
 })();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
-<script src="assets/data/current-audit-progress.js?v=20260718174339"></script>
-<script src="assets/data/promo-plan-audit.js?v=20260718174339"></script>
-<script src="assets/data/promo-audit-detail.js?v=20260718174339"></script>
-<script src="assets/data/approval-pies.js?v=20260718174339"></script>
-<script src="assets/data/approval-detail.js?v=20260718174339"></script>
-<script src="assets/data/device-channel-status.js?v=20260718174339"></script>
-<script src="assets/data/device-detail.js?v=20260718174339"></script>
-<script src="assets/data/store-business-analysis.js?v=20260718174339"></script>
-<script src="assets/data/market-order-governance.js?v=20260718174339"></script>
+<script src="assets/data/current-audit-progress.js?v=20260725122400"></script>
+<script src="assets/data/promo-plan-audit.js?v=20260725122400"></script>
+<script src="assets/data/promo-audit-detail.js?v=20260725122400"></script>
+<script src="assets/data/approval-pies.js?v=20260725122400"></script>
+<script src="assets/data/approval-detail.js?v=20260725122400"></script>
+<script src="assets/data/device-channel-status.js?v=20260725122400"></script>
+<script src="assets/data/device-detail.js?v=20260725122400"></script>
+<script src="assets/data/store-business-analysis.js?v=20260725122400"></script>
+<script src="assets/data/market-order-governance.js?v=20260725122400"></script>
 </head><body>
 <div class="hd">
   <div class="header-tiger"></div>
   <div><h1 id="mainDashboardTitle">市场稽核部智能数字化看板系统</h1></div>
-  <div class="dt">&#128203; 数据更新：2026-07-18 17:43 &nbsp;|&nbsp; &#128197; 数据范围：2026年1月—7月</div>
+  <div class="dt">&#128203; 数据更新：2026-07-25 12:24 &nbsp;|&nbsp; &#128197; 数据范围：2026年1月—7月</div>
 </div>
 <script>
 (function(){
@@ -598,12 +621,13 @@ svg text{font-family:'华康圆体-W7','HKYuanW7','Microsoft YaHei',sans-serif}
       &#9888; <span id="zero-hint-text"></span>
     </div>
 <div class="kr top-kpi-row">
-  <div class="kc display-kpi-card" data-card="0" onclick="window.open('display-audit-dashboard.html')" style="cursor:pointer">
+  <div class="kc display-kpi-card" onclick="window.location.assign('./display-audit-dashboard.html')" role="link" tabindex="0" aria-label="打开陈列稽核看板" style="cursor:pointer;position:relative">
+<a href="./display-audit-dashboard.html" target="_self" aria-label="打开陈列稽核看板" style="position:absolute;inset:0;z-index:2147483647;display:block;border-radius:inherit;text-decoration:none;pointer-events:auto"></a>
     <div class="kt">&#128221; 陈列稽核</div>
-    <div id="kpi0" class="kv" style="color:#703a1e">238</div>
+    <div id="kpi0" class="kv" style="color:#703a1e">313</div>
     <div id="kh0" class="kh down">&#9650; 环比上月 -12.9%</div>
     <div class="kpi-live">
-      <div class="kpi-live-main"><span id="kpi0Live">238</span><span class="kpi-unit">家</span></div>
+      <div class="kpi-live-main"><span id="kpi0Live">313</span><span class="kpi-unit">家</span></div>
     </div>
   </div>
   <div class="kc promo-kpi-card" data-card="1" onclick="openDetail(1)">
@@ -747,7 +771,7 @@ svg text{font-family:'华康圆体-W7','HKYuanW7','Microsoft YaHei',sans-serif}
     </div>
   </div>
 </div>
-<script src="assets/data/dashboard-snapshot.js?v=20260718174339"></script>
+<script src="assets/data/dashboard-snapshot.js?v=20260725122400"></script>
 <script>
 
 var chartInst = null;
@@ -1284,10 +1308,11 @@ function refreshAll(){
 }
 
 // ========== DETAIL PANEL ==========
-var cardTitles=["计划门店分析","稽核门店分析","不合格/虚假明细","合格率分析",
+var cardTitles=[null,"稽核门店分析","不合格/虚假明细","合格率分析",
                   "稽核门店数 TOP5","合格率排名","月度趋势","稽核结果对比"];
 
 function openDetail(cardIdx){
+  if(cardIdx===0) return;
   if(cardIdx===8){
     window.location.href="store-business-analysis.html";
     return;
@@ -2173,6 +2198,140 @@ document.addEventListener("DOMContentLoaded",function(){
   setMainMonthData();
   setTimeout(function(){try{refreshAll();}catch(e){console.error(e);}},0);
 });
+</script>
+<script id="display-audit-click-fix-20260724-v5">
+(function () {
+  var targetHref = "./display-audit-dashboard.html";
+
+  function findDisplayAuditCard() {
+    var selectors = [
+      ".top-kpi-row .kc",
+      ".top-kpi-row > *",
+      ".kr.top-kpi-row .kc",
+      ".kr.top-kpi-row > *"
+    ];
+    for (var i = 0; i < selectors.length; i += 1) {
+      var cards = document.querySelectorAll(selectors[i]);
+      for (var j = 0; j < cards.length; j += 1) {
+        if ((cards[j].textContent || "").indexOf("陈列稽核") !== -1) {
+          return cards[j];
+        }
+      }
+    }
+    return null;
+  }
+
+  function installDisplayAuditLink() {
+    var card = findDisplayAuditCard();
+    if (!card) return;
+
+    card.style.position = "relative";
+    card.style.cursor = "pointer";
+    card.setAttribute("role", "link");
+    card.setAttribute("aria-label", "打开陈列稽核看板");
+    card.tabIndex = 0;
+
+    var link = card.querySelector("a.display-audit-native-link");
+    if (!link) {
+      link = document.createElement("a");
+      link.className = "display-audit-native-link";
+      link.href = targetHref;
+      link.setAttribute("aria-label", "打开陈列稽核看板");
+      link.style.cssText = "position:absolute;inset:0;z-index:2147483647;display:block;background:transparent;";
+      card.appendChild(link);
+    }
+
+    card.onclick = function (event) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      window.location.assign(targetHref);
+    };
+    card.onkeydown = function (event) {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        window.location.assign(targetHref);
+      }
+    };
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", installDisplayAuditLink, { once: true });
+  } else {
+    installDisplayAuditLink();
+  }
+
+  new MutationObserver(installDisplayAuditLink).observe(
+    document.documentElement,
+    { childList: true, subtree: true }
+  );
+  window.setTimeout(installDisplayAuditLink, 0);
+  window.setTimeout(installDisplayAuditLink, 500);
+}());
+</script>
+<script id="display-audit-click-fix-20260724-v6">
+(function () {
+  var target = "./display-audit-dashboard.html";
+
+  function go(event) {
+    if (event) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }
+    window.location.assign(target);
+  }
+
+  function install() {
+    var cards = document.querySelectorAll(".top-kpi-row .kc");
+    var card = null;
+    for (var i = 0; i < cards.length; i++) {
+      if ((cards[i].textContent || "").indexOf("陈列稽核") !== -1) {
+        card = cards[i];
+        break;
+      }
+    }
+    if (!card) return;
+
+    card.style.position = "relative";
+    card.style.cursor = "pointer";
+    card.setAttribute("role", "link");
+    card.setAttribute("tabindex", "0");
+
+    var link = card.querySelector("a.display-audit-force-link");
+    if (!link) {
+      link = document.createElement("a");
+      link.className = "display-audit-force-link";
+      link.href = target;
+      link.setAttribute("aria-label", "打开陈列稽核看板");
+      link.title = "打开陈列稽核看板";
+      link.style.cssText = "position:absolute;inset:0;display:block;z-index:2147483647;pointer-events:auto;background:transparent;cursor:pointer;";
+      card.appendChild(link);
+    }
+    link.onclick = go;
+    card.onkeydown = function (event) {
+      if (event.key === "Enter" || event.key === " ") go(event);
+    };
+  }
+
+  document.addEventListener("click", function (event) {
+    var card = event.target.closest && event.target.closest(".top-kpi-row .kc");
+    if (!card || (card.textContent || "").indexOf("陈列稽核") === -1) return;
+    go(event);
+  }, true);
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", install);
+  } else {
+    install();
+  }
+  window.addEventListener("load", install);
+  setTimeout(install, 100);
+  setTimeout(install, 500);
+  setTimeout(install, 1500);
+  new MutationObserver(install).observe(document.documentElement, {
+    childList: true,
+    subtree: true
+  });
+})();
 </script>
 </body></html>
 

@@ -100,34 +100,34 @@ window.CURRENT_AUDIT_PROGRESS = {
     {
       "province": "安徽",
       "target": 9.2,
-      "audit": 6,
-      "progress": 65.2,
-      "done": 65.2,
-      "remain": 34.8
+      "audit": 9,
+      "progress": 97.8,
+      "done": 97.8,
+      "remain": 2.2
     },
     {
       "province": "江西",
       "target": 1.4,
-      "audit": 1,
-      "progress": 71.4,
-      "done": 71.4,
-      "remain": 28.6
+      "audit": 2,
+      "progress": 100.0,
+      "done": 100.0,
+      "remain": 0.0
     },
     {
       "province": "广东",
       "target": 62.4,
-      "audit": 26,
-      "progress": 41.7,
-      "done": 41.7,
-      "remain": 58.3
+      "audit": 49,
+      "progress": 78.5,
+      "done": 78.5,
+      "remain": 21.5
     },
     {
       "province": "福建",
       "target": 44.2,
-      "audit": 0,
-      "progress": 0.0,
-      "done": 0.0,
-      "remain": 100.0
+      "audit": 6,
+      "progress": 13.6,
+      "done": 13.6,
+      "remain": 86.4
     },
     {
       "province": "贵州",
@@ -140,10 +140,10 @@ window.CURRENT_AUDIT_PROGRESS = {
     {
       "province": "湖南",
       "target": 48.4,
-      "audit": 2,
-      "progress": 4.1,
-      "done": 4.1,
-      "remain": 95.9
+      "audit": 14,
+      "progress": 28.9,
+      "done": 28.9,
+      "remain": 71.1
     },
     {
       "province": "苏南",
@@ -156,26 +156,26 @@ window.CURRENT_AUDIT_PROGRESS = {
     {
       "province": "浙江",
       "target": 32.2,
-      "audit": 9,
-      "progress": 28.0,
-      "done": 28.0,
-      "remain": 72.0
+      "audit": 31,
+      "progress": 96.3,
+      "done": 96.3,
+      "remain": 3.7
     },
     {
       "province": "广西",
       "target": 13.2,
-      "audit": 8,
-      "progress": 60.6,
-      "done": 60.6,
-      "remain": 39.4
+      "audit": 13,
+      "progress": 98.5,
+      "done": 98.5,
+      "remain": 1.5
     },
     {
       "province": "云南",
       "target": 2.6,
-      "audit": 0,
-      "progress": 0.0,
-      "done": 0.0,
-      "remain": 100.0
+      "audit": 3,
+      "progress": 100.0,
+      "done": 100.0,
+      "remain": 0.0
     },
     {
       "province": "川渝藏",

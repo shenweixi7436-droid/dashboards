@@ -146,40 +146,48 @@ window.APPROVAL_PIES_BY_MONTH = {
   },
   "7月": {
     "month": "7月",
-    "total": 280,
-    "qualified": 194,
-    "unqualified": 86,
-    "rate": 69.3,
+    "total": 309,
+    "qualified": 208,
+    "unqualified": 101,
+    "rate": 67.3,
     "issues": [
       {
         "name": "照片不规范",
-        "value": 45
+        "value": 50
       },
       {
         "name": "着装不规范",
-        "value": 28
+        "value": 36
       },
       {
         "name": "未使用公司最新品牌logo今日水印相机",
-        "value": 11
+        "value": 12
       }
     ],
     "dressIssues": [
       {
         "name": "口罩",
-        "value": 16
+        "value": 20
       },
       {
         "name": "未使用最新水印且大单品陈列未体现",
-        "value": 13
+        "value": 15
       },
       {
         "name": "大单品陈列未体现",
-        "value": 12
+        "value": 13
       },
       {
         "name": "帽子,口罩",
-        "value": 10
+        "value": 12
+      },
+      {
+        "name": "帽子",
+        "value": 3
+      },
+      {
+        "name": "口罩,帽子",
+        "value": 2
       },
       {
         "name": "缺失门头照片",
@@ -194,15 +202,11 @@ window.APPROVAL_PIES_BY_MONTH = {
         "value": 2
       },
       {
+        "name": "缺少门头照片",
+        "value": 2
+      },
+      {
         "name": "帽子,围裙,口罩",
-        "value": 1
-      },
-      {
-        "name": "帽子",
-        "value": 1
-      },
-      {
-        "name": "口罩,帽子",
         "value": 1
       },
       {
@@ -217,11 +221,11 @@ window.APPROVAL_PIES_BY_MONTH = {
     "provinceIssues": [
       {
         "province": "山东省区",
-        "value": 21
+        "value": 25
       },
       {
         "province": "湖南省区",
-        "value": 12
+        "value": 14
       },
       {
         "province": "浙江省区",
@@ -229,10 +233,14 @@ window.APPROVAL_PIES_BY_MONTH = {
       },
       {
         "province": "广东省区",
-        "value": 9
+        "value": 10
       },
       {
         "province": "江苏省区",
+        "value": 7
+      },
+      {
+        "province": "川渝藏大区",
         "value": 6
       },
       {
@@ -241,6 +249,10 @@ window.APPROVAL_PIES_BY_MONTH = {
       },
       {
         "province": "山西省区",
+        "value": 4
+      },
+      {
+        "province": "河北省区",
         "value": 4
       },
       {
@@ -260,19 +272,11 @@ window.APPROVAL_PIES_BY_MONTH = {
         "value": 2
       },
       {
-        "province": "川渝藏大区",
-        "value": 2
-      },
-      {
         "province": "湖北省区",
         "value": 1
       },
       {
         "province": "河南省区",
-        "value": 1
-      },
-      {
-        "province": "河北省区",
         "value": 1
       },
       {
@@ -288,40 +292,48 @@ window.APPROVAL_PIES_BY_MONTH = {
 };
 window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH || "7月"] || {
   "month": "7月",
-  "total": 280,
-  "qualified": 194,
-  "unqualified": 86,
-  "rate": 69.3,
+  "total": 309,
+  "qualified": 208,
+  "unqualified": 101,
+  "rate": 67.3,
   "issues": [
     {
       "name": "照片不规范",
-      "value": 45
+      "value": 50
     },
     {
       "name": "着装不规范",
-      "value": 28
+      "value": 36
     },
     {
       "name": "未使用公司最新品牌logo今日水印相机",
-      "value": 11
+      "value": 12
     }
   ],
   "dressIssues": [
     {
       "name": "口罩",
-      "value": 16
+      "value": 20
     },
     {
       "name": "未使用最新水印且大单品陈列未体现",
-      "value": 13
+      "value": 15
     },
     {
       "name": "大单品陈列未体现",
-      "value": 12
+      "value": 13
     },
     {
       "name": "帽子,口罩",
-      "value": 10
+      "value": 12
+    },
+    {
+      "name": "帽子",
+      "value": 3
+    },
+    {
+      "name": "口罩,帽子",
+      "value": 2
     },
     {
       "name": "缺失门头照片",
@@ -336,15 +348,11 @@ window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH 
       "value": 2
     },
     {
+      "name": "缺少门头照片",
+      "value": 2
+    },
+    {
       "name": "帽子,围裙,口罩",
-      "value": 1
-    },
-    {
-      "name": "帽子",
-      "value": 1
-    },
-    {
-      "name": "口罩,帽子",
       "value": 1
     },
     {
@@ -359,11 +367,11 @@ window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH 
   "provinceIssues": [
     {
       "province": "山东省区",
-      "value": 21
+      "value": 25
     },
     {
       "province": "湖南省区",
-      "value": 12
+      "value": 14
     },
     {
       "province": "浙江省区",
@@ -371,10 +379,14 @@ window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH 
     },
     {
       "province": "广东省区",
-      "value": 9
+      "value": 10
     },
     {
       "province": "江苏省区",
+      "value": 7
+    },
+    {
+      "province": "川渝藏大区",
       "value": 6
     },
     {
@@ -383,6 +395,10 @@ window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH 
     },
     {
       "province": "山西省区",
+      "value": 4
+    },
+    {
+      "province": "河北省区",
       "value": 4
     },
     {
@@ -402,19 +418,11 @@ window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH 
       "value": 2
     },
     {
-      "province": "川渝藏大区",
-      "value": 2
-    },
-    {
       "province": "湖北省区",
       "value": 1
     },
     {
       "province": "河南省区",
-      "value": 1
-    },
-    {
-      "province": "河北省区",
       "value": 1
     },
     {
