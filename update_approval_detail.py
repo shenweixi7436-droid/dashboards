@@ -13,8 +13,8 @@ SHEET = "\u7ebf\u4e0a\u5ba1\u6279\u6d41\u7a0b\u7a3d\u6838\u660e\u7ec6"
 OUT_DETAIL = ROOT / "assets" / "data" / "approval-detail.js"
 OUT_PIES = ROOT / "assets" / "data" / "approval-pies.js"
 
-DETAIL_COLS = [2, 4, 5, 6, 7, 8, 10]
-RESULT_COL = 9
+DETAIL_COLS = [3, 5, 6, 7, 8, 9, 11, 12]
+RESULT_COL = 10
 HEADER_ROW = 2
 DATA_START_ROW = 3
 FALLBACK_HEADERS = [
@@ -25,6 +25,7 @@ FALLBACK_HEADERS = [
     "\u5ba2\u6237\u540d\u79f0",
     "\u53d1\u8d77\u4eba",
     "\u95ee\u9898\u7c7b\u578b",
+    "\u7740\u88c5\u4e0d\u5408\u683c\u7c7b\u578b",
 ]
 
 

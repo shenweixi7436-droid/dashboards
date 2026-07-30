@@ -55,14 +55,21 @@
 
   document.addEventListener("click", openDisplayAudit, true);
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", bindDisplayAuditCard);
-  } else {
-    bindDisplayAuditCard();
+  function startObserver() {
+    if (!document.body) return;
+    new MutationObserver(bindDisplayAuditCard).observe(document.body, {
+      childList: true,
+      subtree: true
+    });
   }
 
-  new MutationObserver(bindDisplayAuditCard).observe(document.body, {
-    childList: true,
-    subtree: true
-  });
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function () {
+      bindDisplayAuditCard();
+      startObserver();
+    });
+  } else {
+    bindDisplayAuditCard();
+    startObserver();
+  }
 })();

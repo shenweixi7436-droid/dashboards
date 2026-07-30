@@ -22,7 +22,6 @@ MARKET_ORDER_CASE_SHEET = "市场秩序治理-窜货案件数"
 MARKET_ORDER_CUSTOMER_SHEET = "市场秩序治理-涉及客户明细"
 GIFT_ACTIVITY_SHEET = "赠品稽核-活动"
 GIFT_SAMPLE_SHEET = "赠品稽核-样品"
-DEVICE_BAN_SHEET = "禁网行动"
 
 
 def norm(value) -> str:
@@ -738,89 +737,6 @@ def build_gift_audit(wb):
     }
 
 
-def build_device_ban(wb):
-    ws = wb[DEVICE_BAN_SHEET]
-    grouped = defaultdict(
-        lambda: {
-            "total": 0,
-            "statuses": Counter(),
-            "provinces": Counter(),
-            "types": Counter(),
-            "platforms": Counter(),
-        }
-    )
-    for row in range(3, ws.max_row + 1):
-        month = month_label(ws.cell(row, 1).value) or month_label(ws.cell(row, 3).value)
-        count = number(ws.cell(row, 8).value)
-        if not month or count <= 0:
-            continue
-        bucket = grouped[month]
-        bucket["total"] += count
-        for key, column in (
-            ("types", 2),
-            ("platforms", 4),
-            ("provinces", 5),
-            ("statuses", 12),
-        ):
-            label = norm(ws.cell(row, column).value)
-            if label:
-                bucket[key][label] += count
-
-    # P/Q and S/T contain the workbook's prepared status and province summaries.
-    # Use them for the latest month when they reconcile to the underlying H-column total.
-    if grouped:
-        latest_month = max(grouped, key=month_key)
-        latest = grouped[latest_month]
-        status_summary = Counter()
-        province_summary = Counter()
-        for row in range(3, ws.max_row + 1):
-            status = norm(ws.cell(row, 16).value)
-            status_count = number(ws.cell(row, 17).value)
-            if status and status != "总计" and status_count:
-                status_summary[status] += status_count
-            province = norm(ws.cell(row, 19).value)
-            province_count = number(ws.cell(row, 20).value)
-            if province and province_count:
-                province_summary[province] += province_count
-        if status_summary and sum(status_summary.values()) == latest["total"]:
-            latest["statuses"] = status_summary
-        if province_summary and sum(province_summary.values()) == latest["total"]:
-            latest["provinces"] = province_summary
-
-    payload = {}
-    for month, bucket in grouped.items():
-        status_rows = sorted(
-            bucket["statuses"].items(), key=lambda item: (-item[1], item[0])
-        )
-        province_rows = sorted(
-            bucket["provinces"].items(), key=lambda item: (-item[1], item[0])
-        )
-        type_rows = sorted(bucket["types"].items(), key=lambda item: (-item[1], item[0]))
-        platform_rows = sorted(
-            bucket["platforms"].items(), key=lambda item: (-item[1], item[0])
-        )
-        status_map = dict(status_rows)
-        payload[month] = {
-            "total": bucket["total"],
-            "platform": "、".join(name for name, _ in platform_rows) or "--",
-            "removed": status_map.get("已下架", 0),
-            "noReply": status_map.get("未回复", 0),
-            "reported": status_map.get("已向平台举报", 0),
-            "merchantInfo": status_map.get("获取商家信息", 0),
-            "followUp": status_map.get("当地业务跟进中", 0),
-            "topProvince": province_rows[0][0] if province_rows else "--",
-            "topType": type_rows[0][0] if type_rows else "--",
-            "statuses": [
-                {"name": name, "count": count} for name, count in status_rows
-            ],
-            "provinces": [
-                {"name": name, "count": count} for name, count in province_rows
-            ],
-            "types": [{"name": name, "count": count} for name, count in type_rows],
-        }
-    return payload
-
-
 def write_js(path: Path, legacy_name: str, map_name: str, payload_by_month: dict, default_month: str, extra=""):
     payload = payload_by_month.get(default_month) or next(iter(payload_by_month.values()), {})
     text = (
@@ -852,14 +768,7 @@ def main():
     approval_pies, approval_detail, approval_months = build_approval(wb)
     market_order, market_months = build_market_order(wb)
     gift_audit = build_gift_audit(wb)
-    device_ban = build_device_ban(wb)
-    all_months = sorted(
-        set(promo_months)
-        | set(approval_months)
-        | set(market_months)
-        | set(device_ban),
-        key=month_key,
-    )
+    all_months = sorted(set(promo_months) | set(approval_months) | set(market_months), key=month_key)
     if not all_months:
         all_months = [month_label(datetime.now())]
     default_month = all_months[-1]
@@ -880,7 +789,6 @@ def main():
     write_js(DATA_DIR / "device-detail.js", "DEVICE_DETAIL", "DEVICE_DETAIL_BY_MONTH", device_detail, default_month)
     write_js(DATA_DIR / "market-order-governance.js", "MARKET_ORDER_GOVERNANCE", "MARKET_ORDER_GOVERNANCE_BY_MONTH", market_order, default_month)
     write_plain_js(DATA_DIR / "gift-audit.js", "GIFT_AUDIT", gift_audit)
-    write_js(DATA_DIR / "device-ban-action.js", "DEVICE_BAN_ACTION", "DEVICE_BAN_ACTION_BY_MONTH", device_ban, default_month)
 
     print(f"Updated month-aware work data: {', '.join(all_months)}; default {default_month}")
 
