@@ -23,6 +23,7 @@ MARKET_ORDER_CUSTOMER_SHEET = "市场秩序治理-涉及客户明细"
 GIFT_ACTIVITY_SHEET = "赠品稽核-活动"
 GIFT_SAMPLE_SHEET = "赠品稽核-样品"
 DEVICE_BAN_SHEET = "禁网行动"
+STORE_AUDIT_SHEET = "鸣忙门店专项稽核"
 
 
 def norm(value) -> str:
@@ -821,6 +822,117 @@ def build_device_ban(wb):
     return payload
 
 
+def build_store_audit(wb):
+    ws = wb[STORE_AUDIT_SHEET]
+    source_rows = list(
+        ws.iter_rows(min_row=2, min_col=1, max_col=26, values_only=True)
+    )
+    years = [number(row[1]) for row in source_rows if number(row[1]) > 0]
+    if not years:
+        return {}
+    latest_year = max(years)
+    rows_by_month = defaultdict(list)
+    for row in source_rows:
+        if number(row[1]) != latest_year:
+            continue
+        month_number = number(row[2])
+        if 1 <= month_number <= 12:
+            rows_by_month[f"{month_number}月"].append(row)
+
+    def display_province(value):
+        text = norm(value)
+        for suffix in (
+            "壮族自治区",
+            "回族自治区",
+            "维吾尔自治区",
+            "自治区",
+            "特别行政区",
+            "省",
+            "市",
+        ):
+            if text.endswith(suffix):
+                return text[: -len(suffix)]
+        return text
+
+    def top_label(counter):
+        ranked = sorted(counter.items(), key=lambda item: (-item[1], item[0]))
+        return ranked[0][0] if ranked else "--"
+
+    payload = {}
+    for month, rows in rows_by_month.items():
+        results = Counter(norm(row[22]) for row in rows)
+        province_total = Counter(norm(row[7]) for row in rows if norm(row[7]))
+        province_qualified = Counter(
+            norm(row[7])
+            for row in rows
+            if norm(row[7]) and norm(row[22]) == "合格"
+        )
+        province_uncertain = Counter(
+            norm(row[7])
+            for row in rows
+            if norm(row[7]) and norm(row[22]) == "无法判定"
+        )
+        province_bad = Counter(
+            norm(row[7])
+            for row in rows
+            if norm(row[7]) and norm(row[22]) == "不合格"
+        )
+        province_photo = Counter(
+            norm(row[7])
+            for row in rows
+            if norm(row[7]) and "照片" in norm(row[23])
+        )
+        province_no_product = Counter(
+            norm(row[7])
+            for row in rows
+            if norm(row[7]) and norm(row[23]) == "无小虎产品售卖"
+        )
+        sku_values = [
+            float(row[11])
+            for row in rows
+            if isinstance(row[11], (int, float)) and not isinstance(row[11], bool)
+        ]
+        freezer_values = [
+            float(row[12])
+            for row in rows
+            if isinstance(row[12], (int, float)) and not isinstance(row[12], bool)
+        ]
+        provinces = []
+        for province, total in sorted(
+            province_total.items(), key=lambda item: (-item[1], item[0])
+        ):
+            qualified = province_qualified[province]
+            uncertain = province_uncertain[province]
+            provinces.append(
+                {
+                    "n": display_province(province),
+                    "t": total,
+                    "q": qualified,
+                    "u": uncertain,
+                    "r": round(qualified / total * 100, 1) if total else 0,
+                }
+            )
+        payload[month] = {
+            "total": len(rows),
+            "q": results["合格"],
+            "bad": results["不合格"],
+            "u": results["无法判定"],
+            "avgSku": round(sum(sku_values) / len(sku_values), 1)
+            if sku_values
+            else 0,
+            "avgFreezer": round(sum(freezer_values) / len(freezer_values), 1)
+            if freezer_values
+            else 0,
+            "topBad": top_label(province_bad),
+            "topPhoto": top_label(province_photo),
+            "topUncertain": top_label(province_uncertain),
+            "topNoProduct": top_label(province_no_product),
+            "topNoProductCount": max(province_no_product.values(), default=0),
+            "provinces": provinces,
+        }
+    return payload
+
+
 def write_js(path: Path, legacy_name: str, map_name: str, payload_by_month: dict, default_month: str, extra=""):
     payload = payload_by_month.get(default_month) or next(iter(payload_by_month.values()), {})
     text = (
@@ -853,11 +965,13 @@ def main():
     market_order, market_months = build_market_order(wb)
     gift_audit = build_gift_audit(wb)
     device_ban = build_device_ban(wb)
+    store_audit = build_store_audit(wb)
     all_months = sorted(
         set(promo_months)
         | set(approval_months)
         | set(market_months)
-        | set(device_ban),
+        | set(device_ban)
+        | set(store_audit),
         key=month_key,
     )
     if not all_months:
@@ -881,6 +995,7 @@ def main():
     write_js(DATA_DIR / "market-order-governance.js", "MARKET_ORDER_GOVERNANCE", "MARKET_ORDER_GOVERNANCE_BY_MONTH", market_order, default_month)
     write_plain_js(DATA_DIR / "gift-audit.js", "GIFT_AUDIT", gift_audit)
     write_js(DATA_DIR / "device-ban-action.js", "DEVICE_BAN_ACTION", "DEVICE_BAN_ACTION_BY_MONTH", device_ban, default_month)
+    write_plain_js(DATA_DIR / "store-audit-popup.js", "STORE_AUDIT_POPUP_BY_MONTH", store_audit)
 
     print(f"Updated month-aware work data: {', '.join(all_months)}; default {default_month}")
 
