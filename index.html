@@ -617,18 +617,18 @@ svg text{font-family:'华康圆体-W7','HKYuanW7','Microsoft YaHei',sans-serif}
 })();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
-<script src="assets/data/current-audit-progress.js?v=20260731181016"></script>
-<script src="assets/data/promo-plan-audit.js?v=20260731181016"></script>
-<script src="assets/data/promo-audit-detail.js?v=20260731181016"></script>
-<script src="assets/data/approval-pies.js?v=20260731181016"></script>
-<script src="assets/data/approval-detail.js?v=20260731181016"></script>
-<script src="assets/data/device-channel-status.js?v=20260731181016"></script>
-<script src="assets/data/device-detail.js?v=20260731181016"></script>
-<script src="assets/data/store-business-analysis.js?v=20260731181016"></script>
-<script src="assets/data/store-audit-popup.js?v=20260731181016"></script>
-<script src="assets/data/market-order-governance.js?v=20260731181016"></script>
-<script src="assets/data/gift-audit.js?v=20260731181016"></script>
-<script src="assets/data/device-ban-action.js?v=20260731181016"></script>
+<script src="assets/data/current-audit-progress.js?v=20260801180450"></script>
+<script src="assets/data/promo-plan-audit.js?v=20260801180450"></script>
+<script src="assets/data/promo-audit-detail.js?v=20260801180450"></script>
+<script src="assets/data/approval-pies.js?v=20260801180450"></script>
+<script src="assets/data/approval-detail.js?v=20260801180450"></script>
+<script src="assets/data/device-channel-status.js?v=20260801180450"></script>
+<script src="assets/data/device-detail.js?v=20260801180450"></script>
+<script src="assets/data/store-business-analysis.js?v=20260801180450"></script>
+<script src="assets/data/store-audit-popup.js?v=20260801180450"></script>
+<script src="assets/data/market-order-governance.js?v=20260801180450"></script>
+<script src="assets/data/gift-audit.js?v=20260801180450"></script>
+<script src="assets/data/device-ban-action.js?v=20260801180450"></script>
 <style id="dashboard-layout-0730">
 :root{
   --layout-bg:#fbf7ef;
@@ -760,10 +760,10 @@ body{
   order:2;
   width:100%;
   margin:0 0 10px!important;
-  padding:10px;
+  padding:8px;
   display:grid!important;
-  grid-template-columns:repeat(8,minmax(60px,1fr));
-  gap:7px!important;
+  grid-template-columns:repeat(12,minmax(0,1fr));
+  gap:5px!important;
   border:1px solid rgba(99,44,22,.10);
   border-radius:10px;
   background:#fff;
@@ -777,8 +777,8 @@ body{
   color:var(--layout-brown)!important;
 }
 .mtag{
-  min-height:38px;
-  padding:9px 8px!important;
+  min-height:34px;
+  padding:7px 4px!important;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -945,7 +945,7 @@ body{
 .detail-close:hover{background:#fff!important;color:var(--layout-brown)!important}
 @media(max-width:1450px){
   .dashboard-module-nav{grid-template-columns:repeat(4,minmax(150px,1fr))}
-  .month-row{grid-template-columns:repeat(4,minmax(58px,1fr))}
+  .month-row{grid-template-columns:repeat(12,minmax(0,1fr))}
   .top-kpi-row>.kc,
   .ct>.kr:first-of-type>.kc:nth-child(-n+3),
   .ct>.kr:first-of-type>.kc:nth-child(n+4){grid-column:span 3!important}
@@ -1495,7 +1495,7 @@ body{
 <div class="hd">
   <div class="header-tiger"></div>
   <div><h1 id="mainDashboardTitle">皇家小虎市场稽核部数据看板</h1></div>
-  <div class="dt">&#128203; 数据更新：2026-07-31 18:10 &nbsp;|&nbsp; &#128197; 数据范围：2026年1月—7月</div>
+  <div class="dt">&#128203; 数据更新：2026-08-01 18:04 &nbsp;|&nbsp; &#128197; 数据范围：2026年1月—7月</div>
 </div>
 <script>
 (function(){
@@ -1541,7 +1541,11 @@ body{
   <span class="mtag" data-month="5月">5月</span>
   <span class="mtag" data-month="6月">6月</span>
   <span class="mtag on" data-month="7月">7月</span>
-  <span class="mtag" data-month="全年">全年汇总</span>
+  <span class="mtag" data-month="8月">8月</span>
+  <span class="mtag" data-month="9月">9月</span>
+  <span class="mtag" data-month="10月">10月</span>
+  <span class="mtag" data-month="11月">11月</span>
+  <span class="mtag" data-month="12月">12月</span>
 </div>
 <div class="main-month-row" id="mainWorkMonthRow">
   <span class="main-month-caption">&#128197; 月份</span>
@@ -1553,10 +1557,10 @@ body{
   <div class="kc display-kpi-card" onclick="window.location.assign('./display-audit-dashboard.html')" role="link" tabindex="0" aria-label="打开陈列稽核看板" style="cursor:pointer;position:relative">
 <a href="./display-audit-dashboard.html" target="_self" aria-label="打开陈列稽核看板" style="position:absolute;inset:0;z-index:2147483647;display:block;border-radius:inherit;text-decoration:none;pointer-events:auto"></a>
     <div class="kt">&#128221; 陈列稽核</div>
-    <div id="kpi0" class="kv" style="color:#703a1e">402</div>
+    <div id="kpi0" class="kv" style="color:#703a1e">401</div>
     <div id="kh0" class="kh down">&#9650; 环比上月 -12.9%</div>
     <div class="kpi-live">
-      <div class="kpi-live-main"><span id="kpi0Live">402</span><span class="kpi-unit">家</span></div>
+      <div class="kpi-live-main"><span id="kpi0Live">401</span><span class="kpi-unit">家</span></div>
     </div>
   </div>
   <div class="kc promo-kpi-card" data-card="1" onclick="openDetail(1)">
@@ -1930,15 +1934,33 @@ body{
     </div>
   </div>
 </div>
-<script src="assets/data/dashboard-snapshot.js?v=20260731181016"></script>
+<script src="assets/data/dashboard-snapshot.js?v=20260801180450"></script>
 <script>
 
 var chartInst = null;
+var FIXED_MAIN_MONTHS = ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
+function mainMonthCoverage(month){
+  var maps=[
+    window.PROMO_PLAN_AUDIT_BY_MONTH,
+    window.APPROVAL_PIES_BY_MONTH,
+    window.MARKET_ORDER_GOVERNANCE_BY_MONTH,
+    window.STORE_AUDIT_POPUP_BY_MONTH,
+    window.DEVICE_BAN_ACTION_BY_MONTH,
+    window.ZD
+  ];
+  return maps.reduce(function(total,map){
+    return total+(map&&Object.prototype.hasOwnProperty.call(map,month)?1:0);
+  },0);
+}
 function getMainDefaultMonth(){
-  var months = Array.isArray(window.MAIN_WORK_MONTHS) ? window.MAIN_WORK_MONTHS.filter(Boolean) : [];
-  if(window.MAIN_DEFAULT_MONTH && months.indexOf(window.MAIN_DEFAULT_MONTH) >= 0) return window.MAIN_DEFAULT_MONTH;
-  if(window.MAIN_DEFAULT_MONTH) return window.MAIN_DEFAULT_MONTH;
-  return months.length ? months[months.length - 1] : "7月";
+  var bestMonth="",bestCoverage=0;
+  FIXED_MAIN_MONTHS.forEach(function(month){
+    var coverage=mainMonthCoverage(month);
+    if(coverage>=bestCoverage&&coverage>0){bestMonth=month;bestCoverage=coverage;}
+  });
+  if(bestMonth) return bestMonth;
+  if(window.MAIN_DEFAULT_MONTH&&FIXED_MAIN_MONTHS.indexOf(window.MAIN_DEFAULT_MONTH)>=0) return window.MAIN_DEFAULT_MONTH;
+  return "1月";
 }
 var currentMonth = getMainDefaultMonth();
 window.MAIN_SELECTED_MONTH = currentMonth;
@@ -1965,21 +1987,13 @@ function uniqMonths(list){
   return out.sort(function(a,b){return monthOrder(a)-monthOrder(b);});
 }
 function getMainWorkMonths(){
-  var months=[];
-  function addKeys(obj){if(obj) Object.keys(obj).forEach(function(k){months.push(k);});}
-  if(window.MAIN_WORK_MONTHS) months=months.concat(window.MAIN_WORK_MONTHS);
-  addKeys(window.PROMO_PLAN_AUDIT_BY_MONTH);
-  addKeys(window.APPROVAL_PIES_BY_MONTH);
-  addKeys(window.DEVICE_CHANNEL_STATUS_BY_MONTH);
-  addKeys(window.MARKET_ORDER_GOVERNANCE_BY_MONTH);
-  addKeys(window.ZD);
-  return uniqMonths(months);
+  return FIXED_MAIN_MONTHS.slice();
 }
 function normalizeCurrentMonth(preferDefault){
   var months=getMainWorkMonths();
-  if(!months.length) months=["7月"];
-  if(preferDefault && window.MAIN_DEFAULT_MONTH && months.indexOf(window.MAIN_DEFAULT_MONTH)>=0){
-    currentMonth=window.MAIN_DEFAULT_MONTH;
+  if(!months.length) months=["1月"];
+  if(preferDefault){
+    currentMonth=getMainDefaultMonth();
   }else if(months.indexOf(currentMonth)<0){
     currentMonth=months[months.length-1];
   }
@@ -3811,10 +3825,9 @@ document.addEventListener("DOMContentLoaded",function(){
 <script id="dashboard-layout-interactions-0730">
 (function(){
   function monthlyTarget(){
+    if(typeof getMainDefaultMonth==="function") return getMainDefaultMonth();
     var preferred=window.MAIN_DEFAULT_MONTH;
-    if(preferred && preferred!=="全年") return preferred;
-    var months=Array.isArray(window.MAIN_WORK_MONTHS)?window.MAIN_WORK_MONTHS.filter(function(m){return m&&m!=="全年";}):[];
-    return months.length?months[months.length-1]:"7月";
+    return preferred&&preferred!=="全年"?preferred:"1月";
   }
   function syncViewButtons(){
     var isYear=String(window.MAIN_SELECTED_MONTH||"")==="全年";

@@ -60,6 +60,7 @@ PROV_MERGE = {
 }
 
 MONTHS = ['1月', '2月', '3月', '4月', '5月', '6月']
+MONTH_SELECTOR_MONTHS = [f'{month}月' for month in range(1, 13)]
 
 
 def month_key(month):
@@ -118,17 +119,16 @@ def month_days(month):
 def sync_month_controls(html, active_month):
     month_buttons = '\n'.join(
         f'  <span class="mtag{" on" if m == active_month else ""}" data-month="{m}">{m}</span>'
-        for m in MONTHS
+        for m in MONTH_SELECTOR_MONTHS
     )
     replacement = (
         '<div class="month-row">\n'
         '  <span class="month-label">&#128200; 总览</span>\n'
         f'{month_buttons}\n'
-        '  <span class="mtag" data-month="全年">全年汇总</span>\n'
         '</div>'
     )
     return re.sub(
-        r'<div class="month-row">\s*<span class="month-label">.*?</span>.*?<span class="mtag[^"]*" data-month="全年">全年汇总</span>\s*</div>',
+        r'<div class="month-row">.*?</div>',
         replacement,
         html,
         count=1,

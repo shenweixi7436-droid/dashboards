@@ -1141,7 +1141,7 @@ def main():
     gift_audit = build_gift_audit(wb)
     device_ban = build_device_ban(wb)
     store_audit = build_store_audit(wb)
-    all_months = sorted(
+    source_months = sorted(
         set(promo_months)
         | set(approval_months)
         | set(market_months)
@@ -1149,13 +1149,20 @@ def main():
         | set(store_audit),
         key=month_key,
     )
-    if not all_months:
-        all_months = [month_label(datetime.now())]
-    default_month = all_months[-1]
-    device_status, device_detail = build_device(wb, all_months)
+    if not source_months:
+        source_months = [month_label(datetime.now())]
+
+    month_maps = (promo_plan, approval_pies, market_order, device_ban, store_audit)
+    coverage = {
+        month: sum(1 for payload_by_month in month_maps if month in payload_by_month)
+        for month in source_months
+    }
+    default_month = max(source_months, key=lambda month: (coverage[month], month_key(month)))
+    selector_months = [f"{month}月" for month in range(1, 13)]
+    device_status, device_detail = build_device(wb, source_months)
     month_extra = (
         "window.MAIN_WORK_MONTHS = "
-        + json.dumps(all_months, ensure_ascii=False)
+        + json.dumps(selector_months, ensure_ascii=False)
         + ";\nwindow.MAIN_DEFAULT_MONTH = "
         + json.dumps(default_month, ensure_ascii=False)
         + ";\n"
@@ -1173,7 +1180,8 @@ def main():
     write_plain_js(DATA_DIR / "store-audit-popup.js", "STORE_AUDIT_POPUP_BY_MONTH", store_audit)
     bump_index_data_cache()
 
-    print(f"Updated month-aware work data: {', '.join(all_months)}; default {default_month}")
+    coverage_text = ", ".join(f"{month}:{coverage[month]}" for month in source_months)
+    print(f"Updated month-aware work data: {', '.join(source_months)}; coverage {coverage_text}; default {default_month}")
 
 
 if __name__ == "__main__":

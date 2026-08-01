@@ -4,18 +4,18 @@ window.DEVICE_CHANNEL_STATUS_BY_MONTH = {
     "items": [
       {
         "name": "保温柜",
-        "volume": 15214,
-        "rate": 0.52
+        "volume": 16342,
+        "rate": 0.54
       },
       {
         "name": "烤肠机",
-        "volume": 8783,
-        "rate": 0.63
+        "volume": 7655,
+        "rate": 0.68
       },
       {
         "name": "星星冰柜",
-        "volume": 1484,
-        "rate": 0.76
+        "volume": 1504,
+        "rate": 0.69
       }
     ]
   },
@@ -24,18 +24,18 @@ window.DEVICE_CHANNEL_STATUS_BY_MONTH = {
     "items": [
       {
         "name": "保温柜",
-        "volume": 15214,
-        "rate": 0.52
+        "volume": 16342,
+        "rate": 0.54
       },
       {
         "name": "烤肠机",
-        "volume": 8783,
-        "rate": 0.63
+        "volume": 7655,
+        "rate": 0.68
       },
       {
         "name": "星星冰柜",
-        "volume": 1484,
-        "rate": 0.76
+        "volume": 1504,
+        "rate": 0.69
       }
     ]
   },
@@ -44,18 +44,18 @@ window.DEVICE_CHANNEL_STATUS_BY_MONTH = {
     "items": [
       {
         "name": "保温柜",
-        "volume": 15214,
-        "rate": 0.52
+        "volume": 16342,
+        "rate": 0.54
       },
       {
         "name": "烤肠机",
-        "volume": 8783,
-        "rate": 0.63
+        "volume": 7655,
+        "rate": 0.68
       },
       {
         "name": "星星冰柜",
-        "volume": 1484,
-        "rate": 0.76
+        "volume": 1504,
+        "rate": 0.69
       }
     ]
   },
@@ -64,18 +64,18 @@ window.DEVICE_CHANNEL_STATUS_BY_MONTH = {
     "items": [
       {
         "name": "保温柜",
-        "volume": 15214,
-        "rate": 0.52
+        "volume": 16342,
+        "rate": 0.54
       },
       {
         "name": "烤肠机",
-        "volume": 8783,
-        "rate": 0.63
+        "volume": 7655,
+        "rate": 0.68
       },
       {
         "name": "星星冰柜",
-        "volume": 1484,
-        "rate": 0.76
+        "volume": 1504,
+        "rate": 0.69
       }
     ]
   },
@@ -84,18 +84,18 @@ window.DEVICE_CHANNEL_STATUS_BY_MONTH = {
     "items": [
       {
         "name": "保温柜",
-        "volume": 15214,
-        "rate": 0.52
+        "volume": 16342,
+        "rate": 0.54
       },
       {
         "name": "烤肠机",
-        "volume": 8783,
-        "rate": 0.63
+        "volume": 7655,
+        "rate": 0.68
       },
       {
         "name": "星星冰柜",
-        "volume": 1484,
-        "rate": 0.76
+        "volume": 1504,
+        "rate": 0.69
       }
     ]
   },
@@ -104,18 +104,18 @@ window.DEVICE_CHANNEL_STATUS_BY_MONTH = {
     "items": [
       {
         "name": "保温柜",
-        "volume": 15214,
-        "rate": 0.52
+        "volume": 16342,
+        "rate": 0.54
       },
       {
         "name": "烤肠机",
-        "volume": 8783,
-        "rate": 0.63
+        "volume": 7655,
+        "rate": 0.68
       },
       {
         "name": "星星冰柜",
-        "volume": 1484,
-        "rate": 0.76
+        "volume": 1504,
+        "rate": 0.69
       }
     ]
   },
@@ -124,18 +124,38 @@ window.DEVICE_CHANNEL_STATUS_BY_MONTH = {
     "items": [
       {
         "name": "保温柜",
-        "volume": 15214,
-        "rate": 0.52
+        "volume": 16342,
+        "rate": 0.54
       },
       {
         "name": "烤肠机",
-        "volume": 8783,
-        "rate": 0.63
+        "volume": 7655,
+        "rate": 0.68
       },
       {
         "name": "星星冰柜",
-        "volume": 1484,
-        "rate": 0.76
+        "volume": 1504,
+        "rate": 0.69
+      }
+    ]
+  },
+  "8月": {
+    "source": "市场稽核部重点工作.xlsx / 智能设备台账汇总（按设备名称与表头识别）",
+    "items": [
+      {
+        "name": "保温柜",
+        "volume": 16342,
+        "rate": 0.54
+      },
+      {
+        "name": "烤肠机",
+        "volume": 7655,
+        "rate": 0.68
+      },
+      {
+        "name": "星星冰柜",
+        "volume": 1504,
+        "rate": 0.69
       }
     ]
   }
@@ -145,18 +165,18 @@ window.DEVICE_CHANNEL_STATUS = window.DEVICE_CHANNEL_STATUS_BY_MONTH[window.MAIN
   "items": [
     {
       "name": "保温柜",
-      "volume": 15214,
-      "rate": 0.52
+      "volume": 16342,
+      "rate": 0.54
     },
     {
       "name": "烤肠机",
-      "volume": 8783,
-      "rate": 0.63
+      "volume": 7655,
+      "rate": 0.68
     },
     {
       "name": "星星冰柜",
-      "volume": 1484,
-      "rate": 0.76
+      "volume": 1504,
+      "rate": 0.69
     }
   ]
 };
