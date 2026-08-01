@@ -53,17 +53,12 @@ window.PROMO_PLAN_AUDIT_BY_MONTH = {
       {
         "province": "广东",
         "plan": 34,
-        "audit": 0
+        "audit": 7
       },
       {
         "province": "广西",
         "plan": 2,
         "audit": 0
-      },
-      {
-        "province": "梧桐",
-        "plan": 0,
-        "audit": 7
       },
       {
         "province": "江西",
@@ -135,8 +130,8 @@ window.PROMO_PLAN_AUDIT_BY_MONTH = {
   "7月": {
     "month": "7月",
     "planTotal": 101,
-    "auditTotal": 6,
-    "progress": 5.9,
+    "auditTotal": 9,
+    "progress": 8.9,
     "rows": [
       {
         "province": "云南",
@@ -171,7 +166,7 @@ window.PROMO_PLAN_AUDIT_BY_MONTH = {
       {
         "province": "山东",
         "plan": 2,
-        "audit": 0
+        "audit": 1
       },
       {
         "province": "山西",
@@ -209,16 +204,6 @@ window.PROMO_PLAN_AUDIT_BY_MONTH = {
         "audit": 0
       },
       {
-        "province": "泉源",
-        "plan": 0,
-        "audit": 1
-      },
-      {
-        "province": "泽泽",
-        "plan": 0,
-        "audit": 1
-      },
-      {
         "province": "浙江",
         "plan": 2,
         "audit": 0
@@ -231,11 +216,6 @@ window.PROMO_PLAN_AUDIT_BY_MONTH = {
       {
         "province": "湖南",
         "plan": 1,
-        "audit": 0
-      },
-      {
-        "province": "破晓",
-        "plan": 0,
         "audit": 4
       },
       {
@@ -256,7 +236,7 @@ window.PROMO_PLAN_AUDIT_BY_MONTH = {
       {
         "province": "贵州",
         "plan": 4,
-        "audit": 0
+        "audit": 4
       },
       {
         "province": "辽宁",
@@ -279,8 +259,8 @@ window.PROMO_PLAN_AUDIT_BY_MONTH = {
 window.PROMO_PLAN_AUDIT = window.PROMO_PLAN_AUDIT_BY_MONTH[window.MAIN_SELECTED_MONTH || "7月"] || {
   "month": "7月",
   "planTotal": 101,
-  "auditTotal": 6,
-  "progress": 5.9,
+  "auditTotal": 9,
+  "progress": 8.9,
   "rows": [
     {
       "province": "云南",
@@ -315,7 +295,7 @@ window.PROMO_PLAN_AUDIT = window.PROMO_PLAN_AUDIT_BY_MONTH[window.MAIN_SELECTED_
     {
       "province": "山东",
       "plan": 2,
-      "audit": 0
+      "audit": 1
     },
     {
       "province": "山西",
@@ -353,16 +333,6 @@ window.PROMO_PLAN_AUDIT = window.PROMO_PLAN_AUDIT_BY_MONTH[window.MAIN_SELECTED_
       "audit": 0
     },
     {
-      "province": "泉源",
-      "plan": 0,
-      "audit": 1
-    },
-    {
-      "province": "泽泽",
-      "plan": 0,
-      "audit": 1
-    },
-    {
       "province": "浙江",
       "plan": 2,
       "audit": 0
@@ -375,11 +345,6 @@ window.PROMO_PLAN_AUDIT = window.PROMO_PLAN_AUDIT_BY_MONTH[window.MAIN_SELECTED_
     {
       "province": "湖南",
       "plan": 1,
-      "audit": 0
-    },
-    {
-      "province": "破晓",
-      "plan": 0,
       "audit": 4
     },
     {
@@ -400,7 +365,7 @@ window.PROMO_PLAN_AUDIT = window.PROMO_PLAN_AUDIT_BY_MONTH[window.MAIN_SELECTED_
     {
       "province": "贵州",
       "plan": 4,
-      "audit": 0
+      "audit": 4
     },
     {
       "province": "辽宁",

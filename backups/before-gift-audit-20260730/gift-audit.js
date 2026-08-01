@@ -120,49 +120,49 @@ window.GIFT_AUDIT = {
     }
   },
   "sample": {
-    "count": 635,
-    "amount": 150696.39,
-    "countMom": 22.8,
-    "amountMom": 36.7,
+    "count": 0,
+    "amount": 635,
+    "countMom": -100.0,
+    "amountMom": 22.8,
     "categories": {
       "老客户增加品类送样": {
         "count": 496,
         "amount": 80728.03,
-        "countMom": 32.6,
-        "amountMom": 20.4
+        "countMom": null,
+        "amountMom": 21485.0
       },
       "新客户招商送样": {
         "count": 139,
         "amount": 69962.36,
-        "countMom": -2.8,
-        "amountMom": 62.1
+        "countMom": -99.8,
+        "amountMom": 48824.7
       }
     },
     "customerNew": {
-      "count": 635,
-      "countMom": 22.8
+      "count": 0,
+      "countMom": -100.0
     },
     "rankings": {
       "全部类型": [
         {
-          "name": "程程",
-          "amount": 34000
+          "name": "云舟",
+          "amount": 16
         },
         {
-          "name": "如若",
-          "amount": 20050.5
+          "name": "晨光",
+          "amount": 13
         },
         {
-          "name": "江江",
-          "amount": 9016.2
+          "name": "骁途",
+          "amount": 11
         },
         {
-          "name": "迟客",
-          "amount": 7393
+          "name": "冬生",
+          "amount": 10
         },
         {
-          "name": "扬帆",
-          "amount": 3110.5
+          "name": "恒远",
+          "amount": 10
         }
       ],
       "老客户增加品类送样": [

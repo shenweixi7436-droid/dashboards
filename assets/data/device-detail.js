@@ -14,7 +14,7 @@ window.DEVICE_DETAIL_BY_MONTH = {
         "rate": 0.63
       },
       {
-        "name": "冰柜",
+        "name": "星星冰柜",
         "volume": 1484,
         "rate": 0.76
       }
@@ -131,7 +131,7 @@ window.DEVICE_DETAIL_BY_MONTH = {
         ]
       },
       {
-        "name": "冰柜",
+        "name": "星星冰柜",
         "headers": [
           "渠道",
           "已投放",
@@ -170,8 +170,131 @@ window.DEVICE_DETAIL_BY_MONTH = {
             "76.0%"
           ]
         ]
+      },
+      {
+        "name": "海尔冰柜",
+        "headers": [
+          "渠道",
+          "台账数据",
+          "系统数据",
+          "差异",
+          "开机",
+          "未开机总数",
+          "在库",
+          "门店"
+        ],
+        "rows": [
+          [
+            "鸣忙",
+            "1,714",
+            "1,586",
+            "128",
+            "427",
+            "1,159",
+            "1,131",
+            "28"
+          ],
+          [
+            "线下",
+            "434",
+            "421",
+            "13",
+            "233",
+            "188",
+            "145",
+            "43"
+          ],
+          [
+            "合计",
+            "2,148",
+            "2,007",
+            "141",
+            "660",
+            "1,347",
+            "1,276",
+            "71"
+          ]
+        ]
       }
-    ]
+    ],
+    "popup": {
+      "source": "市场稽核部重点工作.xlsx / 智能设备台账汇总（按设备名称与表头识别）",
+      "overview": [
+        {
+          "name": "保温柜",
+          "volume": 15214,
+          "rate": 0.52
+        },
+        {
+          "name": "烤肠机",
+          "volume": 8783,
+          "rate": 0.63
+        },
+        {
+          "name": "星星冰柜",
+          "volume": 1484,
+          "rate": 0.76
+        },
+        {
+          "name": "海尔冰柜",
+          "volume": 2148,
+          "rate": 0.3073
+        }
+      ],
+      "ranking": [
+        {
+          "name": "保温柜",
+          "volume": 15214,
+          "rate": 0.52
+        },
+        {
+          "name": "烤肠机",
+          "volume": 8783,
+          "rate": 0.63
+        },
+        {
+          "name": "星星冰柜",
+          "volume": 1484,
+          "rate": 0.76
+        }
+      ],
+      "haier": {
+        "name": "海尔冰柜",
+        "volume": 2148,
+        "rate": 0.3073,
+        "ledger": 2148,
+        "system": 2007,
+        "difference": 141,
+        "active": 660,
+        "inactive": 1347,
+        "inStock": 1276,
+        "atStore": 71,
+        "channels": [
+          {
+            "name": "鸣忙",
+            "ledger": 1714,
+            "system": 1586,
+            "difference": 128,
+            "active": 427,
+            "inactive": 1159,
+            "inStock": 1131,
+            "atStore": 28,
+            "rate": 0.2491
+          },
+          {
+            "name": "线下",
+            "ledger": 434,
+            "system": 421,
+            "difference": 13,
+            "active": 233,
+            "inactive": 188,
+            "inStock": 145,
+            "atStore": 43,
+            "rate": 0.5369
+          }
+        ]
+      }
+    }
   },
   "2月": {
     "month": 6,
@@ -188,7 +311,7 @@ window.DEVICE_DETAIL_BY_MONTH = {
         "rate": 0.63
       },
       {
-        "name": "冰柜",
+        "name": "星星冰柜",
         "volume": 1484,
         "rate": 0.76
       }
@@ -305,7 +428,7 @@ window.DEVICE_DETAIL_BY_MONTH = {
         ]
       },
       {
-        "name": "冰柜",
+        "name": "星星冰柜",
         "headers": [
           "渠道",
           "已投放",
@@ -344,8 +467,131 @@ window.DEVICE_DETAIL_BY_MONTH = {
             "76.0%"
           ]
         ]
+      },
+      {
+        "name": "海尔冰柜",
+        "headers": [
+          "渠道",
+          "台账数据",
+          "系统数据",
+          "差异",
+          "开机",
+          "未开机总数",
+          "在库",
+          "门店"
+        ],
+        "rows": [
+          [
+            "鸣忙",
+            "1,714",
+            "1,586",
+            "128",
+            "427",
+            "1,159",
+            "1,131",
+            "28"
+          ],
+          [
+            "线下",
+            "434",
+            "421",
+            "13",
+            "233",
+            "188",
+            "145",
+            "43"
+          ],
+          [
+            "合计",
+            "2,148",
+            "2,007",
+            "141",
+            "660",
+            "1,347",
+            "1,276",
+            "71"
+          ]
+        ]
       }
-    ]
+    ],
+    "popup": {
+      "source": "市场稽核部重点工作.xlsx / 智能设备台账汇总（按设备名称与表头识别）",
+      "overview": [
+        {
+          "name": "保温柜",
+          "volume": 15214,
+          "rate": 0.52
+        },
+        {
+          "name": "烤肠机",
+          "volume": 8783,
+          "rate": 0.63
+        },
+        {
+          "name": "星星冰柜",
+          "volume": 1484,
+          "rate": 0.76
+        },
+        {
+          "name": "海尔冰柜",
+          "volume": 2148,
+          "rate": 0.3073
+        }
+      ],
+      "ranking": [
+        {
+          "name": "保温柜",
+          "volume": 15214,
+          "rate": 0.52
+        },
+        {
+          "name": "烤肠机",
+          "volume": 8783,
+          "rate": 0.63
+        },
+        {
+          "name": "星星冰柜",
+          "volume": 1484,
+          "rate": 0.76
+        }
+      ],
+      "haier": {
+        "name": "海尔冰柜",
+        "volume": 2148,
+        "rate": 0.3073,
+        "ledger": 2148,
+        "system": 2007,
+        "difference": 141,
+        "active": 660,
+        "inactive": 1347,
+        "inStock": 1276,
+        "atStore": 71,
+        "channels": [
+          {
+            "name": "鸣忙",
+            "ledger": 1714,
+            "system": 1586,
+            "difference": 128,
+            "active": 427,
+            "inactive": 1159,
+            "inStock": 1131,
+            "atStore": 28,
+            "rate": 0.2491
+          },
+          {
+            "name": "线下",
+            "ledger": 434,
+            "system": 421,
+            "difference": 13,
+            "active": 233,
+            "inactive": 188,
+            "inStock": 145,
+            "atStore": 43,
+            "rate": 0.5369
+          }
+        ]
+      }
+    }
   },
   "3月": {
     "month": 6,
@@ -362,7 +608,7 @@ window.DEVICE_DETAIL_BY_MONTH = {
         "rate": 0.63
       },
       {
-        "name": "冰柜",
+        "name": "星星冰柜",
         "volume": 1484,
         "rate": 0.76
       }
@@ -479,7 +725,7 @@ window.DEVICE_DETAIL_BY_MONTH = {
         ]
       },
       {
-        "name": "冰柜",
+        "name": "星星冰柜",
         "headers": [
           "渠道",
           "已投放",
@@ -518,8 +764,131 @@ window.DEVICE_DETAIL_BY_MONTH = {
             "76.0%"
           ]
         ]
+      },
+      {
+        "name": "海尔冰柜",
+        "headers": [
+          "渠道",
+          "台账数据",
+          "系统数据",
+          "差异",
+          "开机",
+          "未开机总数",
+          "在库",
+          "门店"
+        ],
+        "rows": [
+          [
+            "鸣忙",
+            "1,714",
+            "1,586",
+            "128",
+            "427",
+            "1,159",
+            "1,131",
+            "28"
+          ],
+          [
+            "线下",
+            "434",
+            "421",
+            "13",
+            "233",
+            "188",
+            "145",
+            "43"
+          ],
+          [
+            "合计",
+            "2,148",
+            "2,007",
+            "141",
+            "660",
+            "1,347",
+            "1,276",
+            "71"
+          ]
+        ]
       }
-    ]
+    ],
+    "popup": {
+      "source": "市场稽核部重点工作.xlsx / 智能设备台账汇总（按设备名称与表头识别）",
+      "overview": [
+        {
+          "name": "保温柜",
+          "volume": 15214,
+          "rate": 0.52
+        },
+        {
+          "name": "烤肠机",
+          "volume": 8783,
+          "rate": 0.63
+        },
+        {
+          "name": "星星冰柜",
+          "volume": 1484,
+          "rate": 0.76
+        },
+        {
+          "name": "海尔冰柜",
+          "volume": 2148,
+          "rate": 0.3073
+        }
+      ],
+      "ranking": [
+        {
+          "name": "保温柜",
+          "volume": 15214,
+          "rate": 0.52
+        },
+        {
+          "name": "烤肠机",
+          "volume": 8783,
+          "rate": 0.63
+        },
+        {
+          "name": "星星冰柜",
+          "volume": 1484,
+          "rate": 0.76
+        }
+      ],
+      "haier": {
+        "name": "海尔冰柜",
+        "volume": 2148,
+        "rate": 0.3073,
+        "ledger": 2148,
+        "system": 2007,
+        "difference": 141,
+        "active": 660,
+        "inactive": 1347,
+        "inStock": 1276,
+        "atStore": 71,
+        "channels": [
+          {
+            "name": "鸣忙",
+            "ledger": 1714,
+            "system": 1586,
+            "difference": 128,
+            "active": 427,
+            "inactive": 1159,
+            "inStock": 1131,
+            "atStore": 28,
+            "rate": 0.2491
+          },
+          {
+            "name": "线下",
+            "ledger": 434,
+            "system": 421,
+            "difference": 13,
+            "active": 233,
+            "inactive": 188,
+            "inStock": 145,
+            "atStore": 43,
+            "rate": 0.5369
+          }
+        ]
+      }
+    }
   },
   "4月": {
     "month": 6,
@@ -536,7 +905,7 @@ window.DEVICE_DETAIL_BY_MONTH = {
         "rate": 0.63
       },
       {
-        "name": "冰柜",
+        "name": "星星冰柜",
         "volume": 1484,
         "rate": 0.76
       }
@@ -653,7 +1022,7 @@ window.DEVICE_DETAIL_BY_MONTH = {
         ]
       },
       {
-        "name": "冰柜",
+        "name": "星星冰柜",
         "headers": [
           "渠道",
           "已投放",
@@ -692,8 +1061,131 @@ window.DEVICE_DETAIL_BY_MONTH = {
             "76.0%"
           ]
         ]
+      },
+      {
+        "name": "海尔冰柜",
+        "headers": [
+          "渠道",
+          "台账数据",
+          "系统数据",
+          "差异",
+          "开机",
+          "未开机总数",
+          "在库",
+          "门店"
+        ],
+        "rows": [
+          [
+            "鸣忙",
+            "1,714",
+            "1,586",
+            "128",
+            "427",
+            "1,159",
+            "1,131",
+            "28"
+          ],
+          [
+            "线下",
+            "434",
+            "421",
+            "13",
+            "233",
+            "188",
+            "145",
+            "43"
+          ],
+          [
+            "合计",
+            "2,148",
+            "2,007",
+            "141",
+            "660",
+            "1,347",
+            "1,276",
+            "71"
+          ]
+        ]
       }
-    ]
+    ],
+    "popup": {
+      "source": "市场稽核部重点工作.xlsx / 智能设备台账汇总（按设备名称与表头识别）",
+      "overview": [
+        {
+          "name": "保温柜",
+          "volume": 15214,
+          "rate": 0.52
+        },
+        {
+          "name": "烤肠机",
+          "volume": 8783,
+          "rate": 0.63
+        },
+        {
+          "name": "星星冰柜",
+          "volume": 1484,
+          "rate": 0.76
+        },
+        {
+          "name": "海尔冰柜",
+          "volume": 2148,
+          "rate": 0.3073
+        }
+      ],
+      "ranking": [
+        {
+          "name": "保温柜",
+          "volume": 15214,
+          "rate": 0.52
+        },
+        {
+          "name": "烤肠机",
+          "volume": 8783,
+          "rate": 0.63
+        },
+        {
+          "name": "星星冰柜",
+          "volume": 1484,
+          "rate": 0.76
+        }
+      ],
+      "haier": {
+        "name": "海尔冰柜",
+        "volume": 2148,
+        "rate": 0.3073,
+        "ledger": 2148,
+        "system": 2007,
+        "difference": 141,
+        "active": 660,
+        "inactive": 1347,
+        "inStock": 1276,
+        "atStore": 71,
+        "channels": [
+          {
+            "name": "鸣忙",
+            "ledger": 1714,
+            "system": 1586,
+            "difference": 128,
+            "active": 427,
+            "inactive": 1159,
+            "inStock": 1131,
+            "atStore": 28,
+            "rate": 0.2491
+          },
+          {
+            "name": "线下",
+            "ledger": 434,
+            "system": 421,
+            "difference": 13,
+            "active": 233,
+            "inactive": 188,
+            "inStock": 145,
+            "atStore": 43,
+            "rate": 0.5369
+          }
+        ]
+      }
+    }
   },
   "5月": {
     "month": 6,
@@ -710,7 +1202,7 @@ window.DEVICE_DETAIL_BY_MONTH = {
         "rate": 0.63
       },
       {
-        "name": "冰柜",
+        "name": "星星冰柜",
         "volume": 1484,
         "rate": 0.76
       }
@@ -827,7 +1319,7 @@ window.DEVICE_DETAIL_BY_MONTH = {
         ]
       },
       {
-        "name": "冰柜",
+        "name": "星星冰柜",
         "headers": [
           "渠道",
           "已投放",
@@ -866,8 +1358,131 @@ window.DEVICE_DETAIL_BY_MONTH = {
             "76.0%"
           ]
         ]
+      },
+      {
+        "name": "海尔冰柜",
+        "headers": [
+          "渠道",
+          "台账数据",
+          "系统数据",
+          "差异",
+          "开机",
+          "未开机总数",
+          "在库",
+          "门店"
+        ],
+        "rows": [
+          [
+            "鸣忙",
+            "1,714",
+            "1,586",
+            "128",
+            "427",
+            "1,159",
+            "1,131",
+            "28"
+          ],
+          [
+            "线下",
+            "434",
+            "421",
+            "13",
+            "233",
+            "188",
+            "145",
+            "43"
+          ],
+          [
+            "合计",
+            "2,148",
+            "2,007",
+            "141",
+            "660",
+            "1,347",
+            "1,276",
+            "71"
+          ]
+        ]
       }
-    ]
+    ],
+    "popup": {
+      "source": "市场稽核部重点工作.xlsx / 智能设备台账汇总（按设备名称与表头识别）",
+      "overview": [
+        {
+          "name": "保温柜",
+          "volume": 15214,
+          "rate": 0.52
+        },
+        {
+          "name": "烤肠机",
+          "volume": 8783,
+          "rate": 0.63
+        },
+        {
+          "name": "星星冰柜",
+          "volume": 1484,
+          "rate": 0.76
+        },
+        {
+          "name": "海尔冰柜",
+          "volume": 2148,
+          "rate": 0.3073
+        }
+      ],
+      "ranking": [
+        {
+          "name": "保温柜",
+          "volume": 15214,
+          "rate": 0.52
+        },
+        {
+          "name": "烤肠机",
+          "volume": 8783,
+          "rate": 0.63
+        },
+        {
+          "name": "星星冰柜",
+          "volume": 1484,
+          "rate": 0.76
+        }
+      ],
+      "haier": {
+        "name": "海尔冰柜",
+        "volume": 2148,
+        "rate": 0.3073,
+        "ledger": 2148,
+        "system": 2007,
+        "difference": 141,
+        "active": 660,
+        "inactive": 1347,
+        "inStock": 1276,
+        "atStore": 71,
+        "channels": [
+          {
+            "name": "鸣忙",
+            "ledger": 1714,
+            "system": 1586,
+            "difference": 128,
+            "active": 427,
+            "inactive": 1159,
+            "inStock": 1131,
+            "atStore": 28,
+            "rate": 0.2491
+          },
+          {
+            "name": "线下",
+            "ledger": 434,
+            "system": 421,
+            "difference": 13,
+            "active": 233,
+            "inactive": 188,
+            "inStock": 145,
+            "atStore": 43,
+            "rate": 0.5369
+          }
+        ]
+      }
+    }
   },
   "6月": {
     "month": 6,
@@ -884,7 +1499,7 @@ window.DEVICE_DETAIL_BY_MONTH = {
         "rate": 0.63
       },
       {
-        "name": "冰柜",
+        "name": "星星冰柜",
         "volume": 1484,
         "rate": 0.76
       }
@@ -1001,7 +1616,7 @@ window.DEVICE_DETAIL_BY_MONTH = {
         ]
       },
       {
-        "name": "冰柜",
+        "name": "星星冰柜",
         "headers": [
           "渠道",
           "已投放",
@@ -1040,8 +1655,131 @@ window.DEVICE_DETAIL_BY_MONTH = {
             "76.0%"
           ]
         ]
+      },
+      {
+        "name": "海尔冰柜",
+        "headers": [
+          "渠道",
+          "台账数据",
+          "系统数据",
+          "差异",
+          "开机",
+          "未开机总数",
+          "在库",
+          "门店"
+        ],
+        "rows": [
+          [
+            "鸣忙",
+            "1,714",
+            "1,586",
+            "128",
+            "427",
+            "1,159",
+            "1,131",
+            "28"
+          ],
+          [
+            "线下",
+            "434",
+            "421",
+            "13",
+            "233",
+            "188",
+            "145",
+            "43"
+          ],
+          [
+            "合计",
+            "2,148",
+            "2,007",
+            "141",
+            "660",
+            "1,347",
+            "1,276",
+            "71"
+          ]
+        ]
       }
-    ]
+    ],
+    "popup": {
+      "source": "市场稽核部重点工作.xlsx / 智能设备台账汇总（按设备名称与表头识别）",
+      "overview": [
+        {
+          "name": "保温柜",
+          "volume": 15214,
+          "rate": 0.52
+        },
+        {
+          "name": "烤肠机",
+          "volume": 8783,
+          "rate": 0.63
+        },
+        {
+          "name": "星星冰柜",
+          "volume": 1484,
+          "rate": 0.76
+        },
+        {
+          "name": "海尔冰柜",
+          "volume": 2148,
+          "rate": 0.3073
+        }
+      ],
+      "ranking": [
+        {
+          "name": "保温柜",
+          "volume": 15214,
+          "rate": 0.52
+        },
+        {
+          "name": "烤肠机",
+          "volume": 8783,
+          "rate": 0.63
+        },
+        {
+          "name": "星星冰柜",
+          "volume": 1484,
+          "rate": 0.76
+        }
+      ],
+      "haier": {
+        "name": "海尔冰柜",
+        "volume": 2148,
+        "rate": 0.3073,
+        "ledger": 2148,
+        "system": 2007,
+        "difference": 141,
+        "active": 660,
+        "inactive": 1347,
+        "inStock": 1276,
+        "atStore": 71,
+        "channels": [
+          {
+            "name": "鸣忙",
+            "ledger": 1714,
+            "system": 1586,
+            "difference": 128,
+            "active": 427,
+            "inactive": 1159,
+            "inStock": 1131,
+            "atStore": 28,
+            "rate": 0.2491
+          },
+          {
+            "name": "线下",
+            "ledger": 434,
+            "system": 421,
+            "difference": 13,
+            "active": 233,
+            "inactive": 188,
+            "inStock": 145,
+            "atStore": 43,
+            "rate": 0.5369
+          }
+        ]
+      }
+    }
   },
   "7月": {
     "month": 6,
@@ -1058,7 +1796,7 @@ window.DEVICE_DETAIL_BY_MONTH = {
         "rate": 0.63
       },
       {
-        "name": "冰柜",
+        "name": "星星冰柜",
         "volume": 1484,
         "rate": 0.76
       }
@@ -1175,7 +1913,7 @@ window.DEVICE_DETAIL_BY_MONTH = {
         ]
       },
       {
-        "name": "冰柜",
+        "name": "星星冰柜",
         "headers": [
           "渠道",
           "已投放",
@@ -1214,8 +1952,131 @@ window.DEVICE_DETAIL_BY_MONTH = {
             "76.0%"
           ]
         ]
+      },
+      {
+        "name": "海尔冰柜",
+        "headers": [
+          "渠道",
+          "台账数据",
+          "系统数据",
+          "差异",
+          "开机",
+          "未开机总数",
+          "在库",
+          "门店"
+        ],
+        "rows": [
+          [
+            "鸣忙",
+            "1,714",
+            "1,586",
+            "128",
+            "427",
+            "1,159",
+            "1,131",
+            "28"
+          ],
+          [
+            "线下",
+            "434",
+            "421",
+            "13",
+            "233",
+            "188",
+            "145",
+            "43"
+          ],
+          [
+            "合计",
+            "2,148",
+            "2,007",
+            "141",
+            "660",
+            "1,347",
+            "1,276",
+            "71"
+          ]
+        ]
       }
-    ]
+    ],
+    "popup": {
+      "source": "市场稽核部重点工作.xlsx / 智能设备台账汇总（按设备名称与表头识别）",
+      "overview": [
+        {
+          "name": "保温柜",
+          "volume": 15214,
+          "rate": 0.52
+        },
+        {
+          "name": "烤肠机",
+          "volume": 8783,
+          "rate": 0.63
+        },
+        {
+          "name": "星星冰柜",
+          "volume": 1484,
+          "rate": 0.76
+        },
+        {
+          "name": "海尔冰柜",
+          "volume": 2148,
+          "rate": 0.3073
+        }
+      ],
+      "ranking": [
+        {
+          "name": "保温柜",
+          "volume": 15214,
+          "rate": 0.52
+        },
+        {
+          "name": "烤肠机",
+          "volume": 8783,
+          "rate": 0.63
+        },
+        {
+          "name": "星星冰柜",
+          "volume": 1484,
+          "rate": 0.76
+        }
+      ],
+      "haier": {
+        "name": "海尔冰柜",
+        "volume": 2148,
+        "rate": 0.3073,
+        "ledger": 2148,
+        "system": 2007,
+        "difference": 141,
+        "active": 660,
+        "inactive": 1347,
+        "inStock": 1276,
+        "atStore": 71,
+        "channels": [
+          {
+            "name": "鸣忙",
+            "ledger": 1714,
+            "system": 1586,
+            "difference": 128,
+            "active": 427,
+            "inactive": 1159,
+            "inStock": 1131,
+            "atStore": 28,
+            "rate": 0.2491
+          },
+          {
+            "name": "线下",
+            "ledger": 434,
+            "system": 421,
+            "difference": 13,
+            "active": 233,
+            "inactive": 188,
+            "inStock": 145,
+            "atStore": 43,
+            "rate": 0.5369
+          }
+        ]
+      }
+    }
   }
 };
 window.DEVICE_DETAIL = window.DEVICE_DETAIL_BY_MONTH[window.MAIN_SELECTED_MONTH || "7月"] || {
@@ -1233,7 +2094,7 @@ window.DEVICE_DETAIL = window.DEVICE_DETAIL_BY_MONTH[window.MAIN_SELECTED_MONTH 
       "rate": 0.63
     },
     {
-      "name": "冰柜",
+      "name": "星星冰柜",
       "volume": 1484,
       "rate": 0.76
     }
@@ -1350,7 +2211,7 @@ window.DEVICE_DETAIL = window.DEVICE_DETAIL_BY_MONTH[window.MAIN_SELECTED_MONTH 
       ]
     },
     {
-      "name": "冰柜",
+      "name": "星星冰柜",
       "headers": [
         "渠道",
         "已投放",
@@ -1389,6 +2250,129 @@ window.DEVICE_DETAIL = window.DEVICE_DETAIL_BY_MONTH[window.MAIN_SELECTED_MONTH 
           "76.0%"
         ]
       ]
+    },
+    {
+      "name": "海尔冰柜",
+      "headers": [
+        "渠道",
+        "台账数据",
+        "系统数据",
+        "差异",
+        "开机",
+        "未开机总数",
+        "在库",
+        "门店"
+      ],
+      "rows": [
+        [
+          "鸣忙",
+          "1,714",
+          "1,586",
+          "128",
+          "427",
+          "1,159",
+          "1,131",
+          "28"
+        ],
+        [
+          "线下",
+          "434",
+          "421",
+          "13",
+          "233",
+          "188",
+          "145",
+          "43"
+        ],
+        [
+          "合计",
+          "2,148",
+          "2,007",
+          "141",
+          "660",
+          "1,347",
+          "1,276",
+          "71"
+        ]
+      ]
     }
-  ]
+  ],
+  "popup": {
+    "source": "市场稽核部重点工作.xlsx / 智能设备台账汇总（按设备名称与表头识别）",
+    "overview": [
+      {
+        "name": "保温柜",
+        "volume": 15214,
+        "rate": 0.52
+      },
+      {
+        "name": "烤肠机",
+        "volume": 8783,
+        "rate": 0.63
+      },
+      {
+        "name": "星星冰柜",
+        "volume": 1484,
+        "rate": 0.76
+      },
+      {
+        "name": "海尔冰柜",
+        "volume": 2148,
+        "rate": 0.3073
+      }
+    ],
+    "ranking": [
+      {
+        "name": "保温柜",
+        "volume": 15214,
+        "rate": 0.52
+      },
+      {
+        "name": "烤肠机",
+        "volume": 8783,
+        "rate": 0.63
+      },
+      {
+        "name": "星星冰柜",
+        "volume": 1484,
+        "rate": 0.76
+      }
+    ],
+    "haier": {
+      "name": "海尔冰柜",
+      "volume": 2148,
+      "rate": 0.3073,
+      "ledger": 2148,
+      "system": 2007,
+      "difference": 141,
+      "active": 660,
+      "inactive": 1347,
+      "inStock": 1276,
+      "atStore": 71,
+      "channels": [
+        {
+          "name": "鸣忙",
+          "ledger": 1714,
+          "system": 1586,
+          "difference": 128,
+          "active": 427,
+          "inactive": 1159,
+          "inStock": 1131,
+          "atStore": 28,
+          "rate": 0.2491
+        },
+        {
+          "name": "线下",
+          "ledger": 434,
+          "system": 421,
+          "difference": 13,
+          "active": 233,
+          "inactive": 188,
+          "inStock": 145,
+          "atStore": 43,
+          "rate": 0.5369
+        }
+      ]
+    }
+  }
 };

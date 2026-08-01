@@ -22,6 +22,8 @@ MARKET_ORDER_CASE_SHEET = "市场秩序治理-窜货案件数"
 MARKET_ORDER_CUSTOMER_SHEET = "市场秩序治理-涉及客户明细"
 GIFT_ACTIVITY_SHEET = "赠品稽核-活动"
 GIFT_SAMPLE_SHEET = "赠品稽核-样品"
+DEVICE_BAN_SHEET = "禁网行动"
+STORE_AUDIT_SHEET = "鸣忙门店专项稽核"
 
 
 def norm(value) -> str:
@@ -265,12 +267,6 @@ def build_approval(wb):
 
 def build_device(wb, months):
     ws = wb[DEVICE_SHEET]
-    device_names = ["保温柜", "烤肠机", "冰柜"]
-    items = []
-    for index, row in enumerate(range(4, 7)):
-        volume = number(ws.cell(row, 14).value)
-        rate = as_rate(ws.cell(row, 15).value)
-        items.append({"name": device_names[index], "volume": volume, "rate": rate})
 
     def display(value, is_rate=False):
         value = "" if value is None else value
@@ -282,7 +278,40 @@ def build_device(wb, months):
             return f"{int(value):,}" if abs(value - int(value)) < 0.00001 else f"{value:.1f}"
         return str(value).strip()
 
-    def read_table(name, header_row, start_row, end_row, start_col=1, end_col=8):
+    def row_values(row):
+        return [ws.cell(row, col).value for col in range(1, ws.max_column + 1)]
+
+    def find_label_row(label, start_row=1):
+        for row in range(start_row, ws.max_row + 1):
+            values = [norm(value) for value in row_values(row)]
+            if label in values and any("设备投放数量统计" in value for value in values):
+                return row
+        return None
+
+    def find_row_with_labels(start_row, labels, search_rows=6):
+        end_row = min(ws.max_row, start_row + search_rows)
+        for row in range(start_row, end_row + 1):
+            values = [norm(value) for value in row_values(row)]
+            if all(label in values for label in labels):
+                return row
+        return None
+
+    def find_value_row(start_row, label, search_rows=12):
+        end_row = min(ws.max_row, start_row + search_rows)
+        for row in range(start_row, end_row + 1):
+            for col in range(1, ws.max_column + 1):
+                if norm(ws.cell(row, col).value) == label:
+                    return row, col
+        return None, None
+
+    def header_map(row):
+        return {
+            norm(ws.cell(row, col).value): col
+            for col in range(1, ws.max_column + 1)
+            if norm(ws.cell(row, col).value)
+        }
+
+    def read_table(name, header_row, start_row, end_row, start_col, end_col):
         headers = [display(ws.cell(header_row, col).value) for col in range(start_col, end_col + 1)]
         rows = []
         for row_idx in range(start_row, end_row + 1):
@@ -295,18 +324,142 @@ def build_device(wb, months):
             ])
         return {"name": name, "headers": headers, "rows": rows}
 
+    def read_standard_device(name):
+        title_row = find_label_row(name)
+        if not title_row:
+            return None
+        headers_row = find_row_with_labels(title_row + 1, ["渠道", "已投放"])
+        if not headers_row:
+            return None
+        headers = header_map(headers_row)
+        total_row, channel_col = find_value_row(headers_row + 1, "总计")
+        if not total_row or not channel_col:
+            return None
+        rate_name = "台效达标率" if "台效达标率" in headers else "开机率"
+        rate_col = headers.get(rate_name)
+        volume_col = headers.get("已投放")
+        end_col = rate_col or volume_col or channel_col
+        return {
+            "name": name,
+            "volume": number(ws.cell(total_row, volume_col).value) if volume_col else 0,
+            "rate": as_rate(ws.cell(total_row, rate_col).value) if rate_col else 0,
+            "section": read_table(
+                name,
+                headers_row,
+                headers_row + 1,
+                total_row,
+                channel_col,
+                end_col,
+            ),
+        }
+
+    standard_devices = []
+    for device_name in ("保温柜", "烤肠机", "星星冰柜"):
+        device = read_standard_device(device_name)
+        if device:
+            standard_devices.append(device)
+
+    items = [
+        {"name": device["name"], "volume": device["volume"], "rate": device["rate"]}
+        for device in standard_devices
+    ]
+
+    haier = {
+        "name": "海尔冰柜",
+        "volume": 0,
+        "rate": 0,
+        "ledger": 0,
+        "system": 0,
+        "difference": 0,
+        "active": 0,
+        "inactive": 0,
+        "inStock": 0,
+        "atStore": 0,
+        "channels": [],
+    }
+    haier_section = None
+    haier_title_row = find_label_row("海尔冰柜")
+    if haier_title_row:
+        subheader_row = find_row_with_labels(
+            haier_title_row + 1,
+            ["台账数据", "系统数据", "差异", "总数", "在库", "门店"],
+            search_rows=8,
+        )
+        if subheader_row:
+            headers = header_map(subheader_row)
+            active_col = None
+            for row in range(haier_title_row + 1, subheader_row + 1):
+                for col in range(1, ws.max_column + 1):
+                    if norm(ws.cell(row, col).value) == "开机":
+                        active_col = col
+                        break
+                if active_col:
+                    break
+            total_row, channel_col = find_value_row(subheader_row + 1, "合计")
+            if total_row and channel_col:
+                columns = {
+                    "ledger": headers.get("台账数据"),
+                    "system": headers.get("系统数据"),
+                    "difference": headers.get("差异"),
+                    "active": active_col,
+                    "inactive": headers.get("总数"),
+                    "inStock": headers.get("在库"),
+                    "atStore": headers.get("门店"),
+                }
+
+                def read_haier_row(row):
+                    result = {"name": norm(ws.cell(row, channel_col).value)}
+                    for key, col in columns.items():
+                        result[key] = number(ws.cell(row, col).value) if col else 0
+                    result["rate"] = round(result["active"] / result["ledger"], 4) if result["ledger"] else 0
+                    return result
+
+                channel_rows = [
+                    read_haier_row(row)
+                    for row in range(subheader_row + 1, total_row)
+                    if norm(ws.cell(row, channel_col).value)
+                ]
+                total = read_haier_row(total_row)
+                haier.update(total)
+                haier["name"] = "海尔冰柜"
+                haier["volume"] = total["ledger"]
+                haier["channels"] = channel_rows
+                end_col = max(col for col in columns.values() if col)
+                haier_headers = ["渠道", "台账数据", "系统数据", "差异", "开机", "未开机总数", "在库", "门店"]
+                haier_rows = []
+                for row in channel_rows + [total]:
+                    haier_rows.append([
+                        row["name"],
+                        f'{row["ledger"]:,}',
+                        f'{row["system"]:,}',
+                        f'{row["difference"]:,}',
+                        f'{row["active"]:,}',
+                        f'{row["inactive"]:,}',
+                        f'{row["inStock"]:,}',
+                        f'{row["atStore"]:,}',
+                    ])
+                haier_section = {"name": "海尔冰柜", "headers": haier_headers, "rows": haier_rows}
+
+    overview = items + [{
+        "name": "海尔冰柜",
+        "volume": haier["volume"],
+        "rate": haier["rate"],
+    }]
     detail = {
         "month": 6,
         "source": "市场稽核部重点工作.xlsx / 智能设备台账汇总",
         "summary": items,
-        "sections": [
-            read_table("保温柜", 3, 4, 7, 1, 8),
-            read_table("烤肠机", 9, 10, 13, 1, 8),
-            read_table("冰柜", 15, 16, 18, 1, 7),
-        ],
+        "sections": [device["section"] for device in standard_devices]
+        + ([haier_section] if haier_section else []),
+        "popup": {
+            "source": "市场稽核部重点工作.xlsx / 智能设备台账汇总（按设备名称与表头识别）",
+            "overview": overview,
+            "ranking": items,
+            "haier": haier,
+        },
     }
     status = {
-        "source": "市场稽核部重点工作.xlsx / 智能设备台账汇总!M4:O6",
+        "source": "市场稽核部重点工作.xlsx / 智能设备台账汇总（按设备名称与表头识别）",
         "items": items,
     }
     return {month: status for month in months}, {month: detail for month in months}
@@ -737,6 +890,200 @@ def build_gift_audit(wb):
     }
 
 
+def build_device_ban(wb):
+    ws = wb[DEVICE_BAN_SHEET]
+    grouped = defaultdict(
+        lambda: {
+            "total": 0,
+            "statuses": Counter(),
+            "provinces": Counter(),
+            "types": Counter(),
+            "platforms": Counter(),
+        }
+    )
+    for row in range(3, ws.max_row + 1):
+        month = month_label(ws.cell(row, 1).value) or month_label(ws.cell(row, 3).value)
+        count = number(ws.cell(row, 8).value)
+        if not month or count <= 0:
+            continue
+        bucket = grouped[month]
+        bucket["total"] += count
+        for key, column in (
+            ("types", 2),
+            ("platforms", 4),
+            ("provinces", 5),
+            ("statuses", 12),
+        ):
+            label = norm(ws.cell(row, column).value)
+            if label:
+                bucket[key][label] += count
+
+    # P/Q and S/T contain the workbook's prepared status and province summaries.
+    # Use them for the latest month when they reconcile to the underlying H-column total.
+    if grouped:
+        latest_month = max(grouped, key=month_key)
+        latest = grouped[latest_month]
+        status_summary = Counter()
+        province_summary = Counter()
+        for row in range(3, ws.max_row + 1):
+            status = norm(ws.cell(row, 16).value)
+            status_count = number(ws.cell(row, 17).value)
+            if status and status != "总计" and status_count:
+                status_summary[status] += status_count
+            province = norm(ws.cell(row, 19).value)
+            province_count = number(ws.cell(row, 20).value)
+            if province and province_count:
+                province_summary[province] += province_count
+        if status_summary and sum(status_summary.values()) == latest["total"]:
+            latest["statuses"] = status_summary
+        if province_summary and sum(province_summary.values()) == latest["total"]:
+            latest["provinces"] = province_summary
+
+    payload = {}
+    for month, bucket in grouped.items():
+        status_rows = sorted(
+            bucket["statuses"].items(), key=lambda item: (-item[1], item[0])
+        )
+        province_rows = sorted(
+            bucket["provinces"].items(), key=lambda item: (-item[1], item[0])
+        )
+        type_rows = sorted(bucket["types"].items(), key=lambda item: (-item[1], item[0]))
+        platform_rows = sorted(
+            bucket["platforms"].items(), key=lambda item: (-item[1], item[0])
+        )
+        status_map = dict(status_rows)
+        payload[month] = {
+            "total": bucket["total"],
+            "platform": "、".join(name for name, _ in platform_rows) or "--",
+            "removed": status_map.get("已下架", 0),
+            "noReply": status_map.get("未回复", 0),
+            "reported": status_map.get("已向平台举报", 0),
+            "merchantInfo": status_map.get("获取商家信息", 0),
+            "followUp": status_map.get("当地业务跟进中", 0),
+            "topProvince": province_rows[0][0] if province_rows else "--",
+            "topType": type_rows[0][0] if type_rows else "--",
+            "statuses": [
+                {"name": name, "count": count} for name, count in status_rows
+            ],
+            "provinces": [
+                {"name": name, "count": count} for name, count in province_rows
+            ],
+            "types": [{"name": name, "count": count} for name, count in type_rows],
+        }
+    return payload
+
+
+def build_store_audit(wb):
+    ws = wb[STORE_AUDIT_SHEET]
+    source_rows = list(
+        ws.iter_rows(min_row=2, min_col=1, max_col=26, values_only=True)
+    )
+    years = [number(row[1]) for row in source_rows if number(row[1]) > 0]
+    if not years:
+        return {}
+    latest_year = max(years)
+    rows_by_month = defaultdict(list)
+    for row in source_rows:
+        if number(row[1]) != latest_year:
+            continue
+        month_number = number(row[2])
+        if 1 <= month_number <= 12:
+            rows_by_month[f"{month_number}月"].append(row)
+
+    def display_province(value):
+        text = norm(value)
+        for suffix in (
+            "壮族自治区",
+            "回族自治区",
+            "维吾尔自治区",
+            "自治区",
+            "特别行政区",
+            "省",
+            "市",
+        ):
+            if text.endswith(suffix):
+                return text[: -len(suffix)]
+        return text
+
+    def top_label(counter):
+        ranked = sorted(counter.items(), key=lambda item: (-item[1], item[0]))
+        return ranked[0][0] if ranked else "--"
+
+    payload = {}
+    for month, rows in rows_by_month.items():
+        results = Counter(norm(row[22]) for row in rows)
+        province_total = Counter(norm(row[7]) for row in rows if norm(row[7]))
+        province_qualified = Counter(
+            norm(row[7])
+            for row in rows
+            if norm(row[7]) and norm(row[22]) == "合格"
+        )
+        province_uncertain = Counter(
+            norm(row[7])
+            for row in rows
+            if norm(row[7]) and norm(row[22]) == "无法判定"
+        )
+        province_bad = Counter(
+            norm(row[7])
+            for row in rows
+            if norm(row[7]) and norm(row[22]) == "不合格"
+        )
+        province_photo = Counter(
+            norm(row[7])
+            for row in rows
+            if norm(row[7]) and "照片" in norm(row[23])
+        )
+        province_no_product = Counter(
+            norm(row[7])
+            for row in rows
+            if norm(row[7]) and norm(row[23]) == "无小虎产品售卖"
+        )
+        sku_values = [
+            float(row[11])
+            for row in rows
+            if isinstance(row[11], (int, float)) and not isinstance(row[11], bool)
+        ]
+        freezer_values = [
+            float(row[12])
+            for row in rows
+            if isinstance(row[12], (int, float)) and not isinstance(row[12], bool)
+        ]
+        provinces = []
+        for province, total in sorted(
+            province_total.items(), key=lambda item: (-item[1], item[0])
+        ):
+            qualified = province_qualified[province]
+            uncertain = province_uncertain[province]
+            provinces.append(
+                {
+                    "n": display_province(province),
+                    "t": total,
+                    "q": qualified,
+                    "u": uncertain,
+                    "r": round(qualified / total * 100, 1) if total else 0,
+                }
+            )
+        payload[month] = {
+            "total": len(rows),
+            "q": results["合格"],
+            "bad": results["不合格"],
+            "u": results["无法判定"],
+            "avgSku": round(sum(sku_values) / len(sku_values), 1)
+            if sku_values
+            else 0,
+            "avgFreezer": round(sum(freezer_values) / len(freezer_values), 1)
+            if freezer_values
+            else 0,
+            "topBad": top_label(province_bad),
+            "topPhoto": top_label(province_photo),
+            "topUncertain": top_label(province_uncertain),
+            "topNoProduct": top_label(province_no_product),
+            "topNoProductCount": max(province_no_product.values(), default=0),
+            "provinces": provinces,
+        }
+    return payload
+
+
 def write_js(path: Path, legacy_name: str, map_name: str, payload_by_month: dict, default_month: str, extra=""):
     payload = payload_by_month.get(default_month) or next(iter(payload_by_month.values()), {})
     text = (
@@ -768,7 +1115,16 @@ def main():
     approval_pies, approval_detail, approval_months = build_approval(wb)
     market_order, market_months = build_market_order(wb)
     gift_audit = build_gift_audit(wb)
-    all_months = sorted(set(promo_months) | set(approval_months) | set(market_months), key=month_key)
+    device_ban = build_device_ban(wb)
+    store_audit = build_store_audit(wb)
+    all_months = sorted(
+        set(promo_months)
+        | set(approval_months)
+        | set(market_months)
+        | set(device_ban)
+        | set(store_audit),
+        key=month_key,
+    )
     if not all_months:
         all_months = [month_label(datetime.now())]
     default_month = all_months[-1]
@@ -789,6 +1145,8 @@ def main():
     write_js(DATA_DIR / "device-detail.js", "DEVICE_DETAIL", "DEVICE_DETAIL_BY_MONTH", device_detail, default_month)
     write_js(DATA_DIR / "market-order-governance.js", "MARKET_ORDER_GOVERNANCE", "MARKET_ORDER_GOVERNANCE_BY_MONTH", market_order, default_month)
     write_plain_js(DATA_DIR / "gift-audit.js", "GIFT_AUDIT", gift_audit)
+    write_js(DATA_DIR / "device-ban-action.js", "DEVICE_BAN_ACTION", "DEVICE_BAN_ACTION_BY_MONTH", device_ban, default_month)
+    write_plain_js(DATA_DIR / "store-audit-popup.js", "STORE_AUDIT_POPUP_BY_MONTH", store_audit)
 
     print(f"Updated month-aware work data: {', '.join(all_months)}; default {default_month}")
 

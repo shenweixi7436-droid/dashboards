@@ -617,18 +617,18 @@ svg text{font-family:'华康圆体-W7','HKYuanW7','Microsoft YaHei',sans-serif}
 })();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
-<script src="assets/data/current-audit-progress.js?v=20260730174428"></script>
-<script src="assets/data/promo-plan-audit.js?v=20260730174428"></script>
-<script src="assets/data/promo-audit-detail.js?v=20260730174428"></script>
-<script src="assets/data/approval-pies.js?v=20260730174428"></script>
-<script src="assets/data/approval-detail.js?v=20260730174428"></script>
-<script src="assets/data/device-channel-status.js?v=20260730174428"></script>
-<script src="assets/data/device-detail.js?v=20260730174428"></script>
-<script src="assets/data/store-business-analysis.js?v=20260730174428"></script>
-<script src="assets/data/store-audit-popup.js?v=20260730174428"></script>
-<script src="assets/data/market-order-governance.js?v=20260730174428"></script>
-<script src="assets/data/gift-audit.js?v=20260730174428"></script>
-<script src="assets/data/device-ban-action.js?v=20260730174428"></script>
+<script src="assets/data/current-audit-progress.js?v=20260731181016"></script>
+<script src="assets/data/promo-plan-audit.js?v=20260731181016"></script>
+<script src="assets/data/promo-audit-detail.js?v=20260731181016"></script>
+<script src="assets/data/approval-pies.js?v=20260731181016"></script>
+<script src="assets/data/approval-detail.js?v=20260731181016"></script>
+<script src="assets/data/device-channel-status.js?v=20260731181016"></script>
+<script src="assets/data/device-detail.js?v=20260731181016"></script>
+<script src="assets/data/store-business-analysis.js?v=20260731181016"></script>
+<script src="assets/data/store-audit-popup.js?v=20260731181016"></script>
+<script src="assets/data/market-order-governance.js?v=20260731181016"></script>
+<script src="assets/data/gift-audit.js?v=20260731181016"></script>
+<script src="assets/data/device-ban-action.js?v=20260731181016"></script>
 <style id="dashboard-layout-0730">
 :root{
   --layout-bg:#fbf7ef;
@@ -1286,12 +1286,216 @@ body{
 .dkpi-hb.down{
   color:#c82020!important;
 }
+
+/* 业务弹窗排名图统一为线下赠品稽核的横向TOP榜样式 */
+.popup-rank-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:0;
+  margin-top:22px;
+  padding:18px;
+  border:.75pt solid #703a1e;
+  border-radius:28px;
+  background:#fcc900;
+}
+.popup-rank-card{
+  min-width:0;
+  padding:2px 28px 10px 12px;
+}
+.popup-rank-card+.popup-rank-card{
+  padding-left:40px;
+  border-left:.75pt dashed #703a1e;
+}
+.popup-rank-hd{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  margin-bottom:16px;
+}
+.popup-rank-title{
+  min-width:0;
+  font:800 18px 'HKYuanW8','Microsoft YaHei',sans-serif;
+  color:#703a1e;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.popup-rank-select{
+  flex:0 0 150px;
+  max-width:170px;
+  border:0;
+  border-radius:5px;
+  background:#8b421f;
+  color:#fff;
+  padding:8px 28px 8px 12px;
+  font:800 13px 'HKYuanW8','Microsoft YaHei',sans-serif;
+  cursor:pointer;
+}
+.popup-rank-list{
+  display:flex;
+  flex-direction:column;
+  gap:11px;
+  min-height:288px;
+  max-height:360px;
+  overflow-y:auto;
+  padding:2px 8px 4px 0;
+}
+.popup-rank-row{
+  display:grid;
+  grid-template-columns:26px minmax(0,1fr) 118px;
+  gap:9px;
+  align-items:center;
+}
+.popup-rank-index{
+  font:800 16px 'GOTHAMRND-BOLD','HKYuanW9','Arial Black',sans-serif;
+  text-align:center;
+  color:#703a1e;
+}
+.popup-rank-track{
+  position:relative;
+  height:30px;
+  overflow:hidden;
+  border:.75pt solid rgba(112,58,30,.48);
+  border-radius:9px;
+  background:#ffe78b;
+}
+.popup-rank-fill{
+  position:absolute;
+  inset:0 auto 0 0;
+  min-width:3px;
+  border-radius:8px;
+  background:linear-gradient(90deg,#d93924 0%,#fff 100%);
+}
+.popup-rank-name{
+  position:relative;
+  z-index:1;
+  display:block;
+  padding:6px 10px;
+  color:#4f2615;
+  font-size:12px;
+  font-weight:800;
+  line-height:18px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.popup-rank-value{
+  color:#703a1e;
+  font:800 14px 'GOTHAMRND-BOLD','HKYuanW9','Arial Black',sans-serif;
+  text-align:right;
+  white-space:nowrap;
+}
+.popup-rank-empty{
+  min-height:260px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#8d705d;
+  font-weight:800;
+}
+.popup-rank-single{
+  height:410px;
+  min-height:410px;
+  max-height:410px;
+  padding:18px 22px;
+  border-radius:28px;
+}
+.popup-rank-single .popup-rank-list{
+  max-height:335px;
+}
+.mop-grid>.popup-rank-section{
+  align-self:start;
+  margin-top:58px;
+}
+@media(max-width:1150px){
+  .popup-rank-grid{grid-template-columns:1fr}
+  .popup-rank-card+.popup-rank-card{margin-top:18px;padding:22px 12px 10px;border-left:0;border-top:.75pt dashed #703a1e}
+  .mop-grid>.popup-rank-section{margin-top:14px}
+}
+@media(max-width:720px){
+  .popup-rank-grid{padding:12px}
+  .popup-rank-card{padding:2px 4px 10px}
+  .popup-rank-hd{align-items:flex-start;flex-direction:column}
+  .popup-rank-select{width:100%;max-width:none;flex-basis:auto}
+  .popup-rank-row{grid-template-columns:22px minmax(0,1fr) 92px}
+}
+
+/* 智能设备专用弹窗 */
+.sdp-dialog{width:min(1720px,96vw);min-height:720px}
+.sdp-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.sdp-kpi{
+  min-width:0;
+  min-height:126px;
+  padding:15px 18px;
+  border:.75pt solid #703a1e;
+  border-radius:20px;
+  background:#fcc900;
+}
+.sdp-kpi-title{font-size:18px;font-weight:900;color:#703a1e}
+.sdp-kpi-main{margin-top:12px;font:900 34px 'GOTHAMRND-BOLD','HKYuanW9','Arial Black',sans-serif;color:#703a1e}
+.sdp-kpi-main small{font:800 17px 'HKYuanW8','Microsoft YaHei',sans-serif}
+.sdp-kpi-meta{margin-top:8px;font-size:13px;font-weight:800;color:#703a1e}
+.sdp-kpi-note{margin-left:8px;color:#3975e9;font-weight:700}
+.sdp-analysis{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);
+  gap:0;
+  margin-top:24px;
+  padding:18px 22px;
+  border:.75pt solid #703a1e;
+  border-radius:30px;
+  background:#fcc900;
+}
+.sdp-panel{min-width:0;padding:0 28px 8px 8px}
+.sdp-panel+.sdp-panel{padding:0 8px 8px 38px;border-left:.75pt dashed #703a1e}
+.sdp-panel-title{margin-bottom:18px;font-size:20px;font-weight:900;color:#703a1e}
+.sdp-rank-list{display:flex;flex-direction:column;gap:28px;padding:26px 8px 10px}
+.sdp-rank-row{display:grid;grid-template-columns:30px minmax(0,1fr) 145px;gap:12px;align-items:center}
+.sdp-rank-index{font:900 18px 'GOTHAMRND-BOLD','Arial Black',sans-serif;text-align:center;color:#703a1e}
+.sdp-rank-track{position:relative;height:42px;overflow:hidden;border:.75pt solid rgba(112,58,30,.48);border-radius:9px;background:#fff}
+.sdp-rank-fill{position:absolute;inset:0 auto 0 0;border-radius:8px;background:linear-gradient(90deg,#d93924 0%,#fff 100%)}
+.sdp-rank-name{position:relative;z-index:1;display:block;padding:10px 16px;font-size:15px;font-weight:900;color:#703a1e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sdp-rank-rate{text-align:right;font-size:13px;font-weight:900;color:#703a1e;white-space:nowrap}
+.sdp-channel-list{display:flex;flex-direction:column;gap:22px}
+.sdp-channel{display:grid;grid-template-columns:62px minmax(0,1fr);gap:14px;align-items:center}
+.sdp-channel-name{font-size:22px;font-weight:900;line-height:1.05;text-align:center;color:#703a1e}
+.sdp-channel-bars{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px}
+.sdp-data-bar{
+  position:relative;
+  min-width:0;
+  height:34px;
+  overflow:hidden;
+  border:.75pt solid rgba(112,58,30,.38);
+  border-radius:8px;
+  background:#fff;
+}
+.sdp-data-bar.wide{grid-column:1/-1}
+.sdp-data-fill{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,#d93924 0%,#fff 100%)}
+.sdp-data-text{position:relative;z-index:1;display:block;padding:7px 12px;font-size:14px;font-weight:900;color:#703a1e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sdp-empty{padding:80px 20px;text-align:center;color:#8d705d;font-weight:800}
+@media(max-width:1150px){
+  .sdp-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .sdp-analysis{grid-template-columns:1fr}
+  .sdp-panel+.sdp-panel{margin-top:24px;padding:24px 8px 8px;border-left:0;border-top:.75pt dashed #703a1e}
+}
+@media(max-width:720px){
+  .sdp-kpis{grid-template-columns:1fr}
+  .sdp-analysis{padding:12px}
+  .sdp-panel{padding:0 2px 8px}
+  .sdp-rank-row{grid-template-columns:24px minmax(0,1fr);gap:8px}
+  .sdp-rank-rate{grid-column:2;text-align:left}
+  .sdp-channel{grid-template-columns:1fr}
+  .sdp-channel-name{text-align:left}
+  .sdp-channel-bars{grid-template-columns:1fr}
+  .sdp-data-bar.wide{grid-column:auto}
+}
 </style>
 </head><body>
 <div class="hd">
   <div class="header-tiger"></div>
   <div><h1 id="mainDashboardTitle">皇家小虎市场稽核部数据看板</h1></div>
-  <div class="dt">&#128203; 数据更新：2026-07-30 17:44 &nbsp;|&nbsp; &#128197; 数据范围：2026年1月—7月</div>
+  <div class="dt">&#128203; 数据更新：2026-07-31 18:10 &nbsp;|&nbsp; &#128197; 数据范围：2026年1月—7月</div>
 </div>
 <script>
 (function(){
@@ -1314,7 +1518,7 @@ body{
     <button type="button" class="dashboard-module-pill" data-module-approval-audit="1">结案审核</button>
     <button type="button" class="dashboard-module-pill" data-module-market-order="1">市场秩序治理</button>
     <button type="button" class="dashboard-module-pill" data-module-gift="1">线下赠品稽核</button>
-    <button type="button" class="dashboard-module-pill" data-module-detail="3">智能设备</button>
+    <button type="button" class="dashboard-module-pill" data-module-smart-device="1">智能设备</button>
     <button type="button" class="dashboard-module-pill" data-module-store-audit="1">鸣忙专项稽核</button>
     <button type="button" class="dashboard-module-pill" data-module-device-ban="1">设备禁网行动</button>
   </nav>
@@ -1349,10 +1553,10 @@ body{
   <div class="kc display-kpi-card" onclick="window.location.assign('./display-audit-dashboard.html')" role="link" tabindex="0" aria-label="打开陈列稽核看板" style="cursor:pointer;position:relative">
 <a href="./display-audit-dashboard.html" target="_self" aria-label="打开陈列稽核看板" style="position:absolute;inset:0;z-index:2147483647;display:block;border-radius:inherit;text-decoration:none;pointer-events:auto"></a>
     <div class="kt">&#128221; 陈列稽核</div>
-    <div id="kpi0" class="kv" style="color:#703a1e">313</div>
+    <div id="kpi0" class="kv" style="color:#703a1e">402</div>
     <div id="kh0" class="kh down">&#9650; 环比上月 -12.9%</div>
     <div class="kpi-live">
-      <div class="kpi-live-main"><span id="kpi0Live">313</span><span class="kpi-unit">家</span></div>
+      <div class="kpi-live-main"><span id="kpi0Live">402</span><span class="kpi-unit">家</span></div>
     </div>
   </div>
   <div class="kc promo-kpi-card" data-card="1" onclick="openDetail(1)">
@@ -1360,7 +1564,7 @@ body{
     <div id="kpi1" class="kv" style="color:#ec5f74">104</div>
     <div id="kh1" class="kh down">&#9650; 环比上月 -73.5%</div>
     <div class="kpi-live">
-      <div class="kpi-live-main"><span id="promoAuditLive">13</span><span class="kpi-unit">家</span></div>
+      <div class="kpi-live-main"><span id="promoAuditLive">16</span><span class="kpi-unit">家</span></div>
       <div class="kpi-live-sub">推广活动稽核任务量 <span id="promoPlanLive">0家</span> · 进度 <span id="promoProgressLive" class="kpi-live-rate">0%</span></div>
     </div>
   </div>
@@ -1614,7 +1818,12 @@ body{
     <div class="mop-grid">
       <section><div class="bap-section-title">窜货投诉数据汇总 TOP5</div><div class="mop-table-wrap"><div class="mop-table-title">省区投诉排名</div><table class="mop-table"><thead><tr><th>省区</th><th>投诉次数</th></tr></thead><tbody id="mopProvinceTable"></tbody></table></div></section>
       <section><div class="bap-section-title">窜货嫌疑客户数据排名 TOP10</div><div class="mop-table-wrap"><div class="mop-table-title">客户嫌疑排名</div><table class="mop-table"><thead><tr><th>客户</th><th>出现次数</th></tr></thead><tbody id="mopCustomerTable"></tbody></table></div></section>
-      <section><div class="bap-section-title">嫌疑次数最多 TOP5 客户</div><div class="mop-chart-wrap"><div class="mop-bars" id="mopCustomerBars"></div></div></section>
+      <section class="popup-rank-section">
+        <div class="mop-chart-wrap popup-rank-single">
+          <div class="popup-rank-hd"><div class="popup-rank-title">嫌疑次数最多 TOP5 客户</div><select class="popup-rank-select" aria-label="客户范围"><option>全部客户</option></select></div>
+          <div class="popup-rank-list" id="mopCustomerBars"></div>
+        </div>
+      </section>
     </div>
   </section>
 </div>
@@ -1634,9 +1843,15 @@ body{
       <div class="bap-highlight"><span>照片不规范门店最多省区：</span><b id="sapTopPhoto">--</b></div>
       <div class="bap-highlight"><span>无小虎产品陈列最多省份：</span><b id="sapTopNoProduct">--</b></div>
     </div>
-    <div class="sap-grid">
-      <section><div class="bap-section-title">各省区稽核数与合格率</div><div class="sap-chart-wrap"><div class="sap-combo" id="sapProvinceCombo"></div></div></section>
-      <section><div class="bap-section-title">照片不规范门店分布情况</div><div class="sap-chart-wrap"><div class="sap-photo" id="sapPhotoBars"></div></div></section>
+    <div class="sap-grid popup-rank-grid">
+      <section class="popup-rank-card">
+        <div class="popup-rank-hd"><div class="popup-rank-title">各省区稽核数与合格率</div><select class="popup-rank-select" aria-label="省区范围"><option>全部省区</option></select></div>
+        <div class="popup-rank-list" id="sapProvinceCombo"></div>
+      </section>
+      <section class="popup-rank-card">
+        <div class="popup-rank-hd"><div class="popup-rank-title">照片不规范门店分布情况</div><select class="popup-rank-select" aria-label="数据类型"><option>全部类型</option></select></div>
+        <div class="popup-rank-list" id="sapPhotoBars"></div>
+      </section>
     </div>
   </section>
 </div>
@@ -1661,9 +1876,32 @@ body{
       <article class="bap-kpi"><div class="bap-kpi-title">设备涉及省份最多</div><div class="bap-kpi-value" id="dbpTopProvince">--</div></article>
       <article class="bap-kpi"><div class="bap-kpi-title">设备类型最多</div><div class="bap-kpi-value" id="dbpTopType">--</div></article>
     </div>
-    <div class="dbp-charts">
-      <section class="dbp-chart"><div class="dbp-chart-title">处理结果分类</div><div class="dbp-bar-chart" id="dbpStatusChart"></div></section>
-      <section class="dbp-chart"><div class="dbp-chart-title">各省份分布情况</div><div class="dbp-bar-chart" id="dbpProvinceChart"></div></section>
+    <div class="dbp-charts popup-rank-grid">
+      <section class="popup-rank-card">
+        <div class="popup-rank-hd"><div class="popup-rank-title">处理结果分类</div><select class="popup-rank-select" aria-label="处理结果范围"><option>全部结果</option></select></div>
+        <div class="popup-rank-list" id="dbpStatusChart"></div>
+      </section>
+      <section class="popup-rank-card">
+        <div class="popup-rank-hd"><div class="popup-rank-title">各省份分布情况</div><select class="popup-rank-select" aria-label="省份范围"><option>全部省份</option></select></div>
+        <div class="popup-rank-list" id="dbpProvinceChart"></div>
+      </section>
+    </div>
+  </section>
+</div>
+<div class="bap-modal" id="smartDevicePopup" aria-hidden="true">
+  <section class="bap-dialog sdp-dialog" role="dialog" aria-modal="true" aria-labelledby="smartDevicePopupTitle">
+    <button type="button" class="bap-close" id="smartDevicePopupClose" aria-label="关闭">&times;</button>
+    <h2 class="bap-heading" id="smartDevicePopupTitle">智能设备月度概览 <span class="bap-period" id="sdpPeriodText"></span></h2>
+    <div class="sdp-kpis" id="sdpKpis"></div>
+    <div class="sdp-analysis">
+      <section class="sdp-panel">
+        <div class="sdp-panel-title">各设备投放数及时长达标/开机率</div>
+        <div class="sdp-rank-list" id="sdpDeviceRanks"></div>
+      </section>
+      <section class="sdp-panel">
+        <div class="sdp-panel-title">海尔设备台账发货量 VS 系统发货量差异分析</div>
+        <div class="sdp-channel-list" id="sdpHaierChannels"></div>
+      </section>
     </div>
   </section>
 </div>
@@ -1692,7 +1930,7 @@ body{
     </div>
   </div>
 </div>
-<script src="assets/data/dashboard-snapshot.js?v=20260730174428"></script>
+<script src="assets/data/dashboard-snapshot.js?v=20260731181016"></script>
 <script>
 
 var chartInst = null;
@@ -4019,6 +4257,27 @@ document.addEventListener("DOMContentLoaded",function(){
     document.addEventListener("keydown",function(event){if(event.key==="Escape"&&modal.classList.contains("show"))close();});
   }
 
+  function popupRankHtml(rows,nameFn,valueFn,labelFn){
+    rows=rows||[];
+    if(!rows.length)return '<div class="popup-rank-empty">当前月份暂无数据</div>';
+    var max=rows.reduce(function(value,item){
+      return Math.max(value,number(valueFn(item)));
+    },0)||1;
+    return rows.map(function(item,index){
+      var value=number(valueFn(item));
+      var width=Math.max(4,value/max*100);
+      var name=nameFn(item)||"--";
+      return '<div class="popup-rank-row">'+
+        '<div class="popup-rank-index">'+(index+1)+'</div>'+
+        '<div class="popup-rank-track">'+
+          '<div class="popup-rank-fill" style="width:'+width.toFixed(1)+'%"></div>'+
+          '<span class="popup-rank-name" title="'+escapeHtml(name)+'">'+escapeHtml(name)+'</span>'+
+        '</div>'+
+        '<div class="popup-rank-value">'+escapeHtml(labelFn(item))+'</div>'+
+      '</div>';
+    }).join("");
+  }
+
   function renderMarketOrder(){
     var map=window.MARKET_ORDER_GOVERNANCE_BY_MONTH||{};
     var data=map[currentMonth]||{caseCount:0,customerCount:0,lockedCustomerCount:0,punishCount:0,internalCount:0,provinceRank:[],customerRank:[]};
@@ -4045,14 +4304,12 @@ document.addEventListener("DOMContentLoaded",function(){
       return '<tr><td title="'+escapeHtml(item.name)+'">'+escapeHtml(item.name)+'</td><td>'+integer(item.count)+'</td></tr>';
     }).join("")||'<tr><td colspan="2">当前月份暂无数据</td></tr>';
     var top5=customers.slice(0,5);
-    var max=top5.reduce(function(v,item){return Math.max(v,number(item.count));},0)||1;
-    document.getElementById("mopCustomerBars").innerHTML=top5.map(function(item){
-      var height=80+Math.round(number(item.count)/max*210);
-      var fill=Math.max(12,number(item.count)/max*100);
-      return '<div class="mop-bar-item"><div class="mop-bar-value">'+integer(item.count)+'次</div>'+
-        '<div class="mop-bar-shell" style="--h:'+height+'px"><div class="mop-bar-fill" style="--fill:'+fill.toFixed(1)+'%"></div></div>'+
-        '<div class="mop-bar-name" title="'+escapeHtml(item.name)+'">'+escapeHtml(item.name)+'</div></div>';
-    }).join("")||'<div class="bap-empty">当前月份暂无客户嫌疑数据</div>';
+    document.getElementById("mopCustomerBars").innerHTML=popupRankHtml(
+      top5,
+      function(item){return item.name;},
+      function(item){return item.count;},
+      function(item){return integer(item.count)+" 次";}
+    );
   }
 
   function renderStoreAudit(){
@@ -4079,22 +4336,19 @@ document.addEventListener("DOMContentLoaded",function(){
     setText("sapTopBad",data.topBad||"--");
     setText("sapTopPhoto",data.topPhoto||"--");
     setText("sapTopNoProduct",data.topNoProduct||"--");
-    var maxTotal=provinces.reduce(function(v,item){return Math.max(v,number(item.t));},0)||1;
-    document.getElementById("sapProvinceCombo").innerHTML=provinces.map(function(item){
-      var height=Math.max(8,number(item.t)/maxTotal*300);
-      return '<div class="sap-combo-item"><div class="sap-combo-value">'+integer(item.t)+'</div>'+
-        '<div class="sap-combo-shell" style="--h:'+height.toFixed(1)+'px"></div>'+
-        '<div class="sap-combo-rate">'+number(item.r).toFixed(1)+'%</div>'+
-        '<div class="sap-combo-name">'+escapeHtml(item.n)+'</div></div>';
-    }).join("")||'<div class="bap-empty">当前月份暂无省区稽核数据</div>';
+    document.getElementById("sapProvinceCombo").innerHTML=popupRankHtml(
+      provinces,
+      function(item){return item.n;},
+      function(item){return item.t;},
+      function(item){return integer(item.t)+" 家 · "+number(item.r).toFixed(1)+"%";}
+    );
     var photoRows=provinces.filter(function(item){return number(item.u)>0;});
-    var maxPhoto=photoRows.reduce(function(v,item){return Math.max(v,number(item.u));},0)||1;
-    document.getElementById("sapPhotoBars").innerHTML=photoRows.map(function(item){
-      var height=Math.max(5,number(item.u)/maxPhoto*300);
-      return '<div class="sap-photo-item"><div class="sap-photo-value">'+integer(item.u)+'</div>'+
-        '<div class="sap-photo-bar" style="--h:'+height.toFixed(1)+'px"></div>'+
-        '<div class="sap-photo-name">'+escapeHtml(item.n)+'</div></div>';
-    }).join("")||'<div class="bap-empty">当前月份暂无照片不规范门店</div>';
+    document.getElementById("sapPhotoBars").innerHTML=popupRankHtml(
+      photoRows,
+      function(item){return item.n;},
+      function(item){return item.u;},
+      function(item){return integer(item.u)+" 家";}
+    );
   }
 
   var DEVICE_BAN_BY_MONTH=window.DEVICE_BAN_ACTION_BY_MONTH||{};
@@ -4114,17 +4368,12 @@ document.addEventListener("DOMContentLoaded",function(){
     var chart=document.getElementById(id);
     if(!chart)return;
     rows=(rows||[]).filter(function(item){return number(item.count)>0;});
-    if(!rows.length){
-      chart.innerHTML='<div class="dbp-empty-chart">当前月份暂无数据</div>';
-      return;
-    }
-    var max=rows.reduce(function(value,item){return Math.max(value,number(item.count));},0)||1;
-    chart.innerHTML=rows.map(function(item){
-      var height=Math.max(8,number(item.count)/max*240);
-      return '<div class="dbp-bar-item"><div class="dbp-bar-value">'+integer(item.count)+'台</div>'+
-        '<div class="dbp-bar-shell" style="--height:'+height.toFixed(1)+'px"></div>'+
-        '<div class="dbp-bar-name" title="'+escapeHtml(item.name)+'">'+escapeHtml(item.name)+'</div></div>';
-    }).join("");
+    chart.innerHTML=popupRankHtml(
+      rows,
+      function(item){return item.name;},
+      function(item){return item.count;},
+      function(item){return integer(item.count)+" 台";}
+    );
   }
 
   function renderDeviceBan(){
@@ -4148,9 +4397,71 @@ document.addEventListener("DOMContentLoaded",function(){
     renderDeviceBanBars("dbpProvinceChart",data.provinces);
   }
 
+  function smartRate(value){
+    return (number(value)*100).toFixed(1)+"%";
+  }
+
+  function smartDataBar(label,value,width,extraClass){
+    return '<div class="sdp-data-bar'+(extraClass?" "+extraClass:"")+'">'+
+      '<div class="sdp-data-fill" style="width:'+Math.max(4,Math.min(100,width)).toFixed(1)+'%"></div>'+
+      '<span class="sdp-data-text">'+escapeHtml(label)+': '+integer(value)+'台</span>'+
+    '</div>';
+  }
+
+  function renderSmartDevice(){
+    var detail=window.DEVICE_DETAIL||{};
+    var popup=detail.popup||{overview:[],ranking:[],haier:{channels:[]}};
+    var overview=popup.overview||[];
+    var ranking=popup.ranking||[];
+    var haier=popup.haier||{channels:[]};
+    setText("sdpPeriodText",currentMonth==="全年"?"全年汇总":currentMonth);
+    document.getElementById("sdpKpis").innerHTML=overview.map(function(item,index){
+      var rateLabel=index<2?"时长达标(≥8h)率":"开机率";
+      var note=item.name==="海尔冰柜"?'<span class="sdp-kpi-note">(开机数/手工台账发货量)</span>':"";
+      return '<article class="sdp-kpi">'+
+        '<div class="sdp-kpi-title">'+escapeHtml(item.name)+'已投放</div>'+
+        '<div class="sdp-kpi-main">'+integer(item.volume)+' <small>台</small></div>'+
+        '<div class="sdp-kpi-meta">'+rateLabel+'：'+smartRate(item.rate)+note+'</div>'+
+      '</article>';
+    }).join("")||'<div class="sdp-empty">当前暂无智能设备汇总数据</div>';
+
+    var rankMax=ranking.reduce(function(max,item){return Math.max(max,number(item.volume));},0)||1;
+    document.getElementById("sdpDeviceRanks").innerHTML=ranking.map(function(item,index){
+      var rateLabel=index<2?"时长达标(≥8h)率":"开机率";
+      return '<div class="sdp-rank-row">'+
+        '<div class="sdp-rank-index">'+(index+1)+'</div>'+
+        '<div class="sdp-rank-track">'+
+          '<div class="sdp-rank-fill" style="width:'+Math.max(5,number(item.volume)/rankMax*100).toFixed(1)+'%"></div>'+
+          '<span class="sdp-rank-name">'+escapeHtml(item.name)+'：'+integer(item.volume)+'台</span>'+
+        '</div>'+
+        '<div class="sdp-rank-rate">'+rateLabel+'：'+smartRate(item.rate)+'</div>'+
+      '</div>';
+    }).join("")||'<div class="sdp-empty">当前暂无设备排名数据</div>';
+
+    var channels=haier.channels||[];
+    var shipmentMax=channels.reduce(function(max,item){
+      return Math.max(max,number(item.ledger),number(item.system));
+    },0)||1;
+    document.getElementById("sdpHaierChannels").innerHTML=channels.map(function(item){
+      var base=number(item.ledger)||1;
+      return '<div class="sdp-channel">'+
+        '<div class="sdp-channel-name">'+escapeHtml(item.name)+'<br>设备</div>'+
+        '<div class="sdp-channel-bars">'+
+          smartDataBar("台账数据",item.ledger,number(item.ledger)/shipmentMax*100,"wide")+
+          smartDataBar("系统数据",item.system,number(item.system)/shipmentMax*100,"wide")+
+          smartDataBar("开机",item.active,number(item.active)/base*100,"")+
+          smartDataBar("未开机",item.inactive,number(item.inactive)/base*100,"")+
+          '<div class="sdp-kpi-meta">开机占比：'+smartRate(item.rate)+' · 差异：'+integer(item.difference)+'台</div>'+
+          '<div class="sdp-kpi-meta">其中在库：'+integer(item.inStock)+'台 · 门店：'+integer(item.atStore)+'台</div>'+
+        '</div>'+
+      '</div>';
+    }).join("")||'<div class="sdp-empty">当前暂无海尔冰柜渠道数据</div>';
+  }
+
   setupModal("marketOrderPopup","[data-module-market-order]","marketOrderPopupClose",renderMarketOrder);
   setupModal("storeAuditPopup","[data-module-store-audit]","storeAuditPopupClose",renderStoreAudit);
   setupModal("deviceBanPopup","[data-module-device-ban]","deviceBanPopupClose",renderDeviceBan);
+  setupModal("smartDevicePopup","[data-module-smart-device]","smartDevicePopupClose",renderSmartDevice);
   renderDeviceBanCard();
 })();
 </script>
