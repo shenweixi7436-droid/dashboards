@@ -972,7 +972,8 @@ def build_device_ban(wb):
             "removed": status_map.get("已下架", 0),
             "noReply": status_map.get("未回复", 0),
             "reported": status_map.get("已向平台举报", 0),
-            "merchantInfo": status_map.get("获取商家信息", 0),
+            # 源表存在“获取商家信息”和“商家信息获取中”两种填写，均归入商家信息获取状态。
+            "merchantInfo": status_map.get("获取商家信息", 0) + status_map.get("商家信息获取中", 0),
             "followUp": status_map.get("当地业务跟进中", 0),
             "topProvince": province_rows[0][0] if province_rows else "--",
             "topType": type_rows[0][0] if type_rows else "--",

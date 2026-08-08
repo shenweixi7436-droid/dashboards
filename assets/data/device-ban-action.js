@@ -94,7 +94,7 @@ window.DEVICE_BAN_ACTION_BY_MONTH = {
     "removed": 1,
     "noReply": 0,
     "reported": 0,
-    "merchantInfo": 0,
+    "merchantInfo": 2,
     "followUp": 4,
     "topProvince": "广东",
     "topType": "保温柜",
