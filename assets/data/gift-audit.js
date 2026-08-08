@@ -4,209 +4,209 @@ window.GIFT_AUDIT = {
   "periodNote": "数据展示为T-1月",
   "source": "市场稽核部重点工作.xlsx / 赠品稽核-活动、赠品稽核-样品",
   "activity": {
-    "count": 121,
-    "amount": 47480.8,
-    "countMom": -19.9,
-    "amountMom": -46.5,
+    "count": 97,
+    "amount": 37660.8,
+    "countMom": -19.8,
+    "amountMom": -20.7,
     "categories": {
       "经销商搭赠": {
-        "count": 8,
-        "amount": 3693.1,
-        "countMom": 33.3,
-        "amountMom": -31.2
+        "count": 1,
+        "amount": 1360,
+        "countMom": -87.5,
+        "amountMom": -63.2
       },
       "消费者搭赠": {
-        "count": 10,
-        "amount": 8775,
-        "countMom": -56.5,
-        "amountMom": -55.1
+        "count": 9,
+        "amount": 4548,
+        "countMom": -10.0,
+        "amountMom": -48.2
       },
       "消费者试吃": {
-        "count": 93,
-        "amount": 35006.7,
-        "countMom": -15.5,
-        "amountMom": -44.6
+        "count": 78,
+        "amount": 31746.8,
+        "countMom": -16.1,
+        "amountMom": -9.3
       }
     },
     "rankings": {
       "全部类型": [
         {
-          "name": "线下-湖南食尚雪峰工贸有限公司",
-          "amount": 3270
-        },
-        {
           "name": "线下-万州区赚钱钱冷冻食品经营部",
-          "amount": 3036
+          "amount": 4140
         },
         {
-          "name": "线下-衢州昌润供应链管理有限公司",
-          "amount": 3021
-        },
-        {
-          "name": "线下-山西荷美斯食品科技有限公司",
-          "amount": 2856
-        },
-        {
-          "name": "线下-山西福晋园食品有限公司",
+          "name": "线下-西安沃兴源商贸有限公司",
           "amount": 2720
+        },
+        {
+          "name": "线下-重庆巴音塔拉冷食品有限公司",
+          "amount": 2720
+        },
+        {
+          "name": "线下-真市美供应链（沈阳）有限公司（辽宁）",
+          "amount": 2033.2
+        },
+        {
+          "name": "线下-岳阳思念商贸有限公司",
+          "amount": 1795.8
         }
       ],
       "经销商搭赠": [
         {
-          "name": "线下-衢州昌润供应链管理有限公司",
-          "amount": 1771
+          "name": "线下-山东德百集团超市有限公司",
+          "amount": 1360
         },
         {
-          "name": "线下-邻水县万兴冷食品批发部",
-          "amount": 544
+          "name": "公司共用",
+          "amount": 0
         },
         {
-          "name": "线下-广安郅隆商贸有限公司",
-          "amount": 408
+          "name": "线下-七星关区食味坊冻货经营部（个体工商户）",
+          "amount": 0
         },
         {
-          "name": "线下-营山县张红林雪糕批发",
-          "amount": 197
+          "name": "线下-万州区赚钱钱冷冻食品经营部",
+          "amount": 0
         },
         {
-          "name": "线下-泉州玉潼商贸有限公司",
-          "amount": 150
+          "name": "线下-三门峡市帝康食品有限公司",
+          "amount": 0
         }
       ],
       "消费者搭赠": [
         {
-          "name": "线下-金华市成好全商贸有限公司",
-          "amount": 1500
+          "name": "线下-隆昌市肆玥商贸有限公司",
+          "amount": 938
         },
         {
-          "name": "线下-衢州昌润供应链管理有限公司",
-          "amount": 1250
+          "name": "线下-资阳市雁江区德利水产品经营部",
+          "amount": 836
+        },
+        {
+          "name": "线下-达州市予润商贸有限公司",
+          "amount": 828
+        },
+        {
+          "name": "线下-安岳县鑫茂源冷冻食品超市",
+          "amount": 802
         },
         {
           "name": "线下-台州路桥晓函食品有限公司",
-          "amount": 1180
-        },
-        {
-          "name": "线下-温州市嘉利食品有限公司",
-          "amount": 1136
-        },
-        {
-          "name": "线下-隆昌市肆玥商贸有限公司",
-          "amount": 976
+          "amount": 572
         }
       ],
       "消费者试吃": [
         {
-          "name": "线下-湖南食尚雪峰工贸有限公司",
-          "amount": 3270
-        },
-        {
           "name": "线下-万州区赚钱钱冷冻食品经营部",
-          "amount": 3036
+          "amount": 4140
         },
         {
-          "name": "线下-山西荷美斯食品科技有限公司",
-          "amount": 2856
-        },
-        {
-          "name": "线下-山西福晋园食品有限公司",
+          "name": "线下-西安沃兴源商贸有限公司",
           "amount": 2720
         },
         {
-          "name": "线下-湖南领鲜食品有限公司",
-          "amount": 2362.5
+          "name": "线下-重庆巴音塔拉冷食品有限公司",
+          "amount": 2720
+        },
+        {
+          "name": "线下-真市美供应链（沈阳）有限公司（辽宁）",
+          "amount": 2033.2
+        },
+        {
+          "name": "线下-岳阳思念商贸有限公司",
+          "amount": 1795.8
         }
       ]
     }
   },
   "sample": {
-    "count": 0,
-    "amount": 635,
-    "countMom": -100.0,
-    "amountMom": 22.8,
+    "count": 200,
+    "amount": 77699.35,
+    "countMom": -13.4,
+    "amountMom": -48.4,
     "categories": {
       "老客户增加品类送样": {
-        "count": 496,
-        "amount": 80728.03,
-        "countMom": null,
-        "amountMom": 21485.0
+        "count": 136,
+        "amount": 59771.41,
+        "countMom": -11.1,
+        "amountMom": -26.0
       },
       "新客户招商送样": {
-        "count": 139,
-        "amount": 69962.36,
-        "countMom": -99.8,
-        "amountMom": 48824.7
+        "count": 64,
+        "amount": 17921.94,
+        "countMom": -17.9,
+        "amountMom": -74.4
       }
     },
     "customerNew": {
       "count": 0,
-      "countMom": -100.0
+      "countMom": null
     },
     "rankings": {
       "全部类型": [
         {
-          "name": "云舟",
-          "amount": 16
+          "name": "乐常",
+          "amount": 6000
         },
         {
-          "name": "晨光",
-          "amount": 13
+          "name": "正原",
+          "amount": 5931.8
         },
         {
-          "name": "骁途",
-          "amount": 11
+          "name": "晴空",
+          "amount": 2849.5
         },
         {
-          "name": "冬生",
-          "amount": 10
+          "name": "平安",
+          "amount": 2683.7
         },
         {
-          "name": "恒远",
-          "amount": 10
+          "name": "浩俞",
+          "amount": 2453.15
         }
       ],
       "老客户增加品类送样": [
         {
-          "name": "如若",
-          "amount": 20034
-        },
-        {
-          "name": "简壹",
-          "amount": 3000
+          "name": "乐常",
+          "amount": 6000
         },
         {
           "name": "正原",
-          "amount": 1925.7
+          "amount": 3955.8
         },
         {
-          "name": "昭然",
-          "amount": 1647.5
+          "name": "晴空",
+          "amount": 2423.5
         },
         {
-          "name": "江江",
-          "amount": 1514.2
+          "name": "平安",
+          "amount": 2299.9
+        },
+        {
+          "name": "浩俞",
+          "amount": 2152.4
         }
       ],
       "新客户招商送样": [
         {
-          "name": "程程",
-          "amount": 34000
+          "name": "钟润",
+          "amount": 2000
         },
         {
-          "name": "江江",
-          "amount": 7502
+          "name": "正原",
+          "amount": 1976
         },
         {
-          "name": "迟客",
-          "amount": 7393
+          "name": "文博",
+          "amount": 1035.08
         },
         {
-          "name": "扬帆",
-          "amount": 2640.1
+          "name": "兰忠",
+          "amount": 945.6
         },
         {
-          "name": "海川",
-          "amount": 1557.6
+          "name": "建林",
+          "amount": 925.4
         }
       ]
     }

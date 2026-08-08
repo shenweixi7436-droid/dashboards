@@ -542,7 +542,7 @@ svg text{font-family:'华康圆体-W7','HKYuanW7','Microsoft YaHei',sans-serif}
 .gift-detail-moms{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px;font-size:12px;font-weight:700}
 .gift-detail-mom.up{color:#0b7f4f}.gift-detail-mom.down{color:#c82020}.gift-detail-mom.flat{color:#777}
 .gift-detail-subgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-.gift-detail-subcard{min-width:0;display:flex;flex-direction:column;justify-content:space-between}
+.gift-detail-subcard{min-width:0;display:flex;flex-direction:column;justify-content:space-between}.gift-detail-subcard.gift-customer-new{background:#703a1e;border-color:#703a1e;color:#fff}.gift-detail-subcard.gift-customer-new .gift-detail-sub-title,.gift-detail-subcard.gift-customer-new .gift-detail-sub-values strong{color:#fff}.gift-detail-subcard.gift-customer-new .gift-detail-mom{color:#fff3bf}
 .gift-detail-sub-title{font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .gift-detail-sub-values{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-top:14px}
 .gift-detail-sub-values strong{font-size:25px}
@@ -617,18 +617,18 @@ svg text{font-family:'华康圆体-W7','HKYuanW7','Microsoft YaHei',sans-serif}
 })();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
-<script src="assets/data/current-audit-progress.js?v=20260804174512"></script>
-<script src="assets/data/promo-plan-audit.js?v=20260804174512"></script>
-<script src="assets/data/promo-audit-detail.js?v=20260804174512"></script>
-<script src="assets/data/approval-pies.js?v=20260804174512"></script>
-<script src="assets/data/approval-detail.js?v=20260804174512"></script>
-<script src="assets/data/device-channel-status.js?v=20260804174512"></script>
-<script src="assets/data/device-detail.js?v=20260804174512"></script>
-<script src="assets/data/store-business-analysis.js?v=20260804174512"></script>
-<script src="assets/data/store-audit-popup.js?v=20260804174512"></script>
-<script src="assets/data/market-order-governance.js?v=20260804174512"></script>
-<script src="assets/data/gift-audit.js?v=20260804174512"></script>
-<script src="assets/data/device-ban-action.js?v=20260804174512"></script>
+<script src="assets/data/current-audit-progress.js?v=20260808114553"></script>
+<script src="assets/data/promo-plan-audit.js?v=20260808114553"></script>
+<script src="assets/data/promo-audit-detail.js?v=20260808114553"></script>
+<script src="assets/data/approval-pies.js?v=20260808114553"></script>
+<script src="assets/data/approval-detail.js?v=20260808114553"></script>
+<script src="assets/data/device-channel-status.js?v=20260808114553"></script>
+<script src="assets/data/device-detail.js?v=20260808114553"></script>
+<script src="assets/data/store-business-analysis.js?v=20260808114553"></script>
+<script src="assets/data/store-audit-popup.js?v=20260808114553"></script>
+<script src="assets/data/market-order-governance.js?v=20260808114553"></script>
+<script src="assets/data/gift-audit.js?v=20260808114553"></script>
+<script src="assets/data/device-ban-action.js?v=20260808114553"></script>
 <style id="dashboard-layout-0730">
 :root{
   --layout-bg:#fbf7ef;
@@ -1012,29 +1012,28 @@ body{
 .dap-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px}
 .dap-card{min-width:0;padding:14px 16px;border:4px solid #713618;border-radius:24px;background:#fff}
 .dap-hero{grid-column:span 6;min-height:148px}.dap-plan,.dap-province{grid-column:span 3;min-height:148px}
-.dap-metric{grid-column:span 2;min-height:142px}.dap-extremes,.dap-rectify{grid-column:span 3;min-height:142px}
+.dap-metric,.dap-rectify{grid-column:span 3;min-height:142px}
 .dap-title{font-family:'HKYuanW9','Microsoft YaHei',sans-serif;font-size:21px;font-weight:900;line-height:1.2}
 .dap-value{margin-top:9px;font-family:'GOTHAMRND-BOLD','HKYuanW9','Arial Black',sans-serif;font-size:42px;font-weight:900;line-height:1}
 .dap-value small{font-family:'HKYuanW8','Microsoft YaHei',sans-serif;font-size:17px;margin-left:4px}
+.dap-hero-values{display:flex;gap:28px;align-items:flex-start}
+.dap-hero-item{flex:1 1 0;min-width:0}
 .dap-meta{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:12px;font-size:13px;font-weight:800;line-height:1.35}
 .dap-plan .dap-value,.dap-province .dap-value{font-size:33px}.dap-plan-lines{margin-top:11px;font-size:13px;font-weight:800;line-height:1.5}
 .dap-metric .dap-title{font-size:17px}.dap-metric .dap-value{font-size:32px;margin-top:20px}.dap-metric .dap-meta{margin-top:18px}
 .dap-extremes strong{display:block;margin:5px 0 9px;font-size:21px}.dap-rectify-grid{display:grid;grid-template-columns:1fr 1fr;margin-top:7px;border:2px solid #713618}
 .dap-rectify-cell{padding:8px}.dap-rectify-cell+.dap-rectify-cell{border-left:2px solid #713618}.dap-rectify-cell b{display:block;margin-top:9px;font-size:27px}
-.dap-bottom{display:grid;grid-template-columns:minmax(0,7fr) minmax(390px,5fr);gap:24px;margin-top:18px;padding:8px 18px 18px;border:4px solid #713618;border-radius:54px;background:#fff}
+.dap-bottom{display:grid;grid-template-columns:minmax(330px,4fr) minmax(560px,8fr);gap:24px;margin-top:18px;padding:8px 18px 18px;border:4px solid #713618;border-radius:54px;background:#fff}
 .dap-bottom-title{margin:6px 0 10px;font-family:'HKYuanW9','Microsoft YaHei',sans-serif;font-size:22px;font-weight:900}
 .dap-progress-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 26px;max-height:430px;overflow:auto;padding-right:4px}
 .dap-progress-row{display:grid;grid-template-columns:76px minmax(0,1fr) 98px;gap:8px;align-items:center;min-width:0}
 .dap-progress-name{font-size:12px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dap-progress-track{height:22px;overflow:hidden;border:2px solid #713618;border-radius:5px;background:#8b431d}
 .dap-progress-fill{height:100%;background:#ffd94a}.dap-progress-number{font-size:11px;font-weight:800;text-align:right;white-space:nowrap}
-.dap-top5-note{margin-top:-7px;font-size:12px;color:#5376d8}.dap-top5-chart{height:275px;margin-top:10px;padding:12px 6px 0 36px;display:flex;align-items:flex-end;justify-content:center;gap:20px;border-left:4px solid #713618;border-bottom:4px solid #713618}
-.dap-top5-item{width:54px;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end}.dap-top5-rate{margin-bottom:5px;font-size:11px;font-weight:900}
-.dap-top5-shell{width:44px;height:var(--h);min-height:30px;display:flex;align-items:flex-end;overflow:hidden;border:2px solid #713618;border-radius:8px 8px 0 0;background:#ffd94a}
-.dap-top5-fill{width:100%;height:var(--rate);background:#cf0000;border-radius:6px 6px 0 0}.dap-top5-name{margin-top:6px;font-size:11px;font-weight:800;white-space:nowrap}
+.dap-bubble-chart{height:350px;position:relative;margin-top:6px;padding:28px 22px 44px 52px;overflow:hidden}.dap-bubble-plot{position:relative;width:100%;height:100%;border-left:2px solid #713618;border-bottom:2px solid #713618}.dap-bubble-grid{position:absolute;inset:0;pointer-events:none}.dap-bubble-grid i{position:absolute;left:0;right:0;border-top:1px dashed rgba(113,54,24,.18)}.dap-bubble-grid b{position:absolute;bottom:0;top:0;border-left:1px dashed rgba(113,54,24,.16)}.dap-bubble-y-tick{position:absolute;left:-40px;font-size:10px;font-weight:800;color:#713618;transform:translateY(50%)}.dap-bubble-x-tick{position:absolute;bottom:-23px;font-size:10px;font-weight:800;color:#713618;transform:translateX(-50%)}.dap-bubble-axis-x{position:absolute;left:52px;right:22px;bottom:9px;text-align:center;font-size:13px;font-weight:900;color:#713618}.dap-bubble-axis-y{position:absolute;left:9px;top:50%;font-size:13px;font-weight:900;color:#713618;transform:translateY(-50%) rotate(-90deg);transform-origin:center;white-space:nowrap}.dap-bubble{position:absolute;border:2px solid rgba(112,58,30,.86);background:rgba(112,58,30,.17);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#703a1e;font-size:11px;font-weight:900;line-height:1;box-sizing:border-box;cursor:pointer;transition:transform .15s ease,background .15s ease,box-shadow .15s ease}.dap-bubble:hover,.dap-bubble:focus{z-index:5;transform:scale(1.12);background:rgba(112,58,30,.28);box-shadow:0 4px 12px rgba(112,58,30,.2);outline:none}.dap-bubble.focus{border-width:2.5px;background:rgba(112,58,30,.24)}.dap-bubble-label{position:absolute;top:-21px;left:50%;transform:translateX(-50%);padding:2px 6px;border:1px solid rgba(112,58,30,.55);border-radius:10px;background:#fffdf7;color:#703a1e;font-size:10px;font-weight:800;line-height:1;white-space:nowrap}.dap-bubble-tooltip{position:absolute;z-index:10;min-width:132px;padding:8px 10px;border:2px solid #703a1e;border-radius:10px;background:#fffdf7;color:#703a1e;box-shadow:0 8px 18px rgba(112,58,30,.18);font-size:12px;font-weight:800;line-height:1.65;pointer-events:none;opacity:0;transform:translate(-50%,-8px);transition:opacity .12s ease}.dap-bubble-tooltip.show{opacity:1}.dap-bubble-tooltip b{font-size:13px}.dap-bubble-empty{height:100%;display:flex;align-items:center;justify-content:center;color:rgba(113,54,24,.65);font-size:13px}
 .dap-empty{grid-column:1/-1;padding:70px 20px;text-align:center;color:rgba(113,54,24,.65)}
-@media(max-width:1100px){.dap-hero{grid-column:span 12}.dap-plan,.dap-province{grid-column:span 6}.dap-metric{grid-column:span 4}.dap-extremes,.dap-rectify{grid-column:span 6}.dap-bottom{grid-template-columns:1fr}}
-@media(max-width:720px){.dap-modal{padding:6px}.dap-dialog{width:100%;padding:14px;border-radius:18px}.dap-plan,.dap-province,.dap-metric,.dap-extremes,.dap-rectify{grid-column:span 12}.dap-progress-list{grid-template-columns:1fr}.dap-bottom{padding:8px;border-radius:28px}.dap-top5-chart{gap:8px;padding-left:16px}}
+@media(max-width:1100px){.dap-hero{grid-column:span 12}.dap-plan,.dap-province{grid-column:span 6}.dap-metric,.dap-rectify{grid-column:span 3}.dap-bottom{grid-template-columns:1fr}}
+@media(max-width:720px){.dap-modal{padding:6px}.dap-dialog{width:100%;padding:14px;border-radius:18px}.dap-plan,.dap-province,.dap-metric,.dap-rectify{grid-column:span 12}.dap-progress-list{grid-template-columns:1fr}.dap-bottom{padding:8px;border-radius:28px}.dap-top5-chart{gap:8px;padding-left:16px}}
 </style>
 <style id="approval-audit-popup-style">
 .aap-modal{display:none;position:fixed;inset:0;z-index:5100;padding:22px;overflow:auto;background:rgba(42,22,11,.64)}
@@ -1042,7 +1041,7 @@ body{
 .aap-dialog{position:relative;width:min(1780px,96vw);min-height:760px;margin:0 auto;padding:22px;border:4px solid #713618;border-radius:28px;background:radial-gradient(circle at 15% 18%,rgba(255,255,255,.4),transparent 28rem),var(--layout-bg);color:#713618;box-shadow:0 24px 70px rgba(0,0,0,.35)}
 .aap-close{position:absolute;right:18px;top:14px;z-index:3;width:38px;height:38px;border:2px solid #713618;border-radius:50%;background:#fff;color:#713618;font-size:24px;line-height:32px;cursor:pointer}
 .aap-heading{margin:0 54px 16px 4px;font-family:'HKYuanW9','Microsoft YaHei',sans-serif;font-size:25px;font-weight:900}.aap-period{font-size:13px;font-weight:700}
-.aap-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:34px;margin:0 14px 10px}
+.aap-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:34px;margin:0 14px 10px}
 .aap-card{min-width:0;min-height:150px;padding:16px 20px;border:4px solid #713618;border-radius:28px;background:#fff}
 .aap-card-title{font-family:'HKYuanW9','Microsoft YaHei',sans-serif;font-size:21px;font-weight:900;line-height:1.3}
 .aap-card-value{margin-top:15px;font-family:'GOTHAMRND-BOLD','HKYuanW9','Arial Black',sans-serif;font-size:36px;font-weight:900;line-height:1.1;overflow-wrap:anywhere}.aap-card-value small{font-family:'HKYuanW8','Microsoft YaHei',sans-serif;font-size:17px;margin-left:4px}
@@ -1491,11 +1490,28 @@ body{
   .sdp-data-bar.wide{grid-column:auto}
 }
 </style>
+<style id="top-kpi-typography-unification-0807">
+/* 以“结案审核”卡片为基准统一顶部业务卡的标题、主数值、单位和说明字号。 */
+.top-kpi-row .market-order-kpi-card .kt,
+.top-kpi-row .store-kpi-card .kt,
+.top-kpi-row .device-ban-kpi-card .kt{font-size:15px!important;line-height:1.18!important}
+.top-kpi-row .market-order-kpi-card .kpi-live-main,
+.top-kpi-row .store-kpi-card .kpi-live-main,
+.top-kpi-row .device-ban-kpi-card .kpi-live-main{font-size:32px!important;line-height:1!important}
+.top-kpi-row .market-order-kpi-card .kpi-unit,
+.top-kpi-row .store-kpi-card .kpi-unit,
+.top-kpi-row .device-ban-kpi-card .kpi-unit{font-size:15px!important;margin-left:2px!important}
+.top-kpi-row .market-order-kpi-card .kpi-live-sub,
+.top-kpi-row .store-kpi-card .kpi-live-sub,
+.top-kpi-row .device-ban-kpi-card .kpi-live-label,
+.top-kpi-row .device-ban-kpi-card .kpi-live-sub{font-size:11px!important;line-height:1.2!important;margin-top:7px!important}
+.top-kpi-row .device-ban-kpi-card .kpi-live-label{margin-bottom:4px!important}
+</style>
 </head><body>
 <div class="hd">
   <div class="header-tiger"></div>
   <div><h1 id="mainDashboardTitle">皇家小虎市场稽核部数据看板</h1></div>
-  <div class="dt">&#128203; 数据更新：2026-08-04 17:44 &nbsp;|&nbsp; &#128197; 数据范围：2026年1月—7月</div>
+  <div class="dt">&#128203; 数据更新：2026-08-08 11:45 &nbsp;|&nbsp; &#128197; 数据范围：2026年1月—8月</div>
 </div>
 <script>
 (function(){
@@ -1540,8 +1556,8 @@ body{
   <span class="mtag" data-month="4月">4月</span>
   <span class="mtag" data-month="5月">5月</span>
   <span class="mtag" data-month="6月">6月</span>
-  <span class="mtag on" data-month="7月">7月</span>
-  <span class="mtag" data-month="8月">8月</span>
+  <span class="mtag" data-month="7月">7月</span>
+  <span class="mtag on" data-month="8月">8月</span>
   <span class="mtag" data-month="9月">9月</span>
   <span class="mtag" data-month="10月">10月</span>
   <span class="mtag" data-month="11月">11月</span>
@@ -1557,10 +1573,11 @@ body{
   <div class="kc display-kpi-card" onclick="window.location.assign('./display-audit-dashboard.html')" role="link" tabindex="0" aria-label="打开陈列稽核看板" style="cursor:pointer;position:relative">
 <a href="./display-audit-dashboard.html" target="_self" aria-label="打开陈列稽核看板" style="position:absolute;inset:0;z-index:2147483647;display:block;border-radius:inherit;text-decoration:none;pointer-events:auto"></a>
     <div class="kt">&#128221; 陈列稽核</div>
-    <div id="kpi0" class="kv" style="color:#703a1e">401</div>
+    <div id="kpi0" class="kv" style="color:#703a1e">111</div>
     <div id="kh0" class="kh down">&#9650; 环比上月 -12.9%</div>
     <div class="kpi-live">
-      <div class="kpi-live-main"><span id="kpi0Live">401</span><span class="kpi-unit">家</span></div>
+      <div class="kpi-live-main"><span id="kpi0Live">111</span><span class="kpi-unit">家</span></div>
+      <div class="kpi-live-sub" id="displayAuditResultNote">合格：--家 · 不合格：--家</div>
     </div>
   </div>
   <div class="kc promo-kpi-card" data-card="1" onclick="openDetail(1)">
@@ -1578,25 +1595,25 @@ body{
     <div id="kh2" class="kh up">&#9650; 环比上月 +111.1%</div>
     <div class="kpi-live">
       <div class="kpi-live-main"><span id="approvalTotalLive">510</span><span class="kpi-unit">条</span></div>
-      <div class="kpi-live-sub">合格率 <span id="approvalRateLive" class="kpi-live-rate">78.8%</span></div>
+      <div class="kpi-live-sub" id="approvalRateLive">合格率 -- · 不合格率 --</div>
     </div>
   </div>
   <div class="kc market-order-kpi-card" data-card="9" onclick="openDetail(9)">
     <div class="kt">&#128203; 市场秩序治理</div>
     <div class="kpi-live">
       <div class="kpi-live-main"><span id="marketOrderKpiLive">0</span><span class="kpi-unit">起</span></div>
-      <div class="kpi-live-sub">累计溯源窜货</div>
+      <div class="kpi-live-sub" id="marketOrderVerifiedLive">累计溯源窜货 · 已查实 -- 起</div>
     </div>
   </div>
   <div class="kc gift-kpi-card" id="giftAuditKpiCard" role="button" tabindex="0">
     <div class="kt">&#128221; 线下赠品稽核</div>
     <div class="gift-audit-content">
       <div class="gift-audit-row">
-        <div class="gift-audit-label">本月线下活动试吃品申请：</div>
+        <div class="gift-audit-label">线下活动试吃品：</div>
         <div class="gift-audit-values"><strong id="giftActivityCount">--</strong><span>条</span><span class="gift-amount-label">涉及金额：</span><strong class="gift-amount" id="giftActivityAmount">--</strong><span>元</span></div>
       </div>
       <div class="gift-audit-row">
-        <div class="gift-audit-label">本月线下样品申请：</div>
+        <div class="gift-audit-label">线下样品申请：</div>
         <div class="gift-audit-values"><strong id="giftSampleCount">--</strong><span>条</span><span class="gift-amount-label">涉及金额：</span><strong class="gift-amount" id="giftSampleAmount">--</strong><span>元</span></div>
       </div>
       <div class="gift-audit-note" id="giftAuditNote">数据展示为T-1月</div>
@@ -1604,28 +1621,16 @@ body{
   </div>
   <div class="kc device-kpi-card" data-card="3" onclick="openDetail(3)">
     <div class="kt">&#128200; 智能设备</div>
-    <div id="kpi3" class="kv" style="color:#d93924">81.7%</div>
-    <div id="kh3" class="kh down">&#9650; 环比上月 -16.4%</div>
-    <div class="kpi-live device-lines">
-      <div class="device-line">
-        <span class="device-name">保温柜</span>
-        <span class="device-total" id="deviceTotal0">23,530台</span>
-      </div>
-      <div class="device-line">
-        <span class="device-name">烤肠机</span>
-        <span class="device-total" id="deviceTotal1">7,471台</span>
-      </div>
-      <div class="device-line">
-        <span class="device-name">冰柜</span>
-        <span class="device-total" id="deviceTotal2">1,175台</span>
-      </div>
+    <div class="device-summary-live" aria-label="整体开机率">
+      <div class="device-summary-main"><span id="deviceOverallRate">--</span><small>开机率</small></div>
+      <div class="device-summary-sub" id="deviceRateBreakdown">各设备开机率加载中</div>
     </div>
   </div>
   <div class="kc store-kpi-card store-link-card" data-card="8" data-href="store-business-analysis.html" style="cursor:pointer">
     <div class="kt">&#128221; 鸣忙专项稽核</div>
     <div class="kpi-live">
       <div class="kpi-live-main"><span id="storeAuditKpiLive">0</span><span class="kpi-unit">家</span></div>
-      <div class="kpi-live-sub">本月稽核家数</div>
+      <div class="kpi-live-sub" id="storeAuditRateLive">合格率 -- · 不合格率 --</div>
     </div>
   </div>
     <div class="kc device-ban-kpi-card">
@@ -1700,59 +1705,62 @@ body{
     <h2 class="dap-heading" id="displayAuditPopupTitle">陈列稽核月度概览 <span class="dap-period" id="dapPeriodText"></span></h2>
     <div class="dap-grid">
       <article class="dap-card dap-hero">
-        <div class="dap-title"><span data-dap-period>本月</span>总稽核量</div>
-        <div class="dap-value"><span id="dapAuditTotal">--</span><small>家</small></div>
+        <div class="dap-hero-values">
+          <div class="dap-hero-item">
+            <div class="dap-title"><span data-dap-period></span>总稽核量</div>
+            <div class="dap-value"><span id="dapAuditTotal">--</span><small>家</small></div>
+          </div>
+          <div class="dap-hero-item">
+            <div class="dap-title">稽核占比</div>
+            <div class="dap-value"><span id="dapAuditRatio">--</span></div>
+          </div>
+        </div>
         <div class="dap-meta">
-          <span>总目标（<span data-dap-period>本月</span>稽核计划数）<b id="dapAuditTarget">--</b>家</span>
-          <span>目标达成进度：<b id="dapAuditProgress">--</b></span>
-          <span>环比：<b id="dapAuditMom">--</b></span>
+          <span>陈列门店数<b id="dapAuditTarget">--</b>家</span>
+          <span>稽核量环比：<b id="dapAuditMom">--</b></span>
         </div>
       </article>
       <article class="dap-card dap-plan">
-        <div class="dap-title"><span data-dap-period>本月</span>计划陈列数</div>
-        <div class="dap-value"><span id="dapDisplayPlan">--</span><small>家</small></div>
-        <div class="dap-plan-lines"><div>含费用陈列计划：<b id="dapInvestPlan">--</b>家</div><div>不含费用陈列：<b id="dapNoInvestPlan">--</b>家</div></div>
+        <div class="dap-title"><span data-dap-period></span>陈列费用合计</div>
+        <div class="dap-value"><span id="dapDisplayFee">--</span><small>元</small></div>
+        <div class="dap-meta">环比：<b id="dapDisplayFeeMom">--</b></div>
+        <div class="dap-plan-lines"><div>含费用陈列门店：<b id="dapInvestPlan">--</b>家　平均单店费用<b id="dapAverageStoreFee">--</b>元</div><div>不含费用陈列门店：<b id="dapNoInvestPlan">--</b>家</div></div>
       </article>
       <article class="dap-card dap-province">
-        <div class="dap-title">陈列最多省区/大区：</div>
-        <div class="dap-value" id="dapTopAuditProvince">--</div>
-        <div class="dap-meta">实际稽核 <b id="dapTopAuditCount">--</b> 家</div>
+        <div class="dap-title"><span data-dap-period></span>线上陈列稽核投入费用</div>
+        <div class="dap-value"><span id="dapOnlineAuditFee">--</span><small>元</small></div>
+        <div class="dap-meta">环比：<b id="dapOnlineAuditFeeMom">--</b></div>
       </article>
       <article class="dap-card dap-metric">
-        <div class="dap-title"><span data-dap-period>本月</span>稽核合格数</div>
+        <div class="dap-title"><span data-dap-period></span>稽核合格数</div>
         <div class="dap-value"><span id="dapQualified">--</span><small>家</small></div>
         <div class="dap-meta">环比：<b id="dapQualifiedMom">--</b></div>
       </article>
       <article class="dap-card dap-metric">
-        <div class="dap-title"><span data-dap-period>本月</span>稽核不合格数</div>
+        <div class="dap-title"><span data-dap-period></span>稽核不合格数</div>
         <div class="dap-value"><span id="dapUnqualified">--</span><small>家</small></div>
         <div class="dap-meta">环比：<b id="dapUnqualifiedMom">--</b></div>
       </article>
       <article class="dap-card dap-metric">
-        <div class="dap-title"><span data-dap-period>本月</span>稽核虚假数</div>
+        <div class="dap-title"><span data-dap-period></span>稽核虚假数</div>
         <div class="dap-value"><span id="dapFake">--</span><small>家</small></div>
         <div class="dap-meta">环比：<b id="dapFakeMom">--</b></div>
       </article>
-      <article class="dap-card dap-extremes">
-        <div class="dap-title">不合格最多省区/大区：</div><strong id="dapTopBadProvince">--</strong>
-        <div class="dap-title">合格数量最多省区/大区：</div><strong id="dapTopQualifiedProvince">--</strong>
-      </article>
       <article class="dap-card dap-rectify">
         <div class="dap-rectify-grid">
-          <div class="dap-rectify-cell"><span><span data-dap-period>本月</span>已整改</span><b><span id="dapRectified">--</span>家</b></div>
+          <div class="dap-rectify-cell"><span><span data-dap-period></span>已整改</span><b><span id="dapRectified">--</span>家</b></div>
           <div class="dap-rectify-cell"><span>整改率</span><b id="dapRectificationRate">--</b></div>
         </div>
       </article>
     </div>
     <section class="dap-bottom">
       <div>
-        <div class="dap-bottom-title"><span data-dap-period>本月</span>各省区稽核进度</div>
+        <div class="dap-bottom-title"><span data-dap-period></span>各省区稽核进度</div>
         <div class="dap-progress-list" id="dapProvinceProgress"></div>
       </div>
       <div>
-        <div class="dap-bottom-title">合格率最高 TOP5 省区/大区</div>
-        <div class="dap-top5-note">剔除稽核数量不超过1家的省区/大区</div>
-        <div class="dap-top5-chart" id="dapQualifiedTop5"></div>
+        <div class="dap-bottom-title">稽核量与合格率</div>
+        <div class="dap-bubble-chart" id="dapAuditBubbleChart"></div>
       </div>
     </section>
   </section>
@@ -1763,22 +1771,17 @@ body{
     <h2 class="aap-heading" id="approvalAuditPopupTitle">结案审核月度概览 <span class="aap-period" id="aapPeriodText"></span></h2>
     <div class="aap-summary">
       <article class="aap-card">
-        <div class="aap-card-title"><span data-aap-period>本月</span>总审核条数</div>
+        <div class="aap-card-title"><span data-aap-period></span>总审核条数</div>
         <div class="aap-card-value"><span id="aapTotal">--</span><small>条</small></div>
         <div class="aap-card-meta">环比：<b id="aapTotalMom">--</b></div>
       </article>
       <article class="aap-card">
-        <div class="aap-card-title"><span data-aap-period>本月</span>不合格类型数量最多：</div>
-        <div class="aap-card-value" id="aapTopIssue">--</div>
-        <div class="aap-card-meta">不合格 <b id="aapTopIssueCount">--</b> 条</div>
+        <div class="aap-card-title"><span data-aap-period></span>不合格数量</div>
+        <div class="aap-card-value"><span id="aapUnqualified">--</span><small>条</small></div>
+        <div class="aap-card-meta">环比：<b id="aapUnqualifiedMom">--</b></div>
       </article>
       <article class="aap-card">
-        <div class="aap-card-title"><span data-aap-period>本月</span>不合格数量最多省区/大区：</div>
-        <div class="aap-card-value" id="aapTopProvince">--</div>
-        <div class="aap-card-meta">不合格 <b id="aapTopProvinceCount">--</b> 条</div>
-      </article>
-      <article class="aap-card">
-        <div class="aap-card-title"><span data-aap-period>本月</span>照片/材料造假数</div>
+        <div class="aap-card-title"><span data-aap-period></span>照片/材料造假数</div>
         <div class="aap-card-value"><span id="aapFakeCount">--</span><small>条</small></div>
         <div class="aap-card-meta">环比：<b id="aapFakeMom">--</b></div>
       </article>
@@ -1809,15 +1812,11 @@ body{
     <button type="button" class="bap-close" id="marketOrderPopupClose" aria-label="关闭">&times;</button>
     <h2 class="bap-heading" id="marketOrderPopupTitle">市场秩序治理月度概览 <span class="bap-period" id="mopPeriodText"></span></h2>
     <div class="bap-kpis market">
-      <article class="bap-kpi"><div class="bap-kpi-title">本月累计溯源窜货</div><div class="bap-kpi-value"><span id="mopCaseCount">--</span><small>条</small></div><div class="bap-kpi-meta">环比：<b id="mopCaseMom">--</b></div></article>
-      <article class="bap-kpi"><div class="bap-kpi-title">本月嫌疑客户个数</div><div class="bap-kpi-value"><span id="mopCustomerCount">--</span><small>个</small></div><div class="bap-kpi-meta">环比：<b id="mopCustomerMom">--</b></div></article>
-      <article class="bap-kpi"><div class="bap-kpi-title">本月锁定客户个数</div><div class="bap-kpi-value"><span id="mopLockedCount">--</span><small>个</small></div><div class="bap-kpi-meta">环比：<b id="mopLockedMom">--</b></div></article>
+      <article class="bap-kpi"><div class="bap-kpi-title">累计溯源窜货</div><div class="bap-kpi-value"><span id="mopCaseCount">--</span><small>条</small></div><div class="bap-kpi-meta">环比：<b id="mopCaseMom">--</b></div></article>
+      <article class="bap-kpi"><div class="bap-kpi-title">嫌疑客户个数</div><div class="bap-kpi-value"><span id="mopCustomerCount">--</span><small>个</small></div><div class="bap-kpi-meta">环比：<b id="mopCustomerMom">--</b></div></article>
+      <article class="bap-kpi"><div class="bap-kpi-title">锁定客户个数</div><div class="bap-kpi-value"><span id="mopLockedCount">--</span><small>个</small></div><div class="bap-kpi-meta">环比：<b id="mopLockedMom">--</b></div></article>
       <article class="bap-kpi"><div class="bap-kpi-title">其中：总部通报处罚</div><div class="bap-kpi-value"><span id="mopPunishCount">--</span><small>起</small></div></article>
       <article class="bap-kpi"><div class="bap-kpi-title">其中：省区内部处理</div><div class="bap-kpi-value"><span id="mopInternalCount">--</span><small>起</small></div></article>
-    </div>
-    <div class="bap-highlights">
-      <div class="bap-highlight"><span>投诉次数最多省区：</span><b id="mopTopProvince">--</b></div>
-      <div class="bap-highlight"><span>嫌疑次数最多客户：</span><b id="mopTopCustomer">--</b></div>
     </div>
     <div class="mop-grid">
       <section><div class="bap-section-title">窜货投诉数据汇总 TOP5</div><div class="mop-table-wrap"><div class="mop-table-title">省区投诉排名</div><table class="mop-table"><thead><tr><th>省区</th><th>投诉次数</th></tr></thead><tbody id="mopProvinceTable"></tbody></table></div></section>
@@ -1841,11 +1840,6 @@ body{
       <article class="bap-kpi"><div class="bap-kpi-title">本月稽核不合格数</div><div class="bap-kpi-value"><span id="sapUnqualified">--</span><small>家</small></div><div class="bap-kpi-meta">不合格率：<b id="sapUnqualifiedRate">--</b>　环比：<b id="sapUnqualifiedMom">--</b></div></article>
       <article class="bap-kpi"><div class="bap-kpi-title">本月稽核无法判定数</div><div class="bap-kpi-value"><span id="sapUncertain">--</span><small>家</small></div><div class="bap-kpi-meta">占比：<b id="sapUncertainRate">--</b>　环比：<b id="sapUncertainMom">--</b></div></article>
       <article class="bap-kpi"><div class="bap-kpi-title">平均进店SKU数 / 平均冰柜数</div><div class="bap-kpi-value" style="font-size:28px">SKU：<span id="sapAvgSku">--</span><br>冰柜：<span id="sapAvgFreezer">--</span></div></article>
-    </div>
-    <div class="bap-highlights store">
-      <div class="bap-highlight"><span>不合格最多省区：</span><b id="sapTopBad">--</b></div>
-      <div class="bap-highlight"><span>照片不规范门店最多省区：</span><b id="sapTopPhoto">--</b></div>
-      <div class="bap-highlight"><span>无小虎产品陈列最多省份：</span><b id="sapTopNoProduct">--</b></div>
     </div>
     <div class="sap-grid popup-rank-grid">
       <section class="popup-rank-card">
@@ -1899,11 +1893,11 @@ body{
     <div class="sdp-kpis" id="sdpKpis"></div>
     <div class="sdp-analysis">
       <section class="sdp-panel">
-        <div class="sdp-panel-title">各设备投放数及时长达标/开机率</div>
+        <div class="sdp-panel-title">各设备开机数及开机率</div>
         <div class="sdp-rank-list" id="sdpDeviceRanks"></div>
       </section>
       <section class="sdp-panel">
-        <div class="sdp-panel-title">海尔设备台账发货量 VS 系统发货量差异分析</div>
+        <div class="sdp-panel-title">海尔系统与线下设备开机情况</div>
         <div class="sdp-channel-list" id="sdpHaierChannels"></div>
       </section>
     </div>
@@ -1934,7 +1928,7 @@ body{
     </div>
   </div>
 </div>
-<script src="assets/data/dashboard-snapshot.js?v=20260804174512"></script>
+<script src="assets/data/dashboard-snapshot.js?v=20260808114553"></script>
 <script>
 
 var chartInst = null;
@@ -2040,8 +2034,17 @@ function setMainMonthData(){
   window.APPROVAL_PIES=pickMonth(window.APPROVAL_PIES_BY_MONTH,emptyApproval);
   window.APPROVAL_DETAIL=pickMonth(window.APPROVAL_DETAIL_BY_MONTH,emptyApprovalDetail);
   window.MARKET_ORDER_GOVERNANCE=pickMonth(window.MARKET_ORDER_GOVERNANCE_BY_MONTH,emptyMarketOrder);
-  window.DEVICE_CHANNEL_STATUS=pickDevice(window.DEVICE_CHANNEL_STATUS_BY_MONTH,window.DEVICE_CHANNEL_STATUS);
-  window.DEVICE_DETAIL=pickDevice(window.DEVICE_DETAIL_BY_MONTH,window.DEVICE_DETAIL);
+  // 智能设备为固定快照，不参与主看板月份筛选。
+  // 优先取系统默认月份的数据，缺失时取设备数据中的首个可用快照。
+  function pickFixedDevice(map,legacy){
+    if(!map) return legacy;
+    var fixedMonth=window.MAIN_DEFAULT_MONTH;
+    if(fixedMonth && map[fixedMonth]) return map[fixedMonth];
+    var keys=Object.keys(map);
+    return keys.length?map[keys[keys.length-1]]:legacy;
+  }
+  window.DEVICE_CHANNEL_STATUS=pickFixedDevice(window.DEVICE_CHANNEL_STATUS_BY_MONTH,window.DEVICE_CHANNEL_STATUS);
+  window.DEVICE_DETAIL=pickFixedDevice(window.DEVICE_DETAIL_BY_MONTH,window.DEVICE_DETAIL);
 }
 function renderMainWorkMonthSelector(){
   var row=document.getElementById("mainWorkMonthRow");
@@ -2151,6 +2154,8 @@ function renderStoreAuditCard(){
   var other=Number(data.other)||0;
   var topKpi=document.getElementById("storeAuditKpiLive");
   if(topKpi) topKpi.textContent=total.toLocaleString();
+  var topRate=document.getElementById("storeAuditRateLive");
+  if(topRate) topRate.textContent="合格率 "+(total?qualified/total*100:0).toFixed(1)+"% · 不合格率 "+(total?unqualified/total*100:0).toFixed(1)+"%";
   var rows=[
     {name:"合格",value:qualified,color:"#fcc900"},
     {name:"不合格",value:unqualified,color:"#d93924"},
@@ -2201,6 +2206,7 @@ function renderMarketOrderGovernance(){
   var punishCount=Number(data.punishCount)||0;
   var internalCount=Number(data.internalCount)||0;
   var unverifiedCount=Number(data.unverifiedCount)||0;
+  var verifiedCount=Number(data.lockedCustomerCount)||0;
   var top=document.querySelector(".market-order-kpi-card");
   if(top){
     var main=top.querySelector(".kpi-live-main");
@@ -2210,7 +2216,7 @@ function renderMarketOrderGovernance(){
       main.innerHTML='<span>'+caseCount.toLocaleString()+'</span><span class="kpi-unit">起</span>';
       main.style.color="#d93924";
     }
-    if(sub) sub.textContent="累计溯源窜货";
+    if(sub) sub.textContent="累计溯源窜货 · 已查实 "+verifiedCount.toLocaleString()+" 起";
   }
   var el=document.getElementById("marketOrderBody");
   if(!el) return;
@@ -2264,8 +2270,8 @@ function giftDetailSummary(title,data){
   return '<div class="gift-detail-main">'+
     '<div class="gift-detail-main-title">'+escH(title)+'</div>'+
     '<div class="gift-detail-main-values">'+
-      '<span><strong>'+giftDetailNumber(data.count,0)+'</strong> 条</span>'+
       '<span><strong>'+giftDetailNumber(data.amount,2)+'</strong> 元</span>'+
+      '<span><strong>'+giftDetailNumber(data.count,0)+'</strong> 单</span>'+ 
     '</div>'+
     '<div class="gift-detail-moms">'+giftDetailMom(data.countMom,"申请次数")+giftDetailMom(data.amountMom,"金额")+'</div>'+
   '</div>';
@@ -2285,10 +2291,10 @@ function giftDetailCategory(title,data){
 
 function giftDetailCustomerNew(data){
   data=data||{};
-  return '<div class="gift-detail-subcard">'+
-    '<div class="gift-detail-sub-title">本月客户新增</div>'+
+  return '<div class="gift-detail-subcard gift-customer-new">'+
+    '<div class="gift-detail-sub-title">客户新增</div>'+ 
     '<div class="gift-detail-sub-values"><span><strong>'+giftDetailNumber(data.count,0)+'</strong> 个</span></div>'+
-    giftDetailMom(data.countMom,"数量")+
+    (data.countMom==null?'':giftDetailMom(data.countMom,"数量"))+
   '</div>';
 }
 
@@ -2352,15 +2358,15 @@ function openGiftAuditDetail(){
       '<div class="gift-detail-shell">'+
         '<div class="gift-detail-period"><b>数据月份：'+escH(data.month||"-")+'</b><span>环比基准：'+escH(data.previousMonth||"-")+' · '+escH(data.periodNote||"数据展示为T-1月")+'</span></div>'+
         '<div class="gift-detail-section">'+
-          giftDetailSummary("本月线下活动试吃品申请",activity)+
+          giftDetailSummary("线下活动试吃品",activity)+
           '<div class="gift-detail-subgrid">'+
-            giftDetailCategory("经销商搭赠",activityCategories["经销商搭赠"])+
-            giftDetailCategory("消费者搭赠",activityCategories["消费者搭赠"])+
-            giftDetailCategory("消费者试吃",activityCategories["消费者试吃"])+
+            giftDetailCategory("经销商搭赠类",activityCategories["经销商搭赠"])+
+            giftDetailCategory("消费者搭赠类",activityCategories["消费者搭赠"])+
+            giftDetailCategory("消费者试吃类",activityCategories["消费者试吃"])+
           '</div>'+
         '</div>'+
         '<div class="gift-detail-section">'+
-          giftDetailSummary("本月线下样品申请",sample)+
+          giftDetailSummary("线下样品申请",sample)+
           '<div class="gift-detail-subgrid">'+
             giftDetailCategory("老客户增加品类送样",sampleCategories["老客户增加品类送样"])+
             giftDetailCategory("新客户招商送样",sampleCategories["新客户招商送样"])+
@@ -2369,12 +2375,12 @@ function openGiftAuditDetail(){
         '</div>'+
         '<div class="gift-detail-charts">'+
           '<div class="gift-rank-card">'+
-            '<div class="gift-rank-hd"><div class="gift-rank-title">本月线下活动试吃品申请金额TOP5客户</div>'+
+            '<div class="gift-rank-hd"><div class="gift-rank-title">线下活动试吃品申请金额TOP5客户</div>'+ 
               '<select class="gift-rank-select" onchange="renderGiftRankChart(\'activity\',this.value)">'+giftRankOptions(activity.rankings,"activity")+'</select></div>'+
             '<div class="gift-rank-list" id="giftActivityRankList"></div>'+
           '</div>'+
           '<div class="gift-rank-card">'+
-            '<div class="gift-rank-hd"><div class="gift-rank-title">本月线下样品申请金额TOP5提交人</div>'+
+            '<div class="gift-rank-hd"><div class="gift-rank-title">线下样品申请金额TOP5提交人</div>'+ 
               '<select class="gift-rank-select" onchange="renderGiftRankChart(\'sample\',this.value)">'+giftRankOptions(sample.rankings,"sample")+'</select></div>'+
             '<div class="gift-rank-list" id="giftSampleRankList"></div>'+
           '</div>'+
@@ -2426,9 +2432,18 @@ function refreshAll(){
   document.getElementById("kpi0").textContent=(displayAuditCount<1e4?displayAuditCount:displayAuditCount.toLocaleString());
   var kpi0Live=document.getElementById("kpi0Live");
   if(kpi0Live) kpi0Live.textContent=(displayAuditCount<1e4?displayAuditCount:displayAuditCount.toLocaleString());
+  var auditResults=d.result_items||[];
+  function auditResultCount(name){
+    var row=auditResults.filter(function(item){return item.n===name;})[0]||{};
+    return Number(row.v)||0;
+  }
+  var displayAuditNote=document.getElementById("displayAuditResultNote");
+  if(displayAuditNote) displayAuditNote.textContent="合格："+auditResultCount("合格").toLocaleString()+"家 · 不合格："+auditResultCount("不合格").toLocaleString()+"家";
   document.getElementById("kpi1").textContent=(km[1]<1e4?km[1]:km[1].toLocaleString());
   document.getElementById("kpi2").textContent=(km[2]<1e4?km[2]:km[2].toLocaleString());
-  document.getElementById("kpi3").textContent=km[3]+"%";
+  // 智能设备主卡已改为独立整体开机率，旧 kpi3 节点不再存在。
+  var legacyDeviceKpi=document.getElementById("kpi3");
+  if(legacyDeviceKpi) legacyDeviceKpi.textContent=km[3]+"%";
   (function(){
     var promo=(window.PROMO_PLAN_AUDIT)||{planTotal:0,auditTotal:0,progress:0};
     var auditEl=document.getElementById("promoAuditLive");
@@ -2446,14 +2461,26 @@ function refreshAll(){
     var totalEl=document.getElementById("approvalTotalLive");
     var rateEl=document.getElementById("approvalRateLive");
     if(totalEl) totalEl.textContent=total.toLocaleString();
-    if(rateEl) rateEl.textContent=(Math.round(rate*10)/10).toLocaleString()+"%";
+    var unqualifiedRate=total>0?(total-qualified)/total*100:0;
+    if(rateEl) rateEl.textContent="合格率 "+rate.toFixed(1)+"% · 不合格率 "+unqualifiedRate.toFixed(1)+"%";
   })();
   (function(){
-    var ds=(window.DEVICE_CHANNEL_STATUS)||{items:[]};
-    (ds.items||[]).slice(0,3).forEach(function(it,i){
-      var el=document.getElementById("deviceTotal"+i);
-      if(el) el.textContent=(Number(it.volume)||0).toLocaleString()+"台";
-    });
+    var detail=(window.DEVICE_DETAIL)||{};
+    var popup=detail.popup||{};
+    var items=(popup.overview||[]).map(function(it){
+      return {name:String(it.name||""),volume:Number(it.volume)||0,active:Number(it.active)||0,rate:Number(it.rate)||0};
+    }).filter(function(it){return it.name;});
+    var totalVolume=items.reduce(function(sum,it){return sum+it.volume;},0);
+    var totalActive=items.reduce(function(sum,it){return sum+it.active;},0);
+    var overall=totalVolume>0?totalActive/totalVolume:0;
+    var overallEl=document.getElementById("deviceOverallRate");
+    var breakdownEl=document.getElementById("deviceRateBreakdown");
+    if(overallEl) overallEl.textContent=(overall*100).toFixed(1)+"%";
+    if(breakdownEl){
+      breakdownEl.textContent=items.map(function(it){
+        return it.name+" "+(it.rate*100).toFixed(1)+"%";
+      }).join(" · ")||"暂无设备开机数据";
+    }
   })();
   // 零稽核提示
   (function(){
@@ -2472,7 +2499,13 @@ function refreshAll(){
 
   renderDeviceStatusCard();
 
-  for(var i=0;i<4;i++){var e=document.getElementById("kh"+i);e.className="kh "+hbC(kh[i]);e.textContent="▲ 环比上月 "+hbT(kh[i]);}
+  // 智能设备主卡已移除旧 kh3 环比节点，历史循环需跳过不存在的节点，避免中断后续概览面板刷新。
+  for(var i=0;i<4;i++){
+    var e=document.getElementById("kh"+i);
+    if(!e) continue;
+    e.className="kh "+hbC(kh[i]);
+    e.textContent="▲ 环比上月 "+hbT(kh[i]);
+  }
 
   // Card1 - province audit progress follows the selected month and zone.
   var progressData=(d.province_progress||[]).map(function(r){
@@ -2488,10 +2521,10 @@ function refreshAll(){
       done:Math.min(Math.max(progress,0),100)
     };
   });
-  var currentProgress=d.progress_current||{};
   var totalAudit=Number(km[1])||0;
-  var totalTarget=Number(currentProgress.plan_q);
-  if(!isFinite(totalTarget)) totalTarget=progressData.reduce(function(s,r){return s+(Number(r.target)||0);},0);
+  // 任务量必须与各省区进度条的分配口径一致：每个省区按含费用陈列门店数的 20% 向上取整。
+  // 不能直接使用含费用陈列门店总数，否则总任务和总体进度会与下方省区明细不一致。
+  var totalTarget=progressData.reduce(function(s,r){return s+(Number(r.target)||0);},0);
   var totalProgress=totalTarget>0?totalAudit/totalTarget*100:0;
   var noPlanRows=progressData.filter(function(r){return (Number(r.target)||0)<=0;});
   var chartRows=progressData.filter(function(r){return (Number(r.target)||0)>0 || (Number(r.audit)||0)>0;});
@@ -3941,8 +3974,7 @@ document.addEventListener("DOMContentLoaded",function(){
       if(isFinite(monthNumber) && monthNumber>1) previousData=selectedData((monthNumber-1)+"月");
     }
     var previousResults=resultMap(previousData);
-    var period=isYear?"全年":"本月";
-    document.querySelectorAll("[data-dap-period]").forEach(function(el){el.textContent=period;});
+    document.querySelectorAll("[data-dap-period]").forEach(function(el){el.textContent="";});
     setText("dapPeriodText",(currentZone==="全部"?"全区域":currentZone)+" · "+(isYear?"全年汇总":currentMonth));
 
     var auditTotal=number(km[1]);
@@ -3951,28 +3983,31 @@ document.addEventListener("DOMContentLoaded",function(){
     var investPlan=number(progress.plan_q);
     var target=Math.round(investPlan*.2);
     var completion=target>0?auditTotal/target*100:0;
+    var auditRatio=investPlan>0?auditTotal/investPlan*100:0;
+    var displayFee=number(progress.display_fee);
+    var previousDisplayFee=number((previousData&&previousData.progress_current||{}).display_fee);
+    var onlineAuditFee=number(progress.online_audit_fee);
+    var previousOnlineAuditFee=number((previousData&&previousData.progress_current||{}).online_audit_fee);
     setText("dapAuditTotal",integer(auditTotal));
-    setText("dapAuditTarget",integer(target));
+    setText("dapAuditRatio",auditRatio.toFixed(1)+"%");
+    setText("dapAuditTarget",integer(investPlan));
     setText("dapAuditProgress",completion.toFixed(1)+"%");
     setText("dapAuditMom",suppliedMomText(kh[1],!isYear && !!previousData));
-    setText("dapDisplayPlan",integer(displayPlan));
+    setText("dapDisplayFee",integer(displayFee));
+    setText("dapDisplayFeeMom",comparisonText(displayFee,previousDisplayFee,!isYear && !!previousData));
+    setText("dapOnlineAuditFee",integer(onlineAuditFee));
+    setText("dapOnlineAuditFeeMom",comparisonText(onlineAuditFee,previousOnlineAuditFee,!isYear && !!previousData));
     setText("dapInvestPlan",integer(investPlan));
+    setText("dapAverageStoreFee",investPlan>0?integer(displayFee/investPlan):"--");
     setText("dapNoInvestPlan",integer(Math.max(0,displayPlan-investPlan)));
 
     var details=data.reg_detail||[];
-    var topAudit=maximum(details,"audit");
-    var topQualified=maximum(details,"qual");
-    var topBad=(data.issue_rank||[])[0]||null;
-    setText("dapTopAuditProvince",topAudit&&topAudit.name?topAudit.name:"--");
-    setText("dapTopAuditCount",topAudit?integer(topAudit.audit):"--");
     setText("dapQualified",integer(results["合格"]));
     setText("dapUnqualified",integer(results["不合格"]));
     setText("dapFake",integer(results["虚假"]));
     setText("dapQualifiedMom",comparisonText(results["合格"],previousResults["合格"],!isYear && !!previousData));
     setText("dapUnqualifiedMom",comparisonText(results["不合格"],previousResults["不合格"],!isYear && !!previousData));
     setText("dapFakeMom",comparisonText(results["虚假"],previousResults["虚假"],!isYear && !!previousData));
-    setText("dapTopBadProvince",topBad?(topBad.n||topBad.name||"--"):"--");
-    setText("dapTopQualifiedProvince",topQualified&&topQualified.name?topQualified.name:"--");
 
     var rectRows=data.rect_rows||[];
     var rectified=0,rectRate=0;
@@ -4003,20 +4038,56 @@ document.addEventListener("DOMContentLoaded",function(){
     setText("dapProvinceProgress","");
     document.getElementById("dapProvinceProgress").innerHTML=progressHtml||'<div class="dap-empty">当前筛选暂无省区数据</div>';
 
-    var top5=details.filter(function(row){return number(row.audit)>1;}).sort(function(a,b){
-      return number(b.rate)-number(a.rate) || number(b.audit)-number(a.audit);
-    }).slice(0,5);
-    var maxAudit=top5.reduce(function(max,row){return Math.max(max,number(row.audit));},0)||1;
-    var top5Html=top5.map(function(row){
-      var rate=Math.min(100,Math.max(0,number(row.rate)));
-      var shell=90+Math.round(number(row.audit)/maxAudit*110);
-      return '<div class="dap-top5-item">'+
-        '<div class="dap-top5-rate">'+rate.toFixed(1)+'%</div>'+
-        '<div class="dap-top5-shell" style="--h:'+shell+'px"><div class="dap-top5-fill" style="--rate:'+rate+'%"></div></div>'+
-        '<div class="dap-top5-name" title="'+escapeHtml(row.name)+'">'+escapeHtml(row.name||"--")+'</div>'+
+    var bubbleRows=details.filter(function(row){return number(row.audit)>0;}).sort(function(a,b){
+      return number(b.audit)-number(a.audit) || String(a.name||"").localeCompare(String(b.name||""),"zh-CN");
+    });
+    var bubbleEl=document.getElementById("dapAuditBubbleChart");
+    if(!bubbleRows.length){
+      bubbleEl.innerHTML='<div class="dap-bubble-empty">当前筛选暂无省区稽核数据</div>';
+    }else{
+      var maxAudit=bubbleRows.reduce(function(max,row){return Math.max(max,number(row.audit));},0)||1;
+      var minRate=bubbleRows.reduce(function(min,row){return Math.min(min,number(row.rate));},100);
+      var xMin=Math.max(0,Math.floor((minRate-2)/2)*2), xMax=100;
+      if(xMax-xMin<8) xMin=Math.max(0,xMax-8);
+      var xSpan=xMax-xMin||1;
+      var yMax=Math.max(20,Math.ceil(maxAudit/20)*20);
+      var xTicks=[];
+      for(var xt=Math.ceil(xMin/2)*2;xt<=xMax;xt+=2) xTicks.push(xt);
+      var yTicks=[];
+      for(var yt=0;yt<=yMax;yt+=20) yTicks.push(yt);
+      var gridHtml='<div class="dap-bubble-grid">'+
+        yTicks.map(function(v){return '<i style="bottom:'+(v/yMax*100)+'%"></i><span class="dap-bubble-y-tick" style="bottom:'+(v/yMax*100)+'%">'+v+'</span>';}).join("")+
+        xTicks.map(function(v){return '<b style="left:'+((v-xMin)/xSpan*100)+'%"></b><span class="dap-bubble-x-tick" style="left:'+((v-xMin)/xSpan*100)+'%">'+v+'%</span>';}).join("")+
       '</div>';
-    }).join("");
-    document.getElementById("dapQualifiedTop5").innerHTML=top5Html||'<div class="dap-empty">暂无符合条件的数据</div>';
+      var usedAtRate={};
+      var bubblesHtml=bubbleRows.map(function(row){
+        var rate=number(row.rate), audit=number(row.audit), key=rate.toFixed(1);
+        var offset=usedAtRate[key]||0; usedAtRate[key]=offset+1;
+        var direction=offset%2===0?-1:1, magnitude=Math.ceil(offset/2)*5;
+        var left=Math.min(96,Math.max(4,(rate-xMin)/xSpan*100+direction*magnitude));
+        var bottom=Math.min(93,Math.max(3,audit/yMax*100));
+        var diameter=Math.round(20+Math.sqrt(audit/maxAudit)*42);
+        var name=escapeHtml(row.name||"--");
+        var focus=audit>=12 || rate<99.9;
+        var label=focus?'<span class="dap-bubble-label">'+name+' · '+integer(audit)+'家</span>':'';
+        return '<button type="button" class="dap-bubble'+(focus?' focus':'')+'" aria-label="'+name+'，稽核量 '+integer(audit)+' 家，合格率 '+rate.toFixed(1)+'%" data-name="'+name+'" data-audit="'+integer(audit)+'" data-rate="'+rate.toFixed(1)+'%" style="left:calc('+left.toFixed(2)+'% - '+Math.round(diameter/2)+'px);bottom:calc('+bottom.toFixed(2)+'% - '+Math.round(diameter/2)+'px);width:'+diameter+'px;height:'+diameter+'px">'+integer(audit)+label+'</button>';
+      }).join("");
+      bubbleEl.innerHTML='<div class="dap-bubble-plot">'+gridHtml+bubblesHtml+'<div class="dap-bubble-tooltip" id="dapBubbleTooltip"></div></div><div class="dap-bubble-axis-x">合格率</div><div class="dap-bubble-axis-y">稽核量（家）</div>';
+      var tooltip=document.getElementById("dapBubbleTooltip");
+      bubbleEl.querySelectorAll(".dap-bubble").forEach(function(bubble){
+        function showBubbleTooltip(){
+          tooltip.innerHTML='<b>'+bubble.dataset.name+'</b><br>稽核量：'+bubble.dataset.audit+'家<br>合格率：'+bubble.dataset.rate;
+          tooltip.style.left=(bubble.offsetLeft+bubble.offsetWidth/2)+"px";
+          tooltip.style.top=Math.max(4,bubble.offsetTop-4)+"px";
+          tooltip.classList.add("show");
+        }
+        function hideBubbleTooltip(){tooltip.classList.remove("show");}
+        bubble.addEventListener("mouseenter",showBubbleTooltip);
+        bubble.addEventListener("mouseleave",hideBubbleTooltip);
+        bubble.addEventListener("focus",showBubbleTooltip);
+        bubble.addEventListener("blur",hideBubbleTooltip);
+      });
+    }
   }
   function openPopup(){
     renderPopup();
@@ -4141,17 +4212,12 @@ document.addEventListener("DOMContentLoaded",function(){
     var prevRows=(prevDetail&&prevDetail.rows)||[];
     var issues=tally(rows,6);
     var provinces=tally(rows,3);
-    var topIssue=issues[0]||null;
-    var topProvince=provinces[0]||null;
-    var period=isYear?"全年":"本月";
-    document.querySelectorAll("[data-aap-period]").forEach(function(el){el.textContent=period;});
+    document.querySelectorAll("[data-aap-period]").forEach(function(el){el.textContent="";});
     setText("aapPeriodText",isYear?"全年汇总":currentMonth);
     setText("aapTotal",integer(summary.total));
     setText("aapTotalMom",momText(summary.total,prevSummary&&prevSummary.total,!isYear&&!!prevSummary));
-    setText("aapTopIssue",topIssue?topIssue.name:"--");
-    setText("aapTopIssueCount",topIssue?integer(topIssue.value):"--");
-    setText("aapTopProvince",topProvince?topProvince.name:"--");
-    setText("aapTopProvinceCount",topProvince?integer(topProvince.value):"--");
+    setText("aapUnqualified",integer(summary.unqualified));
+    setText("aapUnqualifiedMom",momText(summary.unqualified,prevSummary&&prevSummary.unqualified,!isYear&&!!prevSummary));
     var currentFake=fakeCount(rows);
     setText("aapFakeCount",integer(currentFake));
     setText("aapFakeMom",momText(currentFake,fakeCount(prevRows),!isYear&&!!prevDetail));
@@ -4308,8 +4374,6 @@ document.addEventListener("DOMContentLoaded",function(){
     setText("mopLockedMom",momText(data.lockedCustomerCount,prev&&prev.lockedCustomerCount,enabled));
     setText("mopPunishCount",integer(data.punishCount));
     setText("mopInternalCount",integer(data.internalCount));
-    setText("mopTopProvince",provinces[0]?provinces[0].name:"--");
-    setText("mopTopCustomer",customers[0]?customers[0].name:"--");
     document.getElementById("mopProvinceTable").innerHTML=provinces.slice(0,5).map(function(item){
       return "<tr><td>"+escapeHtml(item.name)+"</td><td>"+integer(item.count)+"</td></tr>";
     }).join("")||'<tr><td colspan="2">当前月份暂无数据</td></tr>';
@@ -4346,9 +4410,6 @@ document.addEventListener("DOMContentLoaded",function(){
     setText("sapUncertainMom",momText(data.u,prev&&prev.u,enabled));
     setText("sapAvgSku",number(data.avgSku).toFixed(1));
     setText("sapAvgFreezer",number(data.avgFreezer).toFixed(1));
-    setText("sapTopBad",data.topBad||"--");
-    setText("sapTopPhoto",data.topPhoto||"--");
-    setText("sapTopNoProduct",data.topNoProduct||"--");
     document.getElementById("sapProvinceCombo").innerHTML=popupRankHtml(
       provinces,
       function(item){return item.n;},
@@ -4427,27 +4488,25 @@ document.addEventListener("DOMContentLoaded",function(){
     var overview=popup.overview||[];
     var ranking=popup.ranking||[];
     var haier=popup.haier||{channels:[]};
-    setText("sdpPeriodText",currentMonth==="全年"?"全年汇总":currentMonth);
-    document.getElementById("sdpKpis").innerHTML=overview.map(function(item,index){
-      var rateLabel=index<2?"时长达标(≥8h)率":"开机率";
-      var note=item.name==="海尔冰柜"?'<span class="sdp-kpi-note">(开机数/手工台账发货量)</span>':"";
+    setText("sdpPeriodText","");
+    document.getElementById("sdpKpis").innerHTML=overview.map(function(item){
+      var note="";
       return '<article class="sdp-kpi">'+
-        '<div class="sdp-kpi-title">'+escapeHtml(item.name)+'已投放</div>'+
-        '<div class="sdp-kpi-main">'+integer(item.volume)+' <small>台</small></div>'+
-        '<div class="sdp-kpi-meta">'+rateLabel+'：'+smartRate(item.rate)+note+'</div>'+
+        '<div class="sdp-kpi-title">'+escapeHtml(item.name)+'开机数</div>'+
+        '<div class="sdp-kpi-main">'+integer(item.active)+' <small>台</small></div>'+
+        '<div class="sdp-kpi-meta">开机率：'+smartRate(item.rate)+note+'</div>'+
       '</article>';
     }).join("")||'<div class="sdp-empty">当前暂无智能设备汇总数据</div>';
 
-    var rankMax=ranking.reduce(function(max,item){return Math.max(max,number(item.volume));},0)||1;
+    var rankMax=ranking.reduce(function(max,item){return Math.max(max,number(item.active));},0)||1;
     document.getElementById("sdpDeviceRanks").innerHTML=ranking.map(function(item,index){
-      var rateLabel=index<2?"时长达标(≥8h)率":"开机率";
       return '<div class="sdp-rank-row">'+
         '<div class="sdp-rank-index">'+(index+1)+'</div>'+
         '<div class="sdp-rank-track">'+
-          '<div class="sdp-rank-fill" style="width:'+Math.max(5,number(item.volume)/rankMax*100).toFixed(1)+'%"></div>'+
-          '<span class="sdp-rank-name">'+escapeHtml(item.name)+'：'+integer(item.volume)+'台</span>'+
+          '<div class="sdp-rank-fill" style="width:'+Math.max(5,number(item.active)/rankMax*100).toFixed(1)+'%"></div>'+
+          '<span class="sdp-rank-name">'+escapeHtml(item.name)+'：开机 '+integer(item.active)+'台</span>'+
         '</div>'+
-        '<div class="sdp-rank-rate">'+rateLabel+'：'+smartRate(item.rate)+'</div>'+
+        '<div class="sdp-rank-rate">开机率：'+smartRate(item.rate)+'</div>'+
       '</div>';
     }).join("")||'<div class="sdp-empty">当前暂无设备排名数据</div>';
 
@@ -4456,15 +4515,15 @@ document.addEventListener("DOMContentLoaded",function(){
       return Math.max(max,number(item.ledger),number(item.system));
     },0)||1;
     document.getElementById("sdpHaierChannels").innerHTML=channels.map(function(item){
-      var base=number(item.ledger)||1;
+      var base=number(item.system)||1;
       return '<div class="sdp-channel">'+
         '<div class="sdp-channel-name">'+escapeHtml(item.name)+'<br>设备</div>'+
         '<div class="sdp-channel-bars">'+
           smartDataBar("台账数据",item.ledger,number(item.ledger)/shipmentMax*100,"wide")+
           smartDataBar("系统数据",item.system,number(item.system)/shipmentMax*100,"wide")+
-          smartDataBar("开机",item.active,number(item.active)/base*100,"")+
+          smartDataBar("开机数",item.active,number(item.active)/base*100,"")+
           smartDataBar("未开机",item.inactive,number(item.inactive)/base*100,"")+
-          '<div class="sdp-kpi-meta">开机占比：'+smartRate(item.rate)+' · 差异：'+integer(item.difference)+'台</div>'+
+          '<div class="sdp-kpi-meta">'+escapeHtml(item.name)+'设备：开机数占比 '+smartRate(item.rate)+'；系统与台账差异 '+integer(item.difference)+'台</div>'+ 
           '<div class="sdp-kpi-meta">其中在库：'+integer(item.inStock)+'台 · 门店：'+integer(item.atStore)+'台</div>'+
         '</div>'+
       '</div>';
@@ -4493,6 +4552,59 @@ document.addEventListener("DOMContentLoaded",function(){
   });
 })();
 </script>
+<style id="device-summary-card-0807">
+/* 智能设备主卡只保留整体开机率及四类设备开机率说明；不影响原有 onclick 跳转逻辑。 */
+.ct .top-kpi-row .device-kpi-card{overflow:hidden!important}
+.ct .top-kpi-row .device-kpi-card .device-lines,
+.ct .top-kpi-row .device-kpi-card .kv,
+.ct .top-kpi-row .device-kpi-card .kh{display:none!important}
+.ct .top-kpi-row .device-kpi-card .kt{font-size:15px!important;line-height:1.18!important;white-space:nowrap!important}
+.ct .top-kpi-row .device-kpi-card .device-summary-live{position:absolute!important;right:14px!important;top:53px!important;left:14px!important;text-align:right!important;z-index:4!important;overflow:hidden!important}
+.ct .top-kpi-row .device-kpi-card .device-summary-main{font-family:'GOTHAMRND-BOLD','GothamRndBold','HKYuanW9',sans-serif!important;font-size:32px!important;font-weight:800!important;line-height:1!important;color:#d93924!important;white-space:nowrap!important}
+.ct .top-kpi-row .device-kpi-card .device-summary-main small{font-family:'华康圆体-W8','HKYuanW8','Microsoft YaHei',sans-serif!important;font-size:15px!important;font-weight:700!important;margin-left:4px!important;color:#d93924!important}
+.ct .top-kpi-row .device-kpi-card .device-summary-sub{margin-top:7px!important;font-size:11px!important;line-height:1.25!important;color:#777!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+</style>
+<style id="gift-device-card-unification-0807">
+/* 线下赠品稽核、智能设备：采用与其它业务卡一致的“标题 + 右侧数据 + 小号说明”信息层级。 */
+.ct .top-kpi-row .gift-kpi-card,
+.ct .top-kpi-row .device-kpi-card{overflow:hidden!important}
+.ct .top-kpi-row .gift-kpi-card .kt,
+.ct .top-kpi-row .device-kpi-card .kt{font-size:15px!important;line-height:1.18!important;white-space:nowrap!important}
+.ct .top-kpi-row .gift-kpi-card .gift-audit-content{position:absolute!important;left:14px!important;right:14px!important;top:53px!important;bottom:10px!important;display:flex!important;flex-direction:column!important;gap:8px!important;overflow:hidden!important}
+.ct .top-kpi-row .gift-kpi-card .gift-audit-row{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;align-items:baseline!important;gap:8px!important;min-width:0!important;margin:0!important;padding:0 0 0 7px!important;border-left:3px solid #ec5f74!important}
+.ct .top-kpi-row .gift-kpi-card .gift-audit-row:nth-child(2){border-left-color:#fcc900!important}
+.ct .top-kpi-row .gift-kpi-card .gift-audit-label{font-size:11px!important;line-height:1.2!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+.ct .top-kpi-row .gift-kpi-card .gift-audit-values{justify-content:flex-end!important;gap:2px!important;min-width:0!important;font-size:10px!important;line-height:1!important;white-space:nowrap!important}
+.ct .top-kpi-row .gift-kpi-card .gift-audit-values strong{font-size:18px!important;line-height:1!important}
+.ct .top-kpi-row .gift-kpi-card .gift-audit-values .gift-amount-label{display:none!important}
+.ct .top-kpi-row .gift-kpi-card .gift-audit-values .gift-amount{font-size:13px!important;margin-left:5px!important}
+.ct .top-kpi-row .gift-kpi-card .gift-audit-note{font-size:10px!important;line-height:1!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+.ct .top-kpi-row .device-kpi-card .device-lines{position:absolute!important;left:14px!important;right:14px!important;top:53px!important;bottom:10px!important;width:auto!important;display:flex!important;flex-direction:column!important;justify-content:flex-start!important;gap:8px!important;overflow:hidden!important;background:transparent!important}
+.ct .top-kpi-row .device-kpi-card .device-line{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;align-items:baseline!important;gap:8px!important;min-height:0!important;font-size:11px!important;line-height:1.15!important}
+.ct .top-kpi-row .device-kpi-card .device-name{font-size:11px!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+.ct .top-kpi-row .device-kpi-card .device-total{font-size:18px!important;line-height:1!important;white-space:nowrap!important;text-align:right!important;overflow:visible!important;color:#d93924!important}
+</style>
+<style id="top-kpi-typography-lock-0807">
+/* 锁定四张业务卡为同一套文字、数字和单位尺寸，避免历史样式再次覆盖。 */
+.ct .top-kpi-row .approval-kpi-card .kt,
+.ct .top-kpi-row .market-order-kpi-card .kt,
+.ct .top-kpi-row .store-kpi-card .kt,
+.ct .top-kpi-row .device-ban-kpi-card .kt{font-size:15px!important;line-height:1.18!important}
+.ct .top-kpi-row .approval-kpi-card .kpi-live-main,
+.ct .top-kpi-row .market-order-kpi-card .kpi-live-main,
+.ct .top-kpi-row .store-kpi-card .kpi-live-main,
+.ct .top-kpi-row .device-ban-kpi-card .kpi-live-main{font-size:32px!important;line-height:1!important}
+.ct .top-kpi-row .approval-kpi-card .kpi-unit,
+.ct .top-kpi-row .market-order-kpi-card .kpi-unit,
+.ct .top-kpi-row .store-kpi-card .kpi-unit,
+.ct .top-kpi-row .device-ban-kpi-card .kpi-unit{font-size:15px!important;line-height:1!important;margin-left:2px!important}
+.ct .top-kpi-row .approval-kpi-card .kpi-live-sub,
+.ct .top-kpi-row .market-order-kpi-card .kpi-live-sub,
+.ct .top-kpi-row .store-kpi-card .kpi-live-sub,
+.ct .top-kpi-row .device-ban-kpi-card .kpi-live-label,
+.ct .top-kpi-row .device-ban-kpi-card .kpi-live-sub{font-size:11px!important;line-height:1.2!important;margin-top:7px!important}
+.ct .top-kpi-row .device-ban-kpi-card .kpi-live-label{margin-bottom:4px!important}
+</style>
 </body></html>
 
 

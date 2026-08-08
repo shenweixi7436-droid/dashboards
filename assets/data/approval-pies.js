@@ -389,28 +389,93 @@ window.APPROVAL_PIES_BY_MONTH = {
   },
   "8月": {
     "month": "8月",
-    "total": 5,
-    "qualified": 3,
-    "unqualified": 2,
-    "rate": 60.0,
+    "total": 133,
+    "qualified": 104,
+    "unqualified": 29,
+    "rate": 78.2,
     "issues": [
+      {
+        "name": "着装不规范",
+        "value": 15
+      },
+      {
+        "name": "未使用公司最新品牌logo今日水印相机",
+        "value": 11
+      },
       {
         "name": "费用异常",
         "value": 1
+      }
+    ],
+    "dressIssues": [
+      {
+        "name": "口罩",
+        "value": 7
       },
       {
-        "name": "虚假",
+        "name": "帽子,口罩",
+        "value": 4
+      },
+      {
+        "name": "帽子",
+        "value": 2
+      },
+      {
+        "name": "口罩,帽子",
+        "value": 1
+      },
+      {
+        "name": "帽子,围裙",
         "value": 1
       }
     ],
-    "dressIssues": [],
     "provinceIssues": [
+      {
+        "province": "江苏省区",
+        "value": 5
+      },
+      {
+        "province": "湖南省区",
+        "value": 5
+      },
+      {
+        "province": "山东省区",
+        "value": 4
+      },
+      {
+        "province": "川渝藏大区",
+        "value": 3
+      },
+      {
+        "province": "湖北省区",
+        "value": 3
+      },
+      {
+        "province": "河南省区",
+        "value": 2
+      },
+      {
+        "province": "安徽省区",
+        "value": 2
+      },
       {
         "province": "辽宁省区",
         "value": 1
       },
       {
         "province": "黑龙江省区",
+        "value": 1
+      },
+      {
+        "province": "江西省区",
+        "value": 1
+      },
+      {
+        "province": "浙江省区",
+        "value": 1
+      },
+      {
+        "province": "福建省区",
         "value": 1
       }
     ]

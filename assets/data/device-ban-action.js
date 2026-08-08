@@ -87,6 +87,51 @@ window.DEVICE_BAN_ACTION_BY_MONTH = {
         "count": 1
       }
     ]
+  },
+  "8月": {
+    "total": 7,
+    "platform": "闲鱼",
+    "removed": 1,
+    "noReply": 0,
+    "reported": 0,
+    "merchantInfo": 0,
+    "followUp": 4,
+    "topProvince": "广东",
+    "topType": "保温柜",
+    "statuses": [
+      {
+        "name": "当地业务跟进中",
+        "count": 4
+      },
+      {
+        "name": "已下架",
+        "count": 1
+      }
+    ],
+    "provinces": [
+      {
+        "name": "广东",
+        "count": 4
+      },
+      {
+        "name": "云南",
+        "count": 2
+      },
+      {
+        "name": "江苏",
+        "count": 1
+      }
+    ],
+    "types": [
+      {
+        "name": "保温柜",
+        "count": 6
+      },
+      {
+        "name": "烤箱",
+        "count": 1
+      }
+    ]
   }
 };
 window.DEVICE_BAN_ACTION = window.DEVICE_BAN_ACTION_BY_MONTH[window.MAIN_SELECTED_MONTH || "7月"] || {

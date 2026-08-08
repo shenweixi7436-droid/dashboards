@@ -9545,6 +9545,663 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "penaltyImages": []
       }
     ]
+  },
+  "8月": {
+    "month": "8月",
+    "source": "市场稽核部重点工作.xlsx / 市场秩序治理",
+    "caseCount": 20,
+    "customerCount": 82,
+    "lockedCustomerCount": 0,
+    "punishCount": 0,
+    "internalCount": 0,
+    "unverifiedCount": 20,
+    "otherNotes": [],
+    "provinceRank": [
+      {
+        "name": "河南",
+        "count": 6
+      },
+      {
+        "name": "安徽",
+        "count": 4
+      },
+      {
+        "name": "湖北",
+        "count": 4
+      },
+      {
+        "name": "山东",
+        "count": 2
+      },
+      {
+        "name": "广东",
+        "count": 1
+      },
+      {
+        "name": "广西",
+        "count": 1
+      },
+      {
+        "name": "河北",
+        "count": 1
+      },
+      {
+        "name": "黑龙江",
+        "count": 1
+      }
+    ],
+    "customerRank": [
+      {
+        "name": "线下-河南晴年商贸有限公司",
+        "count": 7
+      },
+      {
+        "name": "线下-陕西好食汇冷链食品有限公司",
+        "count": 5
+      },
+      {
+        "name": "线下-商丘沅博商贸有限公司",
+        "count": 4
+      },
+      {
+        "name": "线下-河南良麟食品有限公司",
+        "count": 4
+      },
+      {
+        "name": "线下-虞城县传恩速冻食品经营店",
+        "count": 4
+      },
+      {
+        "name": "线下-永城市瑞和商贸有限公司",
+        "count": 3
+      },
+      {
+        "name": "线下-河南妙口福食品有限公司",
+        "count": 3
+      },
+      {
+        "name": "线下-河南餐道食品有限公司",
+        "count": 3
+      },
+      {
+        "name": "线下-禹州市涌泉冷食配送中心",
+        "count": 3
+      },
+      {
+        "name": "线下-东莞市赫雪贸易有限公司",
+        "count": 2
+      },
+      {
+        "name": "线下-南阳市润佳商贸有限公司",
+        "count": 2
+      },
+      {
+        "name": "线下-商丘骐铄商贸有限公司",
+        "count": 2
+      },
+      {
+        "name": "线下-尉氏县森林果果商贸有限公司",
+        "count": 2
+      },
+      {
+        "name": "线下-山东鲁味臻鲜供应链有限公司",
+        "count": 2
+      },
+      {
+        "name": "线下-广西南宁绿态行商贸有限公司",
+        "count": 2
+      },
+      {
+        "name": "线下-德州银星商贸有限公司",
+        "count": 2
+      },
+      {
+        "name": "线下-新郑市朋哥小吃服务店",
+        "count": 2
+      },
+      {
+        "name": "线下-河南华世食品有限公司",
+        "count": 2
+      },
+      {
+        "name": "线下-济南禧悦食品有限公司",
+        "count": 2
+      },
+      {
+        "name": "线下-西安沃兴源商贸有限公司",
+        "count": 2
+      },
+      {
+        "name": "线下-许昌豫茂源食品有限公司",
+        "count": 2
+      },
+      {
+        "name": "线下-郑州乾泰食品有限公司",
+        "count": 2
+      },
+      {
+        "name": "线下-长沙盟江食品有限公司",
+        "count": 2
+      },
+      {
+        "name": "线下-阳江市新天源食品有限公司",
+        "count": 2
+      },
+      {
+        "name": "线下-鹿邑县华旭鸿商贸有限公司",
+        "count": 2
+      },
+      {
+        "name": "线下-东莞市宏巨贸易有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-东莞市誉诚贸易有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-临汾市尧都区鸿源食品有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-临沂市康兴商贸有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-临颖县实诚冻品商行",
+        "count": 1
+      },
+      {
+        "name": "线下-云南中英食品有限责任公司",
+        "count": 1
+      },
+      {
+        "name": "线下-五河县佩兰冷库有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-佛山市合丰冷冻食品有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-佛山市添尔喜贸易有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-兰考双见副食店",
+        "count": 1
+      },
+      {
+        "name": "线下-合肥市勤禾兴商贸有限责任公司",
+        "count": 1
+      },
+      {
+        "name": "线下-吉林省龙鹏经贸有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-哈尔滨尚之峰经贸有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-唐山天地乐食品有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-四会市益食家食品有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-宁陵县程楼乡玉朝冷饮食品中心",
+        "count": 1
+      },
+      {
+        "name": "线下-山西鸿财润冷冻食品有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-广州联加冷冻食品有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-广州顺嘉灏贸易有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-张新艳",
+        "count": 1
+      },
+      {
+        "name": "线下-怀远县永泰商贸有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-惠州市悦福达贸易有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-惠州市百雪食品有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-梧州宾利隆超市",
+        "count": 1
+      },
+      {
+        "name": "线下-正阳县西城兴乔冻品商行",
+        "count": 1
+      },
+      {
+        "name": "线下-汕头市宝进食品有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-汕头市烹趣贸易有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-江西小猪当家食品有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-江门市泰川贸易有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-沈阳浚恒贸易有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-河源市源城区汇源友冷冻食品经销部",
+        "count": 1
+      },
+      {
+        "name": "线下-泗县双仪食品有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-洛阳全惠商贸有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-淮北聚江商贸有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-淮南市红洋商贸有限责任公司",
+        "count": 1
+      },
+      {
+        "name": "线下-渔家乐食品科技（大连市）有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-湖南巨汇商贸有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-湛江冰恋之城贸易有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-潍坊硕和经贸有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-濮阳市宋氏商贸有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-焦作市解放区甜芯冷链食品商行",
+        "count": 1
+      },
+      {
+        "name": "线下-珠海市大德通贸易有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-甘肃海润冷链食品有限责任公司",
+        "count": 1
+      },
+      {
+        "name": "线下-粤丰记",
+        "count": 1
+      },
+      {
+        "name": "线下-萧县鸿昇食品店",
+        "count": 1
+      },
+      {
+        "name": "线下-蠡县蠡吾镇八里庄盛安冷库",
+        "count": 1
+      },
+      {
+        "name": "线下-西安众志食品有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-西安华胜食品有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-西安嘉通食品有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-连云港滕嘉贸易有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-邓州市锦淼商贸有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-郑州佳特商贸有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-郓城三九冷饮",
+        "count": 1
+      },
+      {
+        "name": "线下-郓城县士杰商贸中心",
+        "count": 1
+      },
+      {
+        "name": "线下-阜阳市新利大商贸有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-陕西泉立食品有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-靖边县优惠水产调料品批发部",
+        "count": 1
+      }
+    ],
+    "caseDetails": [
+      {
+        "seq": "2026080101",
+        "auditDate": "2026-08-01",
+        "province": "河南",
+        "city": "许昌",
+        "feedback": "百里",
+        "batch": "2026-05-23",
+        "verified": "未查实",
+        "remark": "嫌疑客户已反馈区域经理，区域沟通解决",
+        "smuggler": "",
+        "result": "未查实",
+        "penaltyNotice": "",
+        "penaltyImages": []
+      },
+      {
+        "seq": "2026080102",
+        "auditDate": "2026-08-01",
+        "province": "黑龙江",
+        "city": "绥化庆安县",
+        "feedback": "中原",
+        "batch": "2026-06-14",
+        "verified": "未查实",
+        "remark": "嫌疑客户已反馈销管，续收集产品",
+        "smuggler": "",
+        "result": "未查实",
+        "penaltyNotice": "",
+        "penaltyImages": []
+      },
+      {
+        "seq": "2026080103",
+        "auditDate": "2026-08-01",
+        "province": "山东",
+        "city": "菏泽单县",
+        "feedback": "恒昌",
+        "batch": "2026-05-15",
+        "verified": "未查实",
+        "remark": "嫌疑客户已反馈销管，继续收集产品",
+        "smuggler": "",
+        "result": "未查实",
+        "penaltyNotice": "",
+        "penaltyImages": []
+      },
+      {
+        "seq": "2026080304",
+        "auditDate": "2026-08-03",
+        "province": "广西",
+        "city": "桂林",
+        "feedback": "胖妤",
+        "batch": "2026-03-17",
+        "verified": "未查实",
+        "remark": "嫌疑客户已反馈销管，继续收集产品",
+        "smuggler": "",
+        "result": "未查实",
+        "penaltyNotice": "",
+        "penaltyImages": []
+      },
+      {
+        "seq": "2026080305",
+        "auditDate": "2026-08-03",
+        "province": "广东",
+        "city": "茂名高州",
+        "feedback": "启铭",
+        "batch": "2026-04-26",
+        "verified": "未查实",
+        "remark": "嫌疑客户已反馈城市经理，继续收集产品",
+        "smuggler": "",
+        "result": "未查实",
+        "penaltyNotice": "",
+        "penaltyImages": []
+      },
+      {
+        "seq": "2026080306",
+        "auditDate": "2026-08-03",
+        "province": "安徽",
+        "city": "宿州濉溪",
+        "feedback": "启航",
+        "batch": "2026-05-20",
+        "verified": "未查实",
+        "remark": "嫌疑客户已反馈区域经理，区域沟通解决",
+        "smuggler": "",
+        "result": "未查实",
+        "penaltyNotice": "",
+        "penaltyImages": []
+      },
+      {
+        "seq": "2026080307",
+        "auditDate": "2026-08-03",
+        "province": "安徽",
+        "city": "宿州濉溪",
+        "feedback": "启航",
+        "batch": "2026-07-07",
+        "verified": "未查实",
+        "remark": "嫌疑客户已反馈城市经理，继续收集产品",
+        "smuggler": "",
+        "result": "未查实",
+        "penaltyNotice": "",
+        "penaltyImages": []
+      },
+      {
+        "seq": "2026080308",
+        "auditDate": "2026-08-03",
+        "province": "安徽",
+        "city": "淮北",
+        "feedback": "寒客",
+        "batch": "2026-06-12",
+        "verified": "未查实",
+        "remark": "嫌疑客户已反馈城市经理，继续收集产品",
+        "smuggler": "",
+        "result": "未查实",
+        "penaltyNotice": "",
+        "penaltyImages": []
+      },
+      {
+        "seq": "2026080309",
+        "auditDate": "2026-08-03",
+        "province": "河南",
+        "city": "洛阳伊川",
+        "feedback": "洛水",
+        "batch": "2026-06-16",
+        "verified": "未查实",
+        "remark": "嫌疑客户已反馈销管，继续收集产品",
+        "smuggler": "",
+        "result": "未查实",
+        "penaltyNotice": "",
+        "penaltyImages": []
+      },
+      {
+        "seq": "2026080410",
+        "auditDate": "2026-08-04",
+        "province": "安徽",
+        "city": "宿州萧县",
+        "feedback": "启航",
+        "batch": "2026-06-27",
+        "verified": "未查实",
+        "remark": "嫌疑客户已反馈销管，继续收集产品",
+        "smuggler": "",
+        "result": "未查实",
+        "penaltyNotice": "",
+        "penaltyImages": []
+      },
+      {
+        "seq": "2026080411",
+        "auditDate": "2026-08-04",
+        "province": "湖北",
+        "city": "襄阳",
+        "feedback": "骁川",
+        "batch": "2026-04-07",
+        "verified": "未查实",
+        "remark": "嫌疑客户已反馈销管，继续收集产品",
+        "smuggler": "",
+        "result": "未查实",
+        "penaltyNotice": "",
+        "penaltyImages": []
+      },
+      {
+        "seq": "2026080412",
+        "auditDate": "2026-08-04",
+        "province": "河南",
+        "city": "濮阳清丰县",
+        "feedback": "顺兴",
+        "batch": "2026-07-06",
+        "verified": "未查实",
+        "remark": "嫌疑客户已反馈销管，继续收集产品",
+        "smuggler": "",
+        "result": "未查实",
+        "penaltyNotice": "",
+        "penaltyImages": []
+      },
+      {
+        "seq": "2026080513",
+        "auditDate": "2026-08-05",
+        "province": "河南",
+        "city": "濮阳南乐县",
+        "feedback": "顺兴",
+        "batch": "2026-07-15",
+        "verified": "未查实",
+        "remark": "嫌疑客户已反馈销管，继续收集产品",
+        "smuggler": "",
+        "result": "未查实",
+        "penaltyNotice": "",
+        "penaltyImages": []
+      },
+      {
+        "seq": "2026080514",
+        "auditDate": "2026-08-05",
+        "province": "湖北",
+        "city": "恩施来凤",
+        "feedback": "风行",
+        "batch": "2025-11-15",
+        "verified": "未查实",
+        "remark": "嫌疑客户已反馈销管，客户打码",
+        "smuggler": "",
+        "result": "未查实",
+        "penaltyNotice": "",
+        "penaltyImages": []
+      },
+      {
+        "seq": "2026080515",
+        "auditDate": "2026-08-05",
+        "province": "湖北",
+        "city": "恩施来凤",
+        "feedback": "风行",
+        "batch": "2026-03-30",
+        "verified": "未查实",
+        "remark": "嫌疑客户已反馈销管，客户打码",
+        "smuggler": "",
+        "result": "未查实",
+        "penaltyNotice": "",
+        "penaltyImages": []
+      },
+      {
+        "seq": "2026080516",
+        "auditDate": "2026-08-05",
+        "province": "湖北",
+        "city": "襄阳老河口",
+        "feedback": "骁川",
+        "batch": "2026-07-05",
+        "verified": "未查实",
+        "remark": "嫌疑客户已反馈城市经理，继续收集产品",
+        "smuggler": "",
+        "result": "未查实",
+        "penaltyNotice": "",
+        "penaltyImages": []
+      },
+      {
+        "seq": "2026080617",
+        "auditDate": "2026-08-06",
+        "province": "河北",
+        "city": "唐山",
+        "feedback": "知上",
+        "batch": "2026-03-29",
+        "verified": "未查实",
+        "remark": "嫌疑客户已反馈城市经理，继续收集产品",
+        "smuggler": "",
+        "result": "未查实",
+        "penaltyNotice": "",
+        "penaltyImages": []
+      },
+      {
+        "seq": "2026080618",
+        "auditDate": "2026-08-06",
+        "province": "河南",
+        "city": "开封",
+        "feedback": "百里",
+        "batch": "2026-05-28",
+        "verified": "未查实",
+        "remark": "嫌疑客户已反馈城市经理，继续收集产品",
+        "smuggler": "",
+        "result": "未查实",
+        "penaltyNotice": "",
+        "penaltyImages": []
+      },
+      {
+        "seq": "2026080619",
+        "auditDate": "2026-08-06",
+        "province": "山东",
+        "city": "泰安",
+        "feedback": "恒昌",
+        "batch": "2026-05-12",
+        "verified": "未查实",
+        "remark": "嫌疑客户已反馈省总，继续收集产品",
+        "smuggler": "",
+        "result": "未查实",
+        "penaltyNotice": "",
+        "penaltyImages": []
+      },
+      {
+        "seq": "2026080720",
+        "auditDate": "2026-08-07",
+        "province": "河南",
+        "city": "平顶山",
+        "feedback": "南山",
+        "batch": "2026-04-30",
+        "verified": "未查实",
+        "remark": "嫌疑客户已反馈销管，继续收集产品",
+        "smuggler": "",
+        "result": "未查实",
+        "penaltyNotice": "",
+        "penaltyImages": []
+      }
+    ]
   }
 };
 window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.MAIN_SELECTED_MONTH || "7月"] || {

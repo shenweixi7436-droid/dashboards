@@ -335,14 +335,17 @@ def build_device(wb, months):
         total_row, channel_col = find_value_row(headers_row + 1, "总计")
         if not total_row or not channel_col:
             return None
-        rate_name = "台效达标率" if "台效达标率" in headers else "开机率"
-        rate_col = headers.get(rate_name)
         volume_col = headers.get("已投放")
-        end_col = rate_col or volume_col or channel_col
+        active_col = headers.get("开机数量") or headers.get("开机")
+        end_col = max(col for col in (volume_col, active_col, channel_col) if col)
+        volume = number(ws.cell(total_row, volume_col).value) if volume_col else 0
+        active = number(ws.cell(total_row, active_col).value) if active_col else 0
         return {
             "name": name,
-            "volume": number(ws.cell(total_row, volume_col).value) if volume_col else 0,
-            "rate": as_rate(ws.cell(total_row, rate_col).value) if rate_col else 0,
+            "volume": volume,
+            "active": active,
+            # 统一按开机数量 / 已投放计算开机率，不再使用台效达标率。
+            "rate": round(active / volume, 4) if volume else 0,
             "section": read_table(
                 name,
                 headers_row,
@@ -360,7 +363,12 @@ def build_device(wb, months):
             standard_devices.append(device)
 
     items = [
-        {"name": device["name"], "volume": device["volume"], "rate": device["rate"]}
+        {
+            "name": device["name"],
+            "volume": device["volume"],
+            "active": device["active"],
+            "rate": device["rate"],
+        }
         for device in standard_devices
     ]
 
@@ -411,7 +419,8 @@ def build_device(wb, months):
                     result = {"name": norm(ws.cell(row, channel_col).value)}
                     for key, col in columns.items():
                         result[key] = number(ws.cell(row, col).value) if col else 0
-                    result["rate"] = round(result["active"] / result["ledger"], 4) if result["ledger"] else 0
+                    # 海尔开机率统一按开机数 / 系统数量计算。
+                    result["rate"] = round(result["active"] / result["system"], 4) if result["system"] else 0
                     return result
 
                 channel_rows = [
@@ -443,6 +452,7 @@ def build_device(wb, months):
     overview = items + [{
         "name": "海尔冰柜",
         "volume": haier["volume"],
+        "active": haier["active"],
         "rate": haier["rate"],
     }]
     detail = {
@@ -738,24 +748,26 @@ def build_gift_audit(wb):
     sample_blocks = sorted(
         [
             {
-                "month": month_label(sample_ws.cell(1, 26).value),
+                "month": month_label(sample_ws.cell(1, 27).value),
                 "name": 20,
                 "oldCount": 21,
                 "oldAmount": 22,
                 "newCount": 23,
                 "newAmount": 24,
-                "totalCount": 25,
-                "totalAmount": 26,
+                "customerNew": 25,
+                "totalCount": 26,
+                "totalAmount": 27,
             },
             {
-                "month": month_label(sample_ws.cell(1, 42).value),
+                "month": month_label(sample_ws.cell(1, 43).value),
                 "name": 36,
-                "oldCount": 37,
-                "oldAmount": 38,
-                "newCount": 39,
-                "newAmount": 40,
-                "totalCount": 41,
-                "totalAmount": 42,
+                "oldCount": 38,
+                "oldAmount": 39,
+                "newCount": 40,
+                "newAmount": 41,
+                "customerNew": 42,
+                "totalCount": 42,
+                "totalAmount": 43,
             },
         ],
         key=lambda block: month_key(block["month"]),
@@ -802,6 +814,8 @@ def build_gift_audit(wb):
     sample_amount, previous_sample_amount = metric_pair(
         sample_ws, sample_current["totalAmount"], sample_previous["totalAmount"]
     )
+    # 客户新增严格按样品表 Y 列（当月客户开发数）汇总；历史月度区块未提供同口径列，环比不展示。
+    customer_new_count = sum_numeric_column(sample_ws, sample_current["customerNew"], min_row=5)
 
     activity_rank_columns = {
         "全部类型": activity_current["totalAmount"],
@@ -877,8 +891,8 @@ def build_gift_audit(wb):
                 ),
             },
             "customerNew": {
-                "count": clean_total(sample_count),
-                "countMom": mom_rate(sample_count, previous_sample_count),
+                "count": clean_total(customer_new_count),
+                "countMom": None,
             },
             "rankings": {
                 label: ranked_amounts(
@@ -1037,10 +1051,11 @@ def build_store_audit(wb):
             for row in rows
             if store_text(row[6]) and store_text(row[21]) == "不合格"
         )
+        # 照片不规范按源表 V 列（判定结果）的“无法判定”口径统计，按省区汇总。
         province_photo = Counter(
             store_text(row[6])
             for row in rows
-            if store_text(row[6]) and "照片" in store_text(row[22])
+            if store_text(row[6]) and store_text(row[21]) == "无法判定"
         )
         province_no_product = Counter(
             store_text(row[6])

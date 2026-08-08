@@ -158,6 +158,7 @@ def load_data():
     df_audit = pd.read_excel(EXCEL_AUDIT, sheet_name='稽核明细-汇总')
     df_plan = pd.read_excel(EXCEL_AUDIT, sheet_name='计划明细-汇总')
     df_zone_summary = pd.read_excel(EXCEL_AUDIT, sheet_name='各战区稽核进汇总')
+    df_display_audit_fee = pd.read_excel(EXCEL_AUDIT, sheet_name='月度陈列稽核费用明细')
 
     # 推广促销稽核
     df_promo = pd.read_excel(EXCEL_WORK, sheet_name='推广促销稽核', header=2)
@@ -174,11 +175,12 @@ def load_data():
     print(f"  稽核明细: {len(df_audit)} 行")
     print(f"  计划明细: {len(df_plan)} 行")
     print(f"  各战区稽核进汇总: {len(df_zone_summary)} 行")
+    print(f"  月度陈列稽核费用: {len(df_display_audit_fee)} 行")
     print(f"  推广促销: {len(df_promo)} 行")
     print(f"  线上审批: {len(df_approval)} 行")
     print(f"  设备台账: {len(df_device)} 行")
 
-    return df_audit, df_plan, df_promo, df_approval, df_device, df_zone_summary
+    return df_audit, df_plan, df_promo, df_approval, df_device, df_zone_summary, df_display_audit_fee
 
 
 def build_current_audit_progress():
@@ -212,7 +214,7 @@ def build_current_audit_progress():
     }
 
 
-def precompute_all(df_audit, df_plan):
+def precompute_all(df_audit, df_plan, df_display_audit_fee):
     """
     一次性预计算所有 (月份, 战区, 省区) 的统计数据,避免重复扫描。
     返回缓存字典。
@@ -238,8 +240,20 @@ def precompute_all(df_audit, df_plan):
                 'fake': int((grp['最终结果'] == '虚假').sum()),
             }
 
-    # 省区级计划统计:(月份, 省份) -> {plan, invest}
+    # 线上陈列稽核投入费用：按「月度陈列稽核费用明细」表的月份、金额统计
+    audit_fee_by_month = {}
+    if {'月份', '金额'}.issubset(df_display_audit_fee.columns):
+        for _, row in df_display_audit_fee.iterrows():
+            fee_month = month_label(row.get('月份'))
+            fee_amount = pd.to_numeric(row.get('金额'), errors='coerce')
+            if fee_month and pd.notna(fee_amount):
+                audit_fee_by_month[fee_month] = audit_fee_by_month.get(fee_month, 0) + float(fee_amount)
+
+    cache[('display_audit_fee', 'monthly')] = audit_fee_by_month
+
+    # 省区级计划统计:(月份, 省份) -> {plan, invest, display_fee}
     plan_prov_col = '省区清洗-合并陕甘青宁新' if '省区清洗-合并陕甘青宁新' in df_plan.columns else '省区清洗-按最新'
+    has_display_fee = '陈列费用' in df_plan.columns
     plan_prov = {}
     for m in all_months:
         sub = df_plan if m is None else df_plan[df_plan['月份'] == m]
@@ -247,9 +261,13 @@ def precompute_all(df_audit, df_plan):
         for prov, grp in grouped:
             if prov not in plan_prov:
                 plan_prov[prov] = {}
+            display_fee_sum = 0
+            if has_display_fee:
+                display_fee_sum = float(pd.to_numeric(grp['陈列费用'], errors='coerce').fillna(0).sum())
             plan_prov[prov][m] = {
                 'plan': len(grp),
                 'invest': int((grp['是否为稽核目标'] == '是').sum()),
+                'display_fee': display_fee_sum,
             }
 
     # 战区级汇总:(月份, 战区) -> {plan, invest, audit, qual, unqual, fake, anomaly, rate}
@@ -257,11 +275,12 @@ def precompute_all(df_audit, df_plan):
         for zone in ZONES + ['全部']:
             key = (m, zone)
             provinces = ZONE_PROVINCES[zone] if zone != '全部' else list(ZONE_MAP.keys())
-            plan_t = 0; invest_t = 0; audit_t = 0; qual_t = 0; unqual_t = 0; fake_t = 0
+            plan_t = 0; invest_t = 0; display_fee_t = 0; audit_t = 0; qual_t = 0; unqual_t = 0; fake_t = 0
             for prov in provinces:
-                ps = plan_prov.get(prov, {}).get(m, {'plan': 0, 'invest': 0})
+                ps = plan_prov.get(prov, {}).get(m, {'plan': 0, 'invest': 0, 'display_fee': 0})
                 plan_t += ps['plan']
                 invest_t += ps['invest']
+                display_fee_t += ps.get('display_fee', 0)
                 # 注意:稽核明细中的省区是标准化后的,需要匹配
                 a_s = audit_prov.get(prov, {}).get(m, {'audit': 0, 'qual': 0, 'unqual': 0, 'fake': 0})
                 audit_t += a_s['audit']
@@ -272,8 +291,8 @@ def precompute_all(df_audit, df_plan):
             rate = round(qual_t / audit_t * 100, 1) if audit_t > 0 else 100.0
             completion_rate = round(audit_t / (invest_t * 0.2) * 100, 1) if invest_t > 0 else 0.0
             cache[key] = {
-                'plan': plan_t, 'invest': invest_t, 'audit': audit_t,
-                'qual': qual_t, 'unqual': unqual_t, 'fake': fake_t,
+                'plan': plan_t, 'invest': invest_t, 'display_fee': display_fee_t,
+                'audit': audit_t, 'qual': qual_t, 'unqual': unqual_t, 'fake': fake_t,
                 'anomaly': anomaly, 'rate': rate, 'completion_rate': completion_rate,
             }
 
@@ -302,12 +321,12 @@ def precompute_all(df_audit, df_plan):
     # 省区级详情:(月份, 省份) -> {plan, invest, audit, qual, unqual, fake, rate}
     for prov in list(ZONE_MAP.keys()):
         for m in all_months:
-            ps = plan_prov.get(prov, {}).get(m, {'plan': 0, 'invest': 0})
+            ps = plan_prov.get(prov, {}).get(m, {'plan': 0, 'invest': 0, 'display_fee': 0})
             a_s = audit_prov.get(prov, {}).get(m, {'audit': 0, 'qual': 0, 'unqual': 0, 'fake': 0})
             a = a_s['audit']
             rate = round(a_s['qual'] / a * 100, 1) if a > 0 else 100.0
             cache[('prov', m, prov)] = {
-                'plan': ps['plan'], 'invest': ps['invest'],
+                'plan': ps['plan'], 'invest': ps['invest'], 'display_fee': ps.get('display_fee', 0),
                 'audit': a, 'qual': a_s['qual'], 'unqual': a_s['unqual'],
                 'fake': a_s['fake'], 'rate': rate,
             }
@@ -414,14 +433,18 @@ def build_zone_data_cached(cache, zone_name, month):
     # Progress items
     progress_items = []
     for m in MONTHS:
-        ps_list = [cache.get(('prov', m, p), {'plan': 0, 'invest': 0, 'audit': 0}) for p in provinces]
+        ps_list = [cache.get(('prov', m, p), {'plan': 0, 'invest': 0, 'display_fee': 0, 'audit': 0}) for p in provinces]
         m_plan = sum(s['plan'] for s in ps_list)
         m_invest = sum(s['invest'] for s in ps_list)
+        m_display_fee = sum(s.get('display_fee', 0) for s in ps_list)
+        m_online_audit_fee = cache.get(('display_audit_fee', 'monthly'), {}).get(m, 0)
         m_audit = sum(s['audit'] for s in ps_list)
         m_pct = round(m_audit / (m_invest * 0.2) * 100, 1) if m_invest > 0 else 0.0
         progress_items.append({
             'm': m, 'pct': m_pct, 'plan_q': m_invest,
             'audit_cnt': m_audit, 'display_plan': m_plan,
+            'display_fee': m_display_fee,
+            'online_audit_fee': m_online_audit_fee,
         })
 
     if month and month in MONTHS:
@@ -431,9 +454,12 @@ def build_zone_data_cached(cache, zone_name, month):
         tp = sum(pi['display_plan'] for pi in progress_items)
         ti = sum(pi['plan_q'] for pi in progress_items)
         ta = sum(pi['audit_cnt'] for pi in progress_items)
+        tdf = sum(pi.get('display_fee', 0) for pi in progress_items)
+        toaf = sum(pi.get('online_audit_fee', 0) for pi in progress_items)
         progress_current = {
             'm': '全年', 'pct': round(ta / (ti * 0.2) * 100, 1) if ti > 0 else 0.0,
             'plan_q': ti, 'audit_cnt': ta, 'display_plan': tp,
+            'display_fee': tdf, 'online_audit_fee': toaf,
         }
 
     # Target items
@@ -465,7 +491,8 @@ def build_zone_data_cached(cache, zone_name, month):
         st = 'normal' if r >= 80 else ('warn' if r >= 60 else 'bad')
         reg_detail.append({
             'name': prov, 'plan': ps.get('invest', 0), 'audit': a,
-            'qual': ps.get('qual', 0), 'rate': r, 'huanbi': 0, 'status': st,
+            'qual': ps.get('qual', 0), 'unqual': ps.get('unqual', 0),
+            'rate': r, 'huanbi': 0, 'status': st,
         })
 
     # Province progress
@@ -715,14 +742,14 @@ def main():
     update_time = datetime.now().strftime('%Y-%m-%d %H:%M')
 
     # 加载数据
-    df_audit, df_plan, df_promo, df_approval, df_device, df_zone_summary = load_data()
+    df_audit, df_plan, df_promo, df_approval, df_device, df_zone_summary, df_display_audit_fee = load_data()
     MONTHS = detect_available_months(df_audit, df_plan, df_zone_summary)
     active_month = default_month()
     print(f"可用月份: {', '.join(MONTHS)}；默认月份: {active_month}")
     current_audit_progress = build_current_audit_progress()
 
     # 预计算所有统计数据
-    cache = precompute_all(df_audit, df_plan)
+    cache = precompute_all(df_audit, df_plan, df_display_audit_fee)
 
     # 验证
     print("\n=== 数据验证 ===")
