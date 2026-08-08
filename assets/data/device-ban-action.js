@@ -104,6 +104,10 @@ window.DEVICE_BAN_ACTION_BY_MONTH = {
         "count": 4
       },
       {
+        "name": "商家信息获取中",
+        "count": 2
+      },
+      {
         "name": "已下架",
         "count": 1
       }
