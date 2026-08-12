@@ -10,7 +10,8 @@ set "PYTHONWARNINGS=ignore::UserWarning:openpyxl.worksheet._reader"
 if not exist "%PY%" goto missing_python
 
 echo.
-echo Updating source data and building all three GitHub Pages dashboards...
+echo Reading independent inventory, device, freight, after-sales and development sources...
+echo Building all three GitHub Pages dashboards...
 "%PY%" "%~dp0build_material_dashboard.py"
 if errorlevel 1 goto fail
 

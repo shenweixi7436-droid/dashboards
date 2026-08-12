@@ -293,7 +293,7 @@ def build_freight_dashboard(source_dir: Path) -> dict[str, object]:
 
 def build(source_dir: Path, run_source_update: bool) -> dict[str, object]:
     source_html = source_dir / "物料进销存看板.html"
-    source_update = source_dir / "update_dashboard_data.py"
+    source_update = REPO_DIR / "update_material_dashboard_sources.py"
     if not source_html.exists():
         raise FileNotFoundError(f"找不到源看板：{source_html}")
 
@@ -301,7 +301,11 @@ def build(source_dir: Path, run_source_update: bool) -> dict[str, object]:
         if not source_update.exists():
             raise FileNotFoundError(f"找不到源数据更新程序：{source_update}")
         print("[1/4] 从 Excel 重新生成物料看板数据...")
-        subprocess.run([sys.executable, str(source_update)], cwd=source_dir, check=True)
+        subprocess.run(
+            [sys.executable, str(source_update), "--source-dir", str(source_dir)],
+            cwd=REPO_DIR,
+            check=True,
+        )
     else:
         print("[1/4] 跳过 Excel 数据生成，使用现有源看板。")
 
@@ -491,7 +495,7 @@ def main() -> None:
     parser.add_argument(
         "--skip-source-update",
         action="store_true",
-        help="不运行 update_dashboard_data.py，只转换当前 HTML 和 JS",
+        help="不读取独立 Excel 源数据，只转换当前 HTML 和 JS",
     )
     args = parser.parse_args()
     result = build(args.source_dir.resolve(), not args.skip_source_update)

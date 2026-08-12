@@ -8,12 +8,12 @@ if errorlevel 1 goto fail
 
 echo.
 echo The following material dashboard files will be published:
-git status --short -- material-dashboard material-main-dashboard material-freight-dashboard build_material_dashboard.py convert_material_fonts.py "一键更新物料看板.bat" "一键发布物料看板到GitHub.bat" MATERIAL_DASHBOARD_README.md "一键更新全部看板数据.bat" dashboard_update_all.bat
+git status --short -- material-dashboard material-main-dashboard material-freight-dashboard build_material_dashboard.py update_material_dashboard_sources.py convert_material_fonts.py .gitignore "一键更新物料看板.bat" "一键发布物料看板到GitHub.bat" MATERIAL_DASHBOARD_README.md "一键更新全部看板数据.bat" dashboard_update_all.bat
 echo.
 set /p "CONFIRM=Type YES to commit and push these files: "
 if /I not "%CONFIRM%"=="YES" goto cancelled
 
-git add -- material-dashboard material-main-dashboard material-freight-dashboard build_material_dashboard.py convert_material_fonts.py "一键更新物料看板.bat" "一键发布物料看板到GitHub.bat" MATERIAL_DASHBOARD_README.md "一键更新全部看板数据.bat" dashboard_update_all.bat
+git add -- material-dashboard material-main-dashboard material-freight-dashboard build_material_dashboard.py update_material_dashboard_sources.py convert_material_fonts.py .gitignore "一键更新物料看板.bat" "一键发布物料看板到GitHub.bat" MATERIAL_DASHBOARD_README.md "一键更新全部看板数据.bat" dashboard_update_all.bat
 git diff --cached --quiet
 if not errorlevel 1 goto no_changes
 

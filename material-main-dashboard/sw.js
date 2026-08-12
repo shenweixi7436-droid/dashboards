@@ -1,12 +1,12 @@
-const CACHE_NAME = 'material-main-dashboard-60f6f8bc4dea';
+const CACHE_NAME = 'material-main-dashboard-e424412ad8df';
 const PRECACHE_URLS = [
   "./",
   "./index.html",
-  "./assets/data/material_freight_dashboard_data.6848da8ee75f.js",
+  "./assets/data/material_freight_dashboard_data.5572996f1128.js",
   "./assets/data/material_development_gantt_data.55a02038c5f5.js",
   "./assets/data/inventory_outbound_data.eacf6ae1d96a.js",
   "./assets/data/supplier_payable_data.20683c5951cf.js",
-  "./assets/data/equipment_region_data.7c29d16c2b11.js",
+  "./assets/data/equipment_region_data.4633c041dae2.js",
   "./../material-dashboard/assets/fonts/gotham-rounded-bold.f6281701cdb9.woff2",
   "./../material-dashboard/assets/fonts/hk-yuan-w7.a0f4d903956d.woff2"
 ];

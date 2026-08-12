@@ -1,10 +1,10 @@
 {
-  "version": "05a702a0e634",
-  "builtAt": "2026-08-12T10:52:44+08:00",
+  "version": "042723d585e3",
+  "builtAt": "2026-08-12T13:52:43+08:00",
   "source": "C:\\Users\\shenw\\Desktop\\看板\\物料小组看板",
   "files": {
     "html": "index.html",
-    "core": "assets/data/core.56b069684b73.js",
+    "core": "assets/data/core.d83427cf04f4.js",
     "orders": "assets/data/orders.ae72d019d132.json.gz",
     "fonts": [
       "assets/fonts/gotham-rounded-bold.f6281701cdb9.woff2",
@@ -13,7 +13,7 @@
     "province": [
       "assets/data/province_outbound.f6fc44c6bcea.js",
       "assets/data/province_material.c966bc447a9c.js",
-      "assets/data/device_outbound.8e0f5d35a300.js"
+      "assets/data/device_outbound.314175ddb995.js"
     ]
   }
 }

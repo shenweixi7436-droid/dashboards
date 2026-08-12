@@ -1,11 +1,11 @@
-const CACHE_NAME = 'material-freight-dashboard-1f624358a856';
+const CACHE_NAME = 'material-freight-dashboard-4e3ad50b5d1c';
 const PRECACHE_URLS = [
   "./",
   "./index.html",
-  "./assets/data/material_freight_dashboard_data.6848da8ee75f.js",
-  "./assets/data/material_freight_order_details.1a87c6e3c8c9.js",
-  "./assets/data/material_freight_material_details.9c2571f75c52.js",
-  "./assets/data/material_freight_calculator_data.3467e5a19391.js"
+  "./assets/data/material_freight_dashboard_data.5572996f1128.js",
+  "./assets/data/material_freight_order_details.2b71ea17a202.js",
+  "./assets/data/material_freight_material_details.e5d7bf7c7fa1.js",
+  "./assets/data/material_freight_calculator_data.2ef9c20c34f9.js"
 ];
 
 self.addEventListener('install', event => {

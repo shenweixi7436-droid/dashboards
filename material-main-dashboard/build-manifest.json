@@ -1,15 +1,15 @@
 {
-  "version": "60f6f8bc4dea",
-  "builtAt": "2026-08-12T10:52:44+08:00",
+  "version": "e424412ad8df",
+  "builtAt": "2026-08-12T13:52:43+08:00",
   "source": "C:\\Users\\shenw\\Desktop\\看板\\物料小组看板",
   "files": {
     "html": "index.html",
     "data": [
-      "assets/data/material_freight_dashboard_data.6848da8ee75f.js",
+      "assets/data/material_freight_dashboard_data.5572996f1128.js",
       "assets/data/material_development_gantt_data.55a02038c5f5.js",
       "assets/data/inventory_outbound_data.eacf6ae1d96a.js",
       "assets/data/supplier_payable_data.20683c5951cf.js",
-      "assets/data/equipment_region_data.7c29d16c2b11.js"
+      "assets/data/equipment_region_data.4633c041dae2.js"
     ],
     "fonts": [
       "../material-dashboard/assets/fonts/gotham-rounded-bold.f6281701cdb9.woff2",
