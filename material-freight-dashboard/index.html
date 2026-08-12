@@ -1,0 +1,1699 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>物料运费分析仪表板</title>
+<style>
+:root{
+  --bg:#fef3c7;--surface:#ffffff;--bdr:#fde68a;--bdr-focus:#fcd34d;
+  --acc:#b45309;--acc-hover:#92400e;--acc-soft:#fef3c7;
+  --gr:#10b981;--rd:#dc2626;--am:#f59e0b;--bl:#3b82f6;--cy:#0891b2;--vl:#7c3aed;
+  --tx:#0f172a;--t2:#475569;--t3:#64748b;--t4:#94a3b8;
+  --r:16px;--rs:8px;
+  --sh:0 4px 6px -1px rgba(0,0,0,.05),0 2px 4px -2px rgba(0,0,0,.05);
+  --sh-hover:0 10px 15px -3px rgba(0,0,0,.08),0 4px 6px -4px rgba(0,0,0,.04);
+  --sh-modal:0 20px 25px -5px rgba(0,0,0,.1),0 8px 10px -6px rgba(0,0,0,.1);
+
+  /* 运费阈值状态配色 */
+  --c-over:#f59e0b;
+  --c-normal:#0891b2;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",sans-serif;background:#f1f5f9;color:var(--tx);font-size:13px;-webkit-font-smoothing:antialiased}
+
+#topbar{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid #e2e8f0;padding:0 28px;height:60px;display:flex;align-items:center;gap:16px;box-shadow:var(--sh)}
+.brand{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.brand-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--acc),#d97706);box-shadow:0 4px 10px rgba(180,83,9,.25)}
+.brand-icon svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.brand-name{font-size:16px;font-weight:700;letter-spacing:-.02em;color:var(--tx)}
+.brand-sub{font-size:11px;color:var(--t3);letter-spacing:.02em;margin-top:2px}
+.vdiv{width:1px;height:24px;background:#e2e8f0}
+.topbar-info{font-size:12px;color:var(--t3);flex-shrink:0;text-align:right}.topbar-info b{color:var(--tx);font-weight:600}
+.upload-area{display:flex;align-items:center;gap:12px;flex-shrink:0;margin-left:auto}
+
+#topbar-filter-container{display:none;align-items:center;gap:14px;flex:1;padding-left:8px;flex-wrap:wrap}
+.fb-group{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--tx)}
+.fb-group label{font-weight:600;white-space:nowrap;color:var(--t2);font-size:12px}
+.fb-select{padding:6px 12px;padding-right:32px;border:1px solid #e2e8f0;border-radius:var(--rs);font-size:13px;font-family:inherit;color:var(--tx);background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 10px center / 14px;appearance:none;-webkit-appearance:none;cursor:pointer;outline:none;min-width:130px;font-weight:500}
+.fb-select:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(180,83,9,.15)}
+.fb-num{padding:6px 8px;border:1px solid #e2e8f0;border-radius:var(--rs);font-size:13px;width:60px;text-align:center;font-family:inherit;color:var(--tx);outline:none;font-variant-numeric:tabular-nums;font-weight:600}
+.fb-num:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(180,83,9,.15)}
+.thr-group{display:flex;align-items:center;gap:6px;padding:4px 12px;background:var(--acc-soft);border:1px solid var(--bdr);border-radius:var(--rs)}
+.thr-group .thr-label{font-size:11px;font-weight:700;color:var(--acc);letter-spacing:.02em}
+.thr-group .thr-unit{color:var(--t4);font-size:11px}
+
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--rs);font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;transition:all .2s ease;border:1px solid transparent}
+.btn-primary{background:var(--acc);color:#fff;box-shadow:0 2px 4px rgba(180,83,9,.2)}
+.btn-primary:hover{background:var(--acc-hover);transform:translateY(-1px);box-shadow:0 4px 8px rgba(180,83,9,.3)}
+.btn-primary svg{width:14px;height:14px;stroke:#fff;fill:none}
+.btn-outline{background:#fff;border-color:#e2e8f0;color:var(--t2)}
+.btn-outline:hover{border-color:var(--acc);color:var(--acc);background:var(--acc-soft)}
+.btn-outline svg{width:14px;height:14px;stroke:currentColor;fill:none}
+#file-input{display:none}
+
+#main{padding:24px 28px 48px;display:flex;flex-direction:column;gap:24px;max-width:1440px;margin:0 auto}
+
+#empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:480px;gap:16px;background:var(--surface);border:2px dashed #e2e8f0;border-radius:24px;cursor:pointer;transition:all .2s;padding:60px;box-shadow:var(--sh)}
+#empty-state:hover{border-color:var(--acc);background:var(--acc-soft)}
+.es-icon{width:80px;height:80px;border-radius:24px;background:#fff;box-shadow:var(--sh);display:flex;align-items:center;justify-content:center;margin-bottom:8px}
+.es-icon svg{width:36px;height:36px;color:var(--acc);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.es-title{font-size:20px;font-weight:700;color:var(--tx)}
+.es-sub{font-size:14px;color:var(--t3);text-align:center;line-height:1.6;max-width:480px}
+.es-hint{font-size:12px;color:var(--t4);margin-top:12px}
+.es-format{display:flex;gap:8px}.es-tag{padding:4px 12px;background:#fff;border:1px solid #e2e8f0;border-radius:20px;font-size:12px;font-weight:600;color:var(--t2)}
+
+#toast{position:fixed;top:80px;left:50%;transform:translateX(-50%);padding:12px 24px;border-radius:8px;font-size:13px;font-weight:600;z-index:300;opacity:0;transition:all .3s cubic-bezier(0.16, 1, 0.3, 1);pointer-events:none;background:var(--tx);color:#fff;box-shadow:var(--sh-modal);margin-top:-10px}
+#toast.show{opacity:1;margin-top:0}#toast.err{background:var(--rd)}
+
+.mp-row{display:flex;align-items:center;gap:16px;padding:12px 0;border-bottom:1px solid #f1f5f9}.mp-row:last-child{border-bottom:none}
+.mp-label{width:130px;flex-shrink:0;font-size:13px;font-weight:600;color:var(--tx)}.mp-label .mp-hint{font-weight:500;color:var(--rd);font-size:11px;display:block;margin-top:4px}
+.mp-select{flex:1;padding:8px 12px;padding-right:32px;border:1px solid #e2e8f0;border-radius:var(--rs);font-size:13px;font-family:inherit;color:var(--tx);background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 10px center / 14px;appearance:none;-webkit-appearance:none;cursor:pointer;outline:none;transition:all .2s}
+.mp-select:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(180,83,9,.15)}
+.mp-preview{font-size:11px;color:var(--t4);width:180px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+.highlight-row{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.all-mat-wrap{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:16px 18px;box-shadow:var(--sh);min-width:0;display:flex;flex-direction:column;min-height:520px;max-height:580px}
+.all-mat-head{margin-bottom:6px;flex-shrink:0}
+.all-mat-title{font-size:15px;font-weight:800;color:var(--tx);line-height:1.3}
+.all-mat-sub{font-size:11px;color:var(--t3);margin-top:4px;line-height:1.5}
+.all-mat-legend{display:flex;gap:14px;font-size:11px;font-weight:700;flex-shrink:0;padding:7px 0 8px;border-bottom:1px dashed #e2e8f0;color:var(--t2)}
+.all-mat-legend span{display:flex;align-items:center;gap:6px}
+.all-mat-legend .rank-swatch{width:16px;height:6px}
+.all-mat-list{flex:1;overflow-y:auto;display:flex;flex-direction:column;padding-right:4px;min-height:0}
+.all-mat-list .rank-row{padding:7px 0;border-bottom:1px solid #f1f5f9;gap:12px}
+.all-mat-list .rank-row:last-child{border-bottom:none}
+.all-mat-list .rank-name{font-size:12.5px}
+.all-mat-list .rank-name.material-link{appearance:none;-webkit-appearance:none;border:0;background:transparent;padding:0;cursor:pointer;color:#1e3a5f;text-align:left;font:inherit;text-decoration:underline;text-decoration-color:transparent;text-underline-offset:3px;transition:color .16s,text-decoration-color .16s}
+.all-mat-list .rank-name.material-link:hover,.all-mat-list .rank-name.material-link:focus{color:#b45309;text-decoration-color:#f59e0b;outline:none}
+.all-mat-list .rank-name.material-link .rank-no{display:none}
+.trend-material-summary{display:none;margin-top:9px;max-width:none;padding:9px 12px;border:1px solid #fde68a;border-radius:9px;background:#fffbeb;color:#64748b;font-size:12px;line-height:1.8;white-space:nowrap;overflow-x:auto;overflow-y:hidden}
+.trend-material-summary strong{font-weight:800}.trend-material-summary .metric-freight{color:#b45309}.trend-material-summary .metric-orders{color:#2563eb}.trend-material-summary .metric-abnormal{color:#dc2626}.trend-material-summary .metric-ratio{color:#7c3aed}.trend-material-summary .change-up{color:#dc2626}.trend-material-summary .change-down{color:#059669}.trend-material-summary .change-flat{color:#64748b}
+.all-mat-list .rank-no{width:20px;height:20px;font-size:10px;margin-right:6px}
+.all-mat-list .rank-track{height:7px;border-width:1px}
+.all-mat-list .rank-bars{gap:4px}
+.all-mat-list .rank-values{font-size:11px;line-height:1.5}
+.all-mat-list .rank-values .secondary{font-size:10px;color:#8b5a43}
+.all-mat-empty{padding:32px;text-align:center;color:#94a3b8;font-size:13px}
+.highlight-card{min-width:0;position:relative;background:linear-gradient(135deg,#ffd426 0%,#ffc400 100%);border:2px solid #6b2f13;border-radius:20px;padding:16px 150px 16px 28px;color:#71310f;box-shadow:0 5px 12px rgba(113,49,15,.14);display:flex;flex-direction:column;justify-content:center;min-height:120px;transition:transform .2s ease,box-shadow .2s ease}
+.highlight-card:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(113,49,15,.2)}
+.highlight-label{font-size:13px;font-weight:600;line-height:1.2;opacity:.86}
+.highlight-name{font-size:21px;font-weight:800;line-height:1.25;margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.highlight-value{font-size:32px;font-weight:900;line-height:1.05;margin-top:8px;font-variant-numeric:tabular-nums}
+.highlight-meta{font-size:12px;font-weight:600;line-height:1.5;margin-top:7px;opacity:.9}
+.highlight-link{position:absolute;right:24px;top:50%;transform:translateY(-50%);border:1.5px solid #71310f;border-radius:999px;background:rgba(255,255,255,.48);color:#71310f;padding:8px 15px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;transition:all .2s ease}
+.highlight-link:hover{background:#fff;transform:translateY(-50%) translateX(2px)}
+.rank-modal{position:fixed;inset:0;z-index:600;background:rgba(15,23,42,.5);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:24px}
+.rank-dialog{width:min(980px,96vw);max-height:88vh;background:#fff;border:2px solid #6b2f13;border-radius:24px;box-shadow:var(--sh-modal);padding:28px 32px;overflow:auto;color:#71310f}
+.rank-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:22px}
+.rank-title{font-size:25px;font-weight:900;line-height:1.25}.rank-sub{font-size:13px;margin-top:7px;color:#8b5a43}
+.rank-close{width:36px;height:36px;border:1px solid #d7c1b7;border-radius:50%;background:#fff;color:#71310f;font-size:22px;line-height:1;cursor:pointer;flex-shrink:0}.rank-close:hover{background:#fff7ed}
+.rank-legend{display:flex;gap:18px;align-items:center;font-size:12px;font-weight:700;margin-bottom:14px}.rank-legend span{display:flex;align-items:center;gap:6px}.rank-swatch{width:18px;height:7px;border-radius:4px}.rank-swatch.primary{background:#ffc400}.rank-swatch.secondary{background:#71310f}
+.rank-list{display:flex;flex-direction:column;gap:14px}
+.detail-dialog{width:min(1120px,96vw);color:var(--tx);border-color:#f59e0b}
+.detail-summary{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;color:var(--t2);font-size:13px;font-weight:600}
+.detail-summary span{padding:7px 12px;background:#fff7ed;border:1px solid #fed7aa;border-radius:999px}
+.detail-table-wrap{max-height:62vh;overflow:auto;border:1px solid #e2e8f0;border-radius:12px}
+.detail-table{width:100%;border-collapse:collapse;font-size:13px}
+.detail-table th{position:sticky;top:0;z-index:1;background:#fff7ed;color:#7c2d12;padding:12px 14px;text-align:left;white-space:nowrap;border-bottom:1px solid #fed7aa}
+.detail-table td{padding:11px 14px;border-bottom:1px solid #f1f5f9;color:var(--t2);vertical-align:top}
+.detail-table tr:last-child td{border-bottom:none}.detail-table tbody tr:hover{background:#fffaf5}
+.detail-table .num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}.detail-table .ratio{font-weight:800;color:#dc2626}
+.detail-toolbar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin:-2px 0 16px}
+.detail-filter{display:inline-flex;align-items:center;gap:9px;padding:9px 13px;border:1px solid #fed7aa;border-radius:10px;background:#fffaf5;color:#7c2d12;font-size:13px;font-weight:700;cursor:pointer;user-select:none}
+.detail-filter input{width:17px;height:17px;accent-color:#ea580c;cursor:pointer}
+.kc.clickable{cursor:pointer}.kc.clickable:hover{transform:translateY(-2px);box-shadow:var(--sh-hover)}
+.rank-row{display:grid;grid-template-columns:minmax(190px,260px) minmax(260px,1fr) 130px;gap:18px;align-items:center}
+.rank-name{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.rank-no{display:inline-flex;width:24px;height:24px;border-radius:50%;align-items:center;justify-content:center;background:#fff3bf;margin-right:8px;font-size:11px}
+.rank-bars{display:flex;flex-direction:column;gap:5px}.rank-track{height:12px;border:1px solid #d7c1b7;border-radius:7px;overflow:hidden;background:#fff}.rank-fill{height:100%;min-width:2px;border-radius:6px}.rank-fill.primary{background:#ffc400}.rank-fill.secondary{background:#71310f}
+.rank-values{text-align:right;font-size:12px;font-weight:700;line-height:1.55}.rank-values .secondary{color:#8b5a43}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.kc{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:20px 24px;position:relative;overflow:hidden;box-shadow:var(--sh);transition:all .2s ease;display:flex;flex-direction:column}
+.kc::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--acc)}
+.kc.k0::before{background:linear-gradient(90deg,var(--acc),#d97706)}
+.kc.k1::before{background:linear-gradient(90deg,var(--gr),#34d399)}
+.kc.k2::before{background:linear-gradient(90deg,var(--rd),#f87171)}
+.kc.k3::before{background:linear-gradient(90deg,var(--am),#fbbf24)}
+.kc:hover{box-shadow:var(--sh-hover);transform:translateY(-2px)}
+.kc-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.kc-icon svg{width:20px;height:20px;stroke-width:2;stroke:currentColor;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.k0 .kc-icon{background:var(--acc-soft);color:var(--acc)}
+.k1 .kc-icon{background:#f0fdf4;color:var(--gr)}
+.k2 .kc-icon{background:#fef2f2;color:var(--rd)}
+.k3 .kc-icon{background:#fffbeb;color:var(--am)}
+.kl{font-size:13px;font-weight:600;color:var(--t3);margin-bottom:6px;letter-spacing:0.02em}
+.kv{font-size:28px;font-weight:800;color:var(--tx);line-height:1.2;font-variant-numeric:tabular-nums}
+.ku{font-size:12px;color:var(--t4);margin-top:8px;font-weight:500}
+
+.cd{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:24px;box-shadow:var(--sh);min-width:0;overflow:hidden;display:flex;flex-direction:column}
+.ch{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:12px;flex-shrink:0}
+.ct{font-size:16px;font-weight:700;color:var(--tx);letter-spacing:-.01em}
+.cs{font-size:12px;color:var(--t3);margin-top:6px;line-height:1.5}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.chart-wrap{position:relative;width:100%;flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column}
+.chart-wrap canvas{display:block;max-width:100%;margin:auto}
+.trend-heading{flex:1;min-width:0}.material-search-area{width:min(390px,48%);min-width:0;position:relative;flex-shrink:0}
+.material-search-box{display:flex;align-items:center;gap:9px;border:1.5px solid #cbd5e1;border-radius:12px;background:#fff;padding:9px 12px;transition:border-color .2s,box-shadow .2s}
+.material-search-box:focus-within{border-color:#f59e0b;box-shadow:0 0 0 3px rgba(245,158,11,.13)}
+.material-search-box svg{width:18px;height:18px;fill:none;stroke:#94a3b8;stroke-width:2;flex-shrink:0}
+.material-search-input{width:100%;border:0;outline:0;background:transparent;color:var(--tx);font-family:inherit;font-size:13px;font-weight:650}
+.material-search-input::placeholder{color:#94a3b8;font-weight:500}
+.material-suggestions{display:none;position:absolute;z-index:80;top:calc(100% + 7px);left:0;right:0;max-height:260px;overflow:auto;background:#fff;border:1px solid #e2e8f0;border-radius:12px;box-shadow:0 16px 40px rgba(15,23,42,.18);padding:6px}
+.material-suggestion{display:block;width:100%;border:0;background:#fff;color:#334155;text-align:left;padding:9px 11px;border-radius:8px;font-family:inherit;font-size:13px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.material-suggestion:hover,.material-suggestion.active{background:#fff7ed;color:#9a3412;font-weight:700}
+.material-search-note{margin-top:6px;color:#94a3b8;font-size:11px;text-align:right;max-width:100%;white-space:normal;overflow-wrap:anywhere;line-height:1.45}
+@media(max-width:760px){.ch{flex-direction:column}.material-search-area{width:100%;max-width:none}.material-search-note{text-align:left}}
+.freight-calc-card{height:460px;padding:20px!important;overflow:visible}
+.calc-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}
+.calc-badge{padding:5px 9px;border-radius:999px;background:#eff6ff;color:#2563eb;font-size:10px;font-weight:800;white-space:nowrap}
+.calc-search-wrap{position:relative;margin-bottom:10px}
+.calc-search{width:100%;height:38px;border:1.5px solid #cbd5e1;border-radius:10px;padding:0 12px 0 36px;font-family:inherit;font-size:12px;font-weight:650;color:var(--tx);outline:none;background:#fff}
+.calc-search:focus{border-color:#3b82f6;box-shadow:0 0 0 3px rgba(59,130,246,.12)}
+.calc-search-icon{position:absolute;left:12px;top:10px;width:17px;height:17px;fill:none;stroke:#94a3b8;stroke-width:2;pointer-events:none}
+.calc-suggestions{display:none;position:absolute;z-index:90;left:0;right:0;top:43px;max-height:210px;overflow:auto;padding:5px;background:#fff;border:1px solid #e2e8f0;border-radius:10px;box-shadow:0 14px 35px rgba(15,23,42,.16)}
+.calc-fields{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:10px}
+.calc-field label{display:block;color:#64748b;font-size:10px;font-weight:700;margin-bottom:4px}
+.calc-field input{width:100%;height:36px;border:1px solid #dbe3ed;border-radius:9px;padding:0 10px;font-family:inherit;font-size:12px;color:var(--tx);outline:none;background:#f8fafc}
+.calc-field input:focus{border-color:#3b82f6;background:#fff}
+.calc-results{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px}
+.calc-result{padding:9px 10px;border:1px solid #e5eaf1;border-radius:10px;background:#f8fafc;min-width:0}
+.calc-result-label{font-size:9px;color:#64748b;font-weight:700;white-space:nowrap}.calc-result-value{font-size:15px;color:#0f172a;font-weight:850;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-variant-numeric:tabular-nums}
+.calc-result.ratio-over{background:#fff7ed;border-color:#fed7aa}.calc-result.ratio-over .calc-result-value{color:#c2410c}
+.calc-bottom{display:grid;grid-template-columns:minmax(185px,.8fr) minmax(0,1.45fr);gap:10px;min-height:0;flex:1}
+.calc-reference{display:grid;grid-template-rows:1fr 1fr;gap:8px}
+.calc-reference-card{border:1px solid #e5eaf1;border-radius:10px;padding:9px 11px;background:#fff}
+.calc-reference-label{font-size:9px;color:#64748b;font-weight:700;line-height:1.4}.calc-reference-value{font-size:16px;color:#0f172a;font-weight:850;margin-top:4px;font-variant-numeric:tabular-nums}
+.calc-warehouse{border:1px solid #e5eaf1;border-radius:10px;padding:9px 10px;min-width:0;overflow:hidden;display:flex;flex-direction:column}
+.calc-warehouse-title{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:10px;color:#475569;font-weight:800;margin-bottom:6px}.calc-warehouse-title span{font-size:9px;color:#94a3b8;font-weight:600}
+.calc-warehouse-list{overflow:auto;display:flex;flex-direction:column;gap:5px;padding-right:2px}
+.calc-warehouse-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;padding:6px 8px;border-radius:8px;background:#f8fafc}
+.calc-warehouse-name{font-size:10px;color:#334155;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.calc-warehouse-note{font-size:8px;color:#94a3b8;margin-top:2px}.calc-warehouse-price{font-size:12px;color:#1d4ed8;font-weight:850;white-space:nowrap}
+.calc-empty{display:flex;align-items:center;justify-content:center;min-height:64px;text-align:center;color:#94a3b8;font-size:10px;line-height:1.6;padding:8px}
+@media(max-width:900px){.freight-calc-card{height:auto;min-height:500px}.calc-results{grid-template-columns:1fr 1fr}.calc-bottom{grid-template-columns:1fr}.calc-reference{grid-template-columns:1fr 1fr;grid-template-rows:auto}.calc-fields{grid-template-columns:1fr}}
+
+.legend-row{display:flex;justify-content:center;gap:16px;font-size:12px;color:var(--t2);flex-wrap:wrap;flex-shrink:0;padding-top:8px}
+.legend-row .lg-item{display:flex;align-items:center;gap:6px}
+.legend-row .lg-dot{width:10px;height:10px;border-radius:3px}
+
+.dtbl{width:100%;min-width:0;table-layout:fixed;border-collapse:collapse;font-size:12px}
+.dtbl th{text-align:left;font-size:11px;font-weight:600;color:var(--t3);padding:9px 7px;border-bottom:1px solid #e2e8f0;background:#fafafa;position:sticky;top:0;z-index:2;white-space:nowrap}
+.dtbl td{padding:9px 7px;border-bottom:1px solid #e2e8f0;white-space:nowrap;color:var(--tx);font-variant-numeric:tabular-nums;overflow:hidden;text-overflow:ellipsis}
+.dtbl th:first-child, .dtbl td:first-child{padding-left:12px}
+.dtbl th:last-child, .dtbl td:last-child{padding-right:12px}
+.dtbl td:first-child{font-weight:600}
+.material-cell{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dtbl tr:hover td{background:rgba(180,83,9,0.03)}
+.dtbl tr:last-child td{border-bottom:none}
+.sort-button{display:inline-flex;align-items:center;gap:3px;border:0;background:transparent;color:inherit;font:inherit;font-weight:700;padding:0;cursor:pointer;white-space:nowrap}.sort-button:hover{color:#1d4ed8}.sort-indicator{font-size:9px;color:#94a3b8}.sort-button.active .sort-indicator{color:#2563eb}
+.field-help{position:relative;display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;margin-left:5px;border:1px solid #94a3b8;border-radius:50%;color:#64748b;font-size:9px;font-weight:800;cursor:help;vertical-align:middle;outline:none}
+.field-help::after{content:attr(data-tip);position:absolute;z-index:20;left:50%;top:22px;transform:translateX(-50%);width:270px;padding:9px 11px;border-radius:8px;background:rgba(15,23,42,.96);color:#f8fafc;font-size:10px;font-weight:500;line-height:1.55;white-space:normal;box-shadow:0 10px 28px rgba(15,23,42,.2);opacity:0;visibility:hidden;pointer-events:none;transition:.15s}.field-help:hover::after,.field-help:focus::after{opacity:1;visibility:visible}
+.abnormal-link{border:0;background:transparent;color:var(--am);font:inherit;font-weight:800;padding:2px 5px;border-radius:5px;cursor:pointer;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px}.abnormal-link:hover{background:#fff7ed;color:#c2410c}
+.st-tag{display:inline-block;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:700;text-align:center;min-width:60px}
+.tag-strategy{background:rgba(180,83,9,0.12);color:#92400e}
+.tag-key{background:rgba(8,145,178,0.12);color:#155e75}
+.tag-mismatch{background:rgba(220,38,38,0.12);color:#991b1b}
+.tag-fragment{background:rgba(148,163,184,0.15);color:#475569}
+
+#tip{position:fixed;z-index:400;pointer-events:none;background:rgba(15,23,42,.95);backdrop-filter:blur(4px);color:#f8fafc;padding:12px 16px;border-radius:8px;font-size:12px;line-height:1.6;box-shadow:var(--sh-modal);opacity:0;transition:opacity .15s ease;max-width:340px;border:1px solid rgba(255,255,255,.1)}
+#tip.show{opacity:1}
+#tip b{color:#fff;font-size:13px;display:block;margin-bottom:6px;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:4px}
+
+@media(max-width:1000px){.kpi-row,.row-2{grid-template-columns:1fr}}
+@media(max-width:768px){
+  #topbar{padding:12px 16px;flex-wrap:wrap;height:auto}
+  #topbar-filter-container{width:100%;flex:none;padding-left:0;order:3;margin-top:8px;flex-wrap:wrap}
+  .vdiv{display:none}
+  .topbar-info{display:none}
+  #main{padding:16px}
+  .highlight-row{grid-template-columns:1fr}
+  .highlight-card{padding-right:28px;padding-bottom:58px}.highlight-link{right:28px;top:auto;bottom:16px;transform:none}.highlight-link:hover{transform:translateX(2px)}
+  .rank-row{grid-template-columns:minmax(130px,180px) 1fr 100px;gap:10px}.rank-dialog{padding:22px 18px}.rank-title{font-size:20px}
+  .kpi-row{grid-template-columns:1fr 1fr}
+  .upload-area .btn{display:none}
+  .upload-area .topbar-info{display:block}
+}
+.material-nav{display:flex;gap:8px}.material-nav a{display:inline-flex;align-items:center;padding:7px 10px;border:1px solid #e2e8f0;border-radius:8px;color:var(--t2);background:#fff;text-decoration:none;font-size:12px;font-weight:600}.material-nav a:hover{border-color:var(--acc);color:var(--acc)}
+</style>
+</head>
+<body>
+<div id="toast"></div>
+<div id="topbar">
+  <div class="brand">
+    <div class="brand-icon">
+      <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+    </div>
+    <div><div class="brand-name">物料运费分析</div><div class="brand-sub">Material Freight Analysis</div></div>
+  </div>
+  <div class="vdiv" id="topbar-vdiv" style="display:none"></div>
+  <div id="topbar-filter-container"></div>
+  <nav class="material-nav" aria-label="物料看板导航"><a href="../material-main-dashboard/">综合主看板</a><a href="../material-dashboard/">进销存看板</a></nav>
+  <div class="upload-area">
+    <div class="topbar-info" id="ti"></div>
+    <button class="btn btn-outline" onclick="openCalculatorModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="10" y2="10"/><line x1="14" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="10" y2="14"/><line x1="14" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="10" y2="18"/><line x1="14" y1="18" x2="16" y2="18"/></svg>运费试算器</button>
+  </div>
+</div>
+
+<div id="main">
+  <!-- 已停用：历史数据导入字段映射面板
+      <div class="ch"><div><div class="ct">字段映射设置</div><div class="cs">请确认每一列的业务角色</div></div></div>
+      <div id="mf"></div>
+      <div style="margin-top:32px;display:flex;gap:12px;justify-content:flex-end;border-top:1px solid #e2e8f0;padding-top:20px">
+        <button class="btn btn-outline" onclick="$('mp').style.display='none';$('es').style.display='flex'">取消</button>
+        <button class="btn btn-primary" onclick="confirmM()">完成并生成报告</button>
+      </div>
+    </div>
+  </div>
+  -->
+
+  <div id="db" style="display:none;flex-direction:column;gap:24px">
+    <div class="kpi-row" id="kpi"></div>
+    <div class="highlight-row" id="highlights"></div>
+
+    <div id="freight-detail-view" style="display:none;flex-direction:column;gap:24px">
+    <div class="cd" style="height:520px;display:flex;flex-direction:column">
+      <div class="ch" style="flex-shrink:0">
+        <div class="trend-heading"><div class="ct" id="trend-chart-title">所有物料 · 月度发货与运费趋势</div><div class="cs" id="trend-chart-subtitle">按月展示订单数、运费金额、异常订单数及异常运费占比</div><div class="trend-material-summary" id="trend-material-summary"></div></div>
+        <div class="material-search-area">
+          <div class="material-search-box">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg>
+            <input class="material-search-input" id="material-trend-search" value="所有物料" placeholder="输入物料名称进行模糊搜索" autocomplete="off" onfocus="updateMaterialSuggestions()" oninput="updateMaterialSuggestions()" onkeydown="handleMaterialSearchKey(event)" onblur="setTimeout(closeMaterialSuggestions,120)">
+          </div>
+          <div class="material-suggestions" id="material-trend-suggestions"></div>
+          <div class="material-search-note">支持模糊搜索，选择“所有物料”查看整体趋势</div>
+        </div>
+      </div>
+      <div class="chart-wrap"><canvas id="c-pareto"></canvas></div>
+    </div>
+
+    </div>
+
+    <div class="cd" style="height:520px;display:flex;flex-direction:column">
+      <div class="ch" style="flex-shrink:0"><div><div class="ct">物料运费明细诊断表</div><div class="cs">点击任意表头可切换升降序；点击异常订单数字可查看该物料订单明细</div></div></div>
+      <div id="tw" style="flex:1;min-height:0;overflow:auto;border:1px solid #e2e8f0;border-radius:8px"></div>
+    </div>
+  </div>
+</div>
+<div class="rank-modal" id="rank-modal" onclick="if(event.target===this)closeTop10()">
+  <div class="rank-dialog" role="dialog" aria-modal="true" aria-labelledby="rank-modal-title">
+    <div class="rank-head">
+      <div><div class="rank-title" id="rank-modal-title"></div><div class="rank-sub" id="rank-modal-sub"></div></div>
+      <button class="rank-close" type="button" aria-label="关闭" onclick="closeTop10()">×</button>
+    </div>
+    <div class="rank-legend" id="rank-modal-legend"></div>
+    <div class="rank-list" id="rank-modal-list"></div>
+  </div>
+</div>
+<div class="rank-modal" id="detail-modal" onclick="if(event.target===this)closeAbnormalDetails()">
+  <div class="rank-dialog detail-dialog" role="dialog" aria-modal="true" aria-labelledby="detail-modal-title">
+    <div class="rank-head">
+      <div><div class="rank-title" id="detail-modal-title">超阈值异常订单明细</div><div class="rank-sub">按运费/货值占比从高到低排列</div></div>
+      <button class="rank-close" type="button" aria-label="关闭" onclick="closeAbnormalDetails()">×</button>
+    </div>
+    <div class="detail-summary" id="detail-summary"></div>
+    <div class="detail-table-wrap">
+      <table class="detail-table">
+        <thead><tr><th>主运单号</th><th>物料名称</th><th class="num">总数量</th><th class="num">运费</th><th class="num">运费/货值</th></tr></thead>
+        <tbody id="detail-table-body"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="rank-modal" id="material-modal" onclick="if(event.target===this)closeMaterialDetails()">
+  <div class="rank-dialog detail-dialog" role="dialog" aria-modal="true" aria-labelledby="material-modal-title">
+    <div class="rank-head">
+      <div><div class="rank-title" id="material-modal-title">物料汇总明细</div><div class="rank-sub">按平均订单发货数量从高到低排列</div></div>
+      <button class="rank-close" type="button" aria-label="关闭" onclick="closeMaterialDetails()">×</button>
+    </div>
+    <div class="detail-toolbar">
+      <label class="detail-filter"><input type="checkbox" id="exclude-abnormal" onchange="renderMaterialDetails()">去除异常订单</label>
+      <div class="rank-sub">异常标准：运费/货值超过当前阈值</div>
+    </div>
+    <div class="detail-summary" id="material-summary"></div>
+    <div class="detail-table-wrap">
+      <table class="detail-table">
+        <thead><tr><th>物料名称</th><th class="num">数量总计</th><th class="num">订单数</th><th class="num">平均订单发货数量</th><th class="num">异常订单数</th><th class="num">运费占比</th></tr></thead>
+        <tbody id="material-table-body"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="rank-modal" id="calculator-modal" onclick="if(event.target===this)closeCalculatorModal()">
+  <div class="rank-dialog detail-dialog" role="dialog" aria-modal="true" aria-labelledby="calculator-modal-title">
+    <div class="rank-head">
+      <div><div class="rank-title" id="calculator-modal-title">物料运费试算器</div><div class="rank-sub">输入物料、运费、数量和地级市，自动计算并匹配历史参考</div></div>
+      <button class="rank-close" type="button" aria-label="关闭" onclick="closeCalculatorModal()">×</button>
+    </div>
+    <div class="cd freight-calc-card" style="height:auto;border:none;background:transparent;padding:0!important;box-shadow:none">
+      <div class="calc-head" style="display:none">
+        <div><div class="ct">物料运费试算器</div><div class="cs">输入物料、运费、数量和地级市，自动计算并匹配历史参考</div></div>
+        <span class="calc-badge">本年度历史数据</span>
+      </div>
+      <div class="calc-search-wrap">
+        <svg class="calc-search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg>
+        <input class="calc-search" id="calc-material-search" placeholder="模糊搜索并选择一个物料" autocomplete="off" onfocus="updateCalculatorMaterialSuggestions()" oninput="updateCalculatorMaterialSuggestions()" onkeydown="handleCalculatorMaterialKey(event)" onblur="setTimeout(closeCalculatorMaterialSuggestions,120)">
+        <div class="calc-suggestions" id="calc-material-suggestions"></div>
+      </div>
+      <div class="calc-fields">
+        <div class="calc-field"><label for="calc-freight">自定义运费金额（元）</label><input type="number" id="calc-freight" min="0" step="0.01" placeholder="例如 35.00" oninput="renderFreightCalculator()"></div>
+        <div class="calc-field"><label for="calc-quantity">发货数量</label><input type="number" id="calc-quantity" min="0" step="1" placeholder="请输入数量" oninput="renderFreightCalculator()"></div>
+        <div class="calc-field"><label for="calc-city">发货地级市</label><input id="calc-city" list="calc-city-list" placeholder="例如 长沙市" autocomplete="off" oninput="renderFreightCalculator()"><datalist id="calc-city-list"></datalist></div>
+      </div>
+      <div class="calc-results">
+        <div class="calc-result"><div class="calc-result-label">物料单价</div><div class="calc-result-value" id="calc-unit-price">—</div></div>
+        <div class="calc-result"><div class="calc-result-label">自动计算货值</div><div class="calc-result-value" id="calc-goods-value">—</div></div>
+        <div class="calc-result" id="calc-ratio-card"><div class="calc-result-label">运费/货值</div><div class="calc-result-value" id="calc-ratio">—</div></div>
+        <div class="calc-result"><div class="calc-result-label">物料起发量</div><div class="calc-result-value" id="calc-start-qty">—</div></div>
+      </div>
+      <div class="calc-bottom">
+        <div class="calc-reference">
+          <div class="calc-reference-card"><div class="calc-reference-label" id="calc-prev-qty-label">上月平均订单发货量</div><div class="calc-reference-value" id="calc-prev-qty">—</div></div>
+          <div class="calc-reference-card"><div class="calc-reference-label" id="calc-prev-freight-label">上月平均运费（剔除异常）</div><div class="calc-reference-value" id="calc-prev-freight">—</div></div>
+        </div>
+        <div class="calc-warehouse">
+          <div class="calc-warehouse-title">各发货仓最低历史运费 <span id="calc-match-status">请选择物料、数量和城市</span></div>
+          <div class="calc-warehouse-list" id="calc-warehouse-list"><div class="calc-empty">完成上方输入后显示匹配结果</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="tip"></div>
+
+<script src="assets/data/material_freight_dashboard_data.6848da8ee75f.js"></script>
+<script src="assets/data/material_freight_order_details.1a87c6e3c8c9.js"></script>
+<script src="assets/data/material_freight_material_details.9c2571f75c52.js"></script>
+<script src="assets/data/material_freight_calculator_data.3467e5a19391.js"></script>
+<script>
+// === 全局工具方法 ===
+window.$ = function(id){return document.getElementById(id)};
+window.fmtN = function(v){if(v==null||isNaN(v))return'-';var a=Math.abs(v);if(a>=1e8)return(v/1e8).toFixed(2)+'亿';if(a>=1e4)return(v/1e4).toFixed(1)+'万';return Math.round(v).toLocaleString('zh-CN')};
+window.fmtP = function(v){return(v*100).toFixed(1)+'%'};
+window.setupHiDPI = function(c,w,h){
+  var d=window.devicePixelRatio||1;
+  c.width=w*d;c.height=h*d;
+  c.style.width=w+'px';c.style.height=h+'px';
+  var x=c.getContext('2d');
+  if(x)x.scale(d,d);
+  return x;
+};
+window.roundRect = function(ctx,x,y,w,h,r){if(h<0){y+=h;h=-h}if(w<0){x+=w;w=-w}r=Math.min(r,w/2,h/2);ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath()};
+window.toast = function(msg,isErr){var t=$('toast');t.innerHTML=isErr?'<span style="color:#f43f5e">⚠️</span> '+msg:'<span style="color:#10b981">✅</span> '+msg;t.className=isErr?'show err':'show';setTimeout(function(){t.className=''},3000)};
+window.showTip = function(e,html){var tip=$('tip');tip.innerHTML=html;tip.classList.add('show');var tx=e.clientX+16,ty=e.clientY-10;var tw=tip.offsetWidth||220;if(tx+tw>window.innerWidth-10)tx=e.clientX-tw-10;if(tx<10)tx=10;if(ty<10)ty=e.clientY+20;tip.style.left=tx+'px';tip.style.top=ty+'px'};
+window.hideTip = function(){$('tip').classList.remove('show')};
+window.getNiceTicks = function(min,max,tickCount){
+  var span=max-min;
+  if(span===0)span=Math.max(Math.abs(max),1);
+  var step=Math.pow(10,Math.floor(Math.log10(span/tickCount)));
+  var err=(span/tickCount)/step;
+  if(err<=1.5)step*=1;else if(err<=3)step*=2;else if(err<=7.5)step*=5;else step*=10;
+  var niceMin=Math.floor(min/step)*step;
+  var niceMax=Math.ceil(max/step)*step;
+  var ticks=[];
+  for(var v=niceMin;v<=niceMax+step*0.5;v+=step)ticks.push(v);
+  return{min:niceMin,max:niceMax,step:step,ticks:ticks};
+};
+
+// === 全局参数 ===
+var THR_GOODS_RATIO = 30; // 运费占货值比阈值
+
+function getMismatchTag(c){
+  if(c.tier==='over')return{key:'key',l:'超阈值',c:'tag-key'};
+  return{key:'fragment',l:'正常',c:'tag-fragment'};
+}
+
+// === Demo 数据生成 ===
+// 设计：22 个品类，呈现强烈的帕累托分布
+function genDemo(){
+  var seed=42;
+  function rand(){seed=(seed*9301+49297)%233280;return seed/233280;}
+
+  // 22 个品类，按金额降序设计
+  var rows=[
+    // 大宗物料
+    ['钢材',          1200000, 18],
+    ['塑料粒子',      850000,  22],
+    ['电子元器件',    680000,  35],
+    ['包装纸箱',      520000,  28],
+    // 中等金额物料
+    ['印刷油墨',      180000,  24],
+    ['五金紧固件',    140000,  42],  // 错配候选：金额中、订单多
+    ['标签贴纸',      120000,  31],
+    ['润滑油',        95000,   18],
+    ['工业胶水',      78000,   22],
+    ['密封件',        62000,   28],  // 错配候选
+    // 长尾物料
+    ['办公耗材',      35000,   86],  // 严重错配：金额小、订单极多
+    ['维修配件',      28000,   72],  // 严重错配
+    ['防护用品',      22000,   45],
+    ['工具备件',      18000,   38],
+    ['清洁用品',      14000,   52],  // 错配
+    ['打印纸',        9500,    34],
+    ['工服工鞋',      7800,    28],
+    ['办公家具',      6200,    9],
+    ['安全标识',      4800,    19],
+    ['消毒物品',      3500,    24],
+    ['食堂物资',      2800,    31],  // 错配：极小金额、订单不少
+    ['其他杂项',      1500,    18]
+  ];
+
+  return rows.map(function(r){
+    return{name:r[0], amt:r[1], orders:r[2]};
+  });
+}
+
+function downloadTemplate(){
+  var demo=genDemo();
+  // 模板里展开成订单流水（每条 = 一笔订单），让用户更直观
+  var orders=[];
+  demo.forEach(function(c){
+    var perOrder=c.amt/c.orders;
+    for(var i=0;i<c.orders;i++){
+      // 在月内随机分布一个日期
+      var month=Math.floor(Math.random()*12)+1;
+      var day=Math.floor(Math.random()*28)+1;
+      var dt=new Date(2025,month-1,day);
+      // 单笔金额浮动 ±20%
+      var orderAmt=Math.round(perOrder*(0.8+Math.random()*0.4));
+      orders.push({
+        '订单日期':dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0'),
+        '品类名称':c.name,
+        '订单金额':orderAmt
+      });
+    }
+  });
+  // 按日期排序
+  orders.sort(function(a,b){return a['订单日期'].localeCompare(b['订单日期']);});
+  var ws=XLSX.utils.json_to_sheet(orders);
+  ws['!cols']=[{wch:12},{wch:18},{wch:14}];
+  var wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,'采购订单');
+  XLSX.writeFile(wb,'采购品类集中度分析模板.xlsx');
+  window.toast('模板已下载');
+}
+
+// === 字段智能识别 ===
+function guessField(headers,keywords){
+  for(var i=0;i<keywords.length;i++){
+    for(var j=0;j<headers.length;j++){
+      if(String(headers[j]||'').indexOf(keywords[i])>=0)return headers[j];
+    }
+  }
+  return null;
+}
+
+var _rawData=null, _headers=null, _mapping=null;
+var _categories=[]; // 已聚合的品类
+var _filtered=[];   // 当前筛选后的品类
+
+function processFile(file){
+  var rdr=new FileReader();
+  rdr.onload=function(e){
+    try{
+      var data=new Uint8Array(e.target.result);
+      var wb=XLSX.read(data,{type:'array',cellDates:true});
+      var ws=wb.Sheets[wb.SheetNames[0]];
+      var arr=XLSX.utils.sheet_to_json(ws,{header:1,defval:null,raw:false});
+      arr=arr.filter(function(r){return r&&r.some(function(c){return c!=null&&c!==''})});
+      if(arr.length<2){window.toast('数据为空',true);return;}
+      _headers=arr[0];
+      _rawData=arr.slice(1);
+      showMappingPanel();
+    }catch(err){
+      console.error(err);
+      window.toast('文件解析失败：'+err.message,true);
+    }
+  };
+  rdr.readAsArrayBuffer(file);
+}
+
+function showMappingPanel(){
+  var fields=[
+    {k:'cat',l:'品类名称',req:true,kw:['品类','类别','分类','物料','名称','商品']},
+    {k:'amt',l:'订单金额',req:true,kw:['金额','合计','应付','付款','采购金额']},
+    {k:'date',l:'订单日期',req:false,kw:['日期','时间','下单','订单日']}
+  ];
+  var html='';
+  fields.forEach(function(f){
+    var guess=guessField(_headers,f.kw);
+    var preview=guess?_rawData.slice(0,3).map(function(r){return r[_headers.indexOf(guess)]}).filter(function(v){return v!=null}).join('，'):'';
+    html+='<div class="mp-row"><div class="mp-label">'+f.l+(f.req?'<span style="color:var(--rd)">*</span>':'')+(f.req?'<span class="mp-hint">必填</span>':'')+'</div>';
+    html+='<select class="mp-select" id="mp_'+f.k+'">';
+    html+='<option value="">'+(f.req?'-- 请选择 --':'（不映射）')+'</option>';
+    _headers.forEach(function(h){
+      html+='<option value="'+h+'"'+(h===guess?' selected':'')+'>'+h+'</option>';
+    });
+    html+='</select>';
+    html+='<div class="mp-preview" title="'+preview+'">'+(preview||'<span style="color:var(--t4)">无示例</span>')+'</div>';
+    html+='</div>';
+  });
+  $('mf').innerHTML=html;
+  $('es').style.display='none';
+  $('mp').style.display='block';
+}
+
+function confirmM(){
+  var fields=['cat','amt','date'];
+  var labels={cat:'品类名称',amt:'订单金额',date:'订单日期'};
+  var req=['cat','amt'];
+  var mapping={};
+  for(var i=0;i<fields.length;i++){
+    var v=$('mp_'+fields[i]).value;
+    if(req.indexOf(fields[i])>=0&&!v){
+      window.toast('请选择「'+labels[fields[i]]+'」必填字段',true);
+      return;
+    }
+    mapping[fields[i]]=v;
+  }
+  _mapping=mapping;
+  $('mp').style.display='none';
+  $('db').style.display='flex';
+  requestAnimationFrame(function(){
+    requestAnimationFrame(buildFromRaw);
+  });
+  window.toast('已生成集中度报告');
+}
+
+function buildFromRaw(){
+  // 按品类聚合订单
+  var byCat={};
+  for(var i=0;i<_rawData.length;i++){
+    var r=_rawData[i];
+    var idx=function(k){return _mapping[k]?_headers.indexOf(_mapping[k]):-1;};
+    var cat=r[idx('cat')];
+    if(cat==null||cat==='')continue;
+    cat=String(cat).trim();
+    var amt=parseFloat(String(r[idx('amt')]).replace(/[^\d.\-]/g,''))||0;
+    if(amt<=0)continue;
+    if(!byCat[cat])byCat[cat]={name:cat,amt:0,orders:0};
+    byCat[cat].amt+=amt;
+    byCat[cat].orders+=1;
+  }
+  _categories=Object.keys(byCat).map(function(k){return byCat[k];});
+  if(!_categories.length){window.toast('未识别到有效采购数据',true);return;}
+  initFilters();
+  recompute();
+}
+
+function recompute(){
+  if(!_categories.length)return;
+  // 主图按货值降序；分类由运费占货值比阈值决定
+  _filtered=_categories.slice().sort(function(a,b){return (b.goodsValue||0)-(a.goodsValue||0);});
+  window.FREIGHT_THRESHOLD_STATS=calculateThresholdStats();
+  var totalAmt=_filtered.reduce(function(s,c){return s+c.amt;},0);
+  var totalOrders=_filtered.reduce(function(s,c){return s+c.orders;},0);
+  var cum=0;
+  _filtered.forEach(function(c,i){
+    c.rank=i+1;
+    c.amtPct=totalAmt>0?c.amt/totalAmt:0;
+    c.ordPct=totalOrders>0?c.orders/totalOrders:0;
+    cum+=c.amt;
+    c.cumAmtPct=cum/totalAmt;
+    if(window.FREIGHT_THRESHOLD_STATS.goodsByMaterial[c.name]>0)c.tier='over';
+    else c.tier='normal';
+    c.mismatch=getMismatchTag(c);
+  });
+  renderAll();
+}
+
+function initFilters(){
+  var fc=$('topbar-filter-container');
+  var html='';
+  html+='<div class="thr-group" title="使用数据源中的‘运费占货值比’列"><span class="thr-label">运费/货值阈值</span>';
+  html+='<input type="number" class="fb-num" id="thr-goods-ratio" value="'+THR_GOODS_RATIO+'" min="0" max="500" step="1" onchange="updateThresholds()">';
+  html+='<span class="thr-unit">%</span></div>';
+  html+='<div class="thr-group"><span class="thr-label">月份</span>';
+  html+='<select class="fb-select" id="month-select" onchange="changeMonth(this.value)">';
+  window.FREIGHT_PAYLOAD.months.forEach(function(month){
+    html+='<option value="'+month.month+'" '+(month.month===window.FREIGHT_CURRENT.month?'selected':'')+'>'+month.month+'</option>';
+  });
+  html+='</select></div>';
+  fc.innerHTML=html;
+  fc.style.display='flex';
+  $('topbar-vdiv').style.display='block';
+}
+
+function updateThresholds(){
+  THR_GOODS_RATIO=Math.max(0,parseFloat($('thr-goods-ratio').value)||0);
+  recompute();
+  window.toast('运费占货值比阈值已更新：'+THR_GOODS_RATIO+'%');
+}
+
+function applyCurrentMonthRows(){
+  _categories=window.FREIGHT_CURRENT.rows.map(function(row){
+    return{
+      name:row.name,
+      amt:Number(row.freightAmount||0),
+      orders:Number(row.orders||0),
+      abnormalOrders:Number(row.abnormalOrders||0),
+      shipmentQuantity:Number(row.shipmentQuantity||0),
+      goodsValue:Number(row.goodsValue||0),
+      goodsFreightRatio:Number(row.goodsFreightRatio||0)
+    };
+  });
+}
+
+function changeMonth(monthLabel){
+  var selected=window.FREIGHT_PAYLOAD.months.find(function(month){return month.month===monthLabel;});
+  if(!selected)return;
+  window.FREIGHT_CURRENT=selected;
+  applyCurrentMonthRows();
+  recompute();
+}
+
+function calculateThresholdStats(){
+  var goodsByMaterial={},goodsFreightByMaterial={};
+  var goodsOrders={};
+  var allMonths=window.FREIGHT_CURRENT.month==='全年';
+  var monthValue=Number(window.FREIGHT_CURRENT.monthValue);
+  var materials=window.FREIGHT_PAYLOAD.ratioMaterials||[];
+  (window.FREIGHT_PAYLOAD.ratioRecords||[]).forEach(function(record){
+    if(!allMonths&&Number(record[0])!==monthValue)return;
+    var material=materials[record[1]]||'未命名物料';
+    if(Number(record[3])>THR_GOODS_RATIO){
+      var goodsOrderKey=String(record[5]);
+      if(!goodsOrders[goodsOrderKey])goodsOrders[goodsOrderKey]=true;
+      goodsByMaterial[material]=(goodsByMaterial[material]||0)+1;
+      goodsFreightByMaterial[material]=(goodsFreightByMaterial[material]||0)+Number(record[4]||0);
+    }
+  });
+  return{
+    goodsCount:Object.keys(goodsOrders).length,
+    goodsByMaterial:goodsByMaterial,
+    goodsFreightByMaterial:goodsFreightByMaterial
+  };
+}
+
+// === 渲染调度 ===
+function renderAll(){
+  window.FREIGHT_THRESHOLD_STATS=calculateThresholdStats();
+  renderKPI();
+  if($('highlights')&&$('highlights').style.display!=='none')renderAllMaterialsBoard();
+  drawPareto();
+  renderFreightCalculator();
+  renderTable();
+  $('ti').innerHTML='<b>'+window.FREIGHT_CURRENT.month+'</b> · 超阈值异常 '+window.FREIGHT_THRESHOLD_STATS.goodsCount+' 单';
+}
+
+function toggleFreightView(){
+  var highlights=$('highlights');
+  var detailView=$('freight-detail-view');
+  if(!highlights||!detailView)return;
+  if(detailView.style.display==='none'){
+    // 切换到运费明细视图：趋势图
+    highlights.style.display='none';
+    detailView.style.display='flex';
+    // 容器之前 display:none，canvas 尺寸为 0，需重新绘制图表
+    drawPareto();
+    detailView.scrollIntoView({behavior:'smooth',block:'start'});
+  }else{
+    // 切换回全物料排名视图
+    detailView.style.display='none';
+    highlights.style.display='grid';
+    renderAllMaterialsBoard();
+    highlights.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+}
+
+function renderAllMaterialsBoard(){
+  var el=$('highlights');
+  if(!el)return;
+  if(!_categories.length){el.innerHTML='';return;}
+  var period=window.FREIGHT_CURRENT.month;
+  function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(ch){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch];});}
+  function money(v){return '¥'+Number(v||0).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});}
+  function ordersFmt(v){return Number(v||0).toLocaleString('zh-CN')+' 单';}
+  var maxFreight=Math.max.apply(null,[0].concat(_categories.map(function(c){return Number(c.amt||0);})));
+  var maxOrders=Math.max.apply(null,[0].concat(_categories.map(function(c){return Number(c.orders||0);})));
+  var byFreight=_categories.slice().sort(function(a,b){
+    return Number(b.amt||0)-Number(a.amt||0)||Number(b.orders||0)-Number(a.orders||0);
+  });
+  var byOrders=_categories.slice().sort(function(a,b){
+    return Number(b.orders||0)-Number(a.orders||0)||Number(b.amt||0)-Number(a.amt||0);
+  });
+  function buildPanel(rows,primary,label,sub){
+    var maxP=primary==='amt'?maxFreight:maxOrders;
+    var maxS=primary==='amt'?maxOrders:maxFreight;
+    var inner=rows.length?rows.map(function(c,i){
+      var pValue=primary==='amt'?c.amt:c.orders;
+      var sValue=primary==='amt'?c.orders:c.amt;
+      var pPct=maxP>0?Number(pValue||0)/maxP*100:0;
+      var sPct=maxS>0?Number(sValue||0)/maxS*100:0;
+      var pLabel=primary==='amt'?money(c.amt):ordersFmt(c.orders);
+      var sLabel=primary==='amt'?ordersFmt(c.orders):money(c.amt);
+      return '<div class="rank-row">'+
+        '<button type="button" class="rank-name material-link" data-material="'+esc(c.name)+'" title="点击查看 '+esc(c.name)+' 的月度趋势" onclick="openTrendForMaterialByName(this.dataset.material)"><span class="rank-no">'+(i+1)+'</span>'+esc(c.name)+'</button>'+
+        '<div class="rank-bars">'+
+          '<div class="rank-track"><div class="rank-fill primary" style="width:'+pPct.toFixed(2)+'%"></div></div>'+
+          '<div class="rank-track"><div class="rank-fill secondary" style="width:'+sPct.toFixed(2)+'%"></div></div>'+
+        '</div>'+
+        '<div class="rank-values">'+
+          '<div>'+pLabel+'</div>'+
+          '<div class="secondary">'+sLabel+'</div>'+
+        '</div>'+
+      '</div>';
+    }).join(''):'<div class="all-mat-empty">暂无数据</div>';
+    var primaryLabel=primary==='amt'?'运费金额':'订单数量';
+    var secondaryLabel=primary==='amt'?'订单数量':'运费金额';
+    return '<div class="all-mat-wrap">'+
+      '<div class="all-mat-head">'+
+        '<div class="all-mat-title">'+period+' · '+label+'</div>'+
+        '<div class="all-mat-sub">'+sub+' · 共 '+rows.length+' 个物料</div>'+
+      '</div>'+
+      '<div class="all-mat-legend">'+
+        '<span><i class="rank-swatch primary"></i>'+primaryLabel+'</span>'+
+        '<span><i class="rank-swatch secondary"></i>'+secondaryLabel+'</span>'+
+      '</div>'+
+      '<div class="all-mat-list">'+inner+'</div>'+
+    '</div>';
+  }
+  var left=buildPanel(byFreight,'amt','物料运费金额','按运费金额从高到低排序');
+  var right=buildPanel(byOrders,'orders','物料订单数量','按订单数从高到低排序');
+  el.innerHTML=left+right;
+}
+
+function openTop10(type){
+  var byFreight=type==='freight';
+  var thresholdStats=window.FREIGHT_THRESHOLD_STATS;
+  function thresholdOrders(c){return Number(thresholdStats.goodsByMaterial[c.name]||0);}
+  function thresholdFreight(c){return Number(thresholdStats.goodsFreightByMaterial[c.name]||0);}
+  var rows=_categories.slice();
+  if(!byFreight)rows=rows.filter(function(c){return thresholdOrders(c)>0;});
+  rows=rows.sort(function(a,b){
+    return byFreight?b.amt-a.amt:thresholdOrders(b)-thresholdOrders(a)||thresholdFreight(b)-thresholdFreight(a);
+  }).slice(0,10);
+  var maxAmt=Math.max.apply(null,[0].concat(rows.map(function(c){return byFreight?c.amt:thresholdFreight(c);}))); 
+  var maxOrders=Math.max.apply(null,[0].concat(rows.map(function(c){return byFreight?c.orders:thresholdOrders(c);}))); 
+  var period=window.FREIGHT_CURRENT.month;
+  function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(ch){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch];});}
+  function money(v){return '¥'+Number(v||0).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});}
+  function orders(v){return Number(v||0).toLocaleString('zh-CN')+' 单';}
+  $('rank-modal-title').textContent=period+' · '+(byFreight?'物料运费金额前10名':'超阈值订单最多物料前10名');
+  $('rank-modal-sub').textContent=byFreight?'按运费金额从高到低排序；黄色为运费，棕色为订单数':'按超阈值订单数从高到低排序；黄色为超阈值订单，棕色为超阈值运费';
+  $('rank-modal-legend').innerHTML=byFreight?
+    '<span><i class="rank-swatch primary"></i>运费金额</span><span><i class="rank-swatch secondary"></i>订单数量</span>':
+    '<span><i class="rank-swatch primary"></i>超阈值订单</span><span><i class="rank-swatch secondary"></i>超阈值运费</span>';
+  $('rank-modal-list').innerHTML=rows.map(function(c,i){
+    var amountValue=byFreight?c.amt:thresholdFreight(c);
+    var orderValue=byFreight?c.orders:thresholdOrders(c);
+    var amountPct=maxAmt>0?amountValue/maxAmt*100:0;
+    var orderPct=maxOrders>0?orderValue/maxOrders*100:0;
+    var primaryPct=byFreight?amountPct:orderPct;
+    var secondaryPct=byFreight?orderPct:amountPct;
+    var primaryValue=byFreight?money(amountValue):orders(orderValue);
+    var secondaryValue=byFreight?orders(orderValue):money(amountValue);
+    return '<div class="rank-row">'+
+      '<div class="rank-name" title="'+esc(c.name)+'"><span class="rank-no">'+(i+1)+'</span>'+esc(c.name)+'</div>'+
+      '<div class="rank-bars"><div class="rank-track"><div class="rank-fill primary" style="width:'+primaryPct.toFixed(2)+'%"></div></div><div class="rank-track"><div class="rank-fill secondary" style="width:'+secondaryPct.toFixed(2)+'%"></div></div></div>'+
+      '<div class="rank-values"><div>'+primaryValue+'</div><div class="secondary">'+secondaryValue+'</div></div>'+
+    '</div>';
+  }).join('');
+  $('rank-modal').style.display='flex';
+  document.body.style.overflow='hidden';
+}
+
+function closeTop10(){
+  $('rank-modal').style.display='none';
+  document.body.style.overflow='';
+}
+
+function detailEsc(value){
+  return String(value==null?'':value).replace(/[&<>"']/g,function(ch){
+    return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch];
+  });
+}
+
+function renderAbnormalDetailRows(rows,title,emptyText){
+  var totalQuantity=rows.reduce(function(sum,row){return sum+Number(row[3]||0);},0);
+  var totalFreight=rows.reduce(function(sum,row){return sum+Number(row[4]||0);},0);
+  $('detail-modal-title').textContent=title;
+  $('detail-summary').innerHTML=
+    '<span>异常订单：'+rows.length.toLocaleString('zh-CN')+' 单</span>'+ 
+    '<span>总数量：'+totalQuantity.toLocaleString('zh-CN',{maximumFractionDigits:2})+'</span>'+ 
+    '<span>运费合计：¥'+totalFreight.toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})+'</span>'+
+    '<span>当前阈值：'+THR_GOODS_RATIO+'%</span>';
+  $('detail-table-body').innerHTML=rows.length?rows.map(function(row){
+    return'<tr>'+
+      '<td>'+detailEsc(row[1])+'</td>'+
+      '<td>'+detailEsc(row[2])+'</td>'+
+      '<td class="num">'+Number(row[3]||0).toLocaleString('zh-CN',{maximumFractionDigits:2})+'</td>'+
+      '<td class="num">¥'+Number(row[4]||0).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})+'</td>'+
+      '<td class="num ratio">'+Number(row[5]||0).toFixed(2)+'%</td>'+ 
+    '</tr>';
+  }).join(''):'<tr><td colspan="5" style="text-align:center;padding:32px;color:#94a3b8">'+detailEsc(emptyText)+'</td></tr>';
+  $('detail-modal').style.display='flex';
+  document.body.style.overflow='hidden';
+}
+
+function openAbnormalDetails(){
+  var details=window.FREIGHT_ORDER_DETAILS||[];
+  var allMonths=window.FREIGHT_CURRENT.month==='全年';
+  var monthValue=Number(window.FREIGHT_CURRENT.monthValue);
+  var rows=details.filter(function(record){
+    return(allMonths||Number(record[0])===monthValue)&&Number(record[5])>THR_GOODS_RATIO;
+  }).sort(function(a,b){return Number(b[5])-Number(a[5]);});
+  renderAbnormalDetailRows(rows,window.FREIGHT_CURRENT.month+' · 超阈值异常订单明细','当前月份和阈值下没有异常订单');
+}
+
+function openMaterialAbnormalDetails(rowIndex){
+  var selected=window.TABLE_RENDER_ROWS&&window.TABLE_RENDER_ROWS[Number(rowIndex)];
+  if(!selected)return;
+  var material=selected.name;
+  var details=window.FREIGHT_ORDER_DETAILS||[];
+  var allMonths=window.FREIGHT_CURRENT.month==='全年';
+  var monthValue=Number(window.FREIGHT_CURRENT.monthValue);
+  var rows=details.filter(function(record){
+    if((!allMonths&&Number(record[0])!==monthValue)||Number(record[5])<=THR_GOODS_RATIO)return false;
+    return String(record[2]||'').split('、').indexOf(material)>=0;
+  }).sort(function(a,b){return Number(b[5])-Number(a[5]);});
+  renderAbnormalDetailRows(rows,window.FREIGHT_CURRENT.month+' · '+material+' · 异常订单','当前物料在所选月份和阈值下没有异常订单');
+}
+
+function closeAbnormalDetails(){
+  $('detail-modal').style.display='none';
+  document.body.style.overflow='';
+}
+
+function materialPeriodRows(){
+  var source=window.FREIGHT_MATERIAL_SOURCE||{rows:[]};
+  var allMonths=window.FREIGHT_CURRENT.month==='全年';
+  var monthValue=Number(window.FREIGHT_CURRENT.monthValue);
+  return(source.rows||[]).filter(function(record){
+    return allMonths||Number(record[0])===monthValue;
+  });
+}
+
+function renderMaterialDetails(){
+  var source=window.FREIGHT_MATERIAL_SOURCE||{materials:[],rows:[]};
+  var periodRows=materialPeriodRows();
+  var abnormalOrders={};
+  periodRows.forEach(function(record){
+    if(Number(record[6])>THR_GOODS_RATIO)abnormalOrders[String(record[0])+'|'+String(record[1])]=true;
+  });
+  var exclude=$('exclude-abnormal').checked;
+  var rows=exclude?periodRows.filter(function(record){
+    return !abnormalOrders[String(record[0])+'|'+String(record[1])];
+  }):periodRows;
+  var orderTotals={};
+  var materialOrders={};
+  rows.forEach(function(record){
+    var orderKey=String(record[0])+'|'+String(record[1]);
+    if(!orderTotals[orderKey])orderTotals[orderKey]={freight:Number(record[4]||0)};
+    var materialIndex=Number(record[2]);
+    var materialOrderKey=materialIndex+'|'+orderKey;
+    if(!materialOrders[materialOrderKey])materialOrders[materialOrderKey]={
+      materialIndex:materialIndex,orderKey:orderKey,quantity:0,freight:Number(record[4]||0),goodsValue:0
+    };
+    materialOrders[materialOrderKey].quantity+=Number(record[3]||0);
+    materialOrders[materialOrderKey].goodsValue+=Number(record[5]||0);
+  });
+  var grouped={};
+  Object.keys(materialOrders).forEach(function(key){
+    var item=materialOrders[key];
+    var group=grouped[item.materialIndex]||(grouped[item.materialIndex]={materialIndex:item.materialIndex,quantity:0,freight:0,goodsValue:0,orders:0,abnormalOrders:0});
+    group.quantity+=item.quantity;
+    group.freight+=item.freight;
+    group.goodsValue+=item.goodsValue;
+    group.orders+=1;
+    if(abnormalOrders[item.orderKey])group.abnormalOrders+=1;
+  });
+  var summaryRows=Object.keys(grouped).map(function(key){
+    var group=grouped[key];
+    group.average=group.orders?group.quantity/group.orders:0;
+    group.ratio=group.goodsValue?group.freight/group.goodsValue*100:0;
+    return group;
+  }).sort(function(a,b){return b.average-a.average||b.quantity-a.quantity;});
+  var totalQuantity=rows.reduce(function(sum,record){return sum+Number(record[3]||0);},0);
+  var totalFreight=Object.keys(orderTotals).reduce(function(sum,key){return sum+orderTotals[key].freight;},0);
+  var stateText=exclude?'已去除异常订单':'包含异常订单';
+  $('material-summary').innerHTML=
+    '<span>物料：'+summaryRows.length.toLocaleString('zh-CN')+' 种</span>'+ 
+    '<span>订单：'+Object.keys(orderTotals).length.toLocaleString('zh-CN')+' 单</span>'+ 
+    '<span>数量合计：'+totalQuantity.toLocaleString('zh-CN',{maximumFractionDigits:2})+'</span>'+ 
+    '<span>运费合计：¥'+totalFreight.toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})+'</span>'+ 
+    '<span>'+stateText+'</span>';
+  $('material-table-body').innerHTML=summaryRows.length?summaryRows.map(function(group){
+    return'<tr>'+ 
+      '<td>'+detailEsc(source.materials[group.materialIndex]||'未命名物料')+'</td>'+ 
+      '<td class="num">'+group.quantity.toLocaleString('zh-CN',{maximumFractionDigits:2})+'</td>'+ 
+      '<td class="num">'+group.orders.toLocaleString('zh-CN')+'</td>'+ 
+      '<td class="num"><strong>'+group.average.toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})+'</strong></td>'+ 
+      '<td class="num">'+group.abnormalOrders.toLocaleString('zh-CN')+'</td>'+ 
+      '<td class="num ratio">'+group.ratio.toFixed(2)+'%</td>'+ 
+    '</tr>';
+  }).join(''):'<tr><td colspan="6" style="text-align:center;padding:32px;color:#94a3b8">当前筛选条件下没有物料数据</td></tr>';
+}
+
+function openMaterialDetails(){
+  $('material-modal-title').textContent=window.FREIGHT_CURRENT.month+' · 物料汇总明细';
+  $('exclude-abnormal').checked=false;
+  renderMaterialDetails();
+  $('material-modal').style.display='flex';
+  document.body.style.overflow='hidden';
+}
+
+function closeMaterialDetails(){
+  $('material-modal').style.display='none';
+  document.body.style.overflow='';
+}
+
+function openCalculatorModal(){
+  $('calculator-modal').style.display='flex';
+  document.body.style.overflow='hidden';
+  try{renderFreightCalculator();}catch(e){if(window.console)console.error('calc render error:',e);}
+}
+
+function closeCalculatorModal(){
+  $('calculator-modal').style.display='none';
+  document.body.style.overflow='';
+}
+
+document.addEventListener('keydown',function(e){
+  if(e.key!=='Escape')return;
+  if($('material-modal').style.display==='flex')closeMaterialDetails();
+  else if($('detail-modal').style.display==='flex')closeAbnormalDetails();
+  else if($('rank-modal').style.display==='flex')closeTop10();
+  else if($('calculator-modal').style.display==='flex')closeCalculatorModal();
+});
+
+function renderKPI(){
+  var cards=window.FREIGHT_CURRENT.cards;
+  var moneyExact=Number(cards.freight||0).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});
+  var orders=Number(cards.orders||0).toLocaleString('zh-CN');
+  var abnormal=Number(window.FREIGHT_THRESHOLD_STATS.goodsCount||0).toLocaleString('zh-CN');
+  var totalFreight=_categories.reduce(function(sum,c){return sum+Number(c.amt||0);},0);
+  var totalGoodsValue=_categories.reduce(function(sum,c){return sum+Number(c.goodsValue||0);},0);
+  var ratio=(totalGoodsValue>0?totalFreight/totalGoodsValue*100:0).toFixed(2)+'%';
+  var periodLabel=window.FREIGHT_CURRENT.month==='全年'?'全年':'本月';
+  var html=
+  '<div class="kc k0 clickable" role="button" tabindex="0" title="点击切换运费明细分析视图" onclick="toggleFreightView()" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();toggleFreightView()}"><div class="kc-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12h8M12 7v10"/></svg></div><div class="kl">'+periodLabel+'运费</div><div class="kv">¥'+moneyExact+'</div><div class="ku">'+window.FREIGHT_CURRENT.month+'运费金额合计 · 点击查看趋势/矩阵/试算器</div></div>'+ 
+  '<div class="kc k1 clickable" role="button" tabindex="0" title="点击查看物料汇总" onclick="openMaterialDetails()" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();openMaterialDetails()}"><div class="kc-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg></div><div class="kl">'+periodLabel+'订单数</div><div class="kv">'+orders+' 单</div><div class="ku">按出库单号去重统计 · 点击查看明细</div></div>'+ 
+  '<div class="kc k3 clickable" role="button" tabindex="0" title="点击查看异常订单明细" onclick="openAbnormalDetails()" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();openAbnormalDetails()}"><div class="kc-icon"><svg viewBox="0 0 24 24"><path d="M12 3L2 20h20L12 3z"/><path d="M12 9v5M12 17h.01"/></svg></div><div class="kl">'+periodLabel+'异常订单数</div><div class="kv" style="color:var(--rd)">'+abnormal+' 单</div><div class="ku">运费占货值比超过 '+THR_GOODS_RATIO+'% · 点击查看明细</div></div>'+ 
+  '<div class="kc k2"><div class="kc-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 16l8-8M9 9h.01M15 15h.01"/></svg></div><div class="kl">'+(window.FREIGHT_CURRENT.month==='全年'?'全年':'当月')+'运费/货值</div><div class="kv">'+ratio+'</div><div class="ku">运费 ÷ 货值</div></div>';
+  $('kpi').innerHTML=html;
+}
+
+// === 图 1：物料模糊搜索 + 月度发货与运费趋势 ===
+var TREND_MATERIAL_INDEX=-1;
+var TREND_SUGGESTION_INDEXES=[];
+
+function fuzzyMaterialScore(text,query){
+  text=String(text||'').toLowerCase();query=String(query||'').trim().toLowerCase();
+  if(!query)return 1;
+  if(text===query)return 100;
+  if(text.indexOf(query)===0)return 80;
+  if(text.indexOf(query)>=0)return 60;
+  var cursor=0;
+  for(var i=0;i<query.length;i++){
+    cursor=text.indexOf(query.charAt(i),cursor);
+    if(cursor<0)return 0;
+    cursor+=1;
+  }
+  return 30;
+}
+
+function closeMaterialSuggestions(){
+  if($('material-trend-suggestions'))$('material-trend-suggestions').style.display='none';
+}
+
+function updateMaterialSuggestions(){
+  var input=$('material-trend-search'),box=$('material-trend-suggestions');
+  if(!input||!box)return;
+  var source=window.FREIGHT_MATERIAL_SOURCE||{materials:[]};
+  var query=input.value.trim();
+  var matches=(source.materials||[]).map(function(name,index){return{name:name,index:index,score:fuzzyMaterialScore(name,query)};})
+    .filter(function(item){return item.score>0;})
+    .sort(function(a,b){return b.score-a.score||a.name.localeCompare(b.name,'zh-CN');})
+    .slice(0,9);
+  var allButton='<button type="button" class="material-suggestion" onmousedown="event.preventDefault();selectTrendMaterial(-1)">所有物料</button>';
+  TREND_SUGGESTION_INDEXES=(query?matches.map(function(item){return item.index;}):[-1]).concat(query?[-1]:matches.map(function(item){return item.index;}));
+  var materialButtons=matches.map(function(item){
+    return'<button type="button" class="material-suggestion" title="'+detailEsc(item.name)+'" onmousedown="event.preventDefault();selectTrendMaterial('+item.index+')">'+detailEsc(item.name)+'</button>';
+  }).join('');
+  box.innerHTML=query?materialButtons+allButton:allButton+materialButtons;
+  box.style.display='block';
+}
+
+function selectTrendMaterial(index){
+  var source=window.FREIGHT_MATERIAL_SOURCE||{materials:[]};
+  TREND_MATERIAL_INDEX=Number(index);
+  $('material-trend-search').value=TREND_MATERIAL_INDEX<0?'所有物料':(source.materials[TREND_MATERIAL_INDEX]||'所有物料');
+  closeMaterialSuggestions();
+  drawPareto();
+}
+
+function openTrendForMaterialByName(name){
+  var source=window.FREIGHT_MATERIAL_SOURCE||{materials:[]};
+  var index=(source.materials||[]).indexOf(String(name||''));
+  if(index<0){window.toast('未找到该物料的月度趋势数据',true);return;}
+  var highlights=$('highlights'),detailView=$('freight-detail-view');
+  if(highlights)highlights.style.display='none';
+  if(detailView)detailView.style.display='flex';
+  selectTrendMaterial(index);
+  if(detailView)detailView.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function formatTrendChange(current,previous,suffix){
+  if(previous==null)return '<span class="change-flat">无上月数据</span>';
+  var diff=Number(current||0)-Number(previous||0);
+  if(Math.abs(diff)<0.000001)return '<span class="change-flat">环比持平</span>';
+  var rate=previous===0?null:Math.abs(diff/previous*100);
+  var direction=diff>0?'上升':'下降';
+  var cls=diff>0?'change-up':'change-down';
+  var value=rate==null?'新增':rate.toFixed(1)+'%';
+  return '<span class="'+cls+'">环比'+direction+' '+value+'</span>';
+}
+
+function renderTrendMaterialSummary(data,selectedName){
+  var el=$('trend-material-summary');
+  if(!el)return;
+  if(TREND_MATERIAL_INDEX<0||!data.length){el.style.display='none';el.innerHTML='';return;}
+  var activePeriod=window.FREIGHT_CURRENT||{};
+  if(activePeriod.month==='全年'){
+    var yearly=data.reduce(function(total,row){
+      total.freight+=Number(row.freight||0);
+      total.orders+=Number(row.orders||0);
+      total.abnormalOrders+=Number(row.abnormalOrders||0);
+      total.goodsValue+=Number(row.goodsValue||0);
+      return total;
+    },{freight:0,orders:0,abnormalOrders:0,goodsValue:0});
+    var yearlyRatio=yearly.goodsValue>0?yearly.freight/yearly.goodsValue*100:0;
+    el.innerHTML='<strong>'+detailEsc(selectedName)+' · 全年数据：</strong> '+
+      '全年运费 <strong class="metric-freight">¥'+yearly.freight.toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})+'</strong>；'+
+      '订单量 <strong class="metric-orders">'+yearly.orders.toLocaleString('zh-CN')+' 单</strong>；'+
+      '其中异常订单 <strong class="metric-abnormal">'+yearly.abnormalOrders.toLocaleString('zh-CN')+' 单</strong>；'+
+      '运费/货值占比 <strong class="metric-ratio">'+yearlyRatio.toFixed(2)+'%</strong>。';
+    el.style.display='block';
+    return;
+  }
+  var currentMonth=Number(activePeriod.monthValue)||Number(data[data.length-1].month);
+  var current=data.filter(function(row){return Number(row.month)===currentMonth;})[0]||data[data.length-1];
+  var previous=data.filter(function(row){return Number(row.month)<Number(current.month);}).slice(-1)[0]||null;
+  el.innerHTML='<strong>'+detailEsc(selectedName)+' · '+current.month+'月数据：</strong> '+
+    '本月运费 <strong class="metric-freight">¥'+Number(current.freight||0).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})+'</strong>，'+formatTrendChange(current.freight,previous&&previous.freight)+'；'+
+    '订单量 <strong class="metric-orders">'+Number(current.orders||0).toLocaleString('zh-CN')+' 单</strong>，'+formatTrendChange(current.orders,previous&&previous.orders)+'；'+
+    '其中异常订单 <strong class="metric-abnormal">'+Number(current.abnormalOrders||0).toLocaleString('zh-CN')+' 单</strong>，'+formatTrendChange(current.abnormalOrders,previous&&previous.abnormalOrders)+'；'+
+    '运费/货值占比 <strong class="metric-ratio">'+Number(current.ratio||0).toFixed(2)+'%</strong>'+'。';
+  el.style.display='block';
+}
+
+function handleMaterialSearchKey(event){
+  if(event.key==='Escape'){closeMaterialSuggestions();event.target.blur();return;}
+  if(event.key==='Enter'){
+    event.preventDefault();
+    var source=window.FREIGHT_MATERIAL_SOURCE||{materials:[]};
+    var exact=(source.materials||[]).indexOf(event.target.value.trim());
+    selectTrendMaterial(exact>=0?exact:(TREND_SUGGESTION_INDEXES.length?TREND_SUGGESTION_INDEXES[0]:-1));
+  }
+}
+
+function getMaterialMonthlyTrend(){
+  var source=window.FREIGHT_MATERIAL_SOURCE||{materials:[],rows:[]};
+  var months=[];
+  (source.rows||[]).forEach(function(record){var month=Number(record[0]);if(month>0&&months.indexOf(month)<0)months.push(month);});
+  months.sort(function(a,b){return a-b;});
+  return months.map(function(month){
+    var periodRows=source.rows.filter(function(record){
+      return Number(record[0])===month&&(TREND_MATERIAL_INDEX<0||Number(record[2])===TREND_MATERIAL_INDEX);
+    });
+    var orders={};
+    periodRows.forEach(function(record){
+      var key=String(record[1]);
+      if(!orders[key])orders[key]={quantity:0,freight:Number(record[4]||0),goodsValue:0,abnormal:false};
+      orders[key].quantity+=Number(record[3]||0);
+      orders[key].goodsValue+=Number(record[5]||0);
+      if(Number(record[6])>THR_GOODS_RATIO)orders[key].abnormal=true;
+    });
+    var orderRows=Object.keys(orders).map(function(key){return orders[key];});
+    var quantity=orderRows.reduce(function(sum,row){return sum+row.quantity;},0);
+    var freight=orderRows.reduce(function(sum,row){return sum+row.freight;},0);
+    var goodsValue=orderRows.reduce(function(sum,row){return sum+row.goodsValue;},0);
+    var abnormalOrders=orderRows.filter(function(row){return row.abnormal;});
+    var abnormalFreight=abnormalOrders.reduce(function(sum,row){return sum+row.freight;},0);
+    var ratio=TREND_MATERIAL_INDEX<0?(freight?abnormalFreight/freight*100:0):(goodsValue?freight/goodsValue*100:0);
+    return{month:month,quantity:quantity,freight:freight,goodsValue:goodsValue,orders:orderRows.length,abnormalOrders:abnormalOrders.length,abnormalFreight:abnormalFreight,ratio:ratio};
+  });
+}
+
+function drawPareto(){
+  var canvas=$('c-pareto');
+  if(!canvas)return;
+  var wrap=canvas.parentElement;
+  var W=wrap.clientWidth,H=wrap.clientHeight;
+  if(W<60||H<60)return;
+  var ctx=window.setupHiDPI(canvas,W,H);
+  var source=window.FREIGHT_MATERIAL_SOURCE||{materials:[]};
+  var data=getMaterialMonthlyTrend();
+  if(!data.length)return;
+  var selectedName=TREND_MATERIAL_INDEX<0?'所有物料':(source.materials[TREND_MATERIAL_INDEX]||'未命名物料');
+  var ratioLabel=TREND_MATERIAL_INDEX<0?'异常运费占比':'运费/货值';
+  $('trend-chart-title').textContent=selectedName+' · 月度趋势';
+  $('trend-chart-subtitle').textContent='按月展示订单数、运费金额、异常订单数及异常运费占比；随物料筛选同步更新';
+  renderTrendMaterialSummary(data,selectedName);
+
+  var outer=6,gapX=16,gapY=16;
+  var panelW=(W-outer*2-gapX)/2,panelH=(H-outer*2-gapY)/2;
+  var panels=[
+    {x:outer,y:outer,w:panelW,h:panelH,field:'orders',label:'订单数',summary:'累计 '+data.reduce(function(s,r){return s+r.orders;},0).toLocaleString('zh-CN')+' 单',color:'#3b82f6',fill:'#dbeafe',type:'bar'}, 
+    {x:outer+panelW+gapX,y:outer,w:panelW,h:panelH,field:'freight',label:'运费金额',summary:'累计 ¥'+window.fmtN(data.reduce(function(s,r){return s+r.freight;},0)),color:'#1d4ed8',fill:'#dbeafe',type:'line'},
+    {x:outer,y:outer+panelH+gapY,w:panelW,h:panelH,field:'abnormalOrders',label:'异常订单数',summary:'累计 '+data.reduce(function(s,r){return s+r.abnormalOrders;},0).toLocaleString('zh-CN')+' 单',color:'#f59e0b',fill:'#fef3c7',type:'bar'},
+    {x:outer+panelW+gapX,y:outer+panelH+gapY,w:panelW,h:panelH,field:'ratio',label:ratioLabel,summary:'最新 '+data[data.length-1].ratio.toFixed(2)+'%',color:'#c2410c',fill:'#ffedd5',type:'line'}
+  ];
+  var n=data.length;
+
+  panels.forEach(function(panel){
+    ctx.fillStyle='#f8fafc';ctx.strokeStyle='#e8eef5';ctx.lineWidth=1;
+    window.roundRect(ctx,panel.x,panel.y,panel.w,panel.h,12);ctx.fill();ctx.stroke();
+    ctx.fillStyle=panel.color;ctx.beginPath();ctx.arc(panel.x+18,panel.y+20,4,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#334155';ctx.font='700 12px sans-serif';ctx.textAlign='left';ctx.textBaseline='middle';ctx.fillText(panel.label,panel.x+30,panel.y+20);
+    ctx.fillStyle='#64748b';ctx.font='600 11px sans-serif';ctx.textAlign='right';ctx.fillText(panel.summary,panel.x+panel.w-16,panel.y+20);
+
+    var plot={x:panel.x+18,y:panel.y+43,w:panel.w-36,h:panel.h-68};
+    var maxValue=Math.max(1,Math.max.apply(null,data.map(function(row){return Number(row[panel.field]||0);}))*1.15);
+    if(panel.field==='ratio'&&TREND_MATERIAL_INDEX>=0)maxValue=Math.max(maxValue,THR_GOODS_RATIO*1.12);
+    var step=plot.w/n;
+    function xOf(i){return plot.x+(i+.5)*step;}
+    function yOf(value){return plot.y+plot.h-Number(value||0)/maxValue*plot.h;}
+    ctx.strokeStyle='#dfe7f0';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(plot.x,plot.y+plot.h+.5);ctx.lineTo(plot.x+plot.w,plot.y+plot.h+.5);ctx.stroke();
+
+    if(panel.type==='bar'){
+      var barW=Math.min(30,step*.46);
+      data.forEach(function(row,i){
+        var value=Number(row[panel.field]||0),top=yOf(value);
+        ctx.fillStyle=panel.fill;window.roundRect(ctx,xOf(i)-barW/2,top,barW,plot.y+plot.h-top,4);ctx.fill();
+        ctx.fillStyle=panel.color;window.roundRect(ctx,xOf(i)-barW/2,Math.max(top,plot.y+plot.h-3),barW,Math.min(3,plot.y+plot.h-top),3);ctx.fill();
+        ctx.fillStyle='#475569';ctx.font='600 9px sans-serif';ctx.textAlign='center';ctx.textBaseline='bottom';
+        ctx.fillText(panel.field==='quantity'?window.fmtN(value):Math.round(value).toLocaleString('zh-CN'),xOf(i),Math.max(plot.y+11,top-5));
+      });
+    }else{
+      var points=data.map(function(row,i){return{x:xOf(i),y:yOf(row[panel.field])};});
+      function clampCurveY(value){return Math.max(plot.y,Math.min(plot.y+plot.h,value));}
+      ctx.strokeStyle=panel.color;ctx.lineWidth=2.25;ctx.lineJoin='round';ctx.lineCap='round';ctx.beginPath();ctx.moveTo(points[0].x,points[0].y);
+      for(var pointIndex=0;pointIndex<points.length-1;pointIndex++){
+        var p0=points[Math.max(0,pointIndex-1)],p1=points[pointIndex],p2=points[pointIndex+1],p3=points[Math.min(points.length-1,pointIndex+2)];
+        var tension=.72;
+        var cp1x=p1.x+(p2.x-p0.x)/6*tension,cp1y=clampCurveY(p1.y+(p2.y-p0.y)/6*tension);
+        var cp2x=p2.x-(p3.x-p1.x)/6*tension,cp2y=clampCurveY(p2.y-(p3.y-p1.y)/6*tension);
+        ctx.bezierCurveTo(cp1x,cp1y,cp2x,cp2y,p2.x,p2.y);
+      }
+      ctx.stroke();
+      points.forEach(function(point,index){
+        ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(point.x,point.y,3.8,0,Math.PI*2);ctx.fill();ctx.strokeStyle=panel.color;ctx.lineWidth=2;ctx.stroke();
+        var value=Number(data[index][panel.field]||0);
+        var valueLabel=panel.field==='freight'?'¥'+window.fmtN(value):value.toFixed(2)+'%';
+        var placeAbove=point.y>plot.y+19;
+        ctx.fillStyle='#475569';ctx.font='600 9px sans-serif';ctx.textAlign='center';ctx.textBaseline=placeAbove?'bottom':'top';
+        ctx.fillText(valueLabel,point.x,placeAbove?point.y-6:point.y+6);
+      });
+    }
+    if(panel.field==='ratio'&&TREND_MATERIAL_INDEX>=0&&THR_GOODS_RATIO<=maxValue){
+      var thresholdY=yOf(THR_GOODS_RATIO);ctx.save();ctx.setLineDash([4,4]);ctx.strokeStyle='#94a3b8';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(plot.x,thresholdY);ctx.lineTo(plot.x+plot.w,thresholdY);ctx.stroke();ctx.restore();ctx.fillStyle='#94a3b8';ctx.font='9px sans-serif';ctx.textAlign='right';ctx.fillText('阈值 '+THR_GOODS_RATIO+'%',plot.x+plot.w,thresholdY-6);
+    }
+    ctx.fillStyle='#94a3b8';ctx.font='10px sans-serif';ctx.textAlign='center';ctx.textBaseline='top';
+    data.forEach(function(row,i){ctx.fillText(row.month+'月',xOf(i),plot.y+plot.h+7);});
+    panel.plot=plot;panel.step=step;
+  });
+
+  canvas.style.cursor='crosshair';
+  canvas.onmousemove=function(event){
+    var rect=canvas.getBoundingClientRect(),mx=event.clientX-rect.left,my=event.clientY-rect.top;
+    var activePanel=null;
+    for(var i=0;i<panels.length;i++){if(mx>=panels[i].x&&mx<=panels[i].x+panels[i].w&&my>=panels[i].y&&my<=panels[i].y+panels[i].h){activePanel=panels[i];break;}}
+    if(!activePanel){window.hideTip();return;}
+    var index=Math.max(0,Math.min(n-1,Math.floor((mx-activePanel.plot.x)/activePanel.step))),row=data[index];
+    var ratioStatus=TREND_MATERIAL_INDEX>=0?'<br>状态：<span style="color:'+(row.ratio>THR_GOODS_RATIO?'#dc2626':'#059669')+';font-weight:700">'+(row.ratio>THR_GOODS_RATIO?'超阈值':'正常')+'</span>':'';
+    var html='<b>'+detailEsc(selectedName)+' · '+row.month+'月</b>'+ 
+      '订单数：'+row.orders.toLocaleString('zh-CN')+' 单<br>'+ 
+      '运费金额：¥'+row.freight.toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})+'<br>'+ 
+      ratioLabel+'：'+row.ratio.toFixed(2)+'%<br>'+ 
+      '异常订单：'+row.abnormalOrders.toLocaleString('zh-CN')+' 单'+ratioStatus;
+    window.showTip(event,html);
+  };
+  canvas.onmouseleave=window.hideTip;
+}
+
+// === 图 2：异常订单数 × 异常运费金额 分布矩阵 ===
+function drawMismatch(){
+  var canvas=$('c-mismatch');
+  if(!canvas)return;
+  var wrap=canvas.parentElement;
+  var W=wrap.clientWidth, H=wrap.clientHeight;
+  if(W<60||H<60)return;
+  var ctx=window.setupHiDPI(canvas,W,H);
+  if(!_filtered.length)return;
+
+  var pad={t:52,r:24,b:48,l:60};
+  var pw=Math.max(1,W-pad.l-pad.r), ph=Math.max(1,H-pad.t-pad.b);
+  var stats=window.FREIGHT_THRESHOLD_STATS;
+  var points=[];
+  _filtered.forEach(function(c){
+    var abnormalOrders=Number(stats.goodsByMaterial[c.name]||0);
+    if(abnormalOrders>0)points.push({
+      c:c,series:'over',label:'超阈值',color:'#0891b2',
+      abnormalOrders:abnormalOrders,
+      abnormalFreight:Number(stats.goodsFreightByMaterial[c.name]||0),
+      thresholdLabel:'运费/货值 > '+THR_GOODS_RATIO+'%'
+    });
+  });
+
+  if(!points.length){
+    ctx.fillStyle='#94a3b8';ctx.font='600 13px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText('当前月份和阈值下没有超阈值异常订单',W/2,H/2);
+    canvas.onmousemove=null;canvas.onmouseleave=null;
+    return;
+  }
+
+  var maxOrders=Math.max.apply(null,points.map(function(p){return p.abnormalOrders;}));
+  var maxFreight=Math.max.apply(null,points.map(function(p){return p.abnormalFreight;}));
+  var xTicks=window.getNiceTicks(0,maxOrders*1.12,5);
+  var yTicks=window.getNiceTicks(0,maxFreight*1.12,5);
+  function xOf(v){return pad.l+v/xTicks.max*pw;}
+  function yOf(v){return pad.t+ph-v/yTicks.max*ph;}
+
+  // 顶部图例与阈值说明
+  var legends=[
+    {color:'#0891b2',text:'超阈值：运费/货值 > '+THR_GOODS_RATIO+'%'}
+  ];
+  var legendX=pad.l;
+  ctx.font='600 10px sans-serif';ctx.textAlign='left';ctx.textBaseline='middle';
+  legends.forEach(function(item){
+    ctx.fillStyle=item.color;ctx.beginPath();ctx.arc(legendX+5,20,5,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#475569';ctx.fillText(item.text,legendX+15,20);
+    legendX+=ctx.measureText(item.text).width+42;
+  });
+
+  // 网格
+  ctx.strokeStyle='#f1f5f9';ctx.lineWidth=1;
+  ctx.fillStyle='#94a3b8';ctx.font='10px sans-serif';
+  ctx.textAlign='right';ctx.textBaseline='middle';
+  yTicks.ticks.forEach(function(t){
+    var y=yOf(t);
+    ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(pad.l+pw,y);ctx.stroke();
+    ctx.fillText('¥'+window.fmtN(t),pad.l-6,y);
+  });
+  ctx.textAlign='center';ctx.textBaseline='top';
+  xTicks.ticks.forEach(function(t){
+    var x=xOf(t);
+    ctx.beginPath();ctx.moveTo(x,pad.t);ctx.lineTo(x,pad.t+ph);ctx.stroke();
+    ctx.fillText(Math.round(t).toLocaleString('zh-CN'),x,pad.t+ph+6);
+  });
+
+  ctx.fillStyle='#475569';ctx.font='600 11px sans-serif';
+  ctx.textAlign='center';
+  ctx.fillText('异常订单数（单）',pad.l+pw/2,H-12);
+  ctx.save();ctx.translate(16,pad.t+ph/2);ctx.rotate(-Math.PI/2);
+  ctx.fillText('异常订单运费金额（元）',0,0);ctx.restore();
+
+  // 气泡：大小同样表示异常运费金额，便于快速识别重点物料
+  var bubbles=points.map(function(p){
+    var rad=Math.max(7,Math.sqrt(p.abnormalFreight/maxFreight)*22);
+    return{x:xOf(p.abnormalOrders),y:yOf(p.abnormalFreight),r:rad,p:p};
+  });
+  bubbles.sort(function(a,b){return b.r-a.r;});
+  bubbles.forEach(function(b){
+    var color=b.p.color;
+    ctx.fillStyle=color;ctx.globalAlpha=0.55;
+    ctx.beginPath();ctx.arc(b.x,b.y,b.r,0,Math.PI*2);ctx.fill();
+    ctx.globalAlpha=1;
+    ctx.strokeStyle=color;ctx.lineWidth=1.5;ctx.stroke();
+    if(b.r>=12){
+      ctx.fillStyle='#fff';ctx.font='600 11px sans-serif';
+      ctx.textAlign='center';ctx.textBaseline='middle';
+      var lbl=b.p.c.name.length>4?b.p.c.name.substring(0,4):b.p.c.name;
+      ctx.fillText(lbl,b.x,b.y);
+    }
+  });
+
+  canvas.onmousemove=function(e){
+    var r=canvas.getBoundingClientRect();
+    var mx=e.clientX-r.left, my=e.clientY-r.top;
+    for(var i=0;i<bubbles.length;i++){
+      var b=bubbles[i];
+      var dx=mx-b.x, dy=my-b.y;
+      if(dx*dx+dy*dy<=b.r*b.r){
+        var p=b.p,c=p.c;
+        var html='<b>'+c.name+'</b>'+
+          '<span style="color:'+p.color+';font-weight:700">'+p.label+'异常</span><br>'+
+          '异常订单：'+p.abnormalOrders+' 单<br>'+
+          '异常订单运费：¥'+Number(p.abnormalFreight).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})+'<br>'+
+          '异常单均运费：¥'+Number(p.abnormalFreight/p.abnormalOrders).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})+'<br>'+
+          '判定阈值：'+p.thresholdLabel;
+        window.showTip(e,html);return;
+      }
+    }
+    window.hideTip();
+  };
+  canvas.onmouseleave=window.hideTip;
+}
+
+// === 物料运费试算器 ===
+var CALC_MATERIAL_INDEX=-1;
+var CALC_SUGGESTION_INDEXES=[];
+var CALC_INITIALIZED=false;
+
+function closeCalculatorMaterialSuggestions(){
+  if($('calc-material-suggestions'))$('calc-material-suggestions').style.display='none';
+}
+
+function updateCalculatorMaterialSuggestions(){
+  var input=$('calc-material-search'),box=$('calc-material-suggestions');
+  var source=window.FREIGHT_CALCULATOR_SOURCE||{materials:[]};
+  if(!input||!box)return;
+  var query=input.value.trim();
+  var matches=(source.materials||[]).map(function(name,index){return{name:name,index:index,score:fuzzyMaterialScore(name,query)};})
+    .filter(function(item){return item.score>0;})
+    .sort(function(a,b){return b.score-a.score||a.name.localeCompare(b.name,'zh-CN');})
+    .slice(0,8);
+  CALC_SUGGESTION_INDEXES=matches.map(function(item){return item.index;});
+  box.innerHTML=matches.length?matches.map(function(item){
+    return'<button type="button" class="material-suggestion" title="'+detailEsc(item.name)+'" onmousedown="event.preventDefault();selectCalculatorMaterial('+item.index+')">'+detailEsc(item.name)+'</button>';
+  }).join(''):'<div class="calc-empty">没有匹配的物料</div>';
+  box.style.display='block';
+}
+
+function selectCalculatorMaterial(index){
+  var source=window.FREIGHT_CALCULATOR_SOURCE||{materials:[],materialMeta:[]};
+  CALC_MATERIAL_INDEX=Number(index);
+  $('calc-material-search').value=source.materials[CALC_MATERIAL_INDEX]||'';
+  closeCalculatorMaterialSuggestions();
+  var meta=source.materialMeta[CALC_MATERIAL_INDEX]||[0,0];
+  if(!$('calc-quantity').value&&Number(meta[1])>0)$('calc-quantity').value=Number(meta[1]);
+  renderFreightCalculator();
+}
+
+function handleCalculatorMaterialKey(event){
+  if(event.key==='Escape'){closeCalculatorMaterialSuggestions();event.target.blur();return;}
+  if(event.key==='Enter'){
+    event.preventDefault();
+    var source=window.FREIGHT_CALCULATOR_SOURCE||{materials:[]};
+    var exact=(source.materials||[]).indexOf(event.target.value.trim());
+    var target=exact>=0?exact:(CALC_SUGGESTION_INDEXES.length?CALC_SUGGESTION_INDEXES[0]:-1);
+    if(target>=0)selectCalculatorMaterial(target);
+  }
+}
+
+function normalizeCalculatorCity(value){
+  return String(value||'').trim().toLowerCase().replace(/(特别行政区|自治州|地区|市|盟)$/,'');
+}
+
+function resolveCalculatorCityIndex(value){
+  var source=window.FREIGHT_CALCULATOR_SOURCE||{cities:[]};
+  var normalized=normalizeCalculatorCity(value);
+  if(!normalized)return-1;
+  for(var i=0;i<source.cities.length;i++)if(normalizeCalculatorCity(source.cities[i])===normalized)return i;
+  return-1;
+}
+
+function calculatorOrders(materialIndex,month,cityIndex){
+  var source=window.FREIGHT_CALCULATOR_SOURCE||{rows:[]};
+  var grouped={};
+  (source.rows||[]).forEach(function(record){
+    if(Number(record[1])!==materialIndex)return;
+    if(month!=null&&Number(record[0])!==month)return;
+    if(cityIndex!=null&&Number(record[2])!==cityIndex)return;
+    var key=String(record[4]);
+    if(!grouped[key])grouped[key]={month:Number(record[0]),cityIndex:Number(record[2]),warehouseIndex:Number(record[3]),quantity:0,freight:Number(record[6]||0),abnormal:false};
+    grouped[key].quantity+=Number(record[5]||0);
+    if(Number(record[7])>THR_GOODS_RATIO)grouped[key].abnormal=true;
+  });
+  return Object.keys(grouped).map(function(key){return grouped[key];});
+}
+
+function calcMoney(value){
+  return'¥'+Number(value||0).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});
+}
+
+function calcQuantity(value){
+  return Number(value||0).toLocaleString('zh-CN',{maximumFractionDigits:2});
+}
+
+function renderFreightCalculator(){
+  var source=window.FREIGHT_CALCULATOR_SOURCE||{materials:[],cities:[],warehouses:[],materialMeta:[],rows:[],latestMonth:0};
+  if(!$('calc-material-search'))return;
+  if(!CALC_INITIALIZED){
+    $('calc-city-list').innerHTML=(source.cities||[]).map(function(city){return'<option value="'+detailEsc(city)+'"></option>';}).join('');
+    CALC_INITIALIZED=true;
+  }
+  var selected=CALC_MATERIAL_INDEX>=0&&source.materials[CALC_MATERIAL_INDEX];
+  var meta=selected?(source.materialMeta[CALC_MATERIAL_INDEX]||[0,0]):[0,0];
+  var unitPrice=Number(meta[0]||0),startQty=Number(meta[1]||0);
+  var quantityValue=$('calc-quantity').value,freightValue=$('calc-freight').value;
+  var quantity=Number(quantityValue||0),freight=Number(freightValue||0);
+  var hasQuantity=quantityValue!==''&&quantity>0,hasFreight=freightValue!==''&&freight>=0;
+  var goodsValue=hasQuantity?quantity*unitPrice:0;
+  var ratio=goodsValue>0&&hasFreight?freight/goodsValue*100:null;
+
+  $('calc-unit-price').textContent=selected?unitPrice.toLocaleString('zh-CN',{style:'currency',currency:'CNY',minimumFractionDigits:2,maximumFractionDigits:4}):'—';
+  $('calc-goods-value').textContent=selected&&hasQuantity?calcMoney(goodsValue):'—';
+  $('calc-ratio').textContent=ratio==null?'—':ratio.toFixed(2)+'%';
+  $('calc-start-qty').textContent=selected?calcQuantity(startQty):'—';
+  $('calc-ratio-card').classList.toggle('ratio-over',ratio!=null&&ratio>THR_GOODS_RATIO);
+
+  var previousMonth=Math.max(0,Number(source.latestMonth||0)-1);
+  $('calc-prev-qty-label').textContent=(previousMonth?previousMonth+'月':'上月')+'平均订单发货量';
+  $('calc-prev-freight-label').textContent=(previousMonth?previousMonth+'月':'上月')+'平均运费（剔除 > '+THR_GOODS_RATIO+'%）';
+  if(selected&&previousMonth){
+    var previousOrders=calculatorOrders(CALC_MATERIAL_INDEX,previousMonth,null);
+    var averageQty=previousOrders.length?previousOrders.reduce(function(sum,row){return sum+row.quantity;},0)/previousOrders.length:null;
+    var normalOrders=previousOrders.filter(function(row){return !row.abnormal;});
+    var averageFreight=normalOrders.length?normalOrders.reduce(function(sum,row){return sum+row.freight;},0)/normalOrders.length:null;
+    $('calc-prev-qty').textContent=averageQty==null?'暂无数据':calcQuantity(averageQty);
+    $('calc-prev-freight').textContent=averageFreight==null?'暂无数据':calcMoney(averageFreight);
+  }else{
+    $('calc-prev-qty').textContent='—';$('calc-prev-freight').textContent='—';
+  }
+
+  var cityIndex=resolveCalculatorCityIndex($('calc-city').value);
+  if(!selected||!hasQuantity||cityIndex<0){
+    $('calc-match-status').textContent=!selected?'请选择物料':(!hasQuantity?'请输入数量':'请选择有效地级市');
+    $('calc-warehouse-list').innerHTML='<div class="calc-empty">完成物料、数量和城市后显示各仓匹配结果</div>';
+    return;
+  }
+  var cityOrders=calculatorOrders(CALC_MATERIAL_INDEX,null,cityIndex);
+  var byWarehouse={};
+  cityOrders.forEach(function(order){(byWarehouse[order.warehouseIndex]||(byWarehouse[order.warehouseIndex]=[])).push(order);});
+  var matches=Object.keys(byWarehouse).map(function(key){
+    var warehouseOrders=byWarehouse[key];
+    var exact=warehouseOrders.filter(function(order){return Math.abs(order.quantity-quantity)<.0001;});
+    var candidates=exact;
+    if(!candidates.length){
+      var minDifference=Math.min.apply(null,warehouseOrders.map(function(order){return Math.abs(order.quantity-quantity);}));
+      candidates=warehouseOrders.filter(function(order){return Math.abs(Math.abs(order.quantity-quantity)-minDifference)<.0001;});
+    }
+    candidates.sort(function(a,b){return a.freight-b.freight;});
+    return{warehouseIndex:Number(key),freight:candidates[0].freight,referenceQty:candidates[0].quantity,exact:exact.length>0,samples:candidates.length};
+  }).sort(function(a,b){return a.freight-b.freight;});
+  $('calc-match-status').textContent=source.cities[cityIndex]+' · '+matches.length+' 个仓';
+  $('calc-warehouse-list').innerHTML=matches.length?matches.map(function(match,index){
+    var note=match.exact?'同数量历史记录 '+match.samples+' 条':'无同数量记录 · 参考数量 '+calcQuantity(match.referenceQty);
+    return'<div class="calc-warehouse-row"><div><div class="calc-warehouse-name" title="'+detailEsc(source.warehouses[match.warehouseIndex]||'未填写仓库')+'">'+(index+1)+'. '+detailEsc(source.warehouses[match.warehouseIndex]||'未填写仓库')+'</div><div class="calc-warehouse-note">'+note+'</div></div><div class="calc-warehouse-price">'+calcMoney(match.freight)+'</div></div>';
+  }).join(''):'<div class="calc-empty">本年度没有该物料发往'+detailEsc(source.cities[cityIndex])+'的历史记录</div>';
+}
+
+// === 已停用的原阈值状态环形图（保留函数以兼容旧版本）===
+function drawABC(){
+  var canvas=$('c-abc');
+  if(!canvas)return;
+  var wrap=canvas.parentElement;
+  var W=wrap.clientWidth, H=wrap.clientHeight;
+  if(W<60||H<60)return;
+  var ctx=window.setupHiDPI(canvas,W,H);
+  if(!_filtered.length)return;
+
+  var totalAmt=_filtered.reduce(function(s,c){return s+c.amt;},0);
+  var totalOrd=_filtered.reduce(function(s,c){return s+c.orders;},0);
+  var totalCnt=_filtered.length;
+  var stats={over:{cnt:0,amt:0,ord:0},normal:{cnt:0,amt:0,ord:0}};
+  _filtered.forEach(function(c){
+    stats[c.tier].cnt++;
+    stats[c.tier].amt+=c.amt;
+    stats[c.tier].ord+=c.orders;
+  });
+
+  var tiers=['over','normal'];
+  var tierColor={over:'#f59e0b',normal:'#94a3b8'};
+  var tierLabel={over:'超阈值',normal:'正常'};
+
+  // 用三个并排的环形图：品类数 / 金额 / 订单数 各一个
+  var cy=H/2-10;
+  var availW=W-40;
+  var donutR=Math.min(availW/3.5/2,(H-80)/2);
+  var donuts=[
+    {label:'物料数',cx:20+availW/6,total:totalCnt,values:tiers.map(function(t){return{tier:t,v:stats[t].cnt};}),fmt:function(v){return v+' 个';}},
+    {label:'运费金额',cx:20+availW/2,total:totalAmt,values:tiers.map(function(t){return{tier:t,v:stats[t].amt};}),fmt:function(v){return '¥'+window.fmtN(v);}},
+    {label:'订单数',cx:20+availW*5/6,total:totalOrd,values:tiers.map(function(t){return{tier:t,v:stats[t].ord};}),fmt:function(v){return v+' 笔';}}
+  ];
+
+  var hits=[];
+  donuts.forEach(function(d){
+    // 标题
+    ctx.fillStyle='#475569';ctx.font='600 12px sans-serif';
+    ctx.textAlign='center';ctx.textBaseline='top';
+    ctx.fillText(d.label,d.cx,20);
+    // 中心总值
+    ctx.fillStyle='#0f172a';ctx.font='700 14px sans-serif';
+    ctx.textBaseline='middle';
+    ctx.fillText(d.fmt(d.total),d.cx,cy);
+
+    // 画环
+    var startAngle=-Math.PI/2;
+    d.values.forEach(function(v){
+      if(v.v<=0)return;
+      var pct=v.v/d.total;
+      var endAngle=startAngle+pct*Math.PI*2;
+      ctx.fillStyle=tierColor[v.tier];
+      ctx.beginPath();
+      ctx.arc(d.cx,cy,donutR,startAngle,endAngle);
+      ctx.arc(d.cx,cy,donutR*0.6,endAngle,startAngle,true);
+      ctx.closePath();ctx.fill();
+      // 扇区标签：% 在外围
+      var midAngle=(startAngle+endAngle)/2;
+      var labelR=donutR*1.18;
+      var lx=d.cx+Math.cos(midAngle)*labelR;
+      var ly=cy+Math.sin(midAngle)*labelR;
+      if(pct>=0.05){
+        ctx.fillStyle=tierColor[v.tier];
+        ctx.font='600 11px sans-serif';
+        ctx.textAlign='center';ctx.textBaseline='middle';
+        ctx.fillText((pct*100).toFixed(0)+'%',lx,ly);
+      }
+      hits.push({cx:d.cx,cy:cy,r1:donutR*0.6,r2:donutR,a1:startAngle,a2:endAngle,
+        tier:v.tier,v:v.v,pct:pct,label:d.label,fmt:d.fmt});
+      startAngle=endAngle;
+    });
+  });
+
+  // 图例（底部）
+  var legend=$('legend-abc');
+  if(legend){
+    legend.innerHTML=tiers.map(function(t){
+      return'<div class="lg-item"><span class="lg-dot" style="background:'+tierColor[t]+'"></span>'+tierLabel[t]+'（'+stats[t].cnt+' 个物料）</div>';
+    }).join('');
+  }
+
+  canvas.onmousemove=function(e){
+    var r=canvas.getBoundingClientRect();
+    var mx=e.clientX-r.left, my=e.clientY-r.top;
+    for(var i=0;i<hits.length;i++){
+      var h=hits[i];
+      var dx=mx-h.cx, dy=my-h.cy;
+      var dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<h.r1||dist>h.r2)continue;
+      var ang=Math.atan2(dy,dx);
+      // 归一化到 -PI/2 起始
+      var a1=h.a1, a2=h.a2;
+      // 把 ang 调整到 [a1, a1+2pi)
+      while(ang<a1)ang+=Math.PI*2;
+      if(ang>=a1&&ang<=a2){
+        var html='<b>'+tierLabel[h.tier]+' · '+h.label+'</b>'+
+          h.label+'：'+h.fmt(h.v)+'<br>'+
+          '占比：'+(h.pct*100).toFixed(1)+'%';
+        window.showTip(e,html);return;
+      }
+    }
+    window.hideTip();
+  };
+  canvas.onmouseleave=window.hideTip;
+}
+
+// === 明细诊断表 ===
+var TABLE_SORT_KEY='goodsValue';
+var TABLE_SORT_DIR='desc';
+window.TABLE_RENDER_ROWS=[];
+
+function sortDiagnosticTable(key){
+  if(TABLE_SORT_KEY===key)TABLE_SORT_DIR=TABLE_SORT_DIR==='asc'?'desc':'asc';
+  else{TABLE_SORT_KEY=key;TABLE_SORT_DIR=key==='name'?'asc':'desc';}
+  renderTable();
+}
+
+function diagnosticStartQty(materialName){
+  var source=window.FREIGHT_CALCULATOR_SOURCE||{materials:[],materialMeta:[]};
+  var index=source.materials.indexOf(materialName);
+  return index>=0?Number((source.materialMeta[index]||[0,0])[1]||0):0;
+}
+
+function diagnosticHeader(key,label,align,helpText){
+  var active=TABLE_SORT_KEY===key;
+  var indicator=active?(TABLE_SORT_DIR==='asc'?'▲':'▼'):'↕';
+  var help=helpText?'<span class="field-help" tabindex="0" data-tip="'+detailEsc(helpText)+'">?</span>':'';
+  return'<th style="text-align:'+align+'" aria-sort="'+(active?(TABLE_SORT_DIR==='asc'?'ascending':'descending'):'none')+'"><button type="button" class="sort-button'+(active?' active':'')+'" onclick="sortDiagnosticTable(\''+key+'\')">'+label+'<span class="sort-indicator">'+indicator+'</span></button>'+help+'</th>';
+}
+
+function renderTable(){
+  var thresholdStats=window.FREIGHT_THRESHOLD_STATS||{goodsByMaterial:{}};
+  var rows=_filtered.map(function(c){
+    return Object.assign({},c,{
+      abnormalOrders:Number(thresholdStats.goodsByMaterial[c.name]||0),
+      averageShipment:Number(c.orders||0)>0?Number(c.shipmentQuantity||0)/Number(c.orders):0,
+      startQty:diagnosticStartQty(c.name)
+    });
+  });
+  rows.sort(function(a,b){
+    var av=a[TABLE_SORT_KEY],bv=b[TABLE_SORT_KEY],comparison=0;
+    if(typeof av==='string'||typeof bv==='string')comparison=String(av||'').localeCompare(String(bv||''),'zh-CN');
+    else comparison=Number(av||0)-Number(bv||0);
+    if(comparison===0)comparison=String(a.name||'').localeCompare(String(b.name||''),'zh-CN');
+    return TABLE_SORT_DIR==='asc'?comparison:-comparison;
+  });
+  window.TABLE_RENDER_ROWS=rows;
+  var abnormalHelp='超阈值异常：运费在该物料货值中的占比超过选定阈值。当前选定阈值为 '+THR_GOODS_RATIO+'%，与顶部阈值选择联动更新。';
+  var goodsHelp='货值：物料供应链价格 × 订单发货数量。';
+  var html='<table class="dtbl"><colgroup>'+ 
+    '<col style="width:24%"><col style="width:8%"><col style="width:10%">'+
+    '<col style="width:10%"><col style="width:10%"><col style="width:8%">'+
+    '<col style="width:12%"><col style="width:10%"><col style="width:8%">'+
+    '</colgroup><thead><tr>'+ 
+    diagnosticHeader('name','物料名称','left','')+ 
+    diagnosticHeader('orders','订单数','right','')+ 
+    diagnosticHeader('abnormalOrders','超阈值异常','right',abnormalHelp)+ 
+    diagnosticHeader('averageShipment','平均发货量','right','')+ 
+    diagnosticHeader('shipmentQuantity','发货数量','right','')+ 
+    diagnosticHeader('startQty','起发量','right','')+ 
+    diagnosticHeader('goodsValue','货值','right',goodsHelp)+ 
+    diagnosticHeader('amt','运费金额','right','')+ 
+    diagnosticHeader('goodsFreightRatio','运费/货值','right','')+ 
+  '</tr></thead><tbody>';
+  rows.forEach(function(c,rowIndex){
+    var abnormalCell=c.abnormalOrders>0?'<button type="button" class="abnormal-link" title="查看'+detailEsc(c.name)+'异常订单" onclick="openMaterialAbnormalDetails('+rowIndex+')">'+c.abnormalOrders.toLocaleString('zh-CN')+'</button>':'<span style="color:var(--t3)">0</span>';
+    html+='<tr>'+ 
+      '<td class="material-cell" title="'+detailEsc(c.name)+'">'+detailEsc(c.name)+'</td>'+ 
+      '<td style="text-align:right">'+Number(c.orders||0).toLocaleString('zh-CN')+'</td>'+ 
+      '<td style="text-align:right">'+abnormalCell+'</td>'+ 
+      '<td style="text-align:right">'+Number(c.averageShipment||0).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})+'</td>'+ 
+      '<td style="text-align:right">'+Number(c.shipmentQuantity||0).toLocaleString('zh-CN',{maximumFractionDigits:2})+'</td>'+ 
+      '<td style="text-align:right">'+Number(c.startQty||0).toLocaleString('zh-CN',{maximumFractionDigits:2})+'</td>'+ 
+      '<td style="text-align:right">¥'+Number(c.goodsValue||0).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})+'</td>'+ 
+      '<td style="text-align:right;font-weight:600">¥'+Number(c.amt||0).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})+'</td>'+ 
+      '<td style="text-align:right">'+Number(c.goodsFreightRatio||0).toFixed(2)+'%</td>'+ 
+    '</tr>';
+  });
+  html+='</tbody></table>';
+  $('tw').innerHTML=html;
+}
+
+// === 启动：使用内置数据直接加载看板 ===
+window.addEventListener('load',function(){
+  window.FREIGHT_CURRENT=window.FREIGHT_PAYLOAD.months[window.FREIGHT_PAYLOAD.months.length-1];
+  applyCurrentMonthRows();
+  $('db').style.display='flex';
+  initFilters();
+  requestAnimationFrame(function(){
+    requestAnimationFrame(recompute);
+  });
+});
+
+window.addEventListener('resize',function(){
+  if(_filtered&&_filtered.length)renderAll();
+});
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('./sw.js').catch(function (error) {
+      console.warn('离线缓存注册失败', error);
+    });
+  });
+}
+</script>
+</body>
+</html>

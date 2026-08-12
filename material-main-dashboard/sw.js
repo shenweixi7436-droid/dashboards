@@ -1,13 +1,14 @@
-const CACHE_NAME = 'material-inventory-dashboard-05a702a0e634';
+const CACHE_NAME = 'material-main-dashboard-60f6f8bc4dea';
 const PRECACHE_URLS = [
   "./",
   "./index.html",
-  "./assets/data/core.56b069684b73.js",
-  "./assets/data/device_outbound.8e0f5d35a300.js",
-  "./assets/data/province_material.c966bc447a9c.js",
-  "./assets/data/province_outbound.f6fc44c6bcea.js",
-  "./assets/fonts/gotham-rounded-bold.f6281701cdb9.woff2",
-  "./assets/fonts/hk-yuan-w7.a0f4d903956d.woff2"
+  "./assets/data/material_freight_dashboard_data.6848da8ee75f.js",
+  "./assets/data/material_development_gantt_data.55a02038c5f5.js",
+  "./assets/data/inventory_outbound_data.eacf6ae1d96a.js",
+  "./assets/data/supplier_payable_data.20683c5951cf.js",
+  "./assets/data/equipment_region_data.7c29d16c2b11.js",
+  "./../material-dashboard/assets/fonts/gotham-rounded-bold.f6281701cdb9.woff2",
+  "./../material-dashboard/assets/fonts/hk-yuan-w7.a0f4d903956d.woff2"
 ];
 
 self.addEventListener('install', event => {
@@ -18,7 +19,7 @@ self.addEventListener('install', event => {
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keys => Promise.all(
-      keys.filter(key => key.startsWith('material-inventory-dashboard-') && key !== CACHE_NAME)
+      keys.filter(key => key.startsWith('material-main-dashboard-') && key !== CACHE_NAME)
         .map(key => caches.delete(key))
     ))
   );

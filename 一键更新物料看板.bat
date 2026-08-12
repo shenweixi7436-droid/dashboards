@@ -10,13 +10,15 @@ set "PYTHONWARNINGS=ignore::UserWarning:openpyxl.worksheet._reader"
 if not exist "%PY%" goto missing_python
 
 echo.
-echo Updating source data and building the GitHub Pages dashboard...
+echo Updating source data and building all three GitHub Pages dashboards...
 "%PY%" "%~dp0build_material_dashboard.py"
 if errorlevel 1 goto fail
 
 echo.
 echo Material dashboard update completed.
-echo Preview: %~dp0material-dashboard\index.html
+echo Main dashboard:      %~dp0material-main-dashboard\index.html
+echo Inventory dashboard: %~dp0material-dashboard\index.html
+echo Freight dashboard:   %~dp0material-freight-dashboard\index.html
 echo This step does not commit or push Git changes.
 echo.
 if /I "%~1"=="nopause" exit /b 0

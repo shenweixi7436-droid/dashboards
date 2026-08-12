@@ -1,0 +1,1 @@
+window.INVENTORY_OUTBOUND_DATA = {"1":{"quantity":1214954,"amount":3344729.16},"2":{"quantity":417805,"amount":1014097.55},"3":{"quantity":884478,"amount":2249878.31},"4":{"quantity":1326564,"amount":2843828.37},"5":{"quantity":878402,"amount":2181528.28},"6":{"quantity":1018253,"amount":1816593.8},"7":{"quantity":58143,"amount":67434.2}};

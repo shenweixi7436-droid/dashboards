@@ -17,6 +17,8 @@ DEFAULT_SOURCE_DIR = Path(r"C:\Users\shenw\Desktop\看板\物料小组看板")
 OUTPUT_DIR = REPO_DIR / "material-dashboard"
 DATA_DIR = OUTPUT_DIR / "assets" / "data"
 FONT_DIR = OUTPUT_DIR / "assets" / "fonts"
+MAIN_OUTPUT_DIR = REPO_DIR / "material-main-dashboard"
+FREIGHT_OUTPUT_DIR = REPO_DIR / "material-freight-dashboard"
 
 ASSIGNMENTS = ("DATA", "INV", "ORD", "SUPPLIER_PAYMENTS", "SUPPLIER_DETAIL")
 P6_DATA_FILES = (
@@ -78,9 +80,9 @@ def find_font(stem: str) -> Path:
     return matches[-1]
 
 
-def build_service_worker(asset_urls: list[str], version: str) -> str:
+def build_service_worker(asset_urls: list[str], version: str, cache_prefix: str) -> str:
     precache = ["./", "./index.html", *[f"./{url}" for url in asset_urls]]
-    return f"""const CACHE_NAME = 'material-dashboard-{version}';
+    return f"""const CACHE_NAME = '{cache_prefix}-{version}';
 const PRECACHE_URLS = {json.dumps(precache, ensure_ascii=False, indent=2)};
 
 self.addEventListener('install', event => {{
@@ -91,7 +93,7 @@ self.addEventListener('install', event => {{
 self.addEventListener('activate', event => {{
   event.waitUntil(
     caches.keys().then(keys => Promise.all(
-      keys.filter(key => key.startsWith('material-dashboard-') && key !== CACHE_NAME)
+      keys.filter(key => key.startsWith('{cache_prefix}-') && key !== CACHE_NAME)
         .map(key => caches.delete(key))
     ))
   );
@@ -123,6 +125,170 @@ self.addEventListener('fetch', event => {{
   );
 }});
 """
+
+
+def service_worker_registration() -> str:
+    return """<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('./sw.js').catch(function (error) {
+      console.warn('离线缓存注册失败', error);
+    });
+  });
+}
+</script>
+"""
+
+
+def replace_font_faces(html: str, gotham_url: str, yuan_url: str) -> str:
+    font_block = (
+        f"@font-face{{font-family:'GOTHAMRND-BOLD';src:url('{gotham_url}') format('woff2');font-display:swap}}\n"
+        f"@font-face{{font-family:'HKYuan-W7';src:url('{yuan_url}') format('woff2');font-display:swap}}"
+    )
+    html, count = re.subn(
+        r"@font-face\{font-family:'GOTHAMRND-BOLD'.*?\}\s*"
+        r"@font-face\{font-family:'HKYuan-W7'.*?\}\s*"
+        r"@font-face\{font-family:'HKYuan-W8'.*?\}\s*"
+        r"@font-face\{font-family:'HKYuan-W9'.*?\}",
+        font_block,
+        html,
+        count=1,
+        flags=re.DOTALL,
+    )
+    if count != 1:
+        raise RuntimeError("字体声明替换失败")
+    return html.replace("'HKYuan-W8'", "'HKYuan-W7'").replace("'HKYuan-W9'", "'HKYuan-W7'")
+
+
+def hash_data_files(source_dir: Path, output_dir: Path, filenames: tuple[str, ...]) -> dict[str, str]:
+    data_dir = output_dir / "assets" / "data"
+    names: dict[str, str] = {}
+    stems: set[str] = set()
+    for filename in filenames:
+        source = source_dir / filename
+        if not source.exists():
+            raise FileNotFoundError(f"缺少看板数据文件：{source}")
+        stem = Path(filename).stem
+        stems.add(stem)
+        names[filename] = write_hashed(data_dir, stem, ".js", source.read_bytes())
+    remove_old_hashed_files(data_dir, stems, set(names.values()))
+    return names
+
+
+def finish_static_dashboard(
+    output_dir: Path,
+    html: str,
+    asset_urls: list[str],
+    cache_prefix: str,
+    source_dir: Path,
+    files: dict[str, object],
+    readme: str,
+) -> dict[str, object]:
+    output_dir.mkdir(parents=True, exist_ok=True)
+    output_html = html.encode("utf-8")
+    (output_dir / "index.html").write_bytes(output_html)
+    version_seed = "\n".join([sha256_short(output_html), *asset_urls]).encode("utf-8")
+    version = sha256_short(version_seed)
+    (output_dir / "sw.js").write_text(
+        build_service_worker(asset_urls, version, cache_prefix), encoding="utf-8", newline="\n"
+    )
+    manifest = {
+        "version": version,
+        "builtAt": datetime.now().astimezone().isoformat(timespec="seconds"),
+        "source": str(source_dir),
+        "files": {"html": "index.html", **files},
+    }
+    (output_dir / "build-manifest.json").write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+    (output_dir / "README.md").write_text(readme.strip() + "\n", encoding="utf-8")
+    return {"version": version, "htmlBytes": len(output_html), "output": str(output_dir)}
+
+
+def build_main_dashboard(source_dir: Path, gotham: Path, yuan: Path) -> dict[str, object]:
+    source_html = source_dir / "主看版.html"
+    if not source_html.exists():
+        raise FileNotFoundError(source_html)
+    data_files = (
+        "material_freight_dashboard_data.js",
+        "material_development_gantt_data.js",
+        "inventory_outbound_data.js",
+        "supplier_payable_data.js",
+        "equipment_region_data.js",
+    )
+    names = hash_data_files(source_dir, MAIN_OUTPUT_DIR, data_files)
+    html = source_html.read_text(encoding="utf-8")
+    for original, hashed in names.items():
+        old = f'<script src="{original}"></script>'
+        new = f'<script src="assets/data/{hashed}"></script>'
+        if old not in html:
+            raise RuntimeError(f"主看版缺少资源引用：{old}")
+        html = html.replace(old, new, 1)
+    html = replace_font_faces(
+        html,
+        f"../material-dashboard/assets/fonts/{gotham.name}",
+        f"../material-dashboard/assets/fonts/{yuan.name}",
+    )
+    html = html.replace('href="运费看板.html?month=5%E6%9C%88"', 'href="../material-freight-dashboard/?month=5%E6%9C%88"')
+    html = html.replace('href="物料进销存看板.html"', 'href="../material-dashboard/"')
+    html = html.replace("freightLink.href='运费看板.html?month='", "freightLink.href='../material-freight-dashboard/?month='")
+    html = html.replace("</body>", service_worker_registration() + "</body>", 1)
+    assets = [f"assets/data/{names[name]}" for name in data_files] + [
+        f"../material-dashboard/assets/fonts/{gotham.name}",
+        f"../material-dashboard/assets/fonts/{yuan.name}",
+    ]
+    return finish_static_dashboard(
+        MAIN_OUTPUT_DIR,
+        html,
+        assets,
+        "material-main-dashboard",
+        source_dir,
+        {"data": assets[: len(data_files)], "fonts": assets[len(data_files) :]},
+        """# 物料综合主看板
+
+访问地址：`https://dash.weishenghjxh.xyz/material-main-dashboard/`
+
+由仓库根目录的 `一键更新物料看板.bat` 生成。更新时不要手工编辑本目录中的哈希文件。""",
+    )
+
+
+def build_freight_dashboard(source_dir: Path) -> dict[str, object]:
+    source_html = source_dir / "运费看板.html"
+    if not source_html.exists():
+        raise FileNotFoundError(source_html)
+    data_files = (
+        "material_freight_dashboard_data.js",
+        "material_freight_order_details.js",
+        "material_freight_material_details.js",
+        "material_freight_calculator_data.js",
+    )
+    names = hash_data_files(source_dir, FREIGHT_OUTPUT_DIR, data_files)
+    html = source_html.read_text(encoding="utf-8")
+    for original, hashed in names.items():
+        old = f'<script src="{original}"></script>'
+        new = f'<script src="assets/data/{hashed}"></script>'
+        if old not in html:
+            raise RuntimeError(f"运费看板缺少资源引用：{old}")
+        html = html.replace(old, new, 1)
+    nav_css = ".material-nav{display:flex;gap:8px}.material-nav a{display:inline-flex;align-items:center;padding:7px 10px;border:1px solid #e2e8f0;border-radius:8px;color:var(--t2);background:#fff;text-decoration:none;font-size:12px;font-weight:600}.material-nav a:hover{border-color:var(--acc);color:var(--acc)}"
+    html = html.replace("</style>", nav_css + "\n</style>", 1)
+    nav = '<nav class="material-nav" aria-label="物料看板导航"><a href="../material-main-dashboard/">综合主看板</a><a href="../material-dashboard/">进销存看板</a></nav>'
+    html = html.replace('  <div class="upload-area">', f"  {nav}\n  <div class=\"upload-area\">", 1)
+    html = html.replace("</body>", service_worker_registration() + "</body>", 1)
+    assets = [f"assets/data/{names[name]}" for name in data_files]
+    return finish_static_dashboard(
+        FREIGHT_OUTPUT_DIR,
+        html,
+        assets,
+        "material-freight-dashboard",
+        source_dir,
+        {"data": assets},
+        """# 物料运费看板
+
+访问地址：`https://dash.weishenghjxh.xyz/material-freight-dashboard/`
+
+由仓库根目录的 `一键更新物料看板.bat` 生成。更新时不要手工编辑本目录中的哈希文件。""",
+    )
 
 
 def build(source_dir: Path, run_source_update: bool) -> dict[str, object]:
@@ -190,23 +356,11 @@ def build(source_dir: Path, run_source_update: bool) -> dict[str, object]:
     print("[3/4] 应用精简 WOFF2 字体与按需数据加载...")
     gotham = find_font("gotham-rounded-bold")
     yuan = find_font("hk-yuan-w7")
-    font_block = (
-        f"@font-face{{font-family:'GOTHAMRND-BOLD';src:url('assets/fonts/{gotham.name}') format('woff2');font-display:swap}}\n"
-        f"@font-face{{font-family:'HKYuan-W7';src:url('assets/fonts/{yuan.name}') format('woff2');font-display:swap}}"
-    )
-    html, font_count = re.subn(
-        r"@font-face\{font-family:'GOTHAMRND-BOLD'.*?\}\s*"
-        r"@font-face\{font-family:'HKYuan-W7'.*?\}\s*"
-        r"@font-face\{font-family:'HKYuan-W8'.*?\}\s*"
-        r"@font-face\{font-family:'HKYuan-W9'.*?\}",
-        font_block,
+    html = replace_font_faces(
         html,
-        count=1,
-        flags=re.DOTALL,
+        f"assets/fonts/{gotham.name}",
+        f"assets/fonts/{yuan.name}",
     )
-    if font_count != 1:
-        raise RuntimeError("字体声明替换失败")
-    html = html.replace("'HKYuan-W8'", "'HKYuan-W7'").replace("'HKYuan-W9'", "'HKYuan-W7'")
 
     loader = f"""
 const ORDER_DATA_URL='assets/data/{orders_name}';
@@ -260,23 +414,22 @@ function ensureOrderData() {{
     if old_switch not in html:
         raise RuntimeError("页面切换函数结构已变化，无法加入按需加载")
     html = html.replace(old_switch, new_switch, 1)
+    html = html.replace(
+        '<div class="nav-item" onclick="window.location.href=\'运费看板.html\'">',
+        '<div class="nav-item" onclick="window.location.href=\'../material-freight-dashboard/\'">',
+        1,
+    )
+    freight_nav = '<div class="nav-item" onclick="window.location.href=\'../material-freight-dashboard/\'"><span class="nav-icon">🚚</span>运费看板</div>'
+    if freight_nav in html and "../material-main-dashboard/" not in html:
+        main_nav = '<div class="nav-item" onclick="window.location.href=\'../material-main-dashboard/\'"><span class="nav-icon">📊</span>综合主看板</div>'
+        html = html.replace(freight_nav, main_nav + "\n    " + freight_nav, 1)
 
     html = html.replace(
         "</style>",
         "body.loading-order-data::after{content:'正在加载出入库明细…';position:fixed;right:20px;bottom:20px;z-index:9999;padding:10px 14px;border-radius:9px;background:#1e3a8a;color:#fff;font-size:12px;box-shadow:0 8px 24px rgba(30,58,138,.24)}\n</style>",
         1,
     )
-    sw_registration = """<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function () {
-    navigator.serviceWorker.register('./sw.js').catch(function (error) {
-      console.warn('离线缓存注册失败', error);
-    });
-  });
-}
-</script>
-"""
-    html = html.replace("</body>", sw_registration + "</body>", 1)
+    html = html.replace("</body>", service_worker_registration() + "</body>", 1)
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     output_html = html.encode("utf-8")
@@ -293,7 +446,7 @@ if ('serviceWorker' in navigator) {
     version_seed = "\n".join([sha256_short(output_html), *asset_urls]).encode("utf-8")
     version = sha256_short(version_seed)
     (OUTPUT_DIR / "sw.js").write_text(
-        build_service_worker(asset_urls, version), encoding="utf-8", newline="\n"
+        build_service_worker(asset_urls, version, "material-inventory-dashboard"), encoding="utf-8", newline="\n"
     )
     manifest = {
         "version": version,
@@ -310,18 +463,25 @@ if ('serviceWorker' in navigator) {
     (OUTPUT_DIR / "build-manifest.json").write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
-    print("[4/4] GitHub Pages 文件已生成。")
+    print("[4/4] 生成综合主看板与运费看板...")
+    main_result = build_main_dashboard(source_dir, gotham, yuan)
+    freight_result = build_freight_dashboard(source_dir)
+    print("三个 GitHub Pages 看板文件均已生成。")
     return {
-        "version": version,
-        "htmlBytes": len(output_html),
-        "ordersRawBytes": len(orders_bytes),
-        "ordersGzipBytes": len(orders_gzip),
-        "output": str(OUTPUT_DIR),
+        "inventory": {
+            "version": version,
+            "htmlBytes": len(output_html),
+            "ordersRawBytes": len(orders_bytes),
+            "ordersGzipBytes": len(orders_gzip),
+            "output": str(OUTPUT_DIR),
+        },
+        "main": main_result,
+        "freight": freight_result,
     }
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="生成 GitHub Pages 版物料进销存看板")
+    parser = argparse.ArgumentParser(description="生成 GitHub Pages 版物料综合、进销存与运费看板")
     parser.add_argument(
         "--source-dir",
         type=Path,

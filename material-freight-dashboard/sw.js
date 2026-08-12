@@ -1,13 +1,11 @@
-const CACHE_NAME = 'material-inventory-dashboard-05a702a0e634';
+const CACHE_NAME = 'material-freight-dashboard-1f624358a856';
 const PRECACHE_URLS = [
   "./",
   "./index.html",
-  "./assets/data/core.56b069684b73.js",
-  "./assets/data/device_outbound.8e0f5d35a300.js",
-  "./assets/data/province_material.c966bc447a9c.js",
-  "./assets/data/province_outbound.f6fc44c6bcea.js",
-  "./assets/fonts/gotham-rounded-bold.f6281701cdb9.woff2",
-  "./assets/fonts/hk-yuan-w7.a0f4d903956d.woff2"
+  "./assets/data/material_freight_dashboard_data.6848da8ee75f.js",
+  "./assets/data/material_freight_order_details.1a87c6e3c8c9.js",
+  "./assets/data/material_freight_material_details.9c2571f75c52.js",
+  "./assets/data/material_freight_calculator_data.3467e5a19391.js"
 ];
 
 self.addEventListener('install', event => {
@@ -18,7 +16,7 @@ self.addEventListener('install', event => {
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keys => Promise.all(
-      keys.filter(key => key.startsWith('material-inventory-dashboard-') && key !== CACHE_NAME)
+      keys.filter(key => key.startsWith('material-freight-dashboard-') && key !== CACHE_NAME)
         .map(key => caches.delete(key))
     ))
   );

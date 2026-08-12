@@ -2,18 +2,20 @@
 
 ## 页面地址
 
-发布后访问：`https://dash.weishenghjxh.xyz/material-dashboard/`
+- 综合主看板：`https://dash.weishenghjxh.xyz/material-main-dashboard/`
+- 进销存看板：`https://dash.weishenghjxh.xyz/material-dashboard/`
+- 运费看板：`https://dash.weishenghjxh.xyz/material-freight-dashboard/`
 
 ## 日常更新
 
 运行 `一键更新物料看板.bat`：
 
 1. 调用源目录的 `update_dashboard_data.py`，从 Excel 生成最新数据。
-2. 将大体积内联数据拆分为带内容哈希的 JS/JSON 文件。
-3. 复制省份分析数据并更新 HTML 引用。
+2. 同时生成综合主看板、进销存看板和运费看板三个静态目录。
+3. 将数据拆分或复制为带内容哈希的 JS/JSON 文件。
 4. 使用 WOFF2 字体，并只保留华康圆体 W7 一个中文字重。
-5. 生成 Service Worker，为带哈希的静态资源提供持久缓存。
-6. 将成品写入 `material-dashboard`。
+5. 为三个看板分别生成 Service Worker，提供持久缓存。
+6. 自动改写三个页面之间的导航链接。
 
 这个 BAT 不会执行 Git 提交或推送。
 

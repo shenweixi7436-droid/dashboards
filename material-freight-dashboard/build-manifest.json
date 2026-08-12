@@ -1,0 +1,14 @@
+{
+  "version": "1f624358a856",
+  "builtAt": "2026-08-12T10:52:44+08:00",
+  "source": "C:\\Users\\shenw\\Desktop\\看板\\物料小组看板",
+  "files": {
+    "html": "index.html",
+    "data": [
+      "assets/data/material_freight_dashboard_data.6848da8ee75f.js",
+      "assets/data/material_freight_order_details.1a87c6e3c8c9.js",
+      "assets/data/material_freight_material_details.9c2571f75c52.js",
+      "assets/data/material_freight_calculator_data.3467e5a19391.js"
+    ]
+  }
+}
