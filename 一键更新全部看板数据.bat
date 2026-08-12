@@ -55,6 +55,11 @@ robocopy "%~dp0..\dist\assets\previews" "%~dp0Schedule of Progress\dist\assets\p
 if errorlevel 8 goto fail
 
 echo.
+echo Updating material inventory dashboard for GitHub Pages...
+"%PY%" "%~dp0build_material_dashboard.py"
+if errorlevel 1 goto fail
+
+echo.
 echo Done. Open index.html and press Ctrl+F5 to refresh.
 pause
 exit /b 0

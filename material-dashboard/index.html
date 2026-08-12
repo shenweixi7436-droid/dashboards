@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>电商仓储库存分析仪表板</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<script src="assets/data/province_outbound.f6fc44c6bcea.js"></script>
+<script src="assets/data/province_material.c966bc447a9c.js"></script>
+<script src="assets/data/device_outbound.8e0f5d35a300.js"></script>
+<script src="assets/data/core.56b069684b73.js"></script>
+<style>
+@font-face{font-family:'GOTHAMRND-BOLD';src:url('assets/fonts/gotham-rounded-bold.f6281701cdb9.woff2') format('woff2');font-display:swap}
+@font-face{font-family:'HKYuan-W7';src:url('assets/fonts/hk-yuan-w7.a0f4d903956d.woff2') format('woff2');font-display:swap}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;background:#f0f2f5;color:#1a1f36;display:flex;min-height:100vh}
+/* Sidebar */
+#sidebar{width:200px;min-width:200px;background:#fff;border-right:1px solid #e5e7eb;display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:100;box-shadow:2px 0 8px rgba(0,0,0,.06)}
+.sidebar-title{padding:20px 16px 16px;border-bottom:1px solid #f0f2f5}
+.sidebar-title h2{font-size:14px;color:#1a1f36;font-weight:700;line-height:1.4}
+.sidebar-title p{font-size:11px;color:#9ca3af;margin-top:4px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:12px 16px;cursor:pointer;border-left:3px solid transparent;transition:all .2s;font-size:13px;color:#6b7280}
+.nav-item:hover{background:#f8faff;color:#4361EE}
+.nav-item.active{background:#f0f4ff;color:#4361EE;border-left-color:#4361EE;font-weight:600}
+.nav-icon{font-size:16px;width:20px;text-align:center}
+/* Main */
+#main{margin-left:200px;flex:1;display:flex;flex-direction:column}
+
+.page{display:none;padding:24px;flex-direction:column;gap:32px}
+.page.active{display:flex}
+/* KPI Cards */
+.kpi-row{display:grid;gap:16px}
+.kpi-row-4{grid-template-columns:repeat(4,1fr)}
+.kpi-row-5{grid-template-columns:repeat(5,1fr)}
+.kpi-card{background:#fff;border-radius:12px;padding:18px 20px;box-shadow:0 1px 4px rgba(0,0,0,.06);border:1px solid #f0f2f5}
+.kpi-label{font-size:12px;color:#9ca3af;margin-bottom:8px}
+.kpi-value{font-size:28px;font-weight:700;color:#1a1f36;font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;line-height:1}
+.kpi-value.red{color:#EF476F}
+.kpi-value.orange{color:#F77F00}
+.kpi-value.green{color:#06D6A0}
+.kpi-sub{font-size:11px;color:#9ca3af;margin-top:6px}
+.kpi-badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;margin-top:6px}
+.badge-red{background:#FEE2E2;color:#EF476F}
+.badge-orange{background:#FEF3C7;color:#F77F00}
+.badge-green{background:#D1FAE5;color:#06D6A0}
+/* Charts */
+.chart-row{display:grid;gap:16px}
+/* 各省出库页：保持卡片组之间更舒展的上下留白 */
+#p6-material-content>*,#p6-device-content>*{margin-top:0;margin-bottom:0}
+#p6-material-content>*+*,#p6-device-content>*+*{margin-top:30px}
+.chart-row-2{grid-template-columns:1fr 1fr}
+.chart-row-3{grid-template-columns:1fr 1fr 1fr}
+.chart-row-24{grid-template-columns:2fr 1fr}
+.chart-row-42{grid-template-columns:1fr 2fr}
+.chart-card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,.06);border:1px solid #f0f2f5}
+.chart-card h3{font-size:14px;font-weight:600;color:#1a1f36;margin-bottom:4px}
+.chart-card p{font-size:12px;color:#9ca3af;margin-bottom:12px}
+.chart-box{width:100%}
+/* Table */
+.table-card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,.06);border:1px solid #f0f2f5}
+.table-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.table-header h3{font-size:14px;font-weight:600;color:#1a1f36}
+.table-pagination{display:flex;justify-content:flex-end;align-items:center;gap:8px;margin-top:14px;flex-wrap:wrap;font-size:12px;color:#6b7280}
+.table-pagination select,.table-pagination button{height:30px;border:1px solid #e5e7eb;border-radius:6px;background:#fff;color:#475569;font-size:12px}
+.table-pagination select{padding:0 8px;cursor:pointer}
+.table-pagination button{padding:0 12px;cursor:pointer;transition:all .2s}
+.table-pagination button:hover:not(:disabled){border-color:#4361EE;color:#4361EE;background:#f8faff}
+.table-pagination button:disabled{cursor:not-allowed;color:#cbd5e1;background:#f8fafc}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:#f8fafc;color:#6b7280;font-weight:600;padding:10px 12px;text-align:left;border-bottom:1px solid #e5e7eb;white-space:nowrap}
+td{padding:10px 12px;border-bottom:1px solid #f3f4f6;color:#1a1f36;vertical-align:middle}
+tr:hover td{background:#fafbff}
+.tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600}
+.tag-red{background:#FEE2E2;color:#EF476F}
+.tag-orange{background:#FEF3C7;color:#F77F00}
+.tag-green{background:#D1FAE5;color:#06D6A0}
+.tag-blue{background:#EEF2FF;color:#4361EE}
+.tag-gray{background:#F3F4F6;color:#9ca3af}
+.filter-bar{background:#fff;border-radius:10px;padding:12px 18px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;box-shadow:0 1px 4px rgba(0,0,0,.06);border:1px solid #f0f2f5}
+.filter-bar label{font-size:12px;color:#6b7280;white-space:nowrap}
+.filter-bar select{padding:5px 10px;border:1px solid #e5e7eb;border-radius:6px;font-size:12px;color:#1a1f36;background:#fff;cursor:pointer;min-width:90px}
+.filter-bar input[type=date]{padding:5px 8px;border:1px solid #e5e7eb;border-radius:6px;font-size:12px;color:#1a1f36;background:#fff;cursor:pointer}
+.filter-divider{width:1px;height:20px;background:#e5e7eb}
+.filter-reset{padding:5px 12px;border-radius:6px;font-size:12px;cursor:pointer;border:1px solid #e5e7eb;background:#f9fafb;color:#6b7280;font-weight:500}
+.filter-reset:hover{background:#f3f4f6}
+.date-quick{padding:5px 10px;border-radius:6px;font-size:12px;cursor:pointer;border:1px solid #dbe4f0;background:#f8faff;color:#4361EE;font-weight:600;transition:all .2s}
+.date-quick:hover{background:#eef2ff;border-color:#4361EE}
+.btn-toggle{padding:5px 14px;border-radius:6px;font-size:12px;cursor:pointer;border:1px solid #e5e7eb;background:#f9fafb;color:#6b7280;font-weight:500;transition:all .2s}
+.btn-toggle:hover{background:#eef1f6}
+.btn-toggle.active{background:#4361EE;color:#fff;border-color:#4361EE}
+.section-title{font-size:15px;font-weight:700;color:#1a1f36;padding-bottom:4px;border-bottom:2px solid #4361EE;display:inline-block;margin-bottom:2px}
+.axis-wrap{position:relative;display:flex;align-items:stretch}
+.axis-y-title{writing-mode:vertical-lr;font-size:11px;color:#6b7280;white-space:nowrap;display:flex;align-items:center;justify-content:center;padding:0 6px 0 0;min-width:20px}
+.axis-x-title{font-size:11px;color:#6b7280;text-align:center;margin-top:-8px;padding-bottom:2px}
+.axis-inner{flex:1;min-width:0}
+/* 物料 / 设备发货排名列表 */
+.ship-rank-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.ship-rank-card{padding:0;overflow:hidden}
+.ship-rank-header{padding:14px 16px 7px}.ship-rank-header h3{margin:0;font-size:15px;color:#1a1f36}.ship-rank-header p{margin:4px 0 0;color:#6b7280;font-size:11px}
+.ship-rank-legend{display:flex;align-items:center;gap:7px;padding:0 16px 8px;color:#475569;font-size:11px;font-weight:600}.ship-rank-dot{width:20px;height:8px;border-radius:999px;display:inline-block}.ship-rank-dot.qty{background:#fbbf24}.ship-rank-dot.amount{background:#7c2d12}
+.ship-rank-list{max-height:500px;overflow-y:auto;border-top:1px dashed #dbe4f0;padding:0 14px}
+.ship-rank-row{display:grid;grid-template-columns:minmax(155px,40%) minmax(120px,1fr) 88px;gap:10px;align-items:center;min-height:42px;padding:4px 0;border-bottom:1px solid #f1f5f9}
+.ship-rank-name{color:#274c77;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ship-rank-name.project-link{border:0;padding:0;background:transparent;cursor:pointer;text-align:left;font-family:inherit}.ship-rank-name.project-link:hover,.ship-rank-name.project-link:focus{color:#4361EE;text-decoration:underline;outline:none}.project-analysis-note{display:none;align-items:center;justify-content:space-between;gap:12px;margin:0 0 -16px;padding:10px 14px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:9px;color:#1e3a8a;font-size:12px}.project-analysis-note strong{color:#1d4ed8}.project-analysis-note button{border:0;background:transparent;color:#4361EE;font-size:12px;font-weight:700;cursor:pointer;padding:2px 0}.ship-rank-track{height:7px;border:1px solid #ead0c7;border-radius:999px;background:#fff;overflow:hidden}.ship-rank-fill{height:100%;border-radius:999px;min-width:2px}.ship-rank-fill.qty{background:#fbbf24}.ship-rank-fill.amount{background:#7c2d12}.ship-rank-values{text-align:right;font-size:11px;line-height:1.35;white-space:nowrap}.ship-rank-values .qty{color:#9a6700;font-weight:700}.ship-rank-values .amount{color:#7c2d12;font-weight:700}.ship-rank-empty{padding:70px 20px;text-align:center;color:#94a3b8;font-size:13px}
+@media(max-width:900px){.ship-rank-grid{grid-template-columns:1fr}}@media(max-width:760px){.ship-rank-row{grid-template-columns:minmax(110px,42%) minmax(100px,1fr) 74px;gap:7px;min-height:38px}.ship-rank-list,.ship-rank-header{padding-left:11px;padding-right:11px}.ship-rank-legend{padding-left:11px}.ship-rank-name{font-size:11px}.ship-rank-values{font-size:10px}.ship-rank-list{max-height:420px}}
+body.loading-order-data::after{content:'正在加载出入库明细…';position:fixed;right:20px;bottom:20px;z-index:9999;padding:10px 14px;border-radius:9px;background:#1e3a8a;color:#fff;font-size:12px;box-shadow:0 8px 24px rgba(30,58,138,.24)}
+</style>
+</head>
+<body>
+<div id="sidebar">
+  <div class="sidebar-title">
+    <h2>📦 库存分析</h2>
+    <p>电商仓储管理平台</p>
+  </div>
+  <nav style="flex:1;padding:8px 0;overflow-y:auto">
+    <div class="nav-item active" onclick="switchPage('p6',this)"><span class="nav-icon">🗺️</span>各省份出库分析</div>
+    <div class="nav-item" onclick="switchPage('p1',this)"><span class="nav-icon">🏠</span>库存总览</div>
+    <div class="nav-item" onclick="switchPage('p2',this)"><span class="nav-icon">🚨</span>缺货预警与补货</div>
+    <div class="nav-item" onclick="switchPage('p3',this)"><span class="nav-icon">📦</span>滞销与库龄</div>
+    <div class="nav-item" onclick="switchPage('p4',this)"><span class="nav-icon">🔄</span>出入库分析</div>
+    <div class="nav-item" onclick="switchPage('p5',this)"><span class="nav-icon">💰</span>库存价值分析</div>
+    <div class="nav-item" onclick="window.location.href='运费看板.html'"><span class="nav-icon">🚚</span>运费看板</div>
+  </nav>
+  <div style="padding:12px 16px;border-top:1px solid #f0f2f5">
+    <div style="font-size:11px;color:#9ca3af">数据日期</div>
+    <div style="font-size:12px;color:#6b7280;margin-top:2px" id="data-date">—</div>
+  </div>
+</div>
+
+<div id="main">
+
+  <!-- PAGE 1: 库存总览 -->
+  <div class="page" id="p1">
+    <div class="filter-bar">
+      <label>日期范围</label>
+      <input type="date" id="p1-date-start" value="2026-01-01" onchange="applyFilter('p1')">
+      <span style="font-size:12px;color:#9ca3af">至</span>
+      <input type="date" id="p1-date-end" value="2026-07-15" onchange="applyFilter('p1')">
+      <button class="date-quick" onclick="setQuickDate('p1','week')">本周</button>
+      <button class="date-quick" onclick="setQuickDate('p1','lastMonth')">上月</button>
+      <button class="filter-reset" onclick="resetFilter('p1')">重置</button>
+    </div>
+    <div class="kpi-row kpi-row-4">
+      <div class="kpi-card"><div class="kpi-label">物料编码数</div><div class="kpi-value" id="p1-skus">—</div><div class="kpi-sub">按物料编码去重</div></div>
+      <div class="kpi-card"><div class="kpi-label">库存总量（件）</div><div class="kpi-value" id="p1-qty">—</div><div class="kpi-sub">当前库存合计</div></div>
+      <div class="kpi-card"><div class="kpi-label">库存总价值（万元）</div><div class="kpi-value" id="p1-value">—</div><div class="kpi-sub">按成本价计算</div></div>
+      <div class="kpi-card"><div class="kpi-label">预警SKU数</div><div class="kpi-value red" id="p1-warn">—</div><div class="kpi-sub">断货+库存不足</div></div>
+    </div>
+    <div class="chart-row">
+      <div class="chart-card"><h3>供应商应打款金额</h3><p>按供应商汇总入库涉及金额，联动上方日期范围</p><div class="chart-box" id="c1-wh" style="height:220px"></div></div>
+    </div>
+    <div class="chart-row chart-row-2">
+      <div class="chart-card"><h3>近30天库存量趋势</h3><p>每日出入库变化及库存总量走势</p><div class="chart-box" id="c1-trend" style="height:220px"></div></div>
+      <div class="chart-card"><h3>库存健康状态分布</h3><p>正常 / 预警 / 断货 / 滞销占比</p><div class="chart-box" id="c1-status" style="height:260px"></div></div>
+    </div>
+    <div class="table-card">
+      <div class="table-header">
+        <h3>📋 供应商入库明细</h3>
+        <span style="font-size:11px;color:#9ca3af" id="p1-supplier-count"></span>
+      </div>
+      <div style="overflow-x:auto;overflow-y:auto;max-height:400px">
+        <table style="border-collapse:collapse;width:100%">
+          <thead style="position:sticky;top:0;z-index:2;background:#f8fafc">
+            <tr>
+              <th>入库日期</th><th>供应商名称</th><th>物料名称</th><th>收货仓库</th><th>实收数量</th><th>涉及金额(元)</th>
+            </tr>
+          </thead>
+          <tbody id="p1-supplier-tbody"></tbody>
+        </table>
+      </div>
+      <div class="table-pagination" id="p1-supplier-pagination">
+        <span>每页</span>
+        <select id="p1-supplier-page-size" onchange="changeSupplierPageSize(this.value)">
+          <option value="50" selected>50 条</option>
+          <option value="100">100 条</option>
+          <option value="200">200 条</option>
+        </select>
+        <button id="p1-supplier-prev" onclick="changeSupplierPage(-1)">上一页</button>
+        <span id="p1-supplier-page-info">第 1 / 1 页</span>
+        <button id="p1-supplier-next" onclick="changeSupplierPage(1)">下一页</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 2: 缺货预警 -->
+  <div class="page" id="p2">
+    <div class="filter-bar">
+      <label>日期范围</label>
+      <input type="date" id="p2-date-start" value="2026-01-01" onchange="applyFilter('p2')">
+      <span style="font-size:12px;color:#9ca3af">至</span>
+      <input type="date" id="p2-date-end" value="2026-07-15" onchange="applyFilter('p2')">
+      <div class="filter-divider"></div>
+      <label>紧急程度</label>
+      <select id="p2-urgency" onchange="applyFilter('p2')">
+        <option value="">全部</option><option>断货</option><option>紧急</option><option>预警</option>
+      </select>
+      <button class="date-quick" onclick="setQuickDate('p2','week')">本周</button>
+      <button class="date-quick" onclick="setQuickDate('p2','lastMonth')">上月</button>
+      <button class="filter-reset" onclick="resetFilter('p2')">重置</button>
+    </div>
+    <div class="kpi-row kpi-row-4">
+      <div class="kpi-card"><div class="kpi-label">断货SKU数</div><div class="kpi-value red" id="p2-stockout">—</div><div class="kpi-sub">当前库存为0</div></div>
+      <div class="kpi-card"><div class="kpi-label">7天内预计断货</div><div class="kpi-value orange" id="p2-urgent">—</div><div class="kpi-sub">需紧急补货</div></div>
+      <div class="kpi-card"><div class="kpi-label">库存预警SKU</div><div class="kpi-value orange" id="p2-warn">—</div><div class="kpi-sub">低于安全库存</div></div>
+      <div class="kpi-card"><div class="kpi-label">待补货总金额（万元）</div><div class="kpi-value" id="p2-value">—</div><div class="kpi-sub">建议补货量×成本价</div></div>
+    </div>
+    <div class="chart-row chart-row-2">
+      <div class="chart-card"><h3>补货优先级矩阵</h3><div class="axis-wrap" style="height:280px">
+  <div class="axis-y-title">日均销量（件）</div>
+  <div class="axis-inner">
+    <div class="chart-box" id="c2-scatter" style="height:258px"></div>
+    <div class="axis-x-title">库存天数（天）</div>
+  </div>
+</div></div>
+      <div class="chart-card"><h3>未来30天库存预测</h3><p>高风险商品库存消耗预测曲线</p><div class="chart-box" id="c2-forecast" style="height:260px"></div></div>
+    </div>
+    <div class="table-card">
+      <div class="table-header">
+        <h3>🚨 补货建议明细</h3>
+        
+      </div>
+      <div style="overflow-x:auto;overflow-y:auto;max-height:400px"><table id="reorder-table" style="border-collapse:collapse;width:100%"><thead style="position:sticky;top:0;z-index:2;background:#f8fafc"><tr><th>物料名称</th><th>当前库存</th><th>安全库存</th><th>日均销量</th><th>预计断货日期</th><th>最晚补货日期</th><th>建议补货量</th><th>紧急程度</th></tr></thead><tbody id="reorder-tbody"></tbody></table></div>
+    </div>
+  </div>
+
+  <!-- PAGE 3: 滞销与库龄 -->
+  <div class="page" id="p3">
+    <div class="filter-bar">
+      <label>日期范围</label>
+      <input type="date" id="p3-date-start" value="2026-01-01" onchange="applyFilter('p3')">
+      <span style="font-size:12px;color:#9ca3af">至</span>
+      <input type="date" id="p3-date-end" value="2026-07-15" onchange="applyFilter('p3')">
+      <div class="filter-divider"></div>
+      <label>库龄区间</label>
+      <select id="p3-age" onchange="applyFilter('p3')">
+        <option value="">全部</option><option>0-30天</option><option>31-60天</option><option>61-90天</option><option>91-180天</option><option>180天以上</option>
+      </select>
+      <button class="date-quick" onclick="setQuickDate('p3','week')">本周</button>
+      <button class="date-quick" onclick="setQuickDate('p3','lastMonth')">上月</button>
+      <button class="filter-reset" onclick="resetFilter('p3')">重置</button>
+    </div>
+    <div class="kpi-row kpi-row-4">
+      <div class="kpi-card"><div class="kpi-label">滞销SKU数</div><div class="kpi-value orange" id="p3-slow">—</div><div class="kpi-sub">超30天未出库</div></div>
+      <div class="kpi-card"><div class="kpi-label">平均库龄（天）</div><div class="kpi-value" id="p3-age-avg">—</div><div class="kpi-sub">全部SKU平均</div></div>
+      <div class="kpi-card"><div class="kpi-label">库龄超90天价值（万元）</div><div class="kpi-value red" id="p3-age90">—</div><div class="kpi-sub">高积压风险</div></div>
+      <div class="kpi-card"><div class="kpi-label">积压资金（万元）</div><div class="kpi-value orange" id="p3-overstock">—</div><div class="kpi-sub">滞销商品库存价值</div></div>
+    </div>
+    <div class="chart-row chart-row-2">
+      <div class="chart-card"><h3>库龄区间分布</h3><p>各库龄段SKU数量及库存价值</p><div class="chart-box" id="c3-age" style="height:240px"></div></div>
+      <div class="chart-card"><h3>各品类平均库龄对比</h3><p>哪些品类普遍积压时间长</p><div class="chart-box" id="c3-catage" style="height:240px"></div></div>
+    </div>
+    <div class="chart-card"><h3>库龄与库存价值气泡图</h3><div class="axis-wrap" style="height:320px">
+  <div class="axis-y-title">库存价值（万元）</div>
+  <div class="axis-inner">
+    <div class="chart-box" id="c3-bubble" style="height:298px"></div>
+    <div class="axis-x-title">库龄（天）</div>
+  </div>
+</div></div>
+    <div class="table-card">
+      <div class="table-header">
+        <h3>📋 滞销积压商品明细</h3>
+        
+      </div>
+      <div style="overflow-x:auto;overflow-y:auto;max-height:400px"><table id="slow-table" style="border-collapse:collapse;width:100%"><thead style="position:sticky;top:0;z-index:2;background:#f8fafc"><tr><th>物料名称</th><th>入库日期</th><th>库龄(天)</th><th>滞销(天)</th><th>库存量</th><th>库存价值(元)</th></tr></thead><tbody id="slow-tbody"></tbody></table></div>
+    </div>
+  </div>
+
+  <!-- PAGE 4: 出入库分析 -->
+  <div class="page" id="p4">
+    <div class="filter-bar">
+      <label>日期范围</label>
+      <input type="date" id="p4-date-start" value="2026-01-01" onchange="applyFilter('p4')">
+      <span style="font-size:12px;color:#9ca3af">至</span>
+      <input type="date" id="p4-date-end" value="2026-07-15" onchange="applyFilter('p4')">
+      <div class="filter-divider"></div>
+      <label>出入库类型</label>
+      <select id="p4-type" onchange="applyFilter('p4')">
+        <option value="">全部</option><option>入库</option><option>出库</option>
+      </select>
+      <button class="date-quick" onclick="setQuickDate('p4','week')">本周</button>
+      <button class="date-quick" onclick="setQuickDate('p4','lastMonth')">上月</button>
+      <button class="filter-reset" onclick="resetFilter('p4')">重置</button>
+    </div>
+    <div class="kpi-row kpi-row-4">
+      <div class="kpi-card"><div class="kpi-label">近6月入库金额（万元）</div><div class="kpi-value green" id="p4-in">—</div><div class="kpi-sub">按成本价</div></div>
+      <div class="kpi-card"><div class="kpi-label">近6月出库金额（万元）</div><div class="kpi-value" id="p4-out">—</div><div class="kpi-sub">按成本价</div></div>
+      <div class="kpi-card"><div class="kpi-label">库存周转率</div><div class="kpi-value" id="p4-turn">—</div><div class="kpi-sub">年化周转次数</div></div>
+      <div class="kpi-card"><div class="kpi-label">平均出库间隔（天）</div><div class="kpi-value" id="p4-avg">—</div><div class="kpi-sub">近90天</div></div>
+    </div>
+    <div class="chart-card"><h3>近90天每日出入库趋势</h3><p>入库量（绿）与出库量（蓝）对比，判断进出节奏是否匹配</p><div class="chart-box" id="c4-trend" style="height:240px"></div></div>
+    <div class="chart-row chart-row-2">
+      <div class="chart-card"><h3>各省份发货量分析</h3><p>金额（折线）与数量（柱状）对比，联动日期筛选</p><div class="chart-box" id="c4-turn" style="height:240px"></div></div>
+      <div class="chart-card"><h3>出库高峰时段分布</h3><p>每天各小时出库量，用于仓库排班参考</p><div class="chart-box" id="c4-hour" style="height:240px"></div></div>
+    </div>
+    <div class="chart-card"><h3>近6个月出入库金额趋势</h3><p>月度入库与出库金额对比（万元）</p><div class="chart-box" id="c4-month" style="height:200px"></div></div>
+    <div class="table-card">
+      <div class="table-header"><h3>📋 出入库流水明细（最近50条）</h3></div>
+      <div style="overflow-x:auto;overflow-y:auto;max-height:380px"><table style="border-collapse:collapse"><thead style="position:sticky;top:0;z-index:1;background:#f8fafc"><tr><th>日期</th><th>物料名称</th><th>类型</th><th>数量</th><th>金额(元)</th><th>关联单号</th></tr></thead><tbody id="flow-tbody"></tbody></table></div>
+    </div>
+  </div>
+
+  <!-- PAGE 5: 库存价值分析 -->
+  <div class="page" id="p5">
+    <div class="filter-bar">
+      <label>日期范围</label>
+      <input type="date" id="p5-date-start" value="2026-01-01" onchange="applyFilter('p5')">
+      <span style="font-size:12px;color:#9ca3af">至</span>
+      <input type="date" id="p5-date-end" value="2026-07-15" onchange="applyFilter('p5')">
+      <button class="date-quick" onclick="setQuickDate('p5','week')">本周</button>
+      <button class="date-quick" onclick="setQuickDate('p5','lastMonth')">上月</button>
+      <button class="filter-reset" onclick="resetFilter('p5')">重置</button>
+    </div>
+    <div class="kpi-row kpi-row-4">
+      <div class="kpi-card"><div class="kpi-label">库存总价值（万元）</div><div class="kpi-value" id="p5-total">—</div><div class="kpi-sub">按成本价</div></div>
+      <div class="kpi-card"><div class="kpi-label">单SKU平均占用（万元）</div><div class="kpi-value" id="p5-avg">—</div><div class="kpi-sub">总价值÷SKU数</div></div>
+      <div class="kpi-card"><div class="kpi-label">高价值SKU数</div><div class="kpi-value" id="p5-high">—</div><div class="kpi-sub">单SKU价值>10万</div></div>
+      <div class="kpi-card"><div class="kpi-label">价值环比变化</div><div class="kpi-value" id="p5-change">—</div><div class="kpi-sub">较上月</div></div>
+    </div>
+    <div class="chart-row chart-row-2">
+      <div class="chart-card"><h3>库存价值 TOP20 商品</h3><p>占用资金最多的商品</p><div class="chart-box" id="c5-top20" style="height:340px"></div></div>
+      <div class="chart-card"><h3>仓库入库金额对比</h3><p>各仓库入库金额对比情况</p><div class="chart-box" id="c5-donut" style="height:360px"></div></div>
+    </div>
+    <div class="chart-row chart-row-2">
+      <div class="chart-card"><h3>库存价值 vs 销售额散点图</h3><div class="axis-wrap" style="height:300px">
+  <div class="axis-y-title">近30天销售（万元）</div>
+  <div class="axis-inner">
+    <div class="chart-box" id="c5-scatter" style="height:278px"></div>
+    <div class="axis-x-title">库存价值（万元）</div>
+  </div>
+</div></div>
+      <div class="chart-card"><h3>近6个月库存总价值趋势</h3><p>库存资金占用变化走势（万元）</p><div class="chart-box" id="c5-trend" style="height:280px"></div></div>
+    </div>
+  </div>
+
+  <!-- PAGE 6: 各省份出库分析 -->
+  <div class="page active" id="p6">
+    <div class="filter-bar">
+      <label style="margin-right:8px">类型</label>
+      <button class="btn-toggle active" id="p6-btn-material" onclick="switchP6Mode('material')">📦 物料</button>
+      <button class="btn-toggle" id="p6-btn-device" onclick="switchP6Mode('device')">🛠️ 设备</button>
+      <div class="filter-divider"></div>
+      <label>日期范围</label>
+      <input type="date" id="p6-date-start" onchange="applyFilter('p6')">
+      <span style="color:#9ca3af">至</span>
+      <input type="date" id="p6-date-end" onchange="applyFilter('p6')">
+      <button class="date-quick" onclick="setQuickDate('p6','week')">本周</button>
+      <button class="date-quick" onclick="setQuickDate('p6','lastMonth')">上月</button>
+      <button class="filter-reset" onclick="resetFilter('p6')">重置</button>
+      <div class="filter-divider"></div>
+      <label>省份筛选</label>
+      <select id="p6-province" onchange="applyFilter('p6')">
+        <option value="">全部省份</option>
+      </select>
+    </div>
+
+    <!-- 物料出库内容 -->
+    <div id="p6-material-content">
+      <div class="project-analysis-note" id="p6-material-analysis-note"><span>当前查看：<strong id="p6-material-analysis-name"></strong> 的独立省份出库分析</span><button type="button" onclick="clearP6ProjectSelection()">清除筛选</button></div>
+      <div class="kpi-row kpi-row-4">
+        <div class="kpi-card"><div class="kpi-label">省份数</div><div class="kpi-value" id="p6-provinces">—</div><div class="kpi-sub">有出库记录</div></div>
+        <div class="kpi-card"><div class="kpi-label">出库总金额（万元）</div><div class="kpi-value" id="p6-out-amt">—</div><div class="kpi-sub">筛选期间合计</div></div>
+        <div class="kpi-card"><div class="kpi-label">出库总数量</div><div class="kpi-value" id="p6-out-qty">—</div><div class="kpi-sub">筛选期间合计</div></div>
+        <div class="kpi-card"><div class="kpi-label">Top5省份占比</div><div class="kpi-value" id="p6-top5">—</div><div class="kpi-sub">金额集中度</div></div>
+      </div>
+      <div class="ship-rank-grid">
+        <div class="chart-card ship-rank-card"><div class="ship-rank-header"><h3><span id="c6-material-amount-title">各省物料出库金额</span></h3><p id="c6-material-amount-subtitle">按出库金额从高到低排序</p></div><div class="ship-rank-legend"><i class="ship-rank-dot amount"></i>出库金额</div><div class="ship-rank-list" id="c6-material-amount"></div></div>
+        <div class="chart-card ship-rank-card"><div class="ship-rank-header"><h3><span id="c6-material-qty-title">各省物料发货数量</span></h3><p id="c6-material-qty-subtitle">按发货数量从高到低排序</p></div><div class="ship-rank-legend"><i class="ship-rank-dot qty"></i>发货数量</div><div class="ship-rank-list" id="c6-material-qty"></div></div>
+      </div>
+      <div class="chart-row chart-row-2">
+        <div class="chart-card"><h3>各省份出库金额排名</h3><p>按出库金额降序排列</p><div class="chart-box" id="c6-out-amt" style="height:340px"></div></div>
+        <div class="chart-card"><h3>各省份出库数量排名</h3><p>按出库数量降序排列</p><div class="chart-box" id="c6-out-qty" style="height:340px"></div></div>
+      </div>
+      <div class="chart-row">
+        <div class="chart-card" style="grid-column:1/-1"><h3>各省份出库金额占比</h3><p>Top10省份 vs 其他省份金额分布</p><div class="chart-box" id="c6-pie" style="height:320px"></div></div>
+      </div>
+    </div>
+
+    <!-- 设备出库内容 -->
+    <div id="p6-device-content" style="display:none">
+      <div class="project-analysis-note" id="p6-device-analysis-note"><span>当前查看：<strong id="p6-device-analysis-name"></strong> 的独立省份出库分析</span><button type="button" onclick="clearP6ProjectSelection()">清除筛选</button></div>
+      <div class="kpi-row kpi-row-4">
+        <div class="kpi-card"><div class="kpi-label">省份数</div><div class="kpi-value" id="p6d-provinces">—</div><div class="kpi-sub">有设备出库记录</div></div>
+        <div class="kpi-card"><div class="kpi-label">设备出库总金额（万元）</div><div class="kpi-value" id="p6d-out-amt">—</div><div class="kpi-sub">按总货值</div></div>
+        <div class="kpi-card"><div class="kpi-label">设备出库总数量</div><div class="kpi-value" id="p6d-out-qty">—</div><div class="kpi-sub">按实际发货数量</div></div>
+        <div class="kpi-card"><div class="kpi-label">设备种类数</div><div class="kpi-value" id="p6d-sku-count">—</div><div class="kpi-sub">不同设备SKU</div></div>
+      </div>
+      <div class="ship-rank-grid">
+        <div class="chart-card ship-rank-card"><div class="ship-rank-header"><h3><span id="c6d-device-amount-title">各省设备出库金额</span></h3><p id="c6d-device-amount-subtitle">按出库金额从高到低排序</p></div><div class="ship-rank-legend"><i class="ship-rank-dot amount"></i>出库金额</div><div class="ship-rank-list" id="c6d-device-amount"></div></div>
+        <div class="chart-card ship-rank-card"><div class="ship-rank-header"><h3><span id="c6d-device-qty-title">各省设备发货数量</span></h3><p id="c6d-device-qty-subtitle">按发货数量从高到低排序</p></div><div class="ship-rank-legend"><i class="ship-rank-dot qty"></i>发货数量</div><div class="ship-rank-list" id="c6d-device-qty"></div></div>
+      </div>
+      <div class="chart-row chart-row-2">
+        <div class="chart-card"><h3>各省设备出库金额排名</h3><p>按出库金额降序排列</p><div class="chart-box" id="c6d-out-amt" style="height:340px"></div></div>
+        <div class="chart-card"><h3>各省设备出库数量排名</h3><p>按出库数量降序排列</p><div class="chart-box" id="c6d-out-qty" style="height:340px"></div></div>
+      </div>
+      <div class="chart-row">
+        <div class="chart-card" style="grid-column:1/-1"><h3>各省设备出库金额占比</h3><p>Top10省份 vs 其他省份金额分布</p><div class="chart-box" id="c6d-pie" style="height:320px"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+const DATA=window.DATA;
+// Raw data for filters
+const INV=window.INV;
+let ORD=[];
+const ORD_AGG=[];
+const SUPPLIER_PAYMENTS=window.SUPPLIER_PAYMENTS;
+const SUPPLIER_DETAIL=window.SUPPLIER_DETAIL;
+// Field index helpers
+const I={n:0,c:1,w:2,s:3,p:4,safe:5,cyc:6,dly:7,rod:8,slow:9,age:10,ed:11};
+const O={d:0,c:1,w:2,t:3,q:4,v:5,n:6,ref:7,h:8};
+
+
+// ── UTILS ──
+const charts = {};
+function ec(id, opt) {
+  if (charts[id]) charts[id].dispose();
+  const el = document.getElementById(id);
+  if (!el) return;
+  const c = echarts.init(el);
+  c.setOption(opt);
+  charts[id] = c;
+  window.addEventListener('resize', () => c.resize());
+}
+function fmt(n) { return n >= 10000 ? (n/10000).toFixed(1)+'万' : n.toLocaleString(); }
+function fmtW(n) { return n.toFixed(1); }
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+}
+
+function renderShipmentRanking(containerId, rows, nameKey, metric) {
+  var el=document.getElementById(containerId);
+  if(!el)return;
+  if(!rows.length){el.innerHTML='<div class="ship-rank-empty">当前筛选条件下暂无发货数据</div>';return;}
+  var isAmount=metric==='amount';
+  var maxValue=Math.max.apply(null,rows.map(function(r){return Number(r[metric])||0;}))||1;
+  el.innerHTML=rows.map(function(r){
+    var name=escapeHtml(r[nameKey]);
+    var value=Number(r[metric])||0;
+    var width=Math.max(1,value/maxValue*100).toFixed(2);
+    var cls=isAmount?'amount':'qty';
+    var text=isAmount?'¥'+value.toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2}):value.toLocaleString('zh-CN')+' 件';
+    var mode=p6Mode==='device'?'device':'material';
+    var rawName=String(r[nameKey]||'');
+    var encodedMode=JSON.stringify(mode).replace(/"/g,'&quot;');
+    var encodedName=JSON.stringify(rawName).replace(/"/g,'&quot;');
+    return '<div class="ship-rank-row" title="'+name+'">'+
+      '<button type="button" class="ship-rank-name project-link" title="点击查看 '+name+' 的独立省份分析" onclick="selectP6Project('+encodedMode+','+encodedName+')">'+name+'</button>'+ 
+      '<div class="ship-rank-track"><div class="ship-rank-fill '+cls+'" style="width:'+width+'%"></div></div>'+ 
+      '<div class="ship-rank-values"><div class="'+cls+'">'+text+'</div></div>'+ 
+    '</div>';
+  }).join('');
+}
+
+const supplierTableState = { rows: [], page: 1, pageSize: 50, filterKey: '' };
+
+function renderSupplierTable() {
+  const total = supplierTableState.rows.length;
+  const totalPages = Math.max(1, Math.ceil(total / supplierTableState.pageSize));
+  supplierTableState.page = Math.min(Math.max(1, supplierTableState.page), totalPages);
+  const start = (supplierTableState.page - 1) * supplierTableState.pageSize;
+  const rows = supplierTableState.rows.slice(start, start + supplierTableState.pageSize);
+  document.getElementById('p1-supplier-count').textContent = total
+    ? '共 ' + total + ' 条，当前显示 ' + (start + 1) + '–' + (start + rows.length) + ' 条'
+    : '共 0 条';
+  document.getElementById('p1-supplier-tbody').innerHTML = rows.map(r =>
+    '<tr>' +
+    '<td>' + escapeHtml(r[0]) + '</td>' +
+    '<td>' + escapeHtml(r[1]) + '</td>' +
+    '<td>' + escapeHtml(r[2]) + '</td>' +
+    '<td>' + escapeHtml(r[3]) + '</td>' +
+    '<td>' + Number(r[4]).toLocaleString('zh-CN') + '</td>' +
+    '<td style="font-weight:600">¥' + Number(r[5]).toLocaleString('zh-CN', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td>' +
+    '</tr>'
+  ).join('');
+  document.getElementById('p1-supplier-page-info').textContent = '第 ' + supplierTableState.page + ' / ' + totalPages + ' 页';
+  document.getElementById('p1-supplier-prev').disabled = supplierTableState.page <= 1;
+  document.getElementById('p1-supplier-next').disabled = supplierTableState.page >= totalPages;
+  document.getElementById('p1-supplier-pagination').style.display = total ? 'flex' : 'none';
+}
+
+function changeSupplierPage(offset) {
+  supplierTableState.page += offset;
+  renderSupplierTable();
+}
+
+function changeSupplierPageSize(value) {
+  supplierTableState.pageSize = Number(value) || 50;
+  supplierTableState.page = 1;
+  renderSupplierTable();
+}
+
+
+const ORDER_DATA_URL='assets/data/orders.ae72d019d132.json.gz';
+let orderDataPromise=null;
+function ensureOrderData() {
+  if (ORD.length) return Promise.resolve(ORD);
+  if (!orderDataPromise) {
+    document.body.classList.add('loading-order-data');
+    orderDataPromise=fetch(ORDER_DATA_URL, {cache:'force-cache'})
+      .then(function(response) {
+        if (!response.ok) throw new Error('出入库明细加载失败：'+response.status);
+        if (!response.body || typeof DecompressionStream === 'undefined') {
+          throw new Error('当前浏览器版本过低，不支持压缩数据解包');
+        }
+        const stream=response.body.pipeThrough(new DecompressionStream('gzip'));
+        return new Response(stream).json();
+      })
+      .then(function(rows) { ORD=rows; return ORD; })
+      .finally(function() { document.body.classList.remove('loading-order-data'); });
+  }
+  return orderDataPromise;
+}
+
+// ── PAGE SWITCH ──
+function switchPage(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
+  setTimeout(() => {
+    Object.values(charts).forEach(c => c.resize());
+    const needsOrders = id === 'p1' || id === 'p4' || id === 'p5';
+    const ready = needsOrders ? ensureOrderData() : Promise.resolve();
+    ready.then(() => renderPage(id)).catch(error => {
+      console.error(error);
+      alert('出入库明细加载失败，请刷新页面后重试。');
+    });
+  }, 50);
+}
+
+function renderPage(id) {
+  applyFilter(id);
+}
+
+// ── PAGE 1 ──
+function renderP1() { applyFilter('p1'); }
+
+function renderP2() { applyFilter('p2'); }
+
+function renderP3() { applyFilter('p3'); }
+
+function renderP4() { applyFilter('p4'); }
+
+function renderP5() { applyFilter('p5'); }
+
+function renderP6() { applyFilter('p6'); }
+
+function renderP7() { applyFilter('p7'); }
+
+
+function inv_val(r) { return r[I.s] * r[I.p]; }
+function inv_urgency(r) {
+  if (r[I.s] === 0) return '断货';
+  const d = r[I.dly] > 0 ? r[I.s] / r[I.dly] : 999;
+  if (d < 7) return '紧急';
+  if (r[I.s] < r[I.safe]) return '预警';
+  return '正常';
+}
+function inv_dts(r) { return r[I.dly] > 0 ? +(r[I.s]/r[I.dly]).toFixed(1) : 999; }
+
+function renderP1WithData(inv, ord, filter) {
+  const totalVal = inv.reduce((a,r)=>a+inv_val(r),0);
+  document.getElementById('p1-skus').textContent = inv.length;
+  document.getElementById('p1-qty').textContent = inv.reduce((a,r)=>a+r[I.s],0).toLocaleString();
+  document.getElementById('p1-value').textContent = (totalVal/10000).toFixed(1);
+  document.getElementById('p1-warn').textContent = inv.filter(r=>['断货','预警'].includes(inv_urgency(r))).length;
+  const supplierTotals={};
+  SUPPLIER_PAYMENTS.forEach(r=>{
+    if(filter.ds&&r[0]<filter.ds)return;
+    if(filter.de&&r[0]>filter.de)return;
+    supplierTotals[r[1]]=(supplierTotals[r[1]]||0)+r[2];
+  });
+  const suppliers=Object.entries(supplierTotals).sort((a,b)=>b[1]-a[1]);
+  const visibleEnd=Math.min(100,Math.max(24,800/Math.max(1,suppliers.length)));
+  ec('c1-wh',{
+    tooltip:{trigger:'axis',axisPointer:{type:'shadow'},formatter:p=>p[0].name+'<br>应打款金额：¥'+Number(p[0].value).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})},
+    grid:{left:190,right:72,top:8,bottom:28,containLabel:false},
+    xAxis:{type:'value',min:0,axisLabel:{fontSize:10,formatter:v=>(v/10000).toFixed(0)+'万'},splitLine:{lineStyle:{color:'#eef1f6'}}},
+    yAxis:{type:'category',inverse:true,data:suppliers.map(x=>x[0]),axisLabel:{fontSize:11,width:165,overflow:'truncate'},axisTick:{show:false}},
+    dataZoom:suppliers.length>8?[{type:'inside',yAxisIndex:0,start:0,end:visibleEnd},{type:'slider',yAxisIndex:0,start:0,end:visibleEnd,right:3,width:10,showDetail:false,borderColor:'transparent',fillerColor:'rgba(67,97,238,.16)',handleSize:0}]:[],
+    series:[{name:'应打款金额',type:'bar',data:suppliers.map(x=>+x[1].toFixed(2)),barMaxWidth:18,itemStyle:{color:'#4361EE',borderRadius:[0,4,4,0]},label:{show:true,position:'right',fontSize:10,color:'#475569',formatter:p=>(p.value/10000).toFixed(1)+'万'}}]
+  });
+  const outByDay={},inByDay={};
+  ord.forEach(o=>{if(o[O.t]==='出库')outByDay[o[O.d]]=(outByDay[o[O.d]]||0)+o[O.q];else inByDay[o[O.d]]=(inByDay[o[O.d]]||0)+o[O.q];});
+  const days30=DATA.m1.trend_days;
+  ec('c1-trend',{tooltip:{trigger:'axis'},legend:{data:['出库量','入库量'],bottom:0,textStyle:{fontSize:11}},grid:{left:10,right:10,top:10,bottom:40,containLabel:true},xAxis:{type:'category',data:days30.map((_,i)=>i%5===0?days30[i].slice(5):''),axisLabel:{fontSize:9}},yAxis:{type:'value',axisLabel:{fontSize:10}},series:[{name:'出库量',type:'bar',data:days30.map(d=>outByDay[d]||0),barMaxWidth:6,itemStyle:{color:'#4361EE'}},{name:'入库量',type:'bar',data:days30.map(d=>inByDay[d]||0),barMaxWidth:6,itemStyle:{color:'#2EC4B6'}}]});
+  const sc={正常:0,预警:0,断货:0,滞销:0};
+  inv.forEach(r=>{const u=inv_urgency(r);if(u==='断货')sc.断货++;else if(u==='预警')sc.预警++;else if(r[I.slow]>30)sc.滞销++;else sc.正常++;});
+  const sColors={正常:'#06D6A0',预警:'#F77F00',断货:'#EF476F',滞销:'#9ca3af'};
+  ec('c1-status',{tooltip:{trigger:'item',formatter:'{b}: {c}个 ({d}%)'},legend:{show:false},series:[{type:'pie',radius:['35%','60%'],center:['50%','52%'],data:Object.entries(sc).map(([k,v])=>({name:k,value:v,itemStyle:{color:sColors[k]}})),label:{show:true,formatter:'{b}: {c}个',fontSize:11}}]});
+  // 供应商入库明细表
+  const supplierFiltered = SUPPLIER_DETAIL.filter(r => {
+    if (filter.ds && r[0] < filter.ds) return false;
+    if (filter.de && r[0] > filter.de) return false;
+    return true;
+  });
+  const supplierFilterKey = (filter.ds || '') + '|' + (filter.de || '');
+  if (supplierTableState.filterKey !== supplierFilterKey) {
+    supplierTableState.page = 1;
+    supplierTableState.filterKey = supplierFilterKey;
+  }
+  supplierTableState.rows = supplierFiltered;
+  renderSupplierTable();
+}
+
+function renderP2WithData(inv) {
+  document.getElementById('p2-stockout').textContent=inv.filter(r=>r[I.s]===0).length;
+  document.getElementById('p2-urgent').textContent=inv.filter(r=>r[I.s]>0&&inv_dts(r)<7).length;
+  document.getElementById('p2-warn').textContent=inv.filter(r=>r[I.s]>0&&r[I.s]<r[I.safe]).length;
+  document.getElementById('p2-value').textContent=(inv.filter(r=>['断货','紧急','预警'].includes(inv_urgency(r))).reduce((a,r)=>a+Math.max(0,r[I.safe]+r[I.cyc]-r[I.s])*r[I.p],0)/10000).toFixed(1);
+  const pdata=inv.filter(r=>r[I.dly]>0).map(r=>({x:Math.min(60,inv_dts(r)),y:r[I.dly],name:r[I.n]}));
+  const avgX2=pdata.reduce((a,p)=>a+p.x,0)/Math.max(1,pdata.length);
+  const avgY2=pdata.reduce((a,p)=>a+p.y,0)/Math.max(1,pdata.length);
+  ec('c2-scatter',{tooltip:{formatter:p=>p.data.name+'<br>库存天数: '+p.data.x+'天<br>日均销量: '+p.data.y+'件'},grid:{left:20,right:20,top:30,bottom:30,containLabel:true},xAxis:{type:'value',axisLabel:{fontSize:10},max:60,axisLine:{show:true},splitLine:{show:false}},yAxis:{type:'value',axisLabel:{fontSize:10},axisLine:{show:true},splitLine:{show:false}},series:[{type:'scatter',symbolSize:10,data:pdata.map(p=>({value:[p.x,p.y],name:p.name,x:p.x,y:p.y,itemStyle:{color:p.x<avgX2&&p.y>avgY2?'#EF476F':p.x<avgX2&&p.y<=avgY2?'#F77F00':p.x>=avgX2&&p.y>avgY2?'#2EC4B6':'#9ca3af'}}))},{type:'scatter',symbolSize:0,data:[[avgX2,avgY2]],markLine:{silent:true,lineStyle:{color:'#9ca3af',type:'dashed',width:1},data:[{xAxis:avgX2},{yAxis:avgY2}],label:{show:false}}}],graphic:[{type:'text',left:'4%',top:'8%',style:{text:'⚡ 紧急补货',fontSize:10,fill:'#EF476F',fontWeight:'bold'}},{type:'text',right:'4%',top:'8%',style:{text:'✅ 库存健康',fontSize:10,fill:'#2EC4B6',fontWeight:'bold'}},{type:'text',left:'4%',bottom:'8%',style:{text:'⚠ 次要关注',fontSize:10,fill:'#F77F00',fontWeight:'bold'}},{type:'text',right:'4%',bottom:'8%',style:{text:'📦 滞销积压',fontSize:10,fill:'#9ca3af',fontWeight:'bold'}}]});
+  const atRisk=inv.filter(r=>['断货','紧急','预警'].includes(inv_urgency(r))).slice(0,8);
+  ec('c2-forecast',{tooltip:{trigger:'axis'},legend:{bottom:0,textStyle:{fontSize:10},type:'scroll'},grid:{left:10,right:10,top:10,bottom:50,containLabel:true},xAxis:{type:'category',data:DATA.m2.forecast_days,axisLabel:{fontSize:9,interval:4}},yAxis:{type:'value',axisLabel:{fontSize:10}},color:['#4361EE','#2EC4B6','#F77F00','#9b59b6','#EF476F','#06D6A0','#4895ef','#560bad'],series:atRisk.map(r=>({name:r[I.n].slice(0,8),type:'line',data:Array.from({length:31},(_,d)=>Math.max(0,r[I.s]-r[I.dly]*d)),smooth:true,symbol:'none',lineStyle:{width:2}}))});
+  const today=new Date(DATA.today+'T00:00:00');
+  const list=inv.filter(r=>['断货','紧急','预警'].includes(inv_urgency(r))).map(r=>{const dts=inv_dts(r);const sd=dts<999?new Date(today.getTime()+dts*86400000).toISOString().slice(0,10):'—';const lr=dts<999?new Date(today.getTime()+Math.max(0,dts-r[I.rod])*86400000).toISOString().slice(0,10):'—';return{...r,dts,sd,lr,uq:inv_urgency(r),rq:Math.max(0,r[I.safe]+r[I.cyc]-r[I.s])};}).sort((a,b)=>({'断货':0,'紧急':1,'预警':2}[a.uq]-{'断货':0,'紧急':1,'预警':2}[b.uq])||a.dts-b.dts);
+  document.getElementById('reorder-tbody').innerHTML=list.slice(0,50).map(r=>'<tr><td>'+r[I.n]+'</td><td>'+r[I.s]+'</td><td>'+r[I.safe]+'</td><td>'+r[I.dly]+'</td><td style="color:#EF476F;font-weight:600">'+r.sd+'</td><td style="color:#F77F00">'+r.lr+'</td><td style="font-weight:700;color:#4361EE">'+r.rq+'</td><td><span class="tag tag-'+(r.uq==='断货'?'red':'orange')+'">'+r.uq+'</span></td></tr>').join('');
+}
+
+function renderP3WithData(inv) {
+  document.getElementById('p3-slow').textContent=inv.filter(r=>r[I.slow]>30).length;
+  document.getElementById('p3-age-avg').textContent=(inv.reduce((a,r)=>a+r[I.age],0)/Math.max(1,inv.length)).toFixed(1);
+  document.getElementById('p3-age90').textContent=(inv.filter(r=>r[I.age]>90).reduce((a,r)=>a+inv_val(r),0)/10000).toFixed(1);
+  document.getElementById('p3-overstock').textContent=(inv.filter(r=>r[I.slow]>30).reduce((a,r)=>a+inv_val(r),0)/10000).toFixed(1);
+  const buckets=['0-30天','31-60天','61-90天','91-180天','180天以上'];
+  function bk(a){return a<=30?'0-30天':a<=60?'31-60天':a<=90?'61-90天':a<=180?'91-180天':'180天以上';}
+  const bCount={},bVal={};buckets.forEach(b=>{bCount[b]=0;bVal[b]=0;});
+  inv.forEach(r=>{const b=bk(r[I.age]);bCount[b]++;bVal[b]+=inv_val(r);});
+  const ageBgColors=['#4361EE','#2EC4B6','#F77F00','#EF476F','#9b59b6'];
+  ec('c3-age',{tooltip:{trigger:'axis'},legend:{data:['SKU数量','库存价值(万元)'],bottom:0,textStyle:{fontSize:11}},grid:{left:10,right:10,top:10,bottom:40,containLabel:true},xAxis:{type:'category',data:buckets,axisLabel:{fontSize:10}},yAxis:[{type:'value',name:'SKU数',axisLabel:{fontSize:10}},{type:'value',name:'万元',axisLabel:{fontSize:10}}],series:[{name:'SKU数量',type:'bar',data:buckets.map(b=>bCount[b]),barMaxWidth:30,yAxisIndex:0,itemStyle:{color:p=>ageBgColors[p.dataIndex],borderRadius:[4,4,0,0]}},{name:'库存价值(万元)',type:'line',data:buckets.map(b=>+(bVal[b]/10000).toFixed(1)),yAxisIndex:1,smooth:true,lineStyle:{color:'#1a1f36',width:2},symbol:'circle',symbolSize:6}]});
+  const bpts=inv.filter(r=>r[I.s]>0).slice(0,60).map(r=>[r[I.age],+(inv_val(r)/10000).toFixed(2),Math.max(5,Math.min(40,r[I.s]/10)),r[I.n]]);
+  const avgX3=bpts.reduce((a,p)=>a+p[0],0)/Math.max(1,bpts.length);
+  const avgY3=bpts.reduce((a,p)=>a+p[1],0)/Math.max(1,bpts.length);
+  ec('c3-bubble',{tooltip:{formatter:p=>p.name+'<br>库龄: '+p.value[0]+'天<br>库存价值: '+p.value[1]+'万元'},grid:{left:20,right:20,top:30,bottom:30,containLabel:true},xAxis:{type:'value',axisLabel:{fontSize:10},axisLine:{show:true},splitLine:{show:false}},yAxis:{type:'value',axisLabel:{fontSize:10},axisLine:{show:true},splitLine:{show:false}},series:[{type:'scatter',data:bpts.map(p=>({value:[p[0],p[1]],name:p[3],symbolSize:p[2],itemStyle:{color:p[0]>=avgX3&&p[1]>=avgY3?'#EF476F':p[0]>=avgX3&&p[1]<avgY3?'#F77F00':p[0]<avgX3&&p[1]>=avgY3?'#2EC4B6':'#4361EE'}}))},{type:'scatter',symbolSize:0,data:[[avgX3,avgY3,0,'']],markLine:{silent:true,lineStyle:{color:'#9ca3af',type:'dashed',width:1},data:[{xAxis:avgX3},{yAxis:avgY3}],label:{show:false}}}],graphic:[{type:'text',left:'4%',top:'8%',style:{text:'✅ 库龄短·价值高',fontSize:10,fill:'#2EC4B6',fontWeight:'bold'}},{type:'text',right:'4%',top:'8%',style:{text:'🔴 库龄长·价值高',fontSize:10,fill:'#EF476F',fontWeight:'bold'}},{type:'text',left:'4%',bottom:'8%',style:{text:'📦 库龄短·价值低',fontSize:10,fill:'#4361EE',fontWeight:'bold'}},{type:'text',right:'4%',bottom:'8%',style:{text:'⚠ 库龄长·价值低',fontSize:10,fill:'#F77F00',fontWeight:'bold'}}]});
+  document.getElementById('slow-tbody').innerHTML=inv.filter(r=>r[I.slow]>30).sort((a,b)=>b[I.age]-a[I.age]).slice(0,50).map(r=>'<tr><td>'+r[I.n]+'</td><td>'+r[I.ed]+'</td><td style="color:'+(r[I.age]>90?'#EF476F':r[I.age]>30?'#F77F00':'#1a1f36')+';font-weight:600">'+r[I.age]+'</td><td>'+r[I.slow]+'</td><td>'+r[I.s]+'</td><td>¥'+inv_val(r).toFixed(0)+'</td></tr>').join('');
+}
+
+function renderP4WithData(ord) {
+  const months6=DATA.m4.months6;
+  const mIn={}, mOut={};
+  ord.forEach(o=>{const m=o[O.d].slice(0,7); if(o[O.t]==='入库')mIn[m]=(mIn[m]||0)+o[O.v]; else mOut[m]=(mOut[m]||0)+o[O.v];});
+  const totalIn=months6.reduce((a,m)=>a+(mIn[m]||0),0);
+  const totalOut=months6.reduce((a,m)=>a+(mOut[m]||0),0);
+  const invVal=INV.reduce((a,r)=>a+r[I.s]*r[I.p],0);
+  const cutoff=(new Date(DATA.today+'T00:00:00').getTime()-30*86400000);
+  const out30=ord.filter(o=>o[O.t]==='出库'&&new Date(o[O.d]).getTime()>=cutoff).reduce((a,o)=>a+o[O.v],0);
+  const turnover=invVal>0?(out30/invVal*12).toFixed(2):0;
+  document.getElementById('p4-in').textContent=(totalIn/10000).toFixed(1);
+  document.getElementById('p4-out').textContent=(totalOut/10000).toFixed(1);
+  document.getElementById('p4-turn').textContent=turnover+'次';
+  document.getElementById('p4-avg').textContent=DATA.m4.avg_out_days;
+
+  const outByDay={}, inByDay={};
+  ord.forEach(o=>{if(o[O.t]==='出库')outByDay[o[O.d]]=(outByDay[o[O.d]]||0)+o[O.q]; else inByDay[o[O.d]]=(inByDay[o[O.d]]||0)+o[O.q];});
+  const last90=DATA.m4.last90;
+  ec('c4-trend',{tooltip:{trigger:'axis'},legend:{data:['出库量','入库量'],bottom:0,textStyle:{fontSize:11}},grid:{left:10,right:10,top:10,bottom:40,containLabel:true},xAxis:{type:'category',data:last90.map((_,i)=>i%15===0?last90[i].slice(5):''),axisLabel:{fontSize:9}},yAxis:{type:'value',axisLabel:{fontSize:10}},series:[{name:'出库量',type:'line',data:last90.map(d=>outByDay[d]||0),smooth:true,lineStyle:{color:'#4361EE',width:2},areaStyle:{color:'rgba(67,97,238,0.08)'},symbol:'none'},{name:'入库量',type:'line',data:last90.map(d=>inByDay[d]||0),smooth:true,lineStyle:{color:'#2EC4B6',width:2},areaStyle:{color:'rgba(46,196,182,0.08)'},symbol:'none'}]});
+
+  const hourOut={};
+  ord.filter(o=>o[O.t]==='出库').forEach(o=>{hourOut[o[O.h]]=(hourOut[o[O.h]]||0)+o[O.q];});
+  const hours=Array.from({length:15},(_,i)=>i+8);
+  const hourVals=hours.map(h=>hourOut[h]||0);
+  const maxV=Math.max(...hourVals);
+  ec('c4-hour',{tooltip:{trigger:'axis'},grid:{left:10,right:10,top:10,bottom:30,containLabel:true},xAxis:{type:'category',data:hours.map(h=>h+'时'),axisLabel:{fontSize:10}},yAxis:{type:'value',axisLabel:{fontSize:10}},series:[{type:'bar',data:hourVals,barMaxWidth:24,itemStyle:{color:p=>hourVals[p.dataIndex]===maxV?'#EF476F':'#4361EE',borderRadius:[4,4,0,0]}}]});
+
+  ec('c4-month',{tooltip:{trigger:'axis'},legend:{data:['入库(万元)','出库(万元)'],bottom:0,textStyle:{fontSize:11}},grid:{left:10,right:10,top:10,bottom:40,containLabel:true},xAxis:{type:'category',data:months6,axisLabel:{fontSize:10}},yAxis:{type:'value',axisLabel:{fontSize:10}},series:[{name:'入库(万元)',type:'bar',data:months6.map(m=>+((mIn[m]||0)/10000).toFixed(1)),barMaxWidth:30,itemStyle:{color:'#2EC4B6',borderRadius:[4,4,0,0]}},{name:'出库(万元)',type:'bar',data:months6.map(m=>+((mOut[m]||0)/10000).toFixed(1)),barMaxWidth:30,itemStyle:{color:'#4361EE',borderRadius:[4,4,0,0]}}]});
+
+  // 各省份发货量分析（金额折线 + 数量柱状）
+  (function(){
+    var pob=window.PROVINCE_OUTBOUND_DATA||{};
+    var pf=getFilter('p4');
+    var agg={};
+    Object.keys(pob).forEach(function(d){
+      if(pf.ds&&d<pf.ds)return;
+      if(pf.de&&d>pf.de)return;
+      pob[d].forEach(function(r){
+        if(!agg[r.province])agg[r.province]={amount:0,quantity:0};
+        agg[r.province].amount+=r.amount;
+        agg[r.province].quantity+=r.quantity;
+      });
+    });
+    var list=Object.keys(agg).map(function(p){return{province:p,amount:agg[p].amount,quantity:agg[p].quantity};}).sort(function(a,b){return b.amount-a.amount;});
+    if(list.length===0){
+      ec('c4-turn',{title:{text:'暂无数据',left:'center',top:'center',textStyle:{fontSize:14,color:'#9ca3af'}}});
+    }else{
+      ec('c4-turn',{
+        tooltip:{trigger:'axis',axisPointer:{type:'cross'}},
+        legend:{data:['发货数量','金额(万元)'],bottom:0,textStyle:{fontSize:11}},
+        grid:{left:10,right:60,top:10,bottom:40,containLabel:true},
+        xAxis:{type:'category',data:list.map(function(r){return r.province;}),axisLabel:{fontSize:9,rotate:45,interval:0}},
+        yAxis:[
+          {type:'value',name:'数量',axisLabel:{fontSize:10},splitLine:{lineStyle:{type:'dashed'}}},
+          {type:'value',name:'金额(万元)',axisLabel:{fontSize:10,formatter:'{value}'},splitLine:{show:false}}
+        ],
+        series:[
+          {name:'发货数量',type:'bar',data:list.map(function(r){return r.quantity;}),barMaxWidth:20,itemStyle:{color:'#4361EE',borderRadius:[4,4,0,0]}},
+          {name:'金额(万元)',type:'line',yAxisIndex:1,data:list.map(function(r){return+(r.amount/10000).toFixed(2);}),smooth:true,lineStyle:{color:'#EF476F',width:2},symbol:'circle',symbolSize:6,itemStyle:{color:'#EF476F'}}
+        ]
+      });
+    }
+  })();
+
+  document.getElementById('flow-tbody').innerHTML=ord.slice().sort((a,b)=>b[O.d].localeCompare(a[O.d])).slice(0,50).map(o=>`<tr><td>${o[O.d]}</td><td>${o[O.n]}</td><td><span class="tag ${o[O.t]==='入库'?'tag-green':'tag-blue'}">${o[O.t]}</span></td><td>${o[O.q]}</td><td>¥${o[O.v].toLocaleString()}</td><td style="color:#9ca3af;font-size:11px">${o[O.ref]}</td></tr>`).join('');
+}
+
+function renderP5WithData(inv, ord) {
+  const totalVal=inv.reduce((a,r)=>a+inv_val(r),0);
+  const highCount=inv.filter(r=>inv_val(r)>100000).length;
+  document.getElementById('p5-total').textContent=(totalVal/10000).toFixed(1);
+  document.getElementById('p5-avg').textContent=(totalVal/Math.max(1,inv.length)/10000).toFixed(2);
+  document.getElementById('p5-high').textContent=highCount;
+  const ch=DATA.m5.value_change;
+  const cel=document.getElementById('p5-change');
+  cel.textContent=(ch>0?'+':'')+ch+'%';
+  cel.className='kpi-value '+(ch>0?'green':'red');
+
+  const skuVal={};
+  inv.forEach(r=>{skuVal[r[I.n]]=(skuVal[r[I.n]]||0)+inv_val(r);});
+  const top20=Object.entries(skuVal).sort((a,b)=>b[1]-a[1]).slice(0,20);
+  ec('c5-top20',{tooltip:{trigger:'axis',formatter:p=>`${p[0].name}<br>库存价值: ${p[0].value}万元`},grid:{left:10,right:60,top:10,bottom:10,containLabel:true},xAxis:{type:'value',axisLabel:{fontSize:10}},yAxis:{type:'category',data:top20.map(x=>x[0].slice(0,10)),axisLabel:{fontSize:10}},series:[{type:'bar',data:top20.map(x=>+(x[1]/10000).toFixed(1)),barMaxWidth:16,itemStyle:{color:'#4361EE',borderRadius:[0,4,4,0]},label:{show:true,position:'right',fontSize:9,formatter:'{c}万'}}]});
+
+  // 仓库入库金额对比
+  (function(){
+    var wh=DATA.m5.warehouse_inbound||[];
+    if(wh.length===0){
+      ec('c5-donut',{title:{text:'暂无数据',left:'center',top:'center',textStyle:{fontSize:14,color:'#9ca3af'}}});
+    }else{
+      ec('c5-donut',{
+        tooltip:{trigger:'axis',axisPointer:{type:'shadow'},formatter:p=>p[0].name+'<br>入库金额：¥'+Number(p[0].value).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})},
+        grid:{left:10,right:60,top:10,bottom:10,containLabel:true},
+        xAxis:{type:'value',axisLabel:{fontSize:10,formatter:v=>(v/10000).toFixed(0)+'万'},splitLine:{lineStyle:{color:'#eef1f6'}}},
+        yAxis:{type:'category',inverse:true,data:wh.map(x=>x[0]),axisLabel:{fontSize:10},axisTick:{show:false}},
+        series:[{type:'bar',data:wh.map(x=>+x[1].toFixed(2)),barMaxWidth:16,itemStyle:{color:'#2EC4B6',borderRadius:[0,4,4,0]},label:{show:true,position:'right',fontSize:9,formatter:p=>(p.value/10000).toFixed(1)+'万'}}]
+      });
+    }
+  })();
+
+  const cutoff=(new Date(DATA.today+'T00:00:00').getTime()-30*86400000);
+  const skuSales={};
+  ord.filter(o=>o[O.t]==='出库'&&new Date(o[O.d]).getTime()>=cutoff).forEach(o=>{skuSales[o[O.n]]=(skuSales[o[O.n]]||0)+o[O.v];});
+  
+  (function(){
+    const pts = Object.entries(skuVal).map(([n,v])=>({ iv:+(v/10000).toFixed(2), sv:+((skuSales[n]||0)/10000).toFixed(2), name:n }));
+    const avgX = pts.reduce((a,p)=>a+p.iv,0)/Math.max(1,pts.length);
+    const avgY = pts.reduce((a,p)=>a+p.sv,0)/Math.max(1,pts.length);
+    ec('c5-scatter', {
+      tooltip: { formatter: p => p.data.name+'<br>库存价值: '+p.data.value[0]+'万<br>近30天销售: '+p.data.value[1]+'万' },
+      grid: { left:20, right:20, top:30, bottom:30, containLabel:true },
+      xAxis: { type:'value', axisLabel:{fontSize:10}, axisLine:{show:true}, splitLine:{show:false} },
+      yAxis: { type:'value', axisLabel:{fontSize:10}, axisLine:{show:true}, splitLine:{show:false} },
+      series: [
+        { type:'scatter', symbolSize:8, data:pts.map(p=>({ value:[p.iv,p.sv], name:p.name, itemStyle:{color:p.iv>=avgX&&p.sv>=avgY?'#2EC4B6':p.iv>=avgX&&p.sv<avgY?'#EF476F':p.iv<avgX&&p.sv>=avgY?'#4361EE':'#9ca3af'} })) },
+        { type:'scatter', symbolSize:0, data:[[avgX,avgY]], markLine:{ silent:true, lineStyle:{color:'#9ca3af',type:'dashed',width:1}, data:[{xAxis:avgX},{yAxis:avgY}], label:{show:false} } }
+      ],
+      graphic:[
+        {type:'text',left:'4%',top:'8%',style:{text:'⭐ 明星商品',fontSize:10,fill:'#4361EE',fontWeight:'bold'}},
+        {type:'text',right:'4%',top:'8%',style:{text:'✅ 良性占用',fontSize:10,fill:'#2EC4B6',fontWeight:'bold'}},
+        {type:'text',left:'4%',bottom:'8%',style:{text:'📉 边缘商品',fontSize:10,fill:'#9ca3af',fontWeight:'bold'}},
+        {type:'text',right:'4%',bottom:'8%',style:{text:'🔴 清仓重点',fontSize:10,fill:'#EF476F',fontWeight:'bold'}}
+      ]
+    });
+  })();
+
+  ec('c5-trend',{tooltip:{trigger:'axis'},grid:{left:10,right:10,top:10,bottom:30,containLabel:true},xAxis:{type:'category',data:DATA.m5.months6,axisLabel:{fontSize:10}},yAxis:{type:'value',axisLabel:{fontSize:10}},series:[{type:'line',data:DATA.m5.val_trend6,smooth:true,lineStyle:{color:'#4361EE',width:2},areaStyle:{color:'rgba(67,97,238,0.08)'},symbol:'circle',symbolSize:6,itemStyle:{color:'#4361EE'},label:{show:true,position:'top',fontSize:10,formatter:'{c}万'}}]});
+}
+
+// ── PAGE 6: 各省份出库分析 ──
+var p6Mode = 'material';
+var P6_PROJECT_SELECTION = { material:'', device:'' };
+
+function selectP6Project(mode,name) {
+  P6_PROJECT_SELECTION[mode]=name;
+  applyFilter('p6');
+  var target=mode==='device'?'c6d-out-amt':'c6-out-amt';
+  setTimeout(function(){var el=document.getElementById(target);if(el)el.scrollIntoView({behavior:'smooth',block:'center'});},40);
+}
+
+function clearP6ProjectSelection() {
+  P6_PROJECT_SELECTION[p6Mode]='';
+  applyFilter('p6');
+}
+
+function updateP6ProjectNote(mode) {
+  var selected=P6_PROJECT_SELECTION[mode]||'';
+  var note=document.getElementById(mode==='device'?'p6-device-analysis-note':'p6-material-analysis-note');
+  var name=document.getElementById(mode==='device'?'p6-device-analysis-name':'p6-material-analysis-name');
+  if(note)note.style.display=selected?'flex':'none';
+  if(name)name.textContent=selected;
+}
+
+function switchP6Mode(mode) {
+  p6Mode = mode;
+  document.getElementById('p6-btn-material').classList.toggle('active', mode==='material');
+  document.getElementById('p6-btn-device').classList.toggle('active', mode==='device');
+  document.getElementById('p6-material-content').style.display = mode==='material' ? '' : 'none';
+  document.getElementById('p6-device-content').style.display = mode==='device' ? '' : 'none';
+  // 切换模式时清空省份下拉框（保留"全部省份"），避免物料/设备省份名称格式不同导致匹配失败
+  var sel = document.getElementById('p6-province');
+  if(sel){ while(sel.options.length>1){ sel.remove(1); } sel.value=''; }
+  applyFilter('p6');
+  setTimeout(function(){ Object.values(charts).forEach(function(c){ c.resize(); }); }, 100);
+}
+function renderP6WithData(f) {
+  if (p6Mode === 'device') { renderP6DeviceWithData(f); return; }
+  var pob=window.PROVINCE_OUTBOUND_DATA||{};
+  var agg={};
+  Object.keys(pob).forEach(function(d){
+    if(f.ds&&d<f.ds)return;
+    if(f.de&&d>f.de)return;
+    pob[d].forEach(function(r){
+      if(!agg[r.province])agg[r.province]={amount:0,quantity:0};
+      agg[r.province].amount+=r.amount;
+      agg[r.province].quantity+=r.quantity;
+    });
+  });
+  // 选中物料时，下方省份图表与 KPI 改为该物料的独立省份数据
+  var selectedMaterial=P6_PROJECT_SELECTION.material||'';
+  updateP6ProjectNote('material');
+  if(selectedMaterial){
+    agg={};
+    (window.PROVINCE_MATERIAL_DATA||[]).forEach(function(r){
+      if(r.material!==selectedMaterial)return;
+      if(f.pv&&r.province!==f.pv)return;
+      if(!agg[r.province])agg[r.province]={amount:0,quantity:0};
+      agg[r.province].amount+=Number(r.amount)||0;
+      agg[r.province].quantity+=Number(r.quantity)||0;
+    });
+  }
+  var list=Object.keys(agg).map(function(p){return{province:p,amount:agg[p].amount,quantity:agg[p].quantity};});
+  var byAmt=list.slice().sort(function(a,b){return b.amount-a.amount;});
+  var byQty=list.slice().sort(function(a,b){return b.quantity-a.quantity;});
+
+  var totalAmt=byAmt.reduce(function(a,r){return a+r.amount;},0);
+  var totalQty=byQty.reduce(function(a,r){return a+r.quantity;},0);
+  var top5Amt=byAmt.slice(0,5).reduce(function(a,r){return a+r.amount;},0);
+  var top5Pct=totalAmt>0?(top5Amt/totalAmt*100).toFixed(1):0;
+
+  document.getElementById('p6-provinces').textContent=byAmt.length;
+  document.getElementById('p6-out-amt').textContent=(totalAmt/10000).toFixed(1);
+  document.getElementById('p6-out-qty').textContent=totalQty.toLocaleString('zh-CN');
+  document.getElementById('p6-top5').textContent=top5Pct+'%';
+
+  if(byAmt.length===0){
+    ['c6-out-amt','c6-out-qty','c6-pie'].forEach(function(id){ec(id,{title:{text:'暂无数据',left:'center',top:'center',textStyle:{fontSize:14,color:'#9ca3af'}}});});
+    renderShipmentRanking('c6-material-amount',[],'material','amount');
+    renderShipmentRanking('c6-material-qty',[],'material','quantity');
+    return;
+  }
+
+  // 出库金额排名（立柱：分类间留白）
+  var amtTop=byAmt.slice(0,20);
+  ec('c6-out-amt',{
+    tooltip:{trigger:'axis',axisPointer:{type:'shadow'},formatter:function(p){return p[0].name+'<br>出库金额：¥'+Number(p[0].value).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});}},
+    grid:{left:12,right:12,top:22,bottom:65,containLabel:true},
+    xAxis:{type:'category',data:amtTop.map(function(r){return r.province;}),axisLabel:{fontSize:9,rotate:38,interval:0},axisTick:{alignWithLabel:true}},
+    yAxis:{type:'value',axisLabel:{fontSize:9,formatter:function(v){return(v/10000).toFixed(0)+'万';}},splitLine:{lineStyle:{color:'#eef1f6'}}},
+    series:[{type:'bar',data:amtTop.map(function(r){return+r.amount.toFixed(2);}),barWidth:'42%',barCategoryGap:'48%',itemStyle:{color:'#4361EE',borderRadius:[4,4,0,0]},label:{show:true,position:'top',fontSize:8,color:'#475569',formatter:function(p){return(p.value/10000).toFixed(1)+'万';}}}]
+  });
+
+  // 出库数量排名（立柱：分类间留白）
+  var qtyTop=byQty.slice(0,20);
+  ec('c6-out-qty',{
+    tooltip:{trigger:'axis',axisPointer:{type:'shadow'},formatter:function(p){return p[0].name+'<br>出库数量：'+Number(p[0].value).toLocaleString('zh-CN');}},
+    grid:{left:12,right:12,top:22,bottom:65,containLabel:true},
+    xAxis:{type:'category',data:qtyTop.map(function(r){return r.province;}),axisLabel:{fontSize:9,rotate:38,interval:0},axisTick:{alignWithLabel:true}},
+    yAxis:{type:'value',axisLabel:{fontSize:9},splitLine:{lineStyle:{color:'#eef1f6'}}},
+    series:[{type:'bar',data:qtyTop.map(function(r){return r.quantity;}),barWidth:'42%',barCategoryGap:'48%',itemStyle:{color:'#2EC4B6',borderRadius:[4,4,0,0]},label:{show:true,position:'top',fontSize:8,color:'#475569',formatter:function(p){return p.value.toLocaleString('zh-CN');}}}]
+  });
+
+  // 出库金额占比饼图（Top10 + 其他）
+  var pieTop=byAmt.slice(0,10);
+  var otherAmt=byAmt.slice(10).reduce(function(a,r){return a+r.amount;},0);
+  var pieData=pieTop.map(function(r){return{name:r.province,value:+r.amount.toFixed(2)};});
+  if(otherAmt>0)pieData.push({name:'其他省份',value:+otherAmt.toFixed(2)});
+  var pieColors=['#4361EE','#2EC4B6','#EF476F','#F77F00','#FFD166','#06D6A0','#118AB2','#073B4C','#7209B7','#FB5607','#9ca3af'];
+  ec('c6-pie',{
+    tooltip:{trigger:'item',formatter:function(p){return p.name+'<br>出库金额：¥'+Number(p.value).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})+'<br>占比：'+p.percent+'%';}},
+    legend:{type:'scroll',orient:'vertical',right:10,top:'center',textStyle:{fontSize:10}},
+    series:[{
+      type:'pie',
+      radius:['30%','60%'],
+      center:['35%','52%'],
+      data:pieData.map(function(d,i){return{name:d.name,value:d.value,itemStyle:{color:pieColors[i%pieColors.length]}};}),
+      label:{show:true,formatter:'{b}\n{d}%',fontSize:10},
+      labelLine:{length:8,length2:8}
+    }]
+  });
+
+  // 填充省份下拉（每次渲染都重新填充，避免物料/设备切换时省份名称格式不同）
+  var sel=document.getElementById('p6-province');
+  if(sel){
+    while(sel.options.length>1){ sel.remove(1); }
+    var allProvinces=[];
+    Object.keys(pob).forEach(function(d){pob[d].forEach(function(r){if(allProvinces.indexOf(r.province)<0)allProvinces.push(r.province);});});
+    allProvinces.sort();
+    allProvinces.forEach(function(p){var o=document.createElement('option');o.value=p;o.textContent=p;sel.appendChild(o);});
+    sel.value=f.pv||'';
+  }
+
+  // ── 物料明细图表（按省份筛选）──
+  var pmRaw=window.PROVINCE_MATERIAL_DATA||[];
+  var pmAgg={};
+  pmRaw.forEach(function(r){
+    if(f.pv && r.province!==f.pv)return;
+    if(!pmAgg[r.material])pmAgg[r.material]={amount:0,quantity:0};
+    pmAgg[r.material].amount+=r.amount;
+    pmAgg[r.material].quantity+=r.quantity;
+  });
+  var pmList=Object.keys(pmAgg).map(function(m){return{material:m,amount:pmAgg[m].amount,quantity:pmAgg[m].quantity};});
+  var pmByAmount=pmList.slice().sort(function(a,b){return b.amount-a.amount;});
+  var pmByQuantity=pmList.slice().sort(function(a,b){return b.quantity-a.quantity;});
+  var scope=f.pv?f.pv:'各省';
+  var amountTitle=document.getElementById('c6-material-amount-title');
+  var qtyTitle=document.getElementById('c6-material-qty-title');
+  var amountSub=document.getElementById('c6-material-amount-subtitle');
+  var qtySub=document.getElementById('c6-material-qty-subtitle');
+  if(amountTitle)amountTitle.textContent=scope+'物料出库金额';
+  if(qtyTitle)qtyTitle.textContent=scope+'物料发货数量';
+  if(amountSub)amountSub.textContent='按出库金额从高到低排序 · 共 '+pmList.length+' 种物料';
+  if(qtySub)qtySub.textContent='按发货数量从高到低排序 · 共 '+pmList.length+' 种物料';
+  renderShipmentRanking('c6-material-amount',pmByAmount,'material','amount');
+  renderShipmentRanking('c6-material-qty',pmByQuantity,'material','quantity');
+}
+
+// ── P6 设备出库渲染 ──
+function renderP6DeviceWithData(f) {
+  var dob=window.DEVICE_OUTBOUND_DATA||{};
+  var agg={}, allSku={};
+  Object.keys(dob).forEach(function(m){
+    if(f.ds && m<f.ds)return;
+    if(f.de && m>f.de)return;
+    dob[m].forEach(function(r){
+      if(!agg[r.province])agg[r.province]={amount:0,quantity:0};
+      agg[r.province].amount+=r.amount;
+      agg[r.province].quantity+=r.quantity;
+      if(r.devices)r.devices.forEach(function(d){allSku[d.name]=1;});
+    });
+  });
+  // 选中设备时，下方省份图表与 KPI 只使用该设备的独立省份数据
+  var selectedDevice=P6_PROJECT_SELECTION.device||'';
+  updateP6ProjectNote('device');
+  if(selectedDevice){
+    agg={};
+    Object.keys(dob).forEach(function(m){
+      if(f.ds&&m<f.ds)return;
+      if(f.de&&m>f.de)return;
+      dob[m].forEach(function(r){
+        if(f.pv&&r.province!==f.pv)return;
+        (r.devices||[]).forEach(function(d){
+          if(d.name!==selectedDevice)return;
+          if(!agg[r.province])agg[r.province]={amount:0,quantity:0};
+          agg[r.province].amount+=Number(d.amount)||0;
+          agg[r.province].quantity+=Number(d.quantity)||0;
+        });
+      });
+    });
+  }
+  var list=Object.keys(agg).map(function(p){return{province:p,amount:agg[p].amount,quantity:agg[p].quantity};});
+  var byAmt=list.slice().sort(function(a,b){return b.amount-a.amount;});
+  var byQty=list.slice().sort(function(a,b){return b.quantity-a.quantity;});
+  var totalAmt=byAmt.reduce(function(a,r){return a+r.amount;},0);
+  var totalQty=byQty.reduce(function(a,r){return a+r.quantity;},0);
+  var skuCount=Object.keys(allSku).length;
+
+  document.getElementById('p6d-provinces').textContent=byAmt.length;
+  document.getElementById('p6d-out-amt').textContent=(totalAmt/10000).toFixed(1);
+  document.getElementById('p6d-out-qty').textContent=totalQty.toLocaleString('zh-CN');
+  document.getElementById('p6d-sku-count').textContent=skuCount;
+
+  if(byAmt.length===0){
+    ['c6d-out-amt','c6d-out-qty','c6d-pie'].forEach(function(id){ec(id,{title:{text:'暂无数据',left:'center',top:'center',textStyle:{fontSize:14,color:'#9ca3af'}}});});
+    renderShipmentRanking('c6d-device-amount',[],'name','amount');
+    renderShipmentRanking('c6d-device-qty',[],'name','quantity');
+    return;
+  }
+
+  // 出库金额排名（立柱：分类间留白）
+  var amtTop=byAmt.slice(0,20);
+  ec('c6d-out-amt',{
+    tooltip:{trigger:'axis',axisPointer:{type:'shadow'},formatter:function(p){return p[0].name+'<br>设备出库金额：¥'+Number(p[0].value).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});}},
+    grid:{left:12,right:12,top:22,bottom:65,containLabel:true},
+    xAxis:{type:'category',data:amtTop.map(function(r){return r.province;}),axisLabel:{fontSize:9,rotate:38,interval:0},axisTick:{alignWithLabel:true}},
+    yAxis:{type:'value',axisLabel:{fontSize:9,formatter:function(v){return(v/10000).toFixed(0)+'万';}},splitLine:{lineStyle:{color:'#eef1f6'}}},
+    series:[{type:'bar',data:amtTop.map(function(r){return +r.amount.toFixed(2);}),barWidth:'42%',barCategoryGap:'48%',itemStyle:{color:'#EF476F',borderRadius:[4,4,0,0]},label:{show:true,position:'top',fontSize:8,color:'#475569',formatter:function(p){return(p.value/10000).toFixed(1)+'万';}}}]
+  });
+
+  // 出库数量排名（立柱：分类间留白）
+  var qtyTop=byQty.slice(0,20);
+  ec('c6d-out-qty',{
+    tooltip:{trigger:'axis',axisPointer:{type:'shadow'},formatter:function(p){return p[0].name+'<br>设备出库数量：'+Number(p[0].value).toLocaleString('zh-CN');}},
+    grid:{left:12,right:12,top:22,bottom:65,containLabel:true},
+    xAxis:{type:'category',data:qtyTop.map(function(r){return r.province;}),axisLabel:{fontSize:9,rotate:38,interval:0},axisTick:{alignWithLabel:true}},
+    yAxis:{type:'value',axisLabel:{fontSize:9},splitLine:{lineStyle:{color:'#eef1f6'}}},
+    series:[{type:'bar',data:qtyTop.map(function(r){return r.quantity;}),barWidth:'42%',barCategoryGap:'48%',itemStyle:{color:'#F77F00',borderRadius:[4,4,0,0]},label:{show:true,position:'top',fontSize:8,color:'#475569',formatter:function(p){return p.value.toLocaleString('zh-CN');}}}]
+  });
+
+  // 金额占比饼图
+  var pieTop=byAmt.slice(0,10);
+  var otherAmt=byAmt.slice(10).reduce(function(a,r){return a+r.amount;},0);
+  var pieData=pieTop.map(function(r){return{name:r.province,value:+r.amount.toFixed(2)};});
+  if(otherAmt>0)pieData.push({name:'其他省份',value:+otherAmt.toFixed(2)});
+  var pieColors=['#EF476F','#F77F00','#FFD166','#06D6A0','#118AB2','#073B4C','#7209B7','#FB5607','#2EC4B6','#4361EE','#9ca3af'];
+  ec('c6d-pie',{
+    tooltip:{trigger:'item',formatter:function(p){return p.name+'<br>设备出库金额：¥'+Number(p.value).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})+'<br>占比：'+p.percent+'%';}},
+    legend:{type:'scroll',orient:'vertical',right:10,top:'center',textStyle:{fontSize:10}},
+    series:[{type:'pie',radius:['30%','60%'],center:['35%','52%'],
+      data:pieData.map(function(d,i){return{name:d.name,value:d.value,itemStyle:{color:pieColors[i%pieColors.length]}};}),
+      label:{show:true,formatter:'{b}\n{d}%',fontSize:10},labelLine:{length:8,length2:8}
+    }]
+  });
+
+  // 填充省份下拉（每次渲染都重新填充）
+  var sel=document.getElementById('p6-province');
+  if(sel){
+    while(sel.options.length>1){ sel.remove(1); }
+    var allProvinces=[];byAmt.forEach(function(r){allProvinces.push(r.province);});
+    allProvinces.sort();
+    allProvinces.forEach(function(p){var o=document.createElement('option');o.value=p;o.textContent=p;sel.appendChild(o);});
+    sel.value=f.pv||'';
+  }
+
+  // 设备明细图表（按省份筛选）
+  var devAgg={};
+  Object.keys(dob).forEach(function(m){
+    if(f.ds && m<f.ds)return;
+    if(f.de && m>f.de)return;
+    dob[m].forEach(function(r){
+      if(f.pv && r.province!==f.pv)return;
+      if(r.devices)r.devices.forEach(function(d){
+        if(!devAgg[d.name])devAgg[d.name]={amount:0,quantity:0};
+        devAgg[d.name].amount+=d.amount;
+        devAgg[d.name].quantity+=d.quantity;
+      });
+    });
+  });
+  var devList=Object.keys(devAgg).map(function(n){return{name:n,amount:devAgg[n].amount,quantity:devAgg[n].quantity};});
+  var devByAmount=devList.slice().sort(function(a,b){return b.amount-a.amount;});
+  var devByQuantity=devList.slice().sort(function(a,b){return b.quantity-a.quantity;});
+  var scope=f.pv?f.pv:'各省';
+  var amountTitle=document.getElementById('c6d-device-amount-title');
+  var qtyTitle=document.getElementById('c6d-device-qty-title');
+  var amountSub=document.getElementById('c6d-device-amount-subtitle');
+  var qtySub=document.getElementById('c6d-device-qty-subtitle');
+  if(amountTitle)amountTitle.textContent=scope+'设备出库金额';
+  if(qtyTitle)qtyTitle.textContent=scope+'设备发货数量';
+  if(amountSub)amountSub.textContent='按出库金额从高到低排序 · 共 '+devList.length+' 种设备';
+  if(qtySub)qtySub.textContent='按发货数量从高到低排序 · 共 '+devList.length+' 种设备';
+  renderShipmentRanking('c6d-device-amount',devByAmount,'name','amount');
+  renderShipmentRanking('c6d-device-qty',devByQuantity,'name','quantity');
+}
+
+// ── FILTER LOGIC ──
+function getFilter(pid) {
+  const ds = document.getElementById(pid+'-date-start')?.value || '';
+  const de = document.getElementById(pid+'-date-end')?.value || '';
+  const urgency = document.getElementById(pid+'-urgency')?.value || '';
+  const age = document.getElementById(pid+'-age')?.value || '';
+  const type = document.getElementById(pid+'-type')?.value || '';
+  const pv = document.getElementById(pid+'-province')?.value || '';
+  return { ds, de, urgency, age, type, pv };
+}
+
+function formatDateValue(date) {
+  const year=date.getFullYear();
+  const month=String(date.getMonth()+1).padStart(2,'0');
+  const day=String(date.getDate()).padStart(2,'0');
+  return year+'-'+month+'-'+day;
+}
+
+function getDefaultMonthRange() {
+  const reference=new Date(DATA.today+'T12:00:00');
+  return {
+    start:formatDateValue(new Date(reference.getFullYear(),reference.getMonth(),1)),
+    end:formatDateValue(new Date(reference.getFullYear(),reference.getMonth()+1,0))
+  };
+}
+
+function setQuickDate(pid,range) {
+  const reference=new Date(DATA.today+'T12:00:00');
+  let start,end;
+  if(range==='week') {
+    const weekday=reference.getDay()||7;
+    start=new Date(reference);start.setDate(reference.getDate()-weekday+1);
+    end=new Date(start);end.setDate(start.getDate()+6);
+  } else if(range==='lastMonth') {
+    start=new Date(reference.getFullYear(),reference.getMonth()-1,1);
+    end=new Date(reference.getFullYear(),reference.getMonth(),0);
+  } else {
+    const monthRange=getDefaultMonthRange();
+    start=new Date(monthRange.start+'T12:00:00');
+    end=new Date(monthRange.end+'T12:00:00');
+  }
+  const startEl=document.getElementById(pid+'-date-start');
+  const endEl=document.getElementById(pid+'-date-end');
+  if(startEl)startEl.value=formatDateValue(start);
+  if(endEl)endEl.value=formatDateValue(end);
+  applyFilter(pid);
+}
+
+function initializeDateFilters() {
+  const monthRange=getDefaultMonthRange();
+  ['p1','p2','p3','p4','p5','p6'].forEach(pid=>{
+    const start=document.getElementById(pid+'-date-start');
+    const end=document.getElementById(pid+'-date-end');
+    if(start)start.value=monthRange.start;
+    if(end)end.value=monthRange.end;
+  });
+}
+
+function resetFilter(pid) {
+  const els = ['date-start','date-end','urgency','age','type','province'];
+  const monthRange=getDefaultMonthRange();
+  els.forEach(k => {
+    const el = document.getElementById(pid+'-'+k);
+    if (!el) return;
+    if (el.tagName === 'SELECT') el.value = '';
+    else if (el.type === 'date') el.value = k === 'date-start' ? monthRange.start : monthRange.end;
+  });
+  applyFilter(pid);
+}
+
+function applyFilter(pid) {
+  const f = getFilter(pid);
+
+  // Filter inventory rows
+  function matchInv(r) {
+    if (f.age) {
+      const b = r[I.age]<=30?'0-30天':r[I.age]<=60?'31-60天':r[I.age]<=90?'61-90天':r[I.age]<=180?'91-180天':'180天以上';
+      if (b !== f.age) return false;
+    }
+    return true;
+  }
+
+  // Filter orders rows
+  function matchOrder(o) {
+    if (f.ds && o[O.d] < f.ds) return false;
+    if (f.de && o[O.d] > f.de) return false;
+    if (f.type && o[O.t] !== f.type) return false;
+    return true;
+  }
+
+  if (pid === 'p1') {
+    const inv = INV.filter(matchInv);
+    const ord = ORD.filter(matchOrder);
+    renderP1WithData(inv, ord, f);
+  } else if (pid === 'p2') {
+    let inv = INV.filter(matchInv);
+    if (f.urgency) inv = inv.filter(r => inv_urgency(r) === f.urgency);
+    renderP2WithData(inv);
+  } else if (pid === 'p3') {
+    const inv = INV.filter(matchInv);
+    renderP3WithData(inv);
+  } else if (pid === 'p4') {
+    const ord = ORD.filter(matchOrder);
+    renderP4WithData(ord);
+  } else if (pid === 'p5') {
+    const inv = INV.filter(matchInv);
+    const ord = ORD.filter(matchOrder);
+    renderP5WithData(inv, ord);
+  } else if (pid === 'p6') {
+    renderP6WithData(f);
+  }
+}
+
+function getUrgency(r) {
+  const stock = +r.当前库存量, daily = +r.日均销量, safety = +r.安全库存量;
+  if (stock === 0) return '断货';
+  const days = daily > 0 ? stock / daily : 999;
+  if (days < 7) return '紧急';
+  if (stock < safety) return '预警';
+  return '正常';
+}
+
+function daysToStockout(r) {
+  const d = +r.日均销量;
+  return d > 0 ? +(+r.当前库存量 / d).toFixed(1) : 999;
+}
+
+function ageBucket(days) {
+  if (days<=30) return '0-30天';
+  if (days<=60) return '31-60天';
+  if (days<=90) return '61-90天';
+  if (days<=180) return '91-180天';
+  return '180天以上';
+}
+
+
+function initDynamicFilters() {
+  const monthRange=getDefaultMonthRange();
+  ['p1','p2','p3','p4','p5','p6'].forEach(pid=>{
+    const start=document.getElementById(pid+'-date-start');
+    const end=document.getElementById(pid+'-date-end');
+    if(start){start.min=DATA.minDate;start.max=monthRange.end;start.value=monthRange.start;}
+    if(end){end.min=DATA.minDate;end.max=monthRange.end;end.value=monthRange.end;}
+  });
+}
+
+// ── INIT ──
+document.getElementById('data-date').textContent = DATA.today;
+initDynamicFilters();
+applyFilter("p6");
+</script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('./sw.js').catch(function (error) {
+      console.warn('离线缓存注册失败', error);
+    });
+  });
+}
+</script>
+</body>
+</html>

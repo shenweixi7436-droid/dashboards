@@ -1,0 +1,19 @@
+{
+  "version": "3990286558f7",
+  "builtAt": "2026-08-12T10:00:17+08:00",
+  "source": "C:\\Users\\shenw\\Desktop\\看板\\物料小组看板",
+  "files": {
+    "html": "index.html",
+    "core": "assets/data/core.56b069684b73.js",
+    "orders": "assets/data/orders.ae72d019d132.json.gz",
+    "fonts": [
+      "assets/fonts/gotham-rounded-bold.f6281701cdb9.woff2",
+      "assets/fonts/hk-yuan-w7.a0f4d903956d.woff2"
+    ],
+    "province": [
+      "assets/data/province_outbound.f6fc44c6bcea.js",
+      "assets/data/province_material.c966bc447a9c.js",
+      "assets/data/device_outbound.8e0f5d35a300.js"
+    ]
+  }
+}
