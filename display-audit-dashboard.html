@@ -212,7 +212,7 @@ svg text{font-family:'华康圆体-W7','HKYuanW7','Microsoft YaHei',sans-serif}
 </head><body>
 <div class="hd">
   <div><h1>2026年度全国陈列稽核总看板</h1></div>
-  <div class="dt">&#128203; 数据更新：2026-08-08 17:09 &nbsp;|&nbsp; &#128197; 数据范围：2026年1月—8月</div>
+  <div class="dt">&#128203; 数据更新：2026-08-11 10:46 &nbsp;|&nbsp; &#128197; 数据范围：2026年1月—8月</div>
   <a class="home-btn" href="index.html">返回主页</a>
 </div>
 <div class="ct">
@@ -239,6 +239,7 @@ svg text{font-family:'华康圆体-W7','HKYuanW7','Microsoft YaHei',sans-serif}
   <span class="mtag" data-month="10月">10月</span>
   <span class="mtag" data-month="11月">11月</span>
   <span class="mtag" data-month="12月">12月</span>
+  <span class="mtag" data-month="全年">全年</span>
 </div>
 <div id="zero-hint" style="display:none;margin:0 16px 8px;padding:8px 12px;background:#fff3cd;border-radius:6px;font-size:12px;color:#856404;line-height:1.5;">
       &#9888; <span id="zero-hint-text"></span>
@@ -357,7 +358,7 @@ svg text{font-family:'华康圆体-W7','HKYuanW7','Microsoft YaHei',sans-serif}
     </div>
   </div>
 </div>
-<script src="assets/data/dashboard-snapshot.js?v=20260808170911"></script>
+<script src="assets/data/dashboard-snapshot.js?v=20260811104618"></script>
 <script>
 
 var chartInst = null;
@@ -773,7 +774,6 @@ function renderDetail(cardIdx){
     var rows = d.audit_details || [];
     document.getElementById("detailTitle").textContent = "稽核门店明细";
     document.getElementById("detailKpiRow").innerHTML =
-      '<div class="dkpi-item"><div class="dkpi-label">当前筛选</div><div class="dkpi-val" style="color:#703a1e">'+currentZone+' · '+(currentMonth==="全年"?"全年汇总":currentMonth)+'</div></div>'+
       '<div class="dkpi-item"><div class="dkpi-label">明细条数</div><div class="dkpi-val" style="color:#ec5f74">'+rows.length.toLocaleString()+'</div></div>'+
       '<div class="dkpi-item"><div class="dkpi-label">合格数量</div><div class="dkpi-val" style="color:#fcc900">'+rows.filter(function(r){return r.result==="合格";}).length.toLocaleString()+'</div></div>'+
       '<div class="dkpi-item"><div class="dkpi-label">不合格数量</div><div class="dkpi-val" style="color:#d93924">'+rows.filter(function(r){return r.result==="不合格";}).length.toLocaleString()+'</div></div>'+
@@ -812,7 +812,6 @@ function renderDetail(cardIdx){
     var fakeCount = rows.filter(function(r){return r.result==="虚假";}).length;
     document.getElementById("detailTitle").textContent = "不合格/虚假门店明细";
     document.getElementById("detailKpiRow").innerHTML =
-      '<div class="dkpi-item"><div class="dkpi-label">当前筛选</div><div class="dkpi-val" style="color:#703a1e">'+currentZone+' · '+(currentMonth==="全年"?"全年汇总":currentMonth)+'</div></div>'+
       '<div class="dkpi-item"><div class="dkpi-label">明细条数</div><div class="dkpi-val" style="color:#ec5f74">'+rows.length.toLocaleString()+'</div></div>'+
       '<div class="dkpi-item"><div class="dkpi-label">不合格数量</div><div class="dkpi-val" style="color:#d93924">'+badCount.toLocaleString()+'</div></div>'+
       '<div class="dkpi-item"><div class="dkpi-label">虚假数量</div><div class="dkpi-val" style="color:#ec5f74">'+fakeCount.toLocaleString()+'</div></div>';
@@ -890,7 +889,6 @@ function renderDetail(cardIdx){
 
     document.getElementById("detailTitle").textContent = "年度稽核合格率趋势";
     document.getElementById("detailKpiRow").innerHTML =
-      '<div class="dkpi-item"><div class="dkpi-label">当前筛选</div><div class="dkpi-val" style="color:#703a1e;white-space:nowrap">'+escH(currentZone)+'</div></div>'+
       '<div class="dkpi-item"><div class="dkpi-label">'+(currentMonth==="全年"?"年度稽核家数":"当前稽核家数")+'</div><div class="dkpi-val" style="color:#ec5f74;white-space:nowrap">'+focusAuditText+'</div></div>'+
       '<div class="dkpi-item"><div class="dkpi-label">'+(currentMonth==="全年"?"年度合格率":"当前合格率")+'</div><div class="dkpi-val" style="color:#fcc900;white-space:nowrap">'+focusRateText+'</div></div>'+
       '<div class="dkpi-item"><div class="dkpi-label">当前月份</div><div class="dkpi-val" style="color:#d93924;white-space:nowrap">'+escH(focusMonthText)+'</div></div>';
@@ -1008,7 +1006,6 @@ function renderDetail(cardIdx){
     var zeroNames = zeroRows.map(function(r){return escH(r.name||"-");}).join("、") || "无";
     document.getElementById("detailTitle").textContent = "稽核进度";
     document.getElementById("detailKpiRow").innerHTML =
-      '<div class="dkpi-item"><div class="dkpi-label">当前筛选</div><div class="dkpi-val" style="color:#703a1e">'+currentZone+' · '+(currentMonth==="全年"?"全年汇总":currentMonth)+'</div></div>'+
       '<div class="dkpi-item"><div class="dkpi-label">省区数量</div><div class="dkpi-val" style="color:#ec5f74">'+rows.length.toLocaleString()+'</div></div>'+
       '<div class="dkpi-item"><div class="dkpi-label">实际稽核</div><div class="dkpi-val" style="color:#703a1e">'+totalAudit.toLocaleString()+'</div></div>'+
       '<div class="dkpi-item"><div class="dkpi-label">投入费用门店</div><div class="dkpi-val" style="color:#fcc900">'+totalInvest.toLocaleString()+'</div></div>'+
@@ -1060,7 +1057,6 @@ function renderDetail(cardIdx){
     var low60 = rows.filter(function(r){return parseFloat(r.rate||0)<60;});
     document.getElementById("detailTitle").textContent = "合格率排名";
     document.getElementById("detailKpiRow").innerHTML =
-      '<div class="dkpi-item"><div class="dkpi-label">当前筛选</div><div class="dkpi-val" style="color:#703a1e">'+currentZone+' · '+(currentMonth==="全年"?"全年汇总":currentMonth)+'</div></div>'+
       '<div class="dkpi-item"><div class="dkpi-label">省区数量</div><div class="dkpi-val" style="color:#ec5f74">'+rows.length.toLocaleString()+'</div></div>'+
       '<div class="dkpi-item"><div class="dkpi-label">稽核门店</div><div class="dkpi-val" style="color:#703a1e">'+totalAudit.toLocaleString()+'</div></div>'+
       '<div class="dkpi-item"><div class="dkpi-label">合格门店</div><div class="dkpi-val" style="color:#fcc900">'+totalQual.toLocaleString()+'</div></div>'+

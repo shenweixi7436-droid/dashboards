@@ -152,32 +152,32 @@ window.DEVICE_DETAIL_BY_MONTH = {
           [
             "鸣忙",
             "2,623",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0"
+            "2,526",
+            "97",
+            "726",
+            "1,800",
+            "1,746",
+            "54"
           ],
           [
             "线下",
             "447",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0"
+            "449",
+            "-2",
+            "288",
+            "161",
+            "127",
+            "34"
           ],
           [
             "合计",
             "3,070",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0"
+            "2,975",
+            "95",
+            "1,014",
+            "1,961",
+            "1,873",
+            "88"
           ]
         ]
       }
@@ -206,8 +206,8 @@ window.DEVICE_DETAIL_BY_MONTH = {
         {
           "name": "海尔冰柜",
           "volume": 3070,
-          "active": 0,
-          "rate": 0
+          "active": 1014,
+          "rate": 0.3408
         }
       ],
       "ranking": [
@@ -233,36 +233,36 @@ window.DEVICE_DETAIL_BY_MONTH = {
       "haier": {
         "name": "海尔冰柜",
         "volume": 3070,
-        "rate": 0,
+        "rate": 0.3408,
         "ledger": 3070,
-        "system": 0,
-        "difference": 0,
-        "active": 0,
-        "inactive": 0,
-        "inStock": 0,
-        "atStore": 0,
+        "system": 2975,
+        "difference": 95,
+        "active": 1014,
+        "inactive": 1961,
+        "inStock": 1873,
+        "atStore": 88,
         "channels": [
           {
             "name": "鸣忙",
             "ledger": 2623,
-            "system": 0,
-            "difference": 0,
-            "active": 0,
-            "inactive": 0,
-            "inStock": 0,
-            "atStore": 0,
-            "rate": 0
+            "system": 2526,
+            "difference": 97,
+            "active": 726,
+            "inactive": 1800,
+            "inStock": 1746,
+            "atStore": 54,
+            "rate": 0.2874
           },
           {
             "name": "线下",
             "ledger": 447,
-            "system": 0,
-            "difference": 0,
-            "active": 0,
-            "inactive": 0,
-            "inStock": 0,
-            "atStore": 0,
-            "rate": 0
+            "system": 449,
+            "difference": -2,
+            "active": 288,
+            "inactive": 161,
+            "inStock": 127,
+            "atStore": 34,
+            "rate": 0.6414
           }
         ]
       }
@@ -421,32 +421,32 @@ window.DEVICE_DETAIL_BY_MONTH = {
           [
             "鸣忙",
             "2,623",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0"
+            "2,526",
+            "97",
+            "726",
+            "1,800",
+            "1,746",
+            "54"
           ],
           [
             "线下",
             "447",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0"
+            "449",
+            "-2",
+            "288",
+            "161",
+            "127",
+            "34"
           ],
           [
             "合计",
             "3,070",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0"
+            "2,975",
+            "95",
+            "1,014",
+            "1,961",
+            "1,873",
+            "88"
           ]
         ]
       }
@@ -475,8 +475,8 @@ window.DEVICE_DETAIL_BY_MONTH = {
         {
           "name": "海尔冰柜",
           "volume": 3070,
-          "active": 0,
-          "rate": 0
+          "active": 1014,
+          "rate": 0.3408
         }
       ],
       "ranking": [
@@ -502,36 +502,36 @@ window.DEVICE_DETAIL_BY_MONTH = {
       "haier": {
         "name": "海尔冰柜",
         "volume": 3070,
-        "rate": 0,
+        "rate": 0.3408,
         "ledger": 3070,
-        "system": 0,
-        "difference": 0,
-        "active": 0,
-        "inactive": 0,
-        "inStock": 0,
-        "atStore": 0,
+        "system": 2975,
+        "difference": 95,
+        "active": 1014,
+        "inactive": 1961,
+        "inStock": 1873,
+        "atStore": 88,
         "channels": [
           {
             "name": "鸣忙",
             "ledger": 2623,
-            "system": 0,
-            "difference": 0,
-            "active": 0,
-            "inactive": 0,
-            "inStock": 0,
-            "atStore": 0,
-            "rate": 0
+            "system": 2526,
+            "difference": 97,
+            "active": 726,
+            "inactive": 1800,
+            "inStock": 1746,
+            "atStore": 54,
+            "rate": 0.2874
           },
           {
             "name": "线下",
             "ledger": 447,
-            "system": 0,
-            "difference": 0,
-            "active": 0,
-            "inactive": 0,
-            "inStock": 0,
-            "atStore": 0,
-            "rate": 0
+            "system": 449,
+            "difference": -2,
+            "active": 288,
+            "inactive": 161,
+            "inStock": 127,
+            "atStore": 34,
+            "rate": 0.6414
           }
         ]
       }
@@ -690,32 +690,32 @@ window.DEVICE_DETAIL_BY_MONTH = {
           [
             "鸣忙",
             "2,623",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0"
+            "2,526",
+            "97",
+            "726",
+            "1,800",
+            "1,746",
+            "54"
           ],
           [
             "线下",
             "447",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0"
+            "449",
+            "-2",
+            "288",
+            "161",
+            "127",
+            "34"
           ],
           [
             "合计",
             "3,070",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0"
+            "2,975",
+            "95",
+            "1,014",
+            "1,961",
+            "1,873",
+            "88"
           ]
         ]
       }
@@ -744,8 +744,8 @@ window.DEVICE_DETAIL_BY_MONTH = {
         {
           "name": "海尔冰柜",
           "volume": 3070,
-          "active": 0,
-          "rate": 0
+          "active": 1014,
+          "rate": 0.3408
         }
       ],
       "ranking": [
@@ -771,36 +771,36 @@ window.DEVICE_DETAIL_BY_MONTH = {
       "haier": {
         "name": "海尔冰柜",
         "volume": 3070,
-        "rate": 0,
+        "rate": 0.3408,
         "ledger": 3070,
-        "system": 0,
-        "difference": 0,
-        "active": 0,
-        "inactive": 0,
-        "inStock": 0,
-        "atStore": 0,
+        "system": 2975,
+        "difference": 95,
+        "active": 1014,
+        "inactive": 1961,
+        "inStock": 1873,
+        "atStore": 88,
         "channels": [
           {
             "name": "鸣忙",
             "ledger": 2623,
-            "system": 0,
-            "difference": 0,
-            "active": 0,
-            "inactive": 0,
-            "inStock": 0,
-            "atStore": 0,
-            "rate": 0
+            "system": 2526,
+            "difference": 97,
+            "active": 726,
+            "inactive": 1800,
+            "inStock": 1746,
+            "atStore": 54,
+            "rate": 0.2874
           },
           {
             "name": "线下",
             "ledger": 447,
-            "system": 0,
-            "difference": 0,
-            "active": 0,
-            "inactive": 0,
-            "inStock": 0,
-            "atStore": 0,
-            "rate": 0
+            "system": 449,
+            "difference": -2,
+            "active": 288,
+            "inactive": 161,
+            "inStock": 127,
+            "atStore": 34,
+            "rate": 0.6414
           }
         ]
       }
@@ -959,32 +959,32 @@ window.DEVICE_DETAIL_BY_MONTH = {
           [
             "鸣忙",
             "2,623",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0"
+            "2,526",
+            "97",
+            "726",
+            "1,800",
+            "1,746",
+            "54"
           ],
           [
             "线下",
             "447",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0"
+            "449",
+            "-2",
+            "288",
+            "161",
+            "127",
+            "34"
           ],
           [
             "合计",
             "3,070",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0"
+            "2,975",
+            "95",
+            "1,014",
+            "1,961",
+            "1,873",
+            "88"
           ]
         ]
       }
@@ -1013,8 +1013,8 @@ window.DEVICE_DETAIL_BY_MONTH = {
         {
           "name": "海尔冰柜",
           "volume": 3070,
-          "active": 0,
-          "rate": 0
+          "active": 1014,
+          "rate": 0.3408
         }
       ],
       "ranking": [
@@ -1040,36 +1040,36 @@ window.DEVICE_DETAIL_BY_MONTH = {
       "haier": {
         "name": "海尔冰柜",
         "volume": 3070,
-        "rate": 0,
+        "rate": 0.3408,
         "ledger": 3070,
-        "system": 0,
-        "difference": 0,
-        "active": 0,
-        "inactive": 0,
-        "inStock": 0,
-        "atStore": 0,
+        "system": 2975,
+        "difference": 95,
+        "active": 1014,
+        "inactive": 1961,
+        "inStock": 1873,
+        "atStore": 88,
         "channels": [
           {
             "name": "鸣忙",
             "ledger": 2623,
-            "system": 0,
-            "difference": 0,
-            "active": 0,
-            "inactive": 0,
-            "inStock": 0,
-            "atStore": 0,
-            "rate": 0
+            "system": 2526,
+            "difference": 97,
+            "active": 726,
+            "inactive": 1800,
+            "inStock": 1746,
+            "atStore": 54,
+            "rate": 0.2874
           },
           {
             "name": "线下",
             "ledger": 447,
-            "system": 0,
-            "difference": 0,
-            "active": 0,
-            "inactive": 0,
-            "inStock": 0,
-            "atStore": 0,
-            "rate": 0
+            "system": 449,
+            "difference": -2,
+            "active": 288,
+            "inactive": 161,
+            "inStock": 127,
+            "atStore": 34,
+            "rate": 0.6414
           }
         ]
       }
@@ -1228,32 +1228,32 @@ window.DEVICE_DETAIL_BY_MONTH = {
           [
             "鸣忙",
             "2,623",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0"
+            "2,526",
+            "97",
+            "726",
+            "1,800",
+            "1,746",
+            "54"
           ],
           [
             "线下",
             "447",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0"
+            "449",
+            "-2",
+            "288",
+            "161",
+            "127",
+            "34"
           ],
           [
             "合计",
             "3,070",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0"
+            "2,975",
+            "95",
+            "1,014",
+            "1,961",
+            "1,873",
+            "88"
           ]
         ]
       }
@@ -1282,8 +1282,8 @@ window.DEVICE_DETAIL_BY_MONTH = {
         {
           "name": "海尔冰柜",
           "volume": 3070,
-          "active": 0,
-          "rate": 0
+          "active": 1014,
+          "rate": 0.3408
         }
       ],
       "ranking": [
@@ -1309,36 +1309,36 @@ window.DEVICE_DETAIL_BY_MONTH = {
       "haier": {
         "name": "海尔冰柜",
         "volume": 3070,
-        "rate": 0,
+        "rate": 0.3408,
         "ledger": 3070,
-        "system": 0,
-        "difference": 0,
-        "active": 0,
-        "inactive": 0,
-        "inStock": 0,
-        "atStore": 0,
+        "system": 2975,
+        "difference": 95,
+        "active": 1014,
+        "inactive": 1961,
+        "inStock": 1873,
+        "atStore": 88,
         "channels": [
           {
             "name": "鸣忙",
             "ledger": 2623,
-            "system": 0,
-            "difference": 0,
-            "active": 0,
-            "inactive": 0,
-            "inStock": 0,
-            "atStore": 0,
-            "rate": 0
+            "system": 2526,
+            "difference": 97,
+            "active": 726,
+            "inactive": 1800,
+            "inStock": 1746,
+            "atStore": 54,
+            "rate": 0.2874
           },
           {
             "name": "线下",
             "ledger": 447,
-            "system": 0,
-            "difference": 0,
-            "active": 0,
-            "inactive": 0,
-            "inStock": 0,
-            "atStore": 0,
-            "rate": 0
+            "system": 449,
+            "difference": -2,
+            "active": 288,
+            "inactive": 161,
+            "inStock": 127,
+            "atStore": 34,
+            "rate": 0.6414
           }
         ]
       }
@@ -1497,32 +1497,32 @@ window.DEVICE_DETAIL_BY_MONTH = {
           [
             "鸣忙",
             "2,623",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0"
+            "2,526",
+            "97",
+            "726",
+            "1,800",
+            "1,746",
+            "54"
           ],
           [
             "线下",
             "447",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0"
+            "449",
+            "-2",
+            "288",
+            "161",
+            "127",
+            "34"
           ],
           [
             "合计",
             "3,070",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0"
+            "2,975",
+            "95",
+            "1,014",
+            "1,961",
+            "1,873",
+            "88"
           ]
         ]
       }
@@ -1551,8 +1551,8 @@ window.DEVICE_DETAIL_BY_MONTH = {
         {
           "name": "海尔冰柜",
           "volume": 3070,
-          "active": 0,
-          "rate": 0
+          "active": 1014,
+          "rate": 0.3408
         }
       ],
       "ranking": [
@@ -1578,36 +1578,36 @@ window.DEVICE_DETAIL_BY_MONTH = {
       "haier": {
         "name": "海尔冰柜",
         "volume": 3070,
-        "rate": 0,
+        "rate": 0.3408,
         "ledger": 3070,
-        "system": 0,
-        "difference": 0,
-        "active": 0,
-        "inactive": 0,
-        "inStock": 0,
-        "atStore": 0,
+        "system": 2975,
+        "difference": 95,
+        "active": 1014,
+        "inactive": 1961,
+        "inStock": 1873,
+        "atStore": 88,
         "channels": [
           {
             "name": "鸣忙",
             "ledger": 2623,
-            "system": 0,
-            "difference": 0,
-            "active": 0,
-            "inactive": 0,
-            "inStock": 0,
-            "atStore": 0,
-            "rate": 0
+            "system": 2526,
+            "difference": 97,
+            "active": 726,
+            "inactive": 1800,
+            "inStock": 1746,
+            "atStore": 54,
+            "rate": 0.2874
           },
           {
             "name": "线下",
             "ledger": 447,
-            "system": 0,
-            "difference": 0,
-            "active": 0,
-            "inactive": 0,
-            "inStock": 0,
-            "atStore": 0,
-            "rate": 0
+            "system": 449,
+            "difference": -2,
+            "active": 288,
+            "inactive": 161,
+            "inStock": 127,
+            "atStore": 34,
+            "rate": 0.6414
           }
         ]
       }
@@ -1766,32 +1766,32 @@ window.DEVICE_DETAIL_BY_MONTH = {
           [
             "鸣忙",
             "2,623",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0"
+            "2,526",
+            "97",
+            "726",
+            "1,800",
+            "1,746",
+            "54"
           ],
           [
             "线下",
             "447",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0"
+            "449",
+            "-2",
+            "288",
+            "161",
+            "127",
+            "34"
           ],
           [
             "合计",
             "3,070",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0"
+            "2,975",
+            "95",
+            "1,014",
+            "1,961",
+            "1,873",
+            "88"
           ]
         ]
       }
@@ -1820,8 +1820,8 @@ window.DEVICE_DETAIL_BY_MONTH = {
         {
           "name": "海尔冰柜",
           "volume": 3070,
-          "active": 0,
-          "rate": 0
+          "active": 1014,
+          "rate": 0.3408
         }
       ],
       "ranking": [
@@ -1847,36 +1847,36 @@ window.DEVICE_DETAIL_BY_MONTH = {
       "haier": {
         "name": "海尔冰柜",
         "volume": 3070,
-        "rate": 0,
+        "rate": 0.3408,
         "ledger": 3070,
-        "system": 0,
-        "difference": 0,
-        "active": 0,
-        "inactive": 0,
-        "inStock": 0,
-        "atStore": 0,
+        "system": 2975,
+        "difference": 95,
+        "active": 1014,
+        "inactive": 1961,
+        "inStock": 1873,
+        "atStore": 88,
         "channels": [
           {
             "name": "鸣忙",
             "ledger": 2623,
-            "system": 0,
-            "difference": 0,
-            "active": 0,
-            "inactive": 0,
-            "inStock": 0,
-            "atStore": 0,
-            "rate": 0
+            "system": 2526,
+            "difference": 97,
+            "active": 726,
+            "inactive": 1800,
+            "inStock": 1746,
+            "atStore": 54,
+            "rate": 0.2874
           },
           {
             "name": "线下",
             "ledger": 447,
-            "system": 0,
-            "difference": 0,
-            "active": 0,
-            "inactive": 0,
-            "inStock": 0,
-            "atStore": 0,
-            "rate": 0
+            "system": 449,
+            "difference": -2,
+            "active": 288,
+            "inactive": 161,
+            "inStock": 127,
+            "atStore": 34,
+            "rate": 0.6414
           }
         ]
       }
@@ -2035,32 +2035,32 @@ window.DEVICE_DETAIL_BY_MONTH = {
           [
             "鸣忙",
             "2,623",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0"
+            "2,526",
+            "97",
+            "726",
+            "1,800",
+            "1,746",
+            "54"
           ],
           [
             "线下",
             "447",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0"
+            "449",
+            "-2",
+            "288",
+            "161",
+            "127",
+            "34"
           ],
           [
             "合计",
             "3,070",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0"
+            "2,975",
+            "95",
+            "1,014",
+            "1,961",
+            "1,873",
+            "88"
           ]
         ]
       }
@@ -2089,8 +2089,8 @@ window.DEVICE_DETAIL_BY_MONTH = {
         {
           "name": "海尔冰柜",
           "volume": 3070,
-          "active": 0,
-          "rate": 0
+          "active": 1014,
+          "rate": 0.3408
         }
       ],
       "ranking": [
@@ -2116,36 +2116,36 @@ window.DEVICE_DETAIL_BY_MONTH = {
       "haier": {
         "name": "海尔冰柜",
         "volume": 3070,
-        "rate": 0,
+        "rate": 0.3408,
         "ledger": 3070,
-        "system": 0,
-        "difference": 0,
-        "active": 0,
-        "inactive": 0,
-        "inStock": 0,
-        "atStore": 0,
+        "system": 2975,
+        "difference": 95,
+        "active": 1014,
+        "inactive": 1961,
+        "inStock": 1873,
+        "atStore": 88,
         "channels": [
           {
             "name": "鸣忙",
             "ledger": 2623,
-            "system": 0,
-            "difference": 0,
-            "active": 0,
-            "inactive": 0,
-            "inStock": 0,
-            "atStore": 0,
-            "rate": 0
+            "system": 2526,
+            "difference": 97,
+            "active": 726,
+            "inactive": 1800,
+            "inStock": 1746,
+            "atStore": 54,
+            "rate": 0.2874
           },
           {
             "name": "线下",
             "ledger": 447,
-            "system": 0,
-            "difference": 0,
-            "active": 0,
-            "inactive": 0,
-            "inStock": 0,
-            "atStore": 0,
-            "rate": 0
+            "system": 449,
+            "difference": -2,
+            "active": 288,
+            "inactive": 161,
+            "inStock": 127,
+            "atStore": 34,
+            "rate": 0.6414
           }
         ]
       }
@@ -2305,32 +2305,32 @@ window.DEVICE_DETAIL = window.DEVICE_DETAIL_BY_MONTH[window.MAIN_SELECTED_MONTH 
         [
           "鸣忙",
           "2,623",
-          "0",
-          "0",
-          "0",
-          "0",
-          "0",
-          "0"
+          "2,526",
+          "97",
+          "726",
+          "1,800",
+          "1,746",
+          "54"
         ],
         [
           "线下",
           "447",
-          "0",
-          "0",
-          "0",
-          "0",
-          "0",
-          "0"
+          "449",
+          "-2",
+          "288",
+          "161",
+          "127",
+          "34"
         ],
         [
           "合计",
           "3,070",
-          "0",
-          "0",
-          "0",
-          "0",
-          "0",
-          "0"
+          "2,975",
+          "95",
+          "1,014",
+          "1,961",
+          "1,873",
+          "88"
         ]
       ]
     }
@@ -2359,8 +2359,8 @@ window.DEVICE_DETAIL = window.DEVICE_DETAIL_BY_MONTH[window.MAIN_SELECTED_MONTH 
       {
         "name": "海尔冰柜",
         "volume": 3070,
-        "active": 0,
-        "rate": 0
+        "active": 1014,
+        "rate": 0.3408
       }
     ],
     "ranking": [
@@ -2386,36 +2386,36 @@ window.DEVICE_DETAIL = window.DEVICE_DETAIL_BY_MONTH[window.MAIN_SELECTED_MONTH 
     "haier": {
       "name": "海尔冰柜",
       "volume": 3070,
-      "rate": 0,
+      "rate": 0.3408,
       "ledger": 3070,
-      "system": 0,
-      "difference": 0,
-      "active": 0,
-      "inactive": 0,
-      "inStock": 0,
-      "atStore": 0,
+      "system": 2975,
+      "difference": 95,
+      "active": 1014,
+      "inactive": 1961,
+      "inStock": 1873,
+      "atStore": 88,
       "channels": [
         {
           "name": "鸣忙",
           "ledger": 2623,
-          "system": 0,
-          "difference": 0,
-          "active": 0,
-          "inactive": 0,
-          "inStock": 0,
-          "atStore": 0,
-          "rate": 0
+          "system": 2526,
+          "difference": 97,
+          "active": 726,
+          "inactive": 1800,
+          "inStock": 1746,
+          "atStore": 54,
+          "rate": 0.2874
         },
         {
           "name": "线下",
           "ledger": 447,
-          "system": 0,
-          "difference": 0,
-          "active": 0,
-          "inactive": 0,
-          "inStock": 0,
-          "atStore": 0,
-          "rate": 0
+          "system": 449,
+          "difference": -2,
+          "active": 288,
+          "inactive": 161,
+          "inStock": 127,
+          "atStore": 34,
+          "rate": 0.6414
         }
       ]
     }

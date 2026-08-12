@@ -116,10 +116,11 @@ def month_days(month):
     return calendar.monthrange(2026, month_key(month))[1]
 
 
-def sync_month_controls(html, active_month):
+def sync_month_controls(html, active_month, include_full_year=False):
+    selector_months = MONTH_SELECTOR_MONTHS + (['全年'] if include_full_year else [])
     month_buttons = '\n'.join(
         f'  <span class="mtag{" on" if m == active_month else ""}" data-month="{m}">{m}</span>'
-        for m in MONTH_SELECTOR_MONTHS
+        for m in selector_months
     )
     replacement = (
         '<div class="month-row">\n'
@@ -798,7 +799,7 @@ def main():
     # 生成陈列稽核看板
     print("\n--- 生成陈列稽核看板 ---")
     html_disp = extract_and_inject_template(HTML_TEMPLATE_DISP, zd_json)
-    html_disp = sync_month_controls(html_disp, active_month)
+    html_disp = sync_month_controls(html_disp, active_month, include_full_year=True)
     html_disp = sync_data_update_time(html_disp, update_time)
     html_disp = sync_data_range(html_disp)
     html_disp = apply_data_cache_buster(html_disp, build_tag)
