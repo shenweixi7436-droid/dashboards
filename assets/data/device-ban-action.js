@@ -91,25 +91,21 @@ window.DEVICE_BAN_ACTION_BY_MONTH = {
   "8月": {
     "total": 7,
     "platform": "闲鱼",
-    "removed": 1,
+    "removed": 5,
     "noReply": 0,
     "reported": 0,
     "merchantInfo": 2,
-    "followUp": 4,
+    "followUp": 0,
     "topProvince": "广东",
     "topType": "保温柜",
     "statuses": [
       {
-        "name": "当地业务跟进中",
-        "count": 4
+        "name": "已下架",
+        "count": 5
       },
       {
         "name": "商家信息获取中",
         "count": 2
-      },
-      {
-        "name": "已下架",
-        "count": 1
       }
     ],
     "provinces": [
@@ -141,25 +137,21 @@ window.DEVICE_BAN_ACTION_BY_MONTH = {
 window.DEVICE_BAN_ACTION = window.DEVICE_BAN_ACTION_BY_MONTH[window.MAIN_SELECTED_MONTH || "8月"] || {
   "total": 7,
   "platform": "闲鱼",
-  "removed": 1,
+  "removed": 5,
   "noReply": 0,
   "reported": 0,
   "merchantInfo": 2,
-  "followUp": 4,
+  "followUp": 0,
   "topProvince": "广东",
   "topType": "保温柜",
   "statuses": [
     {
-      "name": "当地业务跟进中",
-      "count": 4
+      "name": "已下架",
+      "count": 5
     },
     {
       "name": "商家信息获取中",
       "count": 2
-    },
-    {
-      "name": "已下架",
-      "count": 1
     }
   ],
   "provinces": [
