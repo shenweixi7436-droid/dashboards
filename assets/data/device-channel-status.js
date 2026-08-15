@@ -184,7 +184,7 @@ window.DEVICE_CHANNEL_STATUS_BY_MONTH = {
     ]
   }
 };
-window.DEVICE_CHANNEL_STATUS = window.DEVICE_CHANNEL_STATUS_BY_MONTH[window.MAIN_SELECTED_MONTH || "7月"] || {
+window.DEVICE_CHANNEL_STATUS = window.DEVICE_CHANNEL_STATUS_BY_MONTH[window.MAIN_SELECTED_MONTH || "8月"] || {
   "source": "市场稽核部重点工作.xlsx / 智能设备台账汇总（按设备名称与表头识别）",
   "items": [
     {

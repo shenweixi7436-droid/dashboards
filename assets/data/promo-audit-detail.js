@@ -206,10 +206,25 @@ window.PROMO_AUDIT_DETAIL_BY_MONTH = {
         "result": "不合格"
       }
     ]
+  },
+  "8月": {
+    "month": 8,
+    "source": "市场稽核部重点工作.xlsx / 推广促销稽核",
+    "headers": [
+      "省区总经理",
+      "省份",
+      "市区",
+      "经销商",
+      "稽核方式"
+    ],
+    "total": 0,
+    "qualified": 0,
+    "unqualified": 0,
+    "rows": []
   }
 };
-window.PROMO_AUDIT_DETAIL = window.PROMO_AUDIT_DETAIL_BY_MONTH[window.MAIN_SELECTED_MONTH || "7月"] || {
-  "month": 7,
+window.PROMO_AUDIT_DETAIL = window.PROMO_AUDIT_DETAIL_BY_MONTH[window.MAIN_SELECTED_MONTH || "8月"] || {
+  "month": 8,
   "source": "市场稽核部重点工作.xlsx / 推广促销稽核",
   "headers": [
     "省区总经理",
@@ -218,108 +233,8 @@ window.PROMO_AUDIT_DETAIL = window.PROMO_AUDIT_DETAIL_BY_MONTH[window.MAIN_SELEC
     "经销商",
     "稽核方式"
   ],
-  "total": 9,
+  "total": 0,
   "qualified": 0,
-  "unqualified": 9,
-  "rows": [
-    {
-      "row": 11,
-      "values": [
-        "泽泽",
-        "湖南",
-        "长沙",
-        "线下-长沙吉鲜岛贸易有限公司",
-        "线下"
-      ],
-      "result": "不合格"
-    },
-    {
-      "row": 12,
-      "values": [
-        "破晓",
-        "贵州",
-        "兴义",
-        "兴义市传洪商贸有限公司",
-        "线下"
-      ],
-      "result": "不合格"
-    },
-    {
-      "row": 13,
-      "values": [
-        "破晓",
-        "贵州",
-        "凯里",
-        "凯里市乐源商贸有限公司",
-        "线下"
-      ],
-      "result": "不合格"
-    },
-    {
-      "row": 14,
-      "values": [
-        "破晓",
-        "贵州",
-        "贵阳",
-        "贵阳日盛商贸有限公司",
-        "线下"
-      ],
-      "result": "不合格"
-    },
-    {
-      "row": 15,
-      "values": [
-        "破晓",
-        "贵州",
-        "都匀",
-        "黔南州贤昌商贸有限公司",
-        "线下"
-      ],
-      "result": "不合格"
-    },
-    {
-      "row": 16,
-      "values": [
-        "泉源",
-        "山东",
-        "青岛",
-        "线下-青岛美食乐商贸有限公司",
-        "线下"
-      ],
-      "result": "不合格"
-    },
-    {
-      "row": 17,
-      "values": [
-        "泽泽",
-        "湖南",
-        "长沙",
-        "线下-湖南天蒙",
-        "线下"
-      ],
-      "result": "不合格"
-    },
-    {
-      "row": 18,
-      "values": [
-        "泽泽",
-        "湖南",
-        "长沙",
-        "线下-湖南天蒙",
-        "线下"
-      ],
-      "result": "不合格"
-    },
-    {
-      "row": 19,
-      "values": [
-        "泽泽",
-        "湖南",
-        "长沙",
-        "线下-湖南天蒙",
-        "线下"
-      ],
-      "result": "不合格"
-    }
-  ]
+  "unqualified": 0,
+  "rows": []
 };

@@ -11,14 +11,13 @@ import pandas as pd
 
 
 INVENTORY_FILE = "库存分析看板源数据.xlsx"
-DEVICE_FILE = "设备分析.xlsx"
+DEVICE_FILE = "2026年设备发货明细 -共享版.xlsm"
 FREIGHT_FILE = "物料运费分析.xlsx"
 AFTER_SALES_FILE = "售后跟进.xlsx"
 DEVELOPMENT_FILE = "物料开发进度跟进表.xlsx"
 
 DEVICE_REQUIRED_COLUMNS = {
-    "设备名称清洗", "销售部门清洗-大类", "省份清洗", "月份",
-    "总货值", "数量", "发货状态",
+    "设备名称清洗", "销售部门清洗-大类", "总货值", "数量", "发货状态",
 }
 
 
@@ -91,8 +90,18 @@ def load_device_workbook(device_path: Path) -> tuple[pd.DataFrame, list[dict[str
         sheet_name = raw_sheet_name.strip()
         frame = frame.copy()
         category = frame["销售部门清洗-大类"].map(clean_text)
-        province = frame["省份清洗"].map(normalize_province)
+        province_column = next(
+            (column for column in ("省份清洗", "省区清洗") if column in frame.columns),
+            None,
+        )
+        province = (
+            frame[province_column].map(normalize_province)
+            if province_column
+            else pd.Series("", index=frame.index, dtype="object")
+        )
         is_mingmang = sheet_name.startswith("鸣忙-") | category.eq("鸣忙")
+        if province_column is None and not bool(is_mingmang.all()):
+            continue
         frame["销售部门清洗-省区"] = province
         frame.loc[is_mingmang, "销售部门清洗-省区"] = "鸣忙"
         fallback_region = category.where(~category.isin(["", "省区", "鸣忙"]), "未分区")
@@ -103,7 +112,12 @@ def load_device_workbook(device_path: Path) -> tuple[pd.DataFrame, list[dict[str
         frame["数量"] = number_series(frame, "数量")
         frame["总货值"] = number_series(frame, "总货值")
         frame["设备名称清洗"] = frame["设备名称清洗"].map(lambda value: clean_text(value, "未命名设备"))
-        order_date_column = "下单日期" if "下单日期" in frame.columns else "下单时间"
+        order_date_column = next(
+            (column for column in ("下单日期", "下单时间") if column in frame.columns),
+            None,
+        )
+        if order_date_column is None:
+            continue
         frame["下单时间标准"] = pd.to_datetime(frame[order_date_column], errors="coerce")
         valid_order_date = frame["下单时间标准"].notna()
         frame.loc[valid_order_date, "月份"] = frame.loc[valid_order_date, "下单时间标准"].dt.month
@@ -123,7 +137,7 @@ def load_device_workbook(device_path: Path) -> tuple[pd.DataFrame, list[dict[str
             "shippedRows": int(frame["实际发货状态"].eq("已发货").sum()),
         })
     if not frames:
-        raise ValueError("设备分析.xlsx 中没有找到包含设备字段的工作表")
+        raise ValueError(f"{device_path.name} 中没有找到包含设备字段的工作表")
     return pd.concat(frames, ignore_index=True, sort=False), sheets
 
 

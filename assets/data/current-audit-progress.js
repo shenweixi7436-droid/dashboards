@@ -4,7 +4,7 @@ window.CURRENT_AUDIT_PROGRESS = {
     {
       "province": "黑龙江",
       "target": 0.0,
-      "audit": 0,
+      "audit": 1,
       "progress": 0.0,
       "done": 0.0,
       "remain": 100.0
@@ -100,10 +100,10 @@ window.CURRENT_AUDIT_PROGRESS = {
     {
       "province": "安徽",
       "target": 21.8,
-      "audit": 1,
-      "progress": 4.6,
-      "done": 4.6,
-      "remain": 95.4
+      "audit": 11,
+      "progress": 50.5,
+      "done": 50.5,
+      "remain": 49.5
     },
     {
       "province": "江西",
@@ -116,10 +116,10 @@ window.CURRENT_AUDIT_PROGRESS = {
     {
       "province": "广东",
       "target": 73.2,
-      "audit": 0,
-      "progress": 0.0,
-      "done": 0.0,
-      "remain": 100.0
+      "audit": 1,
+      "progress": 1.4,
+      "done": 1.4,
+      "remain": 98.6
     },
     {
       "province": "福建",
@@ -132,10 +132,10 @@ window.CURRENT_AUDIT_PROGRESS = {
     {
       "province": "贵州",
       "target": 85.4,
-      "audit": 46,
-      "progress": 53.9,
-      "done": 53.9,
-      "remain": 46.1
+      "audit": 51,
+      "progress": 59.7,
+      "done": 59.7,
+      "remain": 40.3
     },
     {
       "province": "湖南",
