@@ -11,7 +11,8 @@ import pandas as pd
 
 
 INVENTORY_FILE = "库存分析看板源数据.xlsx"
-DEVICE_FILE = "2026年设备发货明细 -共享版.xlsm"
+DEVICE_FILE = "2026年设备发货明细-共享版.xlsm"
+DEVICE_FILE_ALIASES = ("2026年设备发货明细-共享版.xlsm", "2026年设备发货明细 -共享版.xlsm")
 FREIGHT_FILE = "物料运费分析.xlsx"
 AFTER_SALES_FILE = "售后跟进.xlsx"
 DEVELOPMENT_FILE = "物料开发进度跟进表.xlsx"
@@ -76,6 +77,14 @@ def normalize_province(value: object) -> str:
         if text.endswith(suffix):
             return text[: -len(suffix)].strip()
     return text
+
+
+def resolve_device_path(source_dir: Path) -> Path:
+    for filename in DEVICE_FILE_ALIASES:
+        candidate = source_dir / filename
+        if candidate.exists():
+            return candidate
+    return source_dir / DEVICE_FILE
 
 
 def load_device_workbook(device_path: Path) -> tuple[pd.DataFrame, list[dict[str, object]]]:
@@ -343,7 +352,7 @@ def build_after_sales(source_dir: Path, after_sales_path: Path) -> dict[str, obj
 def update(source_dir: Path) -> dict[str, object]:
     paths = {
         "inventory": source_dir / INVENTORY_FILE,
-        "device": source_dir / DEVICE_FILE,
+        "device": resolve_device_path(source_dir),
         "freight": source_dir / FREIGHT_FILE,
         "afterSales": source_dir / AFTER_SALES_FILE,
         "development": source_dir / DEVELOPMENT_FILE,
@@ -404,7 +413,7 @@ def main() -> None:
     parser.add_argument("--device-only", action="store_true", help="仅更新进销存看板的设备数据文件")
     args = parser.parse_args()
     if args.device_only:
-        result = build_device_outbound_file(args.source_dir.resolve(), args.source_dir.resolve() / DEVICE_FILE)
+        result = build_device_outbound_file(args.source_dir.resolve(), resolve_device_path(args.source_dir.resolve()))
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return
     result = update(args.source_dir.resolve())

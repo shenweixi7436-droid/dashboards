@@ -389,18 +389,18 @@ window.APPROVAL_PIES_BY_MONTH = {
   },
   "8月": {
     "month": "8月",
-    "total": 211,
-    "qualified": 171,
-    "unqualified": 40,
-    "rate": 81.0,
+    "total": 331,
+    "qualified": 265,
+    "unqualified": 66,
+    "rate": 80.1,
     "issues": [
       {
         "name": "着装不规范",
-        "value": 25
+        "value": 42
       },
       {
         "name": "未使用公司最新品牌logo今日水印相机",
-        "value": 12
+        "value": 19
       },
       {
         "name": "费用异常",
@@ -410,19 +410,19 @@ window.APPROVAL_PIES_BY_MONTH = {
     "dressIssues": [
       {
         "name": "口罩",
-        "value": 12
+        "value": 23
       },
       {
         "name": "帽子,口罩",
-        "value": 7
+        "value": 9
       },
       {
         "name": "帽子",
-        "value": 3
+        "value": 6
       },
       {
         "name": "口罩,帽子",
-        "value": 1
+        "value": 2
       },
       {
         "name": "帽子,围裙",
@@ -435,27 +435,39 @@ window.APPROVAL_PIES_BY_MONTH = {
     ],
     "provinceIssues": [
       {
-        "province": "江苏省区",
-        "value": 6
+        "province": "湖南省区",
+        "value": 10
       },
       {
-        "province": "湖南省区",
-        "value": 5
+        "province": "河北省区",
+        "value": 9
+      },
+      {
+        "province": "江苏省区",
+        "value": 8
+      },
+      {
+        "province": "川渝藏大区",
+        "value": 8
       },
       {
         "province": "山东省区",
         "value": 5
       },
       {
-        "province": "川渝藏大区",
+        "province": "河南省区",
         "value": 5
       },
       {
-        "province": "河南省区",
+        "province": "湖北省区",
         "value": 4
       },
       {
-        "province": "湖北省区",
+        "province": "广东省区",
+        "value": 4
+      },
+      {
+        "province": "福建省区",
         "value": 3
       },
       {
@@ -483,14 +495,6 @@ window.APPROVAL_PIES_BY_MONTH = {
         "value": 1
       },
       {
-        "province": "福建省区",
-        "value": 1
-      },
-      {
-        "province": "广东省区",
-        "value": 1
-      },
-      {
         "province": "云南省区",
         "value": 1
       }
@@ -499,18 +503,18 @@ window.APPROVAL_PIES_BY_MONTH = {
 };
 window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH || "8月"] || {
   "month": "8月",
-  "total": 211,
-  "qualified": 171,
-  "unqualified": 40,
-  "rate": 81.0,
+  "total": 331,
+  "qualified": 265,
+  "unqualified": 66,
+  "rate": 80.1,
   "issues": [
     {
       "name": "着装不规范",
-      "value": 25
+      "value": 42
     },
     {
       "name": "未使用公司最新品牌logo今日水印相机",
-      "value": 12
+      "value": 19
     },
     {
       "name": "费用异常",
@@ -520,19 +524,19 @@ window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH 
   "dressIssues": [
     {
       "name": "口罩",
-      "value": 12
+      "value": 23
     },
     {
       "name": "帽子,口罩",
-      "value": 7
+      "value": 9
     },
     {
       "name": "帽子",
-      "value": 3
+      "value": 6
     },
     {
       "name": "口罩,帽子",
-      "value": 1
+      "value": 2
     },
     {
       "name": "帽子,围裙",
@@ -545,27 +549,39 @@ window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH 
   ],
   "provinceIssues": [
     {
-      "province": "江苏省区",
-      "value": 6
+      "province": "湖南省区",
+      "value": 10
     },
     {
-      "province": "湖南省区",
-      "value": 5
+      "province": "河北省区",
+      "value": 9
+    },
+    {
+      "province": "江苏省区",
+      "value": 8
+    },
+    {
+      "province": "川渝藏大区",
+      "value": 8
     },
     {
       "province": "山东省区",
       "value": 5
     },
     {
-      "province": "川渝藏大区",
+      "province": "河南省区",
       "value": 5
     },
     {
-      "province": "河南省区",
+      "province": "湖北省区",
       "value": 4
     },
     {
-      "province": "湖北省区",
+      "province": "广东省区",
+      "value": 4
+    },
+    {
+      "province": "福建省区",
       "value": 3
     },
     {
@@ -590,14 +606,6 @@ window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH 
     },
     {
       "province": "浙江省区",
-      "value": 1
-    },
-    {
-      "province": "福建省区",
-      "value": 1
-    },
-    {
-      "province": "广东省区",
       "value": 1
     },
     {
