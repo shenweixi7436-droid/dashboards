@@ -389,28 +389,28 @@ window.APPROVAL_PIES_BY_MONTH = {
   },
   "8月": {
     "month": "8月",
-    "total": 331,
-    "qualified": 265,
-    "unqualified": 66,
+    "total": 402,
+    "qualified": 322,
+    "unqualified": 80,
     "rate": 80.1,
     "issues": [
       {
         "name": "着装不规范",
-        "value": 42
+        "value": 45
       },
       {
         "name": "未使用公司最新品牌logo今日水印相机",
-        "value": 19
+        "value": 24
       },
       {
-        "name": "费用异常",
-        "value": 1
+        "name": "无大单品陈列且未使用最新版水印相机",
+        "value": 2
       }
     ],
     "dressIssues": [
       {
         "name": "口罩",
-        "value": 23
+        "value": 26
       },
       {
         "name": "帽子,口罩",
@@ -435,15 +435,23 @@ window.APPROVAL_PIES_BY_MONTH = {
     ],
     "provinceIssues": [
       {
+        "province": "湖北省区",
+        "value": 12
+      },
+      {
         "province": "湖南省区",
         "value": 10
+      },
+      {
+        "province": "江苏省区",
+        "value": 9
       },
       {
         "province": "河北省区",
         "value": 9
       },
       {
-        "province": "江苏省区",
+        "province": "山东省区",
         "value": 8
       },
       {
@@ -451,15 +459,11 @@ window.APPROVAL_PIES_BY_MONTH = {
         "value": 8
       },
       {
-        "province": "山东省区",
-        "value": 5
-      },
-      {
         "province": "河南省区",
         "value": 5
       },
       {
-        "province": "湖北省区",
+        "province": "福建省区",
         "value": 4
       },
       {
@@ -467,15 +471,11 @@ window.APPROVAL_PIES_BY_MONTH = {
         "value": 4
       },
       {
-        "province": "福建省区",
+        "province": "安徽省区",
         "value": 3
       },
       {
         "province": "辽宁省区",
-        "value": 2
-      },
-      {
-        "province": "安徽省区",
         "value": 2
       },
       {
@@ -503,28 +503,28 @@ window.APPROVAL_PIES_BY_MONTH = {
 };
 window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH || "8月"] || {
   "month": "8月",
-  "total": 331,
-  "qualified": 265,
-  "unqualified": 66,
+  "total": 402,
+  "qualified": 322,
+  "unqualified": 80,
   "rate": 80.1,
   "issues": [
     {
       "name": "着装不规范",
-      "value": 42
+      "value": 45
     },
     {
       "name": "未使用公司最新品牌logo今日水印相机",
-      "value": 19
+      "value": 24
     },
     {
-      "name": "费用异常",
-      "value": 1
+      "name": "无大单品陈列且未使用最新版水印相机",
+      "value": 2
     }
   ],
   "dressIssues": [
     {
       "name": "口罩",
-      "value": 23
+      "value": 26
     },
     {
       "name": "帽子,口罩",
@@ -549,15 +549,23 @@ window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH 
   ],
   "provinceIssues": [
     {
+      "province": "湖北省区",
+      "value": 12
+    },
+    {
       "province": "湖南省区",
       "value": 10
+    },
+    {
+      "province": "江苏省区",
+      "value": 9
     },
     {
       "province": "河北省区",
       "value": 9
     },
     {
-      "province": "江苏省区",
+      "province": "山东省区",
       "value": 8
     },
     {
@@ -565,15 +573,11 @@ window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH 
       "value": 8
     },
     {
-      "province": "山东省区",
-      "value": 5
-    },
-    {
       "province": "河南省区",
       "value": 5
     },
     {
-      "province": "湖北省区",
+      "province": "福建省区",
       "value": 4
     },
     {
@@ -581,15 +585,11 @@ window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH 
       "value": 4
     },
     {
-      "province": "福建省区",
+      "province": "安徽省区",
       "value": 3
     },
     {
       "province": "辽宁省区",
-      "value": 2
-    },
-    {
-      "province": "安徽省区",
       "value": 2
     },
     {

@@ -1,9 +1,14 @@
 @echo off
 setlocal
+title Update Audit Dashboards
 cd /d "%~dp0"
 set "PY=C:\Users\shenw\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe"
 
-echo Updating dashboard HTML files...
+echo Updating audit dashboards only. Material dashboards are NOT updated.
+echo To update material dashboards, run the dedicated material dashboard updater.
+
+echo.
+echo Updating main dashboard HTML files...
 "%PY%" "%~dp0generate_v2.py"
 if errorlevel 1 goto fail
 
@@ -55,12 +60,8 @@ robocopy "%~dp0..\dist\assets\previews" "%~dp0Schedule of Progress\dist\assets\p
 if errorlevel 8 goto fail
 
 echo.
-echo Updating material inventory dashboard for GitHub Pages...
-"%PY%" "%~dp0build_material_dashboard.py"
-if errorlevel 1 goto fail
-
-echo.
 echo Done. Open index.html and press Ctrl+F5 to refresh.
+echo Material dashboards were skipped. Use the dedicated material updater for them.
 pause
 exit /b 0
 

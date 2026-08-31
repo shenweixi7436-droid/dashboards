@@ -10,7 +10,7 @@ from pathlib import Path
 import pandas as pd
 
 
-INVENTORY_FILE = "库存分析看板源数据_含宏.xlsm"
+INVENTORY_FILE = "库存分析看板源数据.xlsx"
 DEVICE_FILE = "2026年设备发货明细-共享版.xlsm"
 DEVICE_FILE_ALIASES = ("2026年设备发货明细-共享版.xlsm", "2026年设备发货明细 -共享版.xlsm")
 FREIGHT_FILE = "物料运费分析.xlsx"
@@ -336,6 +336,10 @@ def build_after_sales(source_dir: Path, after_sales_path: Path) -> dict[str, obj
     replacements = [
         (r"year:\s*\d+", f"year:{year}"),
         (r"afterSales:\s*\[[^\]]*\]", "afterSales:" + json.dumps(after_sales, ensure_ascii=False, separators=(",", ":"))),
+        (r"(afterSalesIssues:\s*\{\s*categories:\s*\[[^\]]*\],\s*total:)\s*\[.*?\](,\s*resolved:)",
+         lambda m: m.group(1) + json.dumps(totals, ensure_ascii=False, separators=(",", ":")) + m.group(2)),
+        (r"(afterSalesIssues:\s*\{.*?resolved:)\s*\[.*?\](\s*\})",
+         lambda m: m.group(1) + json.dumps(resolved, ensure_ascii=False, separators=(",", ":")) + m.group(2)),
     ]
     for pattern, replacement in replacements:
         html, count = re.subn(pattern, replacement, html, count=1, flags=re.S)
@@ -343,151 +347,6 @@ def build_after_sales(source_dir: Path, after_sales_path: Path) -> dict[str, obj
             raise ValueError(f"主看板售后数据块匹配失败：{pattern}")
     html_path.write_text(html, encoding="utf-8", newline="\n")
     return {"year": year, "records": len(frame), "months": after_sales}
-
-
-DEVICE_BRAND_KEYWORDS = ("皇家小虎", "酷福", "美的", "智虎", "合马", "礼悦家", "海尔", "星星", "长才", "九达", "爱雪")
-
-
-def build_material_weekly_outbound(source_dir: Path, inventory_path: Path) -> dict[str, object]:
-    """从出入库流水 sheet 汇总本周/本月物料出库总量（周次=K列，数量=B列，仅出库）。"""
-    frame = pd.read_excel(inventory_path, sheet_name="出入库流水", engine="openpyxl")
-    required = {"周次", "数量", "出入库", "日期"}
-    missing = required.difference(frame.columns)
-    if missing:
-        raise ValueError("出入库流水 sheet 缺少字段：" + "、".join(sorted(missing)))
-    frame = frame.copy()
-    frame["数量"] = pd.to_numeric(frame["数量"], errors="coerce").fillna(0.0)
-    frame["周次"] = frame["周次"].astype(str).str.strip()
-    frame["出入库"] = frame["出入库"].astype(str).str.strip()
-    frame["日期值"] = pd.to_datetime(frame["日期"], errors="coerce")
-    outbound = frame.loc[frame["出入库"] == "出库"]
-
-    def week_total(week: str) -> float:
-        subset = outbound.loc[outbound["周次"] == week]
-        return round(float(subset["数量"].sum()))
-
-    month_qty = 0.0
-    month_label = ""
-    valid_dates = outbound["日期值"].dropna()
-    if len(valid_dates):
-        current_month = int(valid_dates.max().month)
-        month_subset = outbound.loc[outbound["日期值"].dt.month == current_month]
-        month_qty = round(float(month_subset["数量"].sum()))
-        month_label = f"{current_month}月"
-
-    data = {
-        "thisWeek": week_total("本周"),
-        "lastWeek": week_total("上周"),
-        "monthQty": month_qty,
-        "monthLabel": month_label,
-        "weekLabel": "本周",
-    }
-    (source_dir / "material_weekly_outbound_data.js").write_text(
-        js_assignment("MATERIAL_WEEKLY_OUTBOUND_DATA", data, spaced=True), encoding="utf-8"
-    )
-    return data
-
-
-def extract_device_brand(name: str) -> str:
-    """从设备名称中提取品牌，长关键词优先匹配。"""
-    for keyword in DEVICE_BRAND_KEYWORDS:
-        if keyword in name:
-            return keyword
-    return ""
-
-
-def build_device_outbound_detail(frame: pd.DataFrame, current_month: int) -> dict[str, object]:
-    """按弹窗表格口径生成省区/鸣忙设备发货明细：本月量金额、本周量金额及环比差值。"""
-    data = frame.copy()
-    data["数量"] = pd.to_numeric(data["数量"], errors="coerce").fillna(0.0)
-    data["设备单价"] = pd.to_numeric(data.get("设备单价"), errors="coerce").fillna(0.0)
-    data["金额"] = data["数量"] * data["设备单价"]
-    data["月份值"] = pd.to_numeric(data.get("月份"), errors="coerce")
-    data["大类"] = data["销售部门清洗-大类"].map(lambda v: "鸣忙" if clean_text(v) == "鸣忙" else "省区")
-    data["设备"] = data["设备名称清洗"].map(lambda v: clean_text(v))
-
-    def week_slice(week: str) -> pd.DataFrame:
-        return data.loc[data["周次"].astype(str).str.strip() == week]
-
-    this_week, last_week = week_slice("本周"), week_slice("上周")
-    month_data = data.loc[data["月份值"] == current_month]
-
-    groups: list[dict[str, object]] = []
-    for key, group_value, title in (("province", "省区", "省区"), ("mingmang", "鸣忙", "鸣忙")):
-        g_all = data.loc[data["大类"] == group_value]
-        g_month = month_data.loc[month_data["大类"] == group_value]
-        g_this = this_week.loc[this_week["大类"] == group_value]
-        g_last = last_week.loc[last_week["大类"] == group_value]
-        names = sorted(
-            set(g_month["设备"]) | set(g_this["设备"]) | set(g_last["设备"]),
-            key=lambda n: (DEVICE_BRAND_KEYWORDS.index(extract_device_brand(n)) if extract_device_brand(n) in DEVICE_BRAND_KEYWORDS else len(DEVICE_BRAND_KEYWORDS), n),
-        )
-        rows = []
-        for name in names:
-            if not name:
-                continue
-            month_qty = float(g_month.loc[g_month["设备"] == name, "数量"].sum())
-            month_amount = float(g_month.loc[g_month["设备"] == name, "金额"].sum())
-            week_qty = float(g_this.loc[g_this["设备"] == name, "数量"].sum())
-            week_amount = float(g_this.loc[g_this["设备"] == name, "金额"].sum())
-            last_qty = float(g_last.loc[g_last["设备"] == name, "数量"].sum())
-            last_amount = float(g_last.loc[g_last["设备"] == name, "金额"].sum())
-            rows.append(
-                {
-                    "brand": extract_device_brand(name) or "-",
-                    "name": name,
-                    "monthQty": round(month_qty),
-                    "monthAmount": round(month_amount),
-                    "weekQty": round(week_qty),
-                    "qtyDelta": round(week_qty - last_qty),
-                    "weekAmount": round(week_amount),
-                    "amountDelta": round(week_amount - last_amount),
-                    "note": "",
-                }
-            )
-        total = {
-            "monthQty": round(float(g_month["数量"].sum())),
-            "monthAmount": round(float(g_month["金额"].sum())),
-            "weekQty": round(float(g_this["数量"].sum())),
-            "qtyDelta": round(float(g_this["数量"].sum() - g_last["数量"].sum())),
-            "weekAmount": round(float(g_this["金额"].sum())),
-            "amountDelta": round(float(g_this["金额"].sum() - g_last["金额"].sum())),
-        }
-        groups.append({"key": key, "title": title, "rows": rows, "total": total})
-    return {"month": int(current_month), "groups": groups}
-
-
-def build_device_weekly_summary(source_dir: Path, device_path: Path) -> dict[str, object]:
-    """从关键字段汇总 sheet 汇总本周线下/鸣忙设备出库数量，并生成弹窗明细数据。"""
-    frame = pd.read_excel(device_path, sheet_name="关键字段汇总")
-    required = {"周次", "销售部门清洗-大类", "数量", "设备名称清洗", "设备单价", "月份"}
-    missing = required.difference(frame.columns)
-    if missing:
-        raise ValueError("关键字段汇总 sheet 缺少字段：" + "、".join(sorted(missing)))
-    week_frame = frame.loc[frame["周次"].astype(str).str.strip() == "本周"].copy()
-    week_frame["数量"] = pd.to_numeric(week_frame["数量"], errors="coerce")
-    week_frame = week_frame.loc[week_frame["数量"].notna()].copy()
-
-    def classify(value: object) -> str:
-        return "鸣忙" if clean_text(value) == "鸣忙" else "线下"
-
-    week_frame["类型"] = week_frame["销售部门清洗-大类"].map(classify)
-    summary = week_frame.groupby("类型")["数量"].sum().to_dict()
-
-    month_values = pd.to_numeric(frame.get("月份"), errors="coerce").dropna()
-    current_month = int(month_values.max()) if len(month_values) else 1
-    detail = build_device_outbound_detail(frame, current_month)
-
-    data = {
-        "offline": round(float(summary.get("线下", 0.0)), 2),
-        "mingmang": round(float(summary.get("鸣忙", 0.0)), 2),
-        "weekLabel": "本周",
-        "detail": detail,
-    }
-    (source_dir / "device_weekly_outbound_data.js").write_text(
-        js_assignment("DEVICE_WEEKLY_OUTBOUND_DATA", data, spaced=True), encoding="utf-8"
-    )
-    return {"summary": data, "rows": len(week_frame)}
 
 
 def update(source_dir: Path) -> dict[str, object]:
@@ -533,8 +392,6 @@ def update(source_dir: Path) -> dict[str, object]:
     device = build_device_outbound_file(source_dir, paths["device"])
     freight_details = build_freight_detail_files(source_dir, paths["freight"])
     after_sales = build_after_sales(source_dir, paths["afterSales"])
-    weekly_device = build_device_weekly_summary(source_dir, paths["device"])
-    weekly_material = build_material_weekly_outbound(source_dir, paths["inventory"])
     result = {
         "sources": {key: path.name for key, path in paths.items()},
         "inventory": inventory,
@@ -543,8 +400,6 @@ def update(source_dir: Path) -> dict[str, object]:
         "freightDetails": freight_details,
         "development": development,
         "afterSales": after_sales,
-        "weeklyDevice": weekly_device,
-        "weeklyMaterial": weekly_material,
     }
     (source_dir / "最近一次更新记录.txt").write_text(
         json.dumps({"status": "success", **result}, ensure_ascii=False, indent=2), encoding="utf-8"

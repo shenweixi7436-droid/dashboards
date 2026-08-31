@@ -89,23 +89,27 @@ window.DEVICE_BAN_ACTION_BY_MONTH = {
     ]
   },
   "8月": {
-    "total": 7,
+    "total": 8,
     "platform": "闲鱼",
-    "removed": 5,
+    "removed": 4,
     "noReply": 0,
     "reported": 0,
-    "merchantInfo": 2,
-    "followUp": 0,
+    "merchantInfo": 3,
+    "followUp": 1,
     "topProvince": "广东",
     "topType": "保温柜",
     "statuses": [
       {
         "name": "已下架",
-        "count": 5
+        "count": 4
       },
       {
         "name": "商家信息获取中",
-        "count": 2
+        "count": 3
+      },
+      {
+        "name": "当地业务跟进中",
+        "count": 1
       }
     ],
     "provinces": [
@@ -115,43 +119,51 @@ window.DEVICE_BAN_ACTION_BY_MONTH = {
       },
       {
         "name": "云南",
-        "count": 2
+        "count": 1
       },
       {
         "name": "江苏",
+        "count": 1
+      },
+      {
+        "name": "浙江",
+        "count": 1
+      },
+      {
+        "name": "贵州",
         "count": 1
       }
     ],
     "types": [
       {
         "name": "保温柜",
-        "count": 6
-      },
-      {
-        "name": "烤箱",
-        "count": 1
+        "count": 8
       }
     ]
   }
 };
 window.DEVICE_BAN_ACTION = window.DEVICE_BAN_ACTION_BY_MONTH[window.MAIN_SELECTED_MONTH || "8月"] || {
-  "total": 7,
+  "total": 8,
   "platform": "闲鱼",
-  "removed": 5,
+  "removed": 4,
   "noReply": 0,
   "reported": 0,
-  "merchantInfo": 2,
-  "followUp": 0,
+  "merchantInfo": 3,
+  "followUp": 1,
   "topProvince": "广东",
   "topType": "保温柜",
   "statuses": [
     {
       "name": "已下架",
-      "count": 5
+      "count": 4
     },
     {
       "name": "商家信息获取中",
-      "count": 2
+      "count": 3
+    },
+    {
+      "name": "当地业务跟进中",
+      "count": 1
     }
   ],
   "provinces": [
@@ -161,21 +173,25 @@ window.DEVICE_BAN_ACTION = window.DEVICE_BAN_ACTION_BY_MONTH[window.MAIN_SELECTE
     },
     {
       "name": "云南",
-      "count": 2
+      "count": 1
     },
     {
       "name": "江苏",
+      "count": 1
+    },
+    {
+      "name": "浙江",
+      "count": 1
+    },
+    {
+      "name": "贵州",
       "count": 1
     }
   ],
   "types": [
     {
       "name": "保温柜",
-      "count": 6
-    },
-    {
-      "name": "烤箱",
-      "count": 1
+      "count": 8
     }
   ]
 };

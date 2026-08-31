@@ -213,8 +213,8 @@ def build_main_dashboard(source_dir: Path, gotham: Path, yuan: Path) -> dict[str
         "material_freight_dashboard_data.js",
         "material_development_gantt_data.js",
         "inventory_outbound_data.js",
-        "device_weekly_outbound_data.js",
-        "material_weekly_outbound_data.js",
+        "supplier_payable_data.js",
+        "equipment_region_data.js",
     )
     names = hash_data_files(source_dir, MAIN_OUTPUT_DIR, data_files)
     html = source_html.read_text(encoding="utf-8")
