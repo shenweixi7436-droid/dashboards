@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>电商仓储库存分析仪表板</title>
 <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
-<script src="assets/data/province_outbound.f6fc44c6bcea.js"></script>
-<script src="assets/data/province_material.c966bc447a9c.js"></script>
-<script src="assets/data/device_outbound.314175ddb995.js"></script>
-<script src="assets/data/core.d83427cf04f4.js"></script>
+<script src="assets/data/province_outbound.ee2539864d9a.js"></script>
+<script src="assets/data/province_material.91ad57496230.js"></script>
+<script src="assets/data/device_outbound.920943822005.js"></script>
+<script src="assets/data/core.cf13bcd010ab.js"></script>
 <style>
 @font-face{font-family:'GOTHAMRND-BOLD';src:url('assets/fonts/gotham-rounded-bold.f6281701cdb9.woff2') format('woff2');font-display:swap}
 @font-face{font-family:'HKYuan-W7';src:url('assets/fonts/hk-yuan-w7.a0f4d903956d.woff2') format('woff2');font-display:swap}
@@ -493,7 +493,7 @@ function changeSupplierPageSize(value) {
 }
 
 
-const ORDER_DATA_URL='assets/data/orders.ae72d019d132.json.gz';
+const ORDER_DATA_URL='assets/data/orders.7b04a2c5ac0e.json.gz';
 let orderDataPromise=null;
 function ensureOrderData() {
   if (ORD.length) return Promise.resolve(ORD);
@@ -1080,7 +1080,8 @@ function getDefaultMonthRange() {
 }
 
 function setQuickDate(pid,range) {
-  const reference=new Date(DATA.today+'T12:00:00');
+  // 本周/上月按真实当前日期计算，不依赖数据最新日期
+  const reference=new Date();
   let start,end;
   if(range==='week') {
     const weekday=reference.getDay()||7;

@@ -1,11 +1,11 @@
-const CACHE_NAME = 'material-inventory-dashboard-042723d585e3';
+const CACHE_NAME = 'material-inventory-dashboard-ab670ff23aa7';
 const PRECACHE_URLS = [
   "./",
   "./index.html",
-  "./assets/data/core.d83427cf04f4.js",
-  "./assets/data/device_outbound.314175ddb995.js",
-  "./assets/data/province_material.c966bc447a9c.js",
-  "./assets/data/province_outbound.f6fc44c6bcea.js",
+  "./assets/data/core.cf13bcd010ab.js",
+  "./assets/data/device_outbound.920943822005.js",
+  "./assets/data/province_material.91ad57496230.js",
+  "./assets/data/province_outbound.ee2539864d9a.js",
   "./assets/fonts/gotham-rounded-bold.f6281701cdb9.woff2",
   "./assets/fonts/hk-yuan-w7.a0f4d903956d.woff2"
 ];

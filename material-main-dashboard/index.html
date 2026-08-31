@@ -44,6 +44,14 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
 .kpi-featured .kpi-empty-space{min-height:96px}
 .kpi-value{margin-top:18px;color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:38px;line-height:1;font-weight:400;font-variant-numeric:tabular-nums}
 .kpi-summary .kpi-value{margin-top:14px;font-size:32px}
+.kpi-value-multi{margin-top:14px;display:flex;flex-direction:column;gap:4px;color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:24px;line-height:1.15;font-weight:400;font-variant-numeric:tabular-nums}
+.kpi-value-multi .vrow{display:flex;align-items:baseline;gap:8px}
+.kpi-value-multi .vrow .vlabel{font-size:13px;color:rgba(99,44,22,.7);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;letter-spacing:.02em}
+.kpi-value-multi .vrow .vnum{font-size:26px}
+.kpi-value-multi .vrow-secondary{margin-top:2px}
+.kpi-value-multi .vrow-secondary .vlabel{font-size:12px;color:rgba(99,44,22,.6)}
+.kpi-value-multi .vrow-secondary .vnum{font-size:15px;color:rgba(99,44,22,.85)}
+.kpi-delta{margin-top:10px;color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:12px;font-weight:400;line-height:1.4}
 .kpi-meta{margin-top:10px;color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:13px;font-weight:400}
 .kpi-mom{margin-top:8px;color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:12px;font-weight:400;line-height:1.4}
 .kpi-note{margin-top:6px;color:rgba(99,44,22,.52);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:11px;font-weight:400}
@@ -110,6 +118,71 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 @media(max-width:1000px){.kpi-summary,.dashboard-grid{grid-template-columns:1fr 1fr}.gantt-toolbar{align-items:flex-start;flex-direction:column}.gantt-filter-note{white-space:normal}}
 @media(max-width:680px){#topbar{height:auto;min-height:64px;padding:12px 16px;flex-wrap:wrap;gap:10px}.month-filter{margin-left:auto}main{padding:16px}.kpi-featured,.kpi-summary,.dashboard-grid{grid-template-columns:1fr}.kpi-featured .kpi-card{min-height:150px}.panel{min-height:340px}.panel-material-gantt{min-height:560px}.gantt-legend{gap:12px;flex-wrap:wrap}.gantt-filter-note{align-items:flex-start;flex-wrap:wrap}.gantt-range-note{width:100%;text-align:left}}
+.kpi-card-clickable{cursor:pointer;transition:transform .15s ease,box-shadow .15s ease}
+.kpi-card-clickable:hover,.kpi-card-clickable:focus-visible{transform:translateY(-2px);box-shadow:0 10px 24px rgba(99,44,22,.18);outline:none}
+.device-modal-mask{position:fixed;inset:0;z-index:60;display:none;align-items:flex-start;justify-content:center;padding:40px 20px;background:rgba(63,28,13,.5);overflow-y:auto;font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif}
+.device-modal-mask.open{display:flex}
+.device-modal{width:min(1080px,100%);background:#fffaf0;border:2px solid var(--tiger-brown);border-radius:18px;box-shadow:0 18px 48px rgba(63,28,13,.32);overflow:hidden}
+.device-modal-header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 26px;background:var(--tiger-yellow);border-bottom:2px solid var(--tiger-brown)}
+.device-modal-title{color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:19px}
+.device-modal-sub{margin-top:4px;color:rgba(99,44,22,.72);font-size:12px}
+.device-modal-close{flex:none;width:34px;height:34px;display:grid;place-items:center;border:2px solid var(--tiger-brown);border-radius:10px;background:#fff;cursor:pointer;color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:15px}
+.device-modal-close:hover{background:var(--tiger-yellow)}
+.device-modal-body{padding:20px 26px 26px;display:grid;gap:22px}
+.device-detail-group{border:1px solid rgba(99,44,22,.16);border-radius:14px;overflow:hidden}
+.device-detail-title{padding:10px 16px;background:rgba(234,170,0,.16);color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:15px;border-bottom:1px solid rgba(99,44,22,.16)}
+.device-detail-scroll{overflow-x:auto}
+.device-detail-table{width:100%;border-collapse:collapse;font-size:12px;color:var(--tiger-brown);min-width:860px}
+.device-detail-table th,.device-detail-table td{padding:8px 10px;border-bottom:1px solid rgba(99,44,22,.12);text-align:center;white-space:nowrap}
+.device-detail-table th{background:rgba(99,44,22,.06);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:12px}
+.device-detail-table td.num{font-variant-numeric:tabular-nums;text-align:right}
+.device-detail-table th.num{text-align:right}
+.device-detail-table td.name{text-align:left}
+.device-detail-table tbody tr:nth-child(even){background:rgba(234,170,0,.06)}
+.device-detail-table tfoot td{background:rgba(255,204,0,.28);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;border-top:2px solid var(--tiger-brown)}
+.delta-pos{color:#c0392b}
+.delta-neg{color:#1e8449}
+.device-modal-empty{padding:34px;text-align:center;color:rgba(99,44,22,.6);font-size:13px}
+@media(max-width:680px){.device-modal-mask{padding:16px 10px}.device-modal-body{padding:14px 12px 18px}}
+.material-modal-mask{position:fixed;inset:0;z-index:60;display:none;align-items:flex-start;justify-content:center;padding:40px 20px;background:rgba(63,28,13,.5);overflow-y:auto;font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif}
+.material-modal-mask.open{display:flex}
+.material-modal{width:min(1180px,100%);background:#fffaf0;border:2px solid var(--tiger-brown);border-radius:18px;box-shadow:0 18px 48px rgba(63,28,13,.32);overflow:hidden}
+.material-modal-header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 26px;background:var(--tiger-yellow);border-bottom:2px solid var(--tiger-brown)}
+.material-modal-title{color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:19px}
+.material-modal-sub{margin-top:4px;color:rgba(99,44,22,.72);font-size:12px}
+.material-modal-close{flex:none;width:34px;height:34px;display:grid;place-items:center;border:2px solid var(--tiger-brown);border-radius:10px;background:#fff;cursor:pointer;color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:15px}
+.material-modal-close:hover{background:var(--tiger-yellow)}
+.material-modal-body{padding:20px 26px 26px}
+.material-inventory-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;color:rgba(99,44,22,.72);font-size:12px;flex-wrap:wrap}
+.material-inventory-toolbar input{flex:1;min-width:200px;max-width:340px;padding:8px 12px;border:1.5px solid rgba(99,44,22,.32);border-radius:8px;background:#fff;color:var(--tiger-brown);font:inherit;font-size:12px;outline:none}
+.material-inventory-toolbar input:focus{border-color:var(--tiger-brown)}
+.material-inventory-toolbar .urgency-stats{display:flex;gap:10px;flex-wrap:wrap}
+.material-inventory-toolbar .urgency-stats span{padding:3px 9px;border-radius:999px;font-size:11px;font-weight:500;background:rgba(99,44,22,.08);color:var(--tiger-brown)}
+.material-inventory-toolbar .urgency-stats span.urg-紧急{background:rgba(192,57,43,.18);color:#a32d2d}
+.material-inventory-toolbar .urgency-stats span.urg-断货{background:rgba(99,44,22,.18);color:#3c2a1a}
+.material-inventory-toolbar .urgency-stats span.urg-预警{background:rgba(234,170,0,.32);color:#854f0b}
+.material-inventory-toolbar .urgency-stats span.urg-正常{background:rgba(30,132,73,.18);color:#1e8449}
+.material-inventory-scroll{overflow-x:auto;border:1px solid rgba(99,44,22,.16);border-radius:14px;background:#fff}
+.material-inventory-table{width:100%;border-collapse:collapse;font-size:12px;color:var(--tiger-brown);min-width:1080px}
+.material-inventory-table th,.material-inventory-table td{padding:8px 12px;border-bottom:1px solid rgba(99,44,22,.12);text-align:center;white-space:nowrap}
+.material-inventory-table th{background:rgba(99,44,22,.06);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:12px;position:sticky;top:0;z-index:1}
+.material-inventory-table td.num{font-variant-numeric:tabular-nums;text-align:right}
+.material-inventory-table th.num{text-align:right}
+.material-inventory-table td.name{text-align:left;max-width:280px;white-space:normal}
+.material-inventory-table tbody tr:nth-child(even){background:rgba(234,170,0,.06)}
+.material-inventory-table tbody tr.hidden{display:none}
+.material-inventory-table .urg-pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:500}
+.material-inventory-table .urg-紧急{background:rgba(192,57,43,.18);color:#a32d2d}
+.material-inventory-table .urg-断货{background:rgba(99,44,22,.18);color:#3c2a1a}
+.material-inventory-table .urg-预警{background:rgba(234,170,0,.32);color:#854f0b}
+.material-inventory-table .urg-正常{background:rgba(30,132,73,.18);color:#1e8449}
+.material-inventory-table th.sortable{cursor:pointer;user-select:none}
+.material-inventory-table th.sortable:hover{background:rgba(99,44,22,.12);color:var(--tiger-brown)}
+.material-inventory-table th.sortable .sort-indicator{display:inline-block;margin-left:6px;font-size:10px;color:var(--tiger-brown);opacity:.85;transition:transform .15s ease}
+.material-inventory-table th.sortable[data-sort-dir="asc"] .sort-indicator{transform:rotate(0deg)}
+.material-inventory-table th.sortable[data-sort-dir="desc"] .sort-indicator{transform:rotate(0deg)}
+.material-modal-empty{padding:34px;text-align:center;color:rgba(99,44,22,.6);font-size:13px}
+@media(max-width:680px){.material-modal-mask{padding:16px 10px}.material-modal-body{padding:14px 12px 18px}}
 </style>
 </head>
 <body>
@@ -158,39 +231,29 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
         <div class="kpi-value" id="development-value">5项</div>
         <div class="kpi-meta" id="development-meta">高优先级 · 进行中（名称去重）</div>
       </article>
-      <article class="kpi-card">
-        <h2 class="kpi-title">物料运费占比（占比总费用）</h2>
-        <div class="kpi-value" id="materials-ratio-value">9.67%</div>
-        <div class="kpi-meta" id="materials-ratio-meta">环比下降 5.91%</div>
+      <article class="kpi-card kpi-card-clickable" id="device-weekly-card" role="button" tabindex="0" aria-haspopup="dialog" title="点击查看设备发货明细">
+        <h2 class="kpi-title">线下/鸣忙设备出库情况</h2>
+        <div class="kpi-value-multi" id="device-weekly-value">暂无数据</div>
+        <div class="kpi-delta" id="device-weekly-delta"></div>
+        <div class="kpi-action">点击展开</div>
       </article>
-      <article class="kpi-card">
-        <h2 class="kpi-title">本月供应商应付</h2>
-        <div class="kpi-value" id="payable-month-value">暂无数据</div>
-        <div class="kpi-meta" id="payable-month-meta"></div>
-        <div class="kpi-mom" id="payable-mom"></div>
+      <article class="kpi-card kpi-card-clickable" id="material-weekly-card" role="button" tabindex="0" aria-haspopup="dialog" title="点击查看物料库存明细">
+        <h2 class="kpi-title">物料本周出库总量</h2>
+        <div class="kpi-value-multi" id="material-weekly-value">暂无数据</div>
+        <div class="kpi-delta" id="material-weekly-delta"></div>
+        <div class="kpi-action">点击展开</div>
       </article>
     </div>
   </section>
   <section class="dashboard-grid" aria-label="看板分析区域">
-    <article class="panel">
-      <header class="panel-header"><h2 class="panel-title">售后问题分类与解决进度</h2><p class="panel-subtitle">黄色为问题出现次数，棕色为该类型已解决进度</p></header>
-      <div class="panel-body"><div class="chart-wrap"><canvas id="chart-after-sales" role="img" aria-label="2026年售后问题分类出现次数与解决进度图"></canvas><p class="sr-only" id="after-sales-description"></p></div></div>
-    </article>
     <article class="panel panel-material-gantt">
-      <header class="panel-header"><h2 class="panel-title">物料开发进度甘特图</h2><p class="panel-subtitle">筛选条件来自源表 B 列“优先级”和 H 列“任务状态”；同一物料按阶段顺序保留最新记录</p></header>
+      <header class="panel-header"><h2 class="panel-title">物料开发进度甘特图</h2><p class="panel-subtitle">筛选条件来自源表“优先级”；同一物料按预计完成日期保留最新记录</p></header>
       <div class="panel-body">
         <div class="gantt-toolbar">
-          <div class="gantt-legend" aria-label="进度分类图例">
-            <span><i style="background:#d93924"></i>设计</span>
-            <span><i style="background:#eaaa00"></i>样品</span>
-            <span><i style="background:#632c16"></i>大货交付</span>
-          </div>
+          <div class="gantt-legend" id="gantt-legend" aria-label="开发分类图例"></div>
           <div class="gantt-filter-note">
             <label class="gantt-filter-control gantt-filter-control-primary">优先级：
               <select id="gantt-priority-filter" aria-label="按优先级筛选物料"></select>
-            </label>
-            <label class="gantt-filter-control">任务状态：
-              <select id="gantt-status-filter" aria-label="按任务状态筛选物料"></select>
             </label>
             <span class="gantt-range-note" id="gantt-range-note">时间范围：—</span>
           </div>
@@ -198,7 +261,7 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
         <div class="development-gantt-scroll">
           <div class="development-gantt" role="table" aria-label="物料开发进度筛选甘特图">
             <div class="gantt-head" role="row">
-              <div class="gantt-head-label" role="columnheader">物料名称 / 最新进度</div>
+              <div class="gantt-head-label" role="columnheader">物料名称 / 项目进展描述</div>
               <div class="gantt-timeline-head" id="gantt-timeline-head" role="columnheader"></div>
             </div>
             <div id="material-gantt-rows" role="rowgroup"></div>
@@ -208,21 +271,38 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
         <p class="sr-only" id="development-description"></p>
       </div>
     </article>
-    <article class="panel">
-      <header class="panel-header"><h2 class="panel-title">运费占货值比率与异常订单</h2><p class="panel-subtitle">曲线：运费/货值占比 · 柱形：异常订单（已剔除重复订单）</p></header>
-      <div class="panel-body"><div class="chart-wrap"><canvas id="chart-materials-equipment" role="img" aria-label="2026年月度运费占货值比率曲线与异常订单柱形组合图"></canvas><div class="chart-canvas-tooltip" id="freight-chart-tooltip" role="tooltip" aria-hidden="true"></div><p class="sr-only" id="ratio-description"></p></div></div>
-    </article>
-    <article class="panel panel-region-device">
-      <header class="panel-header"><h2 class="panel-title">省区设备金额与发货量</h2><p class="panel-subtitle">柱形：设备金额 · 曲线：发货数量</p></header>
-      <div class="panel-body"><div class="chart-wrap"><canvas id="chart-region-device" role="img" aria-label="省区设备金额柱形与发货数量曲线组合图"></canvas><div class="chart-canvas-tooltip" id="region-device-tooltip" role="tooltip" aria-hidden="true"></div><p class="sr-only" id="region-device-description"></p></div><div class="mingmang-summary"><div class="mingmang-summary-title">鸣忙渠道</div><div class="mingmang-chart-wrap"><canvas id="chart-mingmang-device" role="img" aria-label="鸣忙渠道各设备金额与数量组合图"></canvas><div class="chart-canvas-tooltip" id="mingmang-device-tooltip" role="tooltip" aria-hidden="true"></div></div><div class="mingmang-summary-total" id="mingmang-total"></div><div class="mingmang-summary-mom" id="mingmang-mom"></div><p class="sr-only" id="mingmang-device-description"></p></div></div>
-    </article>
   </section>
 </main>
-<script src="assets/data/material_freight_dashboard_data.5572996f1128.js"></script>
-<script src="assets/data/material_development_gantt_data.55a02038c5f5.js"></script>
-<script src="assets/data/inventory_outbound_data.eacf6ae1d96a.js"></script>
-<script src="assets/data/supplier_payable_data.20683c5951cf.js"></script>
-<script src="assets/data/equipment_region_data.4633c041dae2.js"></script>
+<div class="device-modal-mask" id="device-modal-mask" role="dialog" aria-modal="true" aria-labelledby="device-modal-title">
+  <div class="device-modal">
+    <div class="device-modal-header">
+      <div>
+        <div class="device-modal-title" id="device-modal-title">设备发货明细</div>
+        <div class="device-modal-sub" id="device-modal-sub"></div>
+      </div>
+      <button type="button" class="device-modal-close" id="device-modal-close" aria-label="关闭明细弹窗">✕</button>
+    </div>
+    <div class="device-modal-body" id="device-modal-body"></div>
+  </div>
+</div>
+<div class="material-modal-mask" id="material-modal-mask" role="dialog" aria-modal="true" aria-labelledby="material-modal-title">
+  <div class="material-modal">
+    <div class="material-modal-header">
+      <div>
+        <div class="material-modal-title" id="material-modal-title">物料库存明细</div>
+        <div class="material-modal-sub" id="material-modal-sub"></div>
+      </div>
+      <button type="button" class="material-modal-close" id="material-modal-close" aria-label="关闭库存明细弹窗">✕</button>
+    </div>
+    <div class="material-modal-body" id="material-modal-body"></div>
+  </div>
+</div>
+<script src="assets/data/material_freight_dashboard_data.175ed8fac0ef.js"></script>
+<script src="assets/data/material_development_gantt_data.e76b26bff36d.js"></script>
+<script src="assets/data/inventory_outbound_data.143c6eb396ae.js"></script>
+<script src="assets/data/device_weekly_outbound_data.e1298426d1c1.js"></script>
+<script src="assets/data/material_weekly_outbound_data.646872236618.js"></script>
+<script src="assets/data/material_inventory_data.c18db6ad4bc1.js"></script>
 <script>
 (function(){
   'use strict';
@@ -231,24 +311,7 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
   var FONT_HEADING='"GOTHAMRND-BOLD","HKYuan-W8",sans-serif';
   var analytics={
     year:2026,
-    afterSales:[0,0,0,0,0,12,0,0,0,0,0,0],
-    afterSalesIssues:{
-      categories:['设备问题','物料问题','稽核问题','其他问题'],
-      total:[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[6,5,3,4],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]],
-      resolved:[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[6,5,3,4],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
-    },
-    development:[0,0,1,3,8,15,1,0,0,0,0,0],
-    developmentItems:{
-      1:[],2:[],
-      3:[{name:'万纬车贴',progress:'大货交付-目前只剩2台万纬车辆未完成，车辆目前在使用',weight:3}],
-      4:[{name:'签字笔',progress:'大货交付-已完成',weight:2},{name:'人偶服',progress:'样品-目前进行第5次打样，目前颜色不符合要求；切换宏亿打样中',weight:1},{name:'气膜',progress:'样品-切换宏亿打样中',weight:1}],
-      5:[{name:'签字笔',progress:'大货交付-已完成',weight:1},{name:'烘焙手套',progress:'设计-原设计进行三次打样不符合要求，现重新进行设计',weight:1},{name:'试吃盒',progress:'大货交付-已完成',weight:2},{name:'酱料盒',progress:'大货交付-已完成',weight:2},{name:'小虎头',progress:'大货交付-进行中',weight:2},{name:'跳跳卡',progress:'样品-进行3次打样颜色需要进行调整，现需要设计师现场调试',weight:2},{name:'产品手册',progress:'样品-明扬7月6日看样；智新7月10日看样',weight:1},{name:'笔记本',progress:'样品-宏伟打样中',weight:1}],
-      6:[{name:'显眼包（简化版）',progress:'样品-进行第二次打样',weight:2},{name:'披萨刀',progress:'设计-进行中',weight:1},{name:'试吃桌优化',progress:'设计-进行中',weight:1},{name:'礼盒纸箱',progress:'设计-进行中',weight:1},{name:'试吃盒',progress:'大货交付-已完成',weight:1},{name:'酱料盒',progress:'大货交付-已完成',weight:1},{name:'插式立牌',progress:'大货交付-已完成',weight:1},{name:'小虎头',progress:'大货交付-进行中',weight:1},{name:'贴纸',progress:'样品-第一版已完成并反馈修改意见进行第二次打样；第二次样7月4日',weight:2},{name:'人偶服',progress:'样品-目前进行第5次打样，目前颜色不符合要求；切换宏亿打样中',weight:1},{name:'气膜',progress:'样品-切换宏亿打样中',weight:1},{name:'毛毡包',progress:'设计-设计单未分配',weight:1},{name:'公仔',progress:'样品-硕达样品于7月3日确认',weight:2},{name:'产品手册',progress:'样品-明扬7月6日看样；智新7月10日看样',weight:1},{name:'笔记本',progress:'样品-宏伟打样中',weight:1}],
-      7:[{name:'插式立牌',progress:'大货交付-已完成',weight:1}],8:[],9:[],10:[],11:[],12:[]
-    },
-    freightRatio:[11.8012,13.9818,10.4781,10.2788,9.6716,3.6941,null,null,null,null,null,null],
-    freightMom:[null,18.4775,-25.0587,-1.9027,-5.9073,-61.8044,null,null,null,null,null,null]
-    ,abnormalOrders:[296,290,81,146,69,96,null,null,null,null,null,null]
+    afterSales:[0,0,0,0,0,12,0,0,0,0,0,0]
   };
   var select=document.getElementById('month-select');
   var main=document.getElementById('dashboard-main');
@@ -260,19 +323,16 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
   var inventoryOutboundMeta=document.getElementById('inventory-outbound-meta');
   var inventoryOutboundMom=document.getElementById('inventory-outbound-mom');
   var inventoryOutboundNote=document.getElementById('inventory-outbound-note');
-  var payableValue=document.getElementById('payable-month-value');
-  var payableMeta=document.getElementById('payable-month-meta');
-  var payableMom=document.getElementById('payable-mom');
   var afterValue=document.getElementById('after-sales-value');
   var afterMeta=document.getElementById('after-sales-meta');
   var developmentValue=document.getElementById('development-value');
   var developmentMeta=document.getElementById('development-meta');
-  var ratioValue=document.getElementById('materials-ratio-value');
-  var ratioMeta=document.getElementById('materials-ratio-meta');
+  var deviceWeeklyValue=document.getElementById('device-weekly-value');
+  var deviceWeeklyData=window.DEVICE_WEEKLY_OUTBOUND_DATA||{};
+  var materialWeeklyValue=document.getElementById('material-weekly-value');
+  var materialWeeklyData=window.MATERIAL_WEEKLY_OUTBOUND_DATA||{};
   var freightMonths=window.FREIGHT_PAYLOAD&&Array.isArray(window.FREIGHT_PAYLOAD.months)?window.FREIGHT_PAYLOAD.months:[];
   var inventoryOutboundData=window.INVENTORY_OUTBOUND_DATA||{};
-  var supplierPayableData=window.SUPPLIER_PAYABLE_DATA||{};
-  var equipmentRegionData=window.EQUIPMENT_REGION_DATA||{};
   var activeMonth=5;
 
   function formatMoney(value){return '¥'+Number(value||0).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});}
@@ -310,248 +370,19 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
       if(selected){ctx.fillStyle=c.text;ctx.font='13px '+FONT_NUMBER;ctx.fillText(v+unit,x+barW/2,Math.max(14,y-12));ctx.font='12px '+FONT_TEXT;}
     });
   }
-  function drawAfterSales(canvas,month){
-    var box=setupCanvas(canvas),ctx=box.ctx,w=box.width,h=box.height,c=palette();
-    var categories=analytics.afterSalesIssues.categories;
-    var totals=analytics.afterSalesIssues.total[month-1];
-    var resolved=analytics.afterSalesIssues.resolved[month-1];
-    var left=Math.min(100,Math.max(86,w*.17)),right=4,top=4,rowH=(h-top-2)/categories.length;
-    var trackX=left,trackW=Math.max(140,w-left-right),barH=14;
-    var maxCount=Math.max(1,Math.max.apply(null,totals));
-    ctx.clearRect(0,0,w,h);ctx.font='12px '+FONT_TEXT;ctx.textBaseline='middle';
-    categories.forEach(function(category,index){
-      var y=top+index*rowH;
-      var total=totals[index],done=resolved[index],rate=total?done/total:0;
-      var countY=y+18,progressY=y+40,labelY=(countY+progressY+barH)/2;
-      ctx.fillStyle=c.text;ctx.textAlign='right';ctx.font='13px '+FONT_HEADING;ctx.fillText(category,trackX-12,labelY);
-      ctx.fillStyle=c.outline;ctx.textAlign='left';ctx.font='12px '+FONT_NUMBER;ctx.fillText('出现 '+total+'次',trackX,countY-8);
-      ctx.fillStyle='#fff7d1';ctx.strokeStyle=c.outline;ctx.lineWidth=1;ctx.beginPath();ctx.roundRect(trackX,countY,trackW,barH,7);ctx.fill();ctx.stroke();
-      if(total>0){ctx.fillStyle=c.highlight;ctx.beginPath();ctx.roundRect(trackX,countY,Math.max(barH,total/maxCount*trackW),barH,7);ctx.fill();ctx.strokeStyle=c.outline;ctx.stroke();}
-
-      ctx.fillStyle='#fff';ctx.strokeStyle='#d6c0b7';ctx.lineWidth=1;ctx.beginPath();ctx.roundRect(trackX,progressY,trackW,barH,7);ctx.fill();ctx.stroke();
-      if(done>0){ctx.fillStyle=c.outline;ctx.beginPath();ctx.roundRect(trackX,progressY,Math.max(barH,rate*trackW),barH,7);ctx.fill();}
-      ctx.fillStyle=c.muted;ctx.textAlign='left';ctx.font='12px '+FONT_NUMBER;ctx.fillText('已解决 '+done+'/'+total+' · '+Math.round(rate*100)+'%',trackX,progressY+barH+9);
-    });
-  }
-  function drawFreightCombo(canvas,ratios,abnormal,month){
-    var box=setupCanvas(canvas),ctx=box.ctx,w=box.width,h=box.height,c=palette();
-    var indices=ratios.map(function(value,index){return Number.isFinite(value)||Number.isFinite(abnormal[index])?index:null;}).filter(function(index){return index!==null;});
-    var pad={left:34,right:24,top:28,bottom:38},plotW=w-pad.left-pad.right,plotH=h-pad.top-pad.bottom;
-    ctx.clearRect(0,0,w,h);ctx.font='12px '+FONT_TEXT;ctx.textBaseline='middle';
-    if(!indices.length){ctx.fillStyle=c.muted;ctx.textAlign='center';ctx.fillText('暂无运费数据',w/2,h/2);canvas._hitTargets=[];return;}
-    for(var grid=0;grid<=4;grid++){var gy=pad.top+plotH-(grid/4)*plotH;ctx.strokeStyle=c.grid;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(pad.left,gy);ctx.lineTo(w-pad.right,gy);ctx.stroke();}
-    var maxRatio=Math.max(5,Math.ceil(Math.max.apply(null,ratios.filter(Number.isFinite))/5)*5);
-    var maxAbnormal=Math.max(1,Math.max.apply(null,abnormal.filter(Number.isFinite)));
-    var step=indices.length>1?plotW/(indices.length-1):0;
-    var barWidth=Math.min(46,Math.max(24,(indices.length>1?step:plotW)*.38));
-    var points=[],barTargets=[];
-    indices.forEach(function(index,position){
-      var x=indices.length>1?pad.left+step*position:pad.left+plotW/2;
-      var count=abnormal[index];
-      if(Number.isFinite(count)){
-        var barHeight=count/maxAbnormal*plotH*.58,barY=pad.top+plotH-barHeight,selected=index===month-1;
-        ctx.fillStyle=selected?'rgba(255,204,0,.72)':'rgba(99,44,22,.18)';ctx.strokeStyle=selected?c.outline:'rgba(99,44,22,.55)';ctx.lineWidth=selected?2:1;
-        ctx.beginPath();ctx.roundRect(x-barWidth/2,barY,barWidth,barHeight,5);ctx.fill();ctx.stroke();
-        ctx.fillStyle=c.outline;ctx.textAlign='center';ctx.font='11px '+FONT_NUMBER;ctx.fillText(count+'单',x,Math.max(12,barY-9));
-        barTargets.push({type:'bar',x:x,y:barY,w:barWidth,h:barHeight,month:index+1,value:count});
-      }
-      ctx.fillStyle=c.muted;ctx.textAlign='center';ctx.font='12px '+FONT_NUMBER;ctx.fillText((index+1)+'月',x,h-17);
-      if(Number.isFinite(ratios[index]))points.push({type:'point',x:x,y:pad.top+plotH-(ratios[index]/maxRatio)*plotH,month:index+1,value:ratios[index],index:index});
-    });
-    if(points.length){
-      ctx.strokeStyle=c.series;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(points[0].x,points[0].y);
-      for(var i=0;i<points.length-1;i++){
-        var p0=points[Math.max(0,i-1)],p1=points[i],p2=points[i+1],p3=points[Math.min(points.length-1,i+2)];
-        ctx.bezierCurveTo(p1.x+(p2.x-p0.x)/6,p1.y+(p2.y-p0.y)/6,p2.x-(p3.x-p1.x)/6,p2.y-(p3.y-p1.y)/6,p2.x,p2.y);
-      }
-      ctx.stroke();
-    }
-    points.forEach(function(point){var selected=point.index===month-1;ctx.fillStyle=selected?c.highlight:c.series;ctx.strokeStyle=selected?c.outline:'#ffffff';ctx.lineWidth=selected?2:1.5;ctx.beginPath();ctx.arc(point.x,point.y,selected?7:5,0,Math.PI*2);ctx.fill();ctx.stroke();if(selected){ctx.fillStyle=c.text;ctx.font='13px '+FONT_NUMBER;ctx.textAlign='center';ctx.fillText(point.value.toFixed(2)+'%',point.x,Math.max(14,point.y-16));}});
-    canvas._hitTargets=points.concat(barTargets);
-  }
-  function drawRegionDeviceCombo(canvas,regionData,month){
-    var box=setupCanvas(canvas),ctx=box.ctx,w=box.width,h=box.height,c=palette();
-    var pad={left:60,right:50,top:30,bottom:70},plotW=w-pad.left-pad.right,plotH=h-pad.top-pad.bottom;
-    ctx.clearRect(0,0,w,h);ctx.font='12px '+FONT_TEXT;ctx.textBaseline='middle';
-    if(!regionData||!regionData.length){ctx.fillStyle=c.muted;ctx.textAlign='center';ctx.fillText('暂无设备数据',w/2,h/2);canvas._hitTargets=[];return;}
-    var count=regionData.length;
-    var maxAmount=Math.max(1,Math.max.apply(null,regionData.map(function(d){return d.amount;})));
-    var maxQuantity=Math.max(1,Math.max.apply(null,regionData.map(function(d){return d.quantity;})));
-    for(var grid=0;grid<=4;grid++){
-      var gy=pad.top+plotH-(grid/4)*plotH;
-      ctx.strokeStyle=c.grid;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(pad.left,gy);ctx.lineTo(w-pad.right,gy);ctx.stroke();
-      ctx.fillStyle=c.muted;ctx.textAlign='right';ctx.font='11px '+FONT_NUMBER;
-      ctx.fillText('¥'+(maxAmount*(grid/4)/10000).toFixed(1)+'万',pad.left-8,gy);
-      ctx.textAlign='left';
-      ctx.fillText(Math.round(maxQuantity*(grid/4)),w-pad.right+8,gy);
-    }
-    var step=count>1?plotW/(count-1):0;
-    var barWidth=Math.min(32,Math.max(10,(count>1?step:plotW)*.45));
-    var points=[],barTargets=[];
-    regionData.forEach(function(item,index){
-      var x=count>1?pad.left+step*index:pad.left+plotW/2;
-      var barHeight=item.amount/maxAmount*plotH*.75;
-      var barY=pad.top+plotH-barHeight;
-      ctx.fillStyle='rgba(99,44,22,.18)';
-      ctx.strokeStyle='rgba(99,44,22,.55)';
-      ctx.lineWidth=1;
-      ctx.beginPath();ctx.roundRect(x-barWidth/2,barY,barWidth,barHeight,4);ctx.fill();ctx.stroke();
-      if(barHeight>18){
-        ctx.fillStyle=c.outline;ctx.textAlign='center';ctx.font='10px '+FONT_NUMBER;
-        ctx.fillText('¥'+(item.amount/10000).toFixed(1)+'万',x,Math.max(12,barY-7));
-      }
-      barTargets.push({type:'bar',x:x,y:barY,w:barWidth,h:barHeight,region:item.region,amount:item.amount,quantity:item.quantity});
-      ctx.save();
-      ctx.translate(x,h-22);
-      ctx.rotate(-Math.PI/4);
-      ctx.fillStyle=c.muted;ctx.textAlign='right';ctx.font='11px '+FONT_NUMBER;
-      ctx.fillText(item.region,0,0);
-      ctx.restore();
-      points.push({type:'point',x:x,y:pad.top+plotH-(item.quantity/maxQuantity)*plotH*.75,region:item.region,amount:item.amount,quantity:item.quantity,index:index});
-    });
-    if(points.length){
-      ctx.strokeStyle=c.series;ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(points[0].x,points[0].y);
-      for(var i=0;i<points.length-1;i++){
-        var p0=points[Math.max(0,i-1)],p1=points[i],p2=points[i+1],p3=points[Math.min(points.length-1,i+2)];
-        ctx.bezierCurveTo(p1.x+(p2.x-p0.x)/6,p1.y+(p2.y-p0.y)/6,p2.x-(p3.x-p1.x)/6,p2.y-(p3.y-p1.y)/6,p2.x,p2.y);
-      }
-      ctx.stroke();
-    }
-    points.forEach(function(point){
-      ctx.fillStyle=c.series;ctx.strokeStyle='#ffffff';ctx.lineWidth=1.5;
-      ctx.beginPath();ctx.arc(point.x,point.y,4,0,Math.PI*2);ctx.fill();ctx.stroke();
-    });
-    canvas._hitTargets=points.concat(barTargets);
-  }
-  function hideFreightTooltip(){var tooltip=document.getElementById('freight-chart-tooltip');tooltip.style.display='none';tooltip.setAttribute('aria-hidden','true');}
-  function showFreightTooltip(canvas,target){
-    var tooltip=document.getElementById('freight-chart-tooltip');
-    tooltip.textContent=target.type==='point'?target.month+'月，运费/总货值占比 '+target.value.toFixed(2)+'%':target.month+'月，异常订单 '+target.value+'单（已剔除重复）';
-    tooltip.style.display='block';tooltip.setAttribute('aria-hidden','false');
-    var left=Math.max(4,Math.min(canvas.clientWidth-tooltip.offsetWidth-4,target.x-tooltip.offsetWidth/2));
-    var top=target.y-tooltip.offsetHeight-10;if(top<4)top=target.y+12;top=Math.max(4,Math.min(canvas.clientHeight-tooltip.offsetHeight-4,top));
-    tooltip.style.left=left+'px';tooltip.style.top=top+'px';
-  }
-  function bindFreightTooltip(canvas){
-    if(canvas._tooltipBound)return;canvas._tooltipBound=true;
-    canvas.addEventListener('mousemove',function(event){
-      var rect=canvas.getBoundingClientRect(),x=event.clientX-rect.left,y=event.clientY-rect.top,targets=canvas._hitTargets||[];
-      var point=targets.find(function(target){return target.type==='point'&&Math.hypot(x-target.x,y-target.y)<=11;});
-      var bar=targets.find(function(target){return target.type==='bar'&&x>=target.x-target.w/2&&x<=target.x+target.w/2&&y>=target.y&&y<=target.y+target.h;});
-      var target=point||bar;if(target)showFreightTooltip(canvas,target);else hideFreightTooltip();
-    });
-    canvas.addEventListener('mouseleave',hideFreightTooltip);
-  }
-  function hideRegionDeviceTooltip(){var tooltip=document.getElementById('region-device-tooltip');tooltip.style.display='none';tooltip.setAttribute('aria-hidden','true');}
-  function showRegionDeviceTooltip(canvas,target){
-    var tooltip=document.getElementById('region-device-tooltip');
-    tooltip.textContent=target.region+'，设备金额 '+formatMoney(target.amount)+'，发货数量 '+formatQuantity(target.quantity);
-    tooltip.style.display='block';tooltip.setAttribute('aria-hidden','false');
-    var left=Math.max(4,Math.min(canvas.clientWidth-tooltip.offsetWidth-4,target.x-tooltip.offsetWidth/2));
-    var top=target.y-tooltip.offsetHeight-10;if(top<4)top=target.y+12;top=Math.max(4,Math.min(canvas.clientHeight-tooltip.offsetHeight-4,top));
-    tooltip.style.left=left+'px';tooltip.style.top=top+'px';
-  }
-  function bindRegionDeviceTooltip(canvas){
-    if(canvas._tooltipBound)return;canvas._tooltipBound=true;
-    canvas.addEventListener('mousemove',function(event){
-      var rect=canvas.getBoundingClientRect(),x=event.clientX-rect.left,y=event.clientY-rect.top,targets=canvas._hitTargets||[];
-      var point=targets.find(function(target){return target.type==='point'&&Math.hypot(x-target.x,y-target.y)<=12;});
-      var bar=targets.find(function(target){return target.type==='bar'&&x>=target.x-target.w/2&&x<=target.x+target.w/2&&y>=target.y&&y<=target.y+target.h;});
-      var target=point||bar;if(target)showRegionDeviceTooltip(canvas,target);else hideRegionDeviceTooltip();
-    });
-    canvas.addEventListener('mouseleave',hideRegionDeviceTooltip);
-  }
-  function drawMingmangDeviceCombo(canvas,mingmang,label){
-    var box=setupCanvas(canvas),ctx=box.ctx,w=box.width,h=box.height,c=palette();
-    var pad={left:64,right:50,top:20,bottom:68},plotW=w-pad.left-pad.right,plotH=h-pad.top-pad.bottom;
-    ctx.clearRect(0,0,w,h);ctx.font='12px '+FONT_TEXT;ctx.textBaseline='middle';
-    var totalEl=document.getElementById('mingmang-total'),momEl=document.getElementById('mingmang-mom'),descEl=document.getElementById('mingmang-device-description');
-    if(!mingmang||!mingmang.devices||mingmang.devices.length===0){ctx.fillStyle=c.muted;ctx.textAlign='center';ctx.fillText('暂无鸣忙数据',w/2,h/2);canvas._hitTargets=[];totalEl.textContent='';momEl.textContent='';if(descEl)descEl.textContent='';return;}
-    var devices=mingmang.devices;
-    var maxAmount=Math.max(1,Math.max.apply(null,devices.map(function(d){return d.amount;})));
-    var maxQuantity=Math.max(1,Math.max.apply(null,devices.map(function(d){return d.quantity;})));
-    for(var grid=0;grid<=4;grid++){
-      var gy=pad.top+plotH-(grid/4)*plotH;
-      ctx.strokeStyle=c.grid;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(pad.left,gy);ctx.lineTo(w-pad.right,gy);ctx.stroke();
-      ctx.fillStyle=c.muted;ctx.textAlign='right';ctx.font='11px '+FONT_NUMBER;
-      ctx.fillText('¥'+(maxAmount*(grid/4)/10000).toFixed(1)+'万',pad.left-8,gy);
-      ctx.textAlign='left';ctx.fillText(Math.round(maxQuantity*(grid/4)),w-pad.right+8,gy);
-    }
-    var step=devices.length>1?plotW/(devices.length-1):0;
-    var barWidth=Math.min(36,Math.max(12,(devices.length>1?step:plotW)*.4));
-    var points=[],barTargets=[];
-    devices.forEach(function(item,index){
-      var x=devices.length>1?pad.left+step*index:pad.left+plotW/2;
-      var barHeight=item.amount/maxAmount*plotH*.75;
-      var barY=pad.top+plotH-barHeight;
-      ctx.fillStyle='rgba(99,44,22,.18)';
-      ctx.strokeStyle='rgba(99,44,22,.55)';
-      ctx.lineWidth=1;
-      ctx.beginPath();ctx.roundRect(x-barWidth/2,barY,barWidth,barHeight,4);ctx.fill();ctx.stroke();
-      if(barHeight>28){
-        ctx.fillStyle=c.outline;ctx.textAlign='center';ctx.font='10px '+FONT_NUMBER;
-        ctx.fillText('¥'+(item.amount/10000).toFixed(1)+'万',x,Math.max(12,barY-7));
-      }
-      barTargets.push({type:'bar',x:x,y:barY,w:barWidth,h:barHeight,name:item.name,amount:item.amount,quantity:item.quantity});
-      ctx.save();ctx.translate(x,h-22);ctx.rotate(-Math.PI/4);
-      ctx.fillStyle=c.muted;ctx.textAlign='right';ctx.font='11px '+FONT_NUMBER;
-      ctx.fillText(item.name,0,0);ctx.restore();
-      points.push({type:'point',x:x,y:pad.top+plotH-(item.quantity/maxQuantity)*plotH*.75,name:item.name,amount:item.amount,quantity:item.quantity,index:index});
-    });
-    if(points.length>1){
-      ctx.strokeStyle=c.series;ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(points[0].x,points[0].y);
-      for(var i=0;i<points.length-1;i++){
-        var p0=points[Math.max(0,i-1)],p1=points[i],p2=points[i+1],p3=points[Math.min(points.length-1,i+2)];
-        ctx.bezierCurveTo(p1.x+(p2.x-p0.x)/6,p1.y+(p2.y-p0.y)/6,p2.x-(p3.x-p1.x)/6,p2.y-(p3.y-p1.y)/6,p2.x,p2.y);
-      }
-      ctx.stroke();
-    }
-    points.forEach(function(point){
-      ctx.fillStyle=c.series;ctx.strokeStyle='#ffffff';ctx.lineWidth=1.5;
-      ctx.beginPath();ctx.arc(point.x,point.y,4,0,Math.PI*2);ctx.fill();ctx.stroke();
-    });
-    canvas._hitTargets=points.concat(barTargets);
-    totalEl.textContent='合计金额 '+formatMoney(mingmang.totalAmount)+'  |  '+label+'发货'+formatQuantity(mingmang.totalQuantity)+'台设备';
-    var qtyMom='',amtMom='';
-    if(mingmang.prevQuantity>0){var qm=((mingmang.totalQuantity-mingmang.prevQuantity)/mingmang.prevQuantity*100);qtyMom='总发货量环比'+(qm>=0?'上升 ':'下降 ')+Math.abs(qm).toFixed(2)+'%';}
-    if(mingmang.prevAmount>0){var am=((mingmang.totalAmount-mingmang.prevAmount)/mingmang.prevAmount*100);amtMom='金额环比'+(am>=0?'上升 ':'下降 ')+Math.abs(am).toFixed(2)+'%';}
-    var momText=[qtyMom,amtMom].filter(Boolean).join(' · ');
-    momEl.textContent=momText||'';
-    if(descEl)descEl.textContent='鸣忙渠道'+label+'设备发货：合计金额'+formatMoney(mingmang.totalAmount)+'，发货量'+formatQuantity(mingmang.totalQuantity)+'台。'+devices.map(function(d){return d.name+' '+formatQuantity(d.quantity)+'台（'+formatMoney(d.amount)+'）';}).join('，')+(momText?'，'+momText:'');
-  }
-  function hideMingmangDeviceTooltip(){var tooltip=document.getElementById('mingmang-device-tooltip');tooltip.style.display='none';tooltip.setAttribute('aria-hidden','true');}
-  function showMingmangDeviceTooltip(canvas,target){
-    var tooltip=document.getElementById('mingmang-device-tooltip');
-    tooltip.textContent=target.name+'，设备金额 '+formatMoney(target.amount)+'，发货数量 '+formatQuantity(target.quantity);
-    tooltip.style.display='block';tooltip.setAttribute('aria-hidden','false');
-    var left=Math.max(4,Math.min(canvas.clientWidth-tooltip.offsetWidth-4,target.x-tooltip.offsetWidth/2));
-    var top=target.y-tooltip.offsetHeight-10;if(top<4)top=target.y+12;top=Math.max(4,Math.min(canvas.clientHeight-tooltip.offsetHeight-4,top));
-    tooltip.style.left=left+'px';tooltip.style.top=top+'px';
-  }
-  function bindMingmangDeviceTooltip(canvas){
-    if(canvas._tooltipBound)return;canvas._tooltipBound=true;
-    canvas.addEventListener('mousemove',function(event){
-      var rect=canvas.getBoundingClientRect(),x=event.clientX-rect.left,y=event.clientY-rect.top,targets=canvas._hitTargets||[];
-      var point=targets.find(function(target){return target.type==='point'&&Math.hypot(x-target.x,y-target.y)<=12;});
-      var bar=targets.find(function(target){return target.type==='bar'&&x>=target.x-target.w/2&&x<=target.x+target.w/2&&y>=target.y&&y<=target.y+target.h;});
-      var target=point||bar;if(target)showMingmangDeviceTooltip(canvas,target);else hideMingmangDeviceTooltip();
-    });
-    canvas.addEventListener('mouseleave',hideMingmangDeviceTooltip);
-  }
   var fallbackDevelopmentRecords=[
-    {priority:'高',status:'进行中',name:'毛毡包',phase:'设计',description:null,owner:'卡尔',progress:1,start:'2026-06-05',end:'2026-06-26'},
-    {priority:'高',status:'进行中',name:'产品手册',phase:'设计',description:'设计中',owner:'卡尔',progress:1,start:'2026-07-01',end:'2026-07-15'},
-    {priority:'高',status:'进行中',name:'冲锋衣',phase:'样品',description:'和联胜贵价款6月26日收到样品 结构质量还需优化，7.13第二版，7.27第三版仅优化眉头\n和联胜常规款眉头6月30付优化第一版 7月13日第二版测试中',owner:'卡尔',progress:1,start:'2026-06-18',end:'2026-07-15'},
-    {priority:'高',status:'进行中',name:'帆布袋',phase:'样品',description:'超时空制样中',owner:'未远',progress:.5714,start:'2026-07-27',end:'2026-08-03'},
-    {priority:'高',status:'进行中',name:'酱料盒',phase:'大货交付',description:'明扬：11月出货工期3个月',owner:'卡尔',progress:0,start:'2026-07-31',end:'2026-11-20'}
+    {priority:'高',category:'周边物料开发',name:'毛毡包',description:null,owner:'卡尔',progress:null,start:'2026-06-05',end:'2026-06-26'},
+    {priority:'高',category:'周边物料开发',name:'产品手册',description:'设计中',owner:'卡尔',progress:null,start:'2026-07-01',end:'2026-07-15'},
+    {priority:'高',category:'陈列物料优化',name:'冲锋衣',description:'和联胜贵价款6月26日收到样品 结构质量还需优化，7.13第二版，7.27第三版仅优化眉头\n和联胜常规款眉头6月30付优化第一版 7月13日第二版测试中',owner:'卡尔',progress:null,start:'2026-06-18',end:'2026-07-15'},
+    {priority:'高',category:'陈列物料优化',name:'帆布袋',description:'超时空制样中',owner:'未远',progress:null,start:'2026-07-27',end:'2026-08-03'},
+    {priority:'高',category:'陈列物料开发',name:'酱料盒',description:'明扬：11月出货工期3个月',owner:'卡尔',progress:null,start:'2026-07-31',end:'2026-11-20'}
   ];
-  var materialGanttSource=window.MATERIAL_DEVELOPMENT_GANTT_DATA||{priorities:['高'],statuses:['进行中'],records:fallbackDevelopmentRecords};
+  var materialGanttSource=window.MATERIAL_DEVELOPMENT_GANTT_DATA||{priorities:['高'],categories:['开发分类'],records:fallbackDevelopmentRecords};
   var materialGanttItems=[];
-  var ganttPhaseColors={'设计':'#d93924','样品':'#eaaa00','大货交付':'#632c16'};
-  var ganttPhaseRank={'设计':1,'样品':2,'大货交付':3};
+  var ganttCategoryColors={};
+  var ganttCategoryRank={};
   var ganttRangeStart=null,ganttRangeEnd=null,ganttMonthCount=6;
   var ganttPriorityFilter=document.getElementById('gantt-priority-filter');
-  var ganttStatusFilter=document.getElementById('gantt-status-filter');
   function parseGanttDate(dateText){return dateText?new Date(dateText+'T00:00:00'):null;}
   function monthStart(date){return new Date(date.getFullYear(),date.getMonth(),1);}
   function monthEnd(date){return new Date(date.getFullYear(),date.getMonth()+1,0);}
@@ -559,6 +390,34 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
   function addDays(date,count){var copy=new Date(date);copy.setDate(copy.getDate()+count);return copy;}
   function isoDate(date){return date.getFullYear()+'-'+String(date.getMonth()+1).padStart(2,'0')+'-'+String(date.getDate()).padStart(2,'0');}
   function shortDate(dateText){return dateText?dateText.slice(5).replace('-','/'):'未填写';}
+  function buildCategoryMeta(){
+    var palette=['#d93924','#eaaa00','#632c16','#4a7c59','#3d7ea6','#8e44ad','#16a085'];
+    var categories=materialGanttSource.categories||[];
+    if(!categories.length){
+      var set={};
+      materialGanttSource.records.forEach(function(item){if(item.category)set[item.category]=1;});
+      categories=Object.keys(set);
+    }
+    categories.forEach(function(cat,index){
+      ganttCategoryColors[cat]=palette[index%palette.length];
+      ganttCategoryRank[cat]=index+1;
+    });
+  }
+  function renderGanttLegend(){
+    var container=document.getElementById('gantt-legend');
+    container.replaceChildren();
+    var categories=materialGanttSource.categories||[];
+    if(!categories.length){
+      var set={};
+      materialGanttSource.records.forEach(function(item){if(item.category)set[item.category]=1;});
+      categories=Object.keys(set);
+    }
+    categories.forEach(function(cat){
+      var span=document.createElement('span');
+      span.innerHTML='<i style="background:'+(ganttCategoryColors[cat]||'#8b6f64')+'"></i>'+cat;
+      container.appendChild(span);
+    });
+  }
   function populateGanttFilter(select,items,allLabel,defaultValue){
     select.replaceChildren();
     var all=document.createElement('option');all.value='';all.textContent=allLabel;select.appendChild(all);
@@ -569,9 +428,10 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
     var selected=new Map();
     records.forEach(function(item,index){
       if(!item.name)return;
-      var current=selected.get(item.name),rank=ganttPhaseRank[item.phase]||0;
+      var current=selected.get(item.name);
       var dateScore=Math.max(parseGanttDate(item.end)||0,parseGanttDate(item.start)||0);
-      if(!current||rank>current._rank||(rank===current._rank&&dateScore>=current._dateScore)){
+      var rank=ganttCategoryRank[item.category]||0;
+      if(!current||dateScore>=current._dateScore){
         selected.set(item.name,Object.assign({},item,{_rank:rank,_dateScore:dateScore,_index:index}));
       }
     });
@@ -612,60 +472,63 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
     rangeNote.textContent='时间范围：'+isoDate(ganttRangeStart)+' — '+isoDate(ganttRangeEnd);
   }
   function renderDevelopmentGantt(){
-    var priority=ganttPriorityFilter.value,status=ganttStatusFilter.value;
-    var filtered=materialGanttSource.records.filter(function(item){return(!priority||item.priority===priority)&&(!status||item.status===status);});
+    var priority=ganttPriorityFilter.value;
+    var filtered=materialGanttSource.records.filter(function(item){return!priority||item.priority===priority;});
     materialGanttItems=collapseDevelopmentItems(filtered);updateGanttRange(materialGanttItems);renderGanttHeader();
     var rows=document.getElementById('material-gantt-rows'),todayVisible=parseGanttDate('2026-07-31')>=ganttRangeStart&&parseGanttDate('2026-07-31')<=ganttRangeEnd;
     rows.replaceChildren();
     if(!materialGanttItems.length){var empty=document.createElement('div');empty.className='gantt-empty';empty.textContent='当前筛选条件下暂无物料记录';rows.appendChild(empty);}
     materialGanttItems.forEach(function(item){
       var rawStart=parseGanttDate(item.start),rawEnd=parseGanttDate(item.end),effectiveStart=rawStart||(rawEnd?addDays(rawEnd,-7):null),effectiveEnd=rawEnd||(rawStart?addDays(rawStart,7):null);
-      var color=ganttPhaseColors[item.phase]||'#8b6f64',hasSchedule=!!(effectiveStart&&effectiveEnd),left=null,right=null,width=null;
+      var color=ganttCategoryColors[item.category]||'#8b6f64',hasSchedule=!!(effectiveStart&&effectiveEnd),left=null,right=null,width=null;
       if(hasSchedule){var first=effectiveStart<=effectiveEnd?effectiveStart:effectiveEnd,last=effectiveStart<=effectiveEnd?effectiveEnd:effectiveStart;left=ganttPosition(isoDate(first));right=ganttPosition(isoDate(last));width=Math.max(.8,right-left);}
-      var progress=Number.isFinite(Number(item.progress))?Math.max(0,Math.min(1,Number(item.progress))):0;
+      var progress=(item.progress!==null&&item.progress!==undefined&&Number.isFinite(Number(item.progress)))?Math.max(0,Math.min(1,Number(item.progress))):null;
       var row=document.createElement('div');
       row.className='gantt-row';row.setAttribute('role','row');row.style.setProperty('--gantt-color',color);row.style.setProperty('--gantt-month-count',ganttMonthCount);
       row.innerHTML='<div class="gantt-item-info" role="cell">'+
-        '<div class="gantt-name-line"><span class="gantt-name">'+item.name+'</span><span class="gantt-phase" style="background:'+color+'">'+item.phase+'</span></div>'+
+        '<div class="gantt-name-line"><span class="gantt-name">'+item.name+'</span><span class="gantt-phase" style="background:'+color+'">'+(item.category||'未分类')+'</span></div>'+
         '<div class="gantt-owner">负责人 · '+(item.owner||'未填写')+'</div>'+
         '<div class="gantt-description">'+(item.description||'暂无进展描述')+'</div></div>'+
         '<div class="gantt-timeline" role="cell">'+
         (todayVisible?'<i class="gantt-today-line" style="left:'+ganttPosition('2026-07-31')+'%" aria-hidden="true"></i>':'')+
-        (hasSchedule?'<div class="gantt-track" style="left:'+left+'%;width:'+width+'%"><div class="gantt-fill" style="width:'+(progress*100)+'%"></div><span class="gantt-progress-label">'+Math.round(progress*100)+'%</span></div><span class="gantt-dates" style="left:'+left+'%">'+shortDate(item.start)+' → '+shortDate(item.end)+'</span>':'<div class="gantt-unscheduled">未填写计划日期</div>')+
+        (hasSchedule?'<div class="gantt-track" style="left:'+left+'%;width:'+width+'%"><div class="gantt-fill" style="width:'+(progress!==null?progress*100:0)+'%"></div>'+(progress!==null?'<span class="gantt-progress-label">'+Math.round(progress*100)+'%</span>':'')+'</div><span class="gantt-dates" style="left:'+left+'%">'+shortDate(item.start)+' → '+shortDate(item.end)+'</span>':'<div class="gantt-unscheduled">未填写计划日期</div>')+
         '</div>';
       rows.appendChild(row);
     });
-    var priorityLabel=priority||'全部优先级',statusLabel=status||'全部状态';
-    developmentValue.textContent=materialGanttItems.length+'项';developmentMeta.textContent=priorityLabel+' · '+statusLabel+'（名称去重）';
-    document.getElementById('development-description').textContent=priorityLabel+'、'+statusLabel+'的物料共'+materialGanttItems.length+'项。'+materialGanttItems.map(function(item){return item.name+'，进度分类'+item.phase+'，项目进展：'+(item.description||'暂无进展描述');}).join('；')+'。';
+    var priorityLabel=priority||'全部优先级';
+    developmentValue.textContent=materialGanttItems.length+'项';developmentMeta.textContent=priorityLabel+'（名称去重）';
+    document.getElementById('development-description').textContent=priorityLabel+'的物料共'+materialGanttItems.length+'项。'+materialGanttItems.map(function(item){return item.name+'，开发分类'+(item.category||'未分类')+'，项目进展：'+(item.description||'暂无进展描述');}).join('；')+'。';
   }
   function initializeDevelopmentFilters(){
-    populateGanttFilter(ganttPriorityFilter,materialGanttSource.priorities,'全部','高');
-    populateGanttFilter(ganttStatusFilter,materialGanttSource.statuses,'全部','进行中');
+    buildCategoryMeta();
+    renderGanttLegend();
+    populateGanttFilter(ganttPriorityFilter,materialGanttSource.priorities,'全部优先级','');
     ganttPriorityFilter.addEventListener('change',renderDevelopmentGantt);
-    ganttStatusFilter.addEventListener('change',renderDevelopmentGantt);
     renderDevelopmentGantt();
+  }
+  function deltaHtml(delta){
+    if(delta>0)return '较上周<span class="delta-pos">上升 '+formatQuantity(delta)+'</span>';
+    if(delta<0)return '较上周<span class="delta-neg">下降 '+formatQuantity(-delta)+'</span>';
+    return '较上周持平';
   }
   function updateCards(month){
-    var index=month-1,label=month+'月',after=analytics.afterSales[index],development=analytics.development[index],ratio=analytics.freightRatio[index],mom=analytics.freightMom[index];
+    var index=month-1,label=month+'月',after=analytics.afterSales[index];
     afterValue.textContent=after+'条';afterMeta.textContent=label+'按填写时间统计';
-    ratioValue.textContent=formatRatio(ratio);
-    if(!Number.isFinite(ratio))ratioMeta.textContent=label+'尚无运费及货值数据';
-    else if(!Number.isFinite(mom))ratioMeta.textContent=label+'为首个有数据月份，暂无环比';
-    else ratioMeta.textContent='环比'+(mom>=0?'上升 ':'下降 ')+Math.abs(mom).toFixed(2)+'%';
-    var issueTotals=analytics.afterSalesIssues.total[index],issueResolved=analytics.afterSalesIssues.resolved[index];
-    document.getElementById('after-sales-description').textContent=label+'售后跟进记录'+after+'条。'+analytics.afterSalesIssues.categories.map(function(category,i){var rate=issueTotals[i]?Math.round(issueResolved[i]/issueTotals[i]*100):0;return category+issueTotals[i]+'次，已解决'+issueResolved[i]+'次，解决率'+rate+'%';}).join('；')+'。';
-    var abnormal=analytics.abnormalOrders[index];
-    document.getElementById('ratio-description').textContent=label+'运费占货值比率'+formatRatio(ratio)+'。'+ratioMeta.textContent+'。异常订单'+(Number.isFinite(abnormal)?abnormal+'单':'暂无数据')+'，已剔除重复订单。';
+    var deviceGroups=deviceWeeklyData.detail&&Array.isArray(deviceWeeklyData.detail.groups)?deviceWeeklyData.detail.groups:[];
+    var deviceMonth=0,deviceDelta=0;
+    deviceGroups.forEach(function(g){deviceMonth+=Number(g.total&&g.total.monthQty||0);deviceDelta+=Number(g.total&&g.total.qtyDelta||0);});
+    deviceWeeklyValue.innerHTML='<div class="vrow"><span class="vlabel">线下</span><span class="vnum">'+formatQuantity(deviceWeeklyData.offline)+'</span></div>'+
+      '<div class="vrow"><span class="vlabel">鸣忙</span><span class="vnum">'+formatQuantity(deviceWeeklyData.mingmang)+'</span></div>'+
+      '<div class="vrow vrow-secondary"><span class="vlabel">本月</span><span class="vnum">'+formatQuantity(deviceMonth)+'</span></div>';
+    document.getElementById('device-weekly-delta').innerHTML=deltaHtml(deviceDelta);
+    materialWeeklyValue.innerHTML='<div class="vrow"><span class="vlabel">'+(materialWeeklyData.weekLabel||'本周')+'</span><span class="vnum">'+formatQuantity(materialWeeklyData.thisWeek)+'</span></div>'+
+      '<div class="vrow"><span class="vlabel">上周</span><span class="vnum">'+formatQuantity(materialWeeklyData.lastWeek)+'</span></div>'+
+      '<div class="vrow vrow-secondary"><span class="vlabel">'+(materialWeeklyData.monthLabel||'本月')+'</span><span class="vnum">'+formatQuantity(materialWeeklyData.monthQty)+'</span></div>';
+    var materialDelta=Number(materialWeeklyData.thisWeek||0)-Number(materialWeeklyData.lastWeek||0);
+    document.getElementById('material-weekly-delta').innerHTML=deltaHtml(materialDelta);
   }
   function redraw(){
-    var regionData=equipmentRegionData[String(activeMonth)]||{};
-    var regionList=regionData.region||[];
-    drawAfterSales(getCanvas('chart-after-sales'),activeMonth);
     renderDevelopmentGantt();
-    drawFreightCombo(getCanvas('chart-materials-equipment'),analytics.freightRatio,analytics.abnormalOrders,activeMonth);
-    drawRegionDeviceCombo(getCanvas('chart-region-device'),regionList,activeMonth);
-    drawMingmangDeviceCombo(getCanvas('chart-mingmang-device'),regionData.mingmang,null);
   }
   function updateMonth(monthNumber){
     activeMonth=Number(monthNumber);var label=activeMonth+'月';var source=freightMonths.find(function(item){return item.month===label;})||null;
@@ -678,19 +541,194 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
     var obData=inventoryOutboundData[String(activeMonth)];
     var prevObData=inventoryOutboundData[String(activeMonth-1)];
     if(obData){inventoryOutboundValue.textContent=formatQuantity(obData.quantity);inventoryOutboundMeta.textContent=label+'出库数量 · 涉及金额 '+formatMoney(obData.amount);inventoryOutboundNote.textContent='（数量单位为该物料最小单位）';var qtyMom='',amtMom='';if(prevObData&&prevObData.quantity>0){var qm=((obData.quantity-prevObData.quantity)/prevObData.quantity*100);qtyMom='数量环比'+(qm>=0?'上升 ':'下降 ')+Math.abs(qm).toFixed(2)+'%';}if(prevObData&&prevObData.amount>0){var am=((obData.amount-prevObData.amount)/prevObData.amount*100);amtMom='金额环比'+(am>=0?'上升 ':'下降 ')+Math.abs(am).toFixed(2)+'%';}inventoryOutboundMom.textContent=qtyMom&&amtMom?qtyMom+' · '+amtMom:qtyMom||amtMom||'';}else{inventoryOutboundValue.textContent='暂无数据';inventoryOutboundMeta.textContent=label+'尚无出库数据';inventoryOutboundNote.textContent='';inventoryOutboundMom.textContent='';}
-    var payableData=supplierPayableData[String(activeMonth)];
-    var prevPayableData=supplierPayableData[String(activeMonth-1)];
-    if(payableData){payableValue.textContent=formatMoney(payableData);payableMeta.textContent=label+'供应商应付金额合计';if(prevPayableData&&prevPayableData>0){var pmom=((payableData-prevPayableData)/prevPayableData*100);payableMom.textContent='应付环比'+(pmom>=0?'上升 ':'下降 ')+Math.abs(pmom).toFixed(2)+'%';}else{payableMom.textContent='';}}else{payableValue.textContent='暂无数据';payableMeta.textContent=label+'尚无应付数据';payableMom.textContent='';}
-    var regionData=equipmentRegionData[String(activeMonth)]||{};
-    var regionList=regionData.region||[];
-    var totalRegionAmount=regionList.reduce(function(s,d){return s+d.amount;},0);
-    var totalRegionQty=regionList.reduce(function(s,d){return s+d.quantity;},0);
-    document.getElementById('region-device-description').textContent=label+'省区设备金额合计'+formatMoney(totalRegionAmount)+'，发货数量合计'+formatQuantity(totalRegionQty)+'。柱形表示各省份设备金额，曲线表示发货数量。';
-    drawMingmangDeviceCombo(getCanvas('chart-mingmang-device'),regionData.mingmang,label);
     updateCards(activeMonth);redraw();
     document.dispatchEvent(new CustomEvent('dashboardmonthchange',{detail:{month:activeMonth,label:label,freight:source}}));
   }
-  bindFreightTooltip(getCanvas('chart-materials-equipment'));bindRegionDeviceTooltip(getCanvas('chart-region-device'));bindMingmangDeviceTooltip(getCanvas('chart-mingmang-device'));initializeDevelopmentFilters();
+  function deviceDeltaClass(value){return value>0?'delta-pos':(value<0?'delta-neg':'');}
+  function deviceDeltaText(value){return (value>0?'+':'')+formatQuantity(value);}
+  function buildDeviceDetailTable(group){
+    var table='<div class="device-detail-group"><div class="device-detail-title">'+group.title+'</div><div class="device-detail-scroll"><table class="device-detail-table">'+
+      '<thead><tr><th>品牌</th><th class="name" style="text-align:left">设备名称</th><th class="num">本月发货量</th><th class="num">本月发货金额</th><th class="num">本周发货数量</th><th class="num">数量环比上周</th><th class="num">本周发货金额</th><th class="num">金额环比上周</th><th>数量差异原因分析</th></tr></thead><tbody>';
+    if(!group.rows.length){
+      table+='<tr><td colspan="9" style="padding:20px;color:rgba(99,44,22,.56)">暂无设备发货记录</td></tr>';
+    }
+    group.rows.forEach(function(row){
+      table+='<tr><td>'+row.brand+'</td><td class="name">'+row.name+'</td>'+
+        '<td class="num">'+formatQuantity(row.monthQty)+'</td>'+
+        '<td class="num">'+formatMoney(row.monthAmount)+'</td>'+
+        '<td class="num">'+formatQuantity(row.weekQty)+'</td>'+
+        '<td class="num '+deviceDeltaClass(row.qtyDelta)+'">'+deviceDeltaText(row.qtyDelta)+'</td>'+
+        '<td class="num">'+formatMoney(row.weekAmount)+'</td>'+
+        '<td class="num '+deviceDeltaClass(row.amountDelta)+'">'+deviceDeltaText(row.amountDelta)+'</td>'+
+        '<td>'+(row.note||'')+'</td></tr>';
+    });
+    var total=group.total;
+    table+='</tbody><tfoot><tr><td colspan="2">合计</td>'+
+      '<td class="num">'+formatQuantity(total.monthQty)+'</td>'+
+      '<td class="num">'+formatMoney(total.monthAmount)+'</td>'+
+      '<td class="num">'+formatQuantity(total.weekQty)+'</td>'+
+      '<td class="num '+deviceDeltaClass(total.qtyDelta)+'">'+deviceDeltaText(total.qtyDelta)+'</td>'+
+      '<td class="num">'+formatMoney(total.weekAmount)+'</td>'+
+      '<td class="num '+deviceDeltaClass(total.amountDelta)+'">'+deviceDeltaText(total.amountDelta)+'</td>'+
+      '<td></td></tr></tfoot></table></div></div>';
+    return table;
+  }
+  function openDeviceModal(){
+    var detail=deviceWeeklyData&&deviceWeeklyData.detail?deviceWeeklyData.detail:null;
+    var body=document.getElementById('device-modal-body');
+    var sub=document.getElementById('device-modal-sub');
+    if(detail&&detail.month)sub.textContent='本周 8.15 ~ 8.22 · 数据源：2026年设备发货明细-共享版.xlsm（关键字段汇总）· 随看板数据更新自动刷新';
+    else sub.textContent='本周 8.15 ~ 8.22 · 数据源：2026年设备发货明细-共享版.xlsm（关键字段汇总）';
+    if(!detail||!Array.isArray(detail.groups)||!detail.groups.length){
+      body.innerHTML='<div class="device-modal-empty">暂无设备发货明细数据，请先运行一键更新物料看板。</div>';
+    }else{
+      body.innerHTML=detail.groups.map(buildDeviceDetailTable).join('');
+    }
+    document.getElementById('device-modal-mask').classList.add('open');
+    document.body.style.overflow='hidden';
+  }
+  function closeDeviceModal(){
+    document.getElementById('device-modal-mask').classList.remove('open');
+    document.body.style.overflow='';
+  }
+  function formatInventoryNum(value){
+    if(value===null||value===undefined||value==='')return '—';
+    if(typeof value!=='number'||!isFinite(value))return String(value);
+    return value.toLocaleString('zh-CN',{maximumFractionDigits:2});
+  }
+  function buildMaterialInventoryTable(){
+    var data=window.materialInventoryData||{};
+    var allItems=Array.isArray(data.items)?data.items:[];
+    var items=allItems.filter(function(it){return String(it.code||'').trim()!=='停发';});
+    var stats={'紧急':0,'断货':0,'预警':0,'正常':0,'其他':0};
+    items.forEach(function(it){var key=stats[it.urgency]!==undefined?it.urgency:'其他';stats[key]++;});
+    var statsHtml=Object.keys(stats).filter(function(k){return stats[k]>0;}).map(function(k){
+      return '<span class="urg-'+k+'">'+k+' '+stats[k]+'</span>';
+    }).join('');
+    var toolbar='<div class="material-inventory-toolbar">'+
+      '<input type="search" id="material-inventory-search" placeholder="搜索物料名称或编码…" aria-label="搜索物料">'+
+      '<div class="urgency-stats">'+statsHtml+'</div>'+
+      '</div>';
+    var table='<div class="material-inventory-scroll"><table class="material-inventory-table">'+
+      '<thead><tr>'+
+      '<th class="name" style="text-align:left">物料名称</th>'+
+      '<th>物料编码</th>'+
+      '<th class="num">当前库存</th>'+
+      '<th class="num">默认起发量</th>'+
+      '<th class="num sortable" data-sort-key="weekOut" data-sort-dir="desc" title="点击切换升序/降序">本周出库数<span class="sort-indicator">▼</span></th>'+
+      '<th class="num">安全库存</th>'+
+      '<th class="num">补货提前期(天)</th>'+
+      '<th>紧急程度</th>'+
+      '<th>预计断货日期</th>'+
+      '<th>其他备注</th>'+
+      '</tr></thead><tbody>';
+    if(!items.length){
+      table+='<tr><td colspan="10" style="padding:20px;color:rgba(99,44,22,.56)">暂无库存数据</td></tr>';
+    }
+    items.forEach(function(it){
+      var urg=it.urgency||'—';
+      var urgPill=stats[urg]!==undefined
+        ? '<span class="urg-pill urg-'+urg+'">'+urg+'</span>'
+        : '<span class="urg-pill">'+urg+'</span>';
+      var weekOutAttr=it.weekOut===null||it.weekOut===undefined?'':String(it.weekOut);
+      table+='<tr data-name="'+String(it.name||'').replace(/"/g,'&quot;')+'" data-code="'+String(it.code||'').replace(/"/g,'&quot;')+'" data-week-out="'+weekOutAttr+'">'+
+        '<td class="name">'+String(it.name||'')+'</td>'+
+        '<td>'+String(it.code||'')+'</td>'+
+        '<td class="num">'+formatInventoryNum(it.currentStock)+'</td>'+
+        '<td class="num">'+formatInventoryNum(it.defaultMoq)+'</td>'+
+        '<td class="num">'+formatInventoryNum(it.weekOut)+'</td>'+
+        '<td class="num">'+formatInventoryNum(it.safetyStock)+'</td>'+
+        '<td class="num">'+formatInventoryNum(it.leadTime)+'</td>'+
+        '<td>'+urgPill+'</td>'+
+        '<td>'+String(it.expectedOutage||'')+'</td>'+
+        '<td style="text-align:left;max-width:240px;white-space:normal">'+String(it.remark||'')+'</td>'+
+        '</tr>';
+    });
+    table+='</tbody></table></div>';
+    return toolbar+table;
+  }
+  function sortMaterialInventoryTable(th){
+    if(!th)return;
+    var dir=th.getAttribute('data-sort-dir')==='asc'?'desc':'asc';
+    var key=th.getAttribute('data-sort-key');
+    var table=th.closest('table');
+    if(!table)return;
+    var ths=table.querySelectorAll('thead th.sortable');
+    ths.forEach(function(other){
+      if(other!==th){
+        other.setAttribute('data-sort-dir','');
+        var ind=other.querySelector('.sort-indicator');if(ind)ind.textContent='⇅';
+      }
+    });
+    th.setAttribute('data-sort-dir',dir);
+    var ind=th.querySelector('.sort-indicator');if(ind)ind.textContent=dir==='asc'?'▲':'▼';
+    var tbody=table.querySelector('tbody');
+    if(!tbody)return;
+    var rows=Array.prototype.slice.call(tbody.querySelectorAll('tr[data-week-out]'));
+    rows.sort(function(a,b){
+      var av=parseFloat(a.getAttribute('data-week-out'));
+      var bv=parseFloat(b.getAttribute('data-week-out'));
+      if(isNaN(av)&&isNaN(bv))return 0;
+      if(isNaN(av))return 1;
+      if(isNaN(bv))return-1;
+      return dir==='asc'?av-bv:bv-av;
+    });
+    var frag=document.createDocumentFragment();
+    rows.forEach(function(r){frag.appendChild(r);});
+    tbody.appendChild(frag);
+  }
+  function applyMaterialInventoryFilter(){
+    var input=document.getElementById('material-inventory-search');
+    if(!input)return;
+    var q=String(input.value||'').trim().toLowerCase();
+    var rows=document.querySelectorAll('.material-inventory-table tbody tr[data-name]');
+    rows.forEach(function(row){
+      var name=(row.getAttribute('data-name')||'').toLowerCase();
+      var code=(row.getAttribute('data-code')||'').toLowerCase();
+      var match=!q||name.indexOf(q)>=0||code.indexOf(q)>=0;
+      row.classList.toggle('hidden',!match);
+    });
+  }
+  function openMaterialModal(){
+    var body=document.getElementById('material-modal-body');
+    var sub=document.getElementById('material-modal-sub');
+    var data=window.materialInventoryData||{};
+    var allItems=Array.isArray(data.items)?data.items:[];
+    var activeItems=allItems.filter(function(it){return String(it.code||'').trim()!=='停发';});
+    if(data.updatedAt){
+      sub.textContent='数据源：库存分析看板源数据_含宏.xlsm（库存源数据）· 共 '+activeItems.length+' 条物料（已过滤 '+ (allItems.length-activeItems.length) +' 条停发记录）· 同步时间 '+data.updatedAt;
+    }else{
+      sub.textContent='数据源：库存分析看板源数据_含宏.xlsm（库存源数据）';
+    }
+    if(!activeItems.length){
+      body.innerHTML='<div class="material-modal-empty">暂无物料库存数据，请先运行一键更新物料看板。</div>';
+    }else{
+      body.innerHTML=buildMaterialInventoryTable();
+      var input=document.getElementById('material-inventory-search');
+      if(input)input.addEventListener('input',applyMaterialInventoryFilter);
+      var sortHeader=body.querySelector('.material-inventory-table th.sortable');
+      if(sortHeader)sortHeader.addEventListener('click',function(){sortMaterialInventoryTable(sortHeader);});
+    }
+    document.getElementById('material-modal-mask').classList.add('open');
+    document.body.style.overflow='hidden';
+  }
+  function closeMaterialModal(){
+    document.getElementById('material-modal-mask').classList.remove('open');
+    document.body.style.overflow='';
+  }
+  var deviceWeeklyCard=document.getElementById('device-weekly-card');
+  deviceWeeklyCard.addEventListener('click',openDeviceModal);
+  deviceWeeklyCard.addEventListener('keydown',function(event){if(event.key==='Enter'||event.key===' '){event.preventDefault();openDeviceModal();}});
+  document.getElementById('device-modal-close').addEventListener('click',closeDeviceModal);
+  document.getElementById('device-modal-mask').addEventListener('click',function(event){if(event.target===this)closeDeviceModal();});
+  document.addEventListener('keydown',function(event){if(event.key==='Escape')closeDeviceModal();});
+  var materialWeeklyCard=document.getElementById('material-weekly-card');
+  materialWeeklyCard.addEventListener('click',openMaterialModal);
+  materialWeeklyCard.addEventListener('keydown',function(event){if(event.key==='Enter'||event.key===' '){event.preventDefault();openMaterialModal();}});
+  document.getElementById('material-modal-close').addEventListener('click',closeMaterialModal);
+  document.getElementById('material-modal-mask').addEventListener('click',function(event){if(event.target===this)closeMaterialModal();});
+  document.addEventListener('keydown',function(event){if(event.key==='Escape')closeMaterialModal();});
+  initializeDevelopmentFilters();
   var availableFreightMonths=freightMonths.filter(function(item){return Number(item.monthValue)>=1&&Number(item.monthValue)<=12;});
   var latestMonth=availableFreightMonths.length?Number(availableFreightMonths[availableFreightMonths.length-1].monthValue):5;
   select.value=String(latestMonth);updateMonth(latestMonth);select.addEventListener('change',function(){updateMonth(Number(this.value));});

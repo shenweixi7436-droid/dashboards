@@ -1,8 +1,8 @@
-const CACHE_NAME = 'material-freight-dashboard-4e3ad50b5d1c';
+const CACHE_NAME = 'material-freight-dashboard-5c8c3269db00';
 const PRECACHE_URLS = [
   "./",
   "./index.html",
-  "./assets/data/material_freight_dashboard_data.5572996f1128.js",
+  "./assets/data/material_freight_dashboard_data.175ed8fac0ef.js",
   "./assets/data/material_freight_order_details.2b71ea17a202.js",
   "./assets/data/material_freight_material_details.e5d7bf7c7fa1.js",
   "./assets/data/material_freight_calculator_data.2ef9c20c34f9.js"

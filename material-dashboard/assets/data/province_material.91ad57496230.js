@@ -1,0 +1,1 @@
+window.PROVINCE_MATERIAL_DATA = [];
