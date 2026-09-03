@@ -1134,6 +1134,30 @@ def write_plain_js(path: Path, name: str, payload: dict):
     )
 
 
+def build_store_audit_summary(store_audit: dict) -> dict:
+    """把 build_store_audit 的弹窗结构转为卡片汇总结构。
+
+    弹窗结构: {total, q, bad, u, ...}
+    汇总结构: {total, qualified, unqualified, uncertain, other}
+    other = total - q - bad - u（与 8/21 版本口径一致）。
+    """
+    summary = {}
+    for month, data in store_audit.items():
+        total = int(data.get("total") or 0)
+        qualified = int(data.get("q") or 0)
+        unqualified = int(data.get("bad") or 0)
+        uncertain = int(data.get("u") or 0)
+        other = max(0, total - qualified - unqualified - uncertain)
+        summary[month] = {
+            "total": total,
+            "qualified": qualified,
+            "unqualified": unqualified,
+            "uncertain": uncertain,
+            "other": other,
+        }
+    return summary
+
+
 def bump_index_data_cache():
     index_path = ROOT / "index.html"
     if not index_path.exists():
@@ -1194,6 +1218,7 @@ def main():
     write_plain_js(DATA_DIR / "gift-audit.js", "GIFT_AUDIT", gift_audit)
     write_js(DATA_DIR / "device-ban-action.js", "DEVICE_BAN_ACTION", "DEVICE_BAN_ACTION_BY_MONTH", device_ban, default_month)
     write_plain_js(DATA_DIR / "store-audit-popup.js", "STORE_AUDIT_POPUP_BY_MONTH", store_audit)
+    write_plain_js(DATA_DIR / "store-business-analysis.js", "STORE_AUDIT_SUMMARY_BY_MONTH", build_store_audit_summary(store_audit))
     bump_index_data_cache()
 
     coverage_text = ", ".join(f"{month}:{coverage[month]}" for month in source_months)

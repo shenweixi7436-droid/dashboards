@@ -1,5 +1,5 @@
 window.CURRENT_AUDIT_PROGRESS = {
-  "month": "8月",
+  "month": "9月",
   "rows": [
     {
       "province": "黑龙江",

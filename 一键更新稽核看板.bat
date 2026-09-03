@@ -38,11 +38,6 @@ echo Updating month-aware key work data...
 if errorlevel 1 goto fail
 
 echo.
-echo Updating store business analysis dashboard...
-"%PY%" "%~dp0..\build_audit_dashboard.py"
-if errorlevel 1 goto fail
-
-echo.
 echo Updating schedule of progress dashboard...
 "%PY%" "%~dp0..\scripts\build_material_development_dashboard.py"
 if errorlevel 1 goto fail
