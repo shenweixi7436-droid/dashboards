@@ -9594,6 +9594,10 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 2
       },
       {
+        "name": "广东",
+        "count": 2
+      },
+      {
         "name": "云南",
         "count": 1
       },
@@ -9603,14 +9607,6 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
       },
       {
         "name": "山西",
-        "count": 1
-      },
-      {
-        "name": "广东",
-        "count": 1
-      },
-      {
-        "name": "广州",
         "count": 1
       },
       {
@@ -11648,7 +11644,7 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
       {
         "seq": "2026081959",
         "auditDate": "2026-08-19",
-        "province": "广州",
+        "province": "广东",
         "city": "广州",
         "feedback": "江江",
         "batch": "2026-05-06",
@@ -12872,6 +12868,10 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 2
     },
     {
+      "name": "广东",
+      "count": 2
+    },
+    {
       "name": "云南",
       "count": 1
     },
@@ -12881,14 +12881,6 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
     },
     {
       "name": "山西",
-      "count": 1
-    },
-    {
-      "name": "广东",
-      "count": 1
-    },
-    {
-      "name": "广州",
       "count": 1
     },
     {
@@ -14926,7 +14918,7 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
     {
       "seq": "2026081959",
       "auditDate": "2026-08-19",
-      "province": "广州",
+      "province": "广东",
       "city": "广州",
       "feedback": "江江",
       "batch": "2026-05-06",
