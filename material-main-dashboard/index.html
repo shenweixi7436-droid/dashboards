@@ -300,7 +300,7 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
 <script src="assets/data/material_freight_dashboard_data.175ed8fac0ef.js"></script>
 <script src="assets/data/material_development_gantt_data.e76b26bff36d.js"></script>
 <script src="assets/data/inventory_outbound_data.143c6eb396ae.js"></script>
-<script src="assets/data/device_weekly_outbound_data.e1298426d1c1.js"></script>
+<script src="assets/data/device_weekly_outbound_data.ea9bfe762f31.js"></script>
 <script src="assets/data/material_weekly_outbound_data.646872236618.js"></script>
 <script src="assets/data/material_inventory_data.c18db6ad4bc1.js"></script>
 <script>
@@ -514,12 +514,14 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
   function updateCards(month){
     var index=month-1,label=month+'月',after=analytics.afterSales[index];
     afterValue.textContent=after+'条';afterMeta.textContent=label+'按填写时间统计';
-    var deviceGroups=deviceWeeklyData.detail&&Array.isArray(deviceWeeklyData.detail.groups)?deviceWeeklyData.detail.groups:[];
+    var activeMonthDetail=(deviceWeeklyData.detailByMonth&&deviceWeeklyData.detailByMonth[String(month)])||null;
+    var deviceGroups=activeMonthDetail&&Array.isArray(activeMonthDetail.groups)?activeMonthDetail.groups:[];
     var deviceMonth=0,deviceDelta=0;
     deviceGroups.forEach(function(g){deviceMonth+=Number(g.total&&g.total.monthQty||0);deviceDelta+=Number(g.total&&g.total.qtyDelta||0);});
+    var monthLabel=deviceWeeklyData.weekRange&&deviceWeeklyData.weekRange.thisLabel?label+'(周 '+deviceWeeklyData.weekRange.thisLabel+')':label;
     deviceWeeklyValue.innerHTML='<div class="vrow"><span class="vlabel">线下</span><span class="vnum">'+formatQuantity(deviceWeeklyData.offline)+'</span></div>'+
       '<div class="vrow"><span class="vlabel">鸣忙</span><span class="vnum">'+formatQuantity(deviceWeeklyData.mingmang)+'</span></div>'+
-      '<div class="vrow vrow-secondary"><span class="vlabel">本月</span><span class="vnum">'+formatQuantity(deviceMonth)+'</span></div>';
+      '<div class="vrow vrow-secondary"><span class="vlabel">'+monthLabel+'</span><span class="vnum">'+formatQuantity(deviceMonth)+'</span></div>';
     document.getElementById('device-weekly-delta').innerHTML=deltaHtml(deviceDelta);
     materialWeeklyValue.innerHTML='<div class="vrow"><span class="vlabel">'+(materialWeeklyData.weekLabel||'本周')+'</span><span class="vnum">'+formatQuantity(materialWeeklyData.thisWeek)+'</span></div>'+
       '<div class="vrow"><span class="vlabel">上周</span><span class="vnum">'+formatQuantity(materialWeeklyData.lastWeek)+'</span></div>'+
@@ -573,19 +575,42 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
       '<td></td></tr></tfoot></table></div></div>';
     return table;
   }
+  function getActiveDeviceDetail(){
+    var dw=window.deviceWeeklyData||{};
+    var month=Number(window.DASHBOARD_MONTH)||dw.latestMonth||1;
+    var map=dw.detailByMonth||{};
+    var detail=map[String(month)]||null;
+    return {month:month, detail:detail, weekRange:dw.weekRange||null};
+  }
+  function deviceSubText(month,weekRange){
+    var weekLabel=weekRange&&weekRange.thisLabel?('本周 '+weekRange.thisLabel):'本周';
+    return month+'月 · '+weekLabel+' · 数据源：2026年设备发货明细-共享版.xlsm（关键字段汇总）· 随看板数据更新自动刷新';
+  }
   function openDeviceModal(){
-    var detail=deviceWeeklyData&&deviceWeeklyData.detail?deviceWeeklyData.detail:null;
+    var info=getActiveDeviceDetail();
     var body=document.getElementById('device-modal-body');
     var sub=document.getElementById('device-modal-sub');
-    if(detail&&detail.month)sub.textContent='本周 8.15 ~ 8.22 · 数据源：2026年设备发货明细-共享版.xlsm（关键字段汇总）· 随看板数据更新自动刷新';
-    else sub.textContent='本周 8.15 ~ 8.22 · 数据源：2026年设备发货明细-共享版.xlsm（关键字段汇总）';
-    if(!detail||!Array.isArray(detail.groups)||!detail.groups.length){
-      body.innerHTML='<div class="device-modal-empty">暂无设备发货明细数据，请先运行一键更新物料看板。</div>';
+    sub.textContent=deviceSubText(info.month,info.weekRange);
+    if(!info.detail||!Array.isArray(info.detail.groups)||!info.detail.groups.length){
+      body.innerHTML='<div class="device-modal-empty">'+info.month+'月暂无设备发货明细数据，请先运行一键更新物料看板。</div>';
     }else{
-      body.innerHTML=detail.groups.map(buildDeviceDetailTable).join('');
+      body.innerHTML=info.detail.groups.map(buildDeviceDetailTable).join('');
     }
     document.getElementById('device-modal-mask').classList.add('open');
     document.body.style.overflow='hidden';
+  }
+  function refreshDeviceModalIfOpen(){
+    var mask=document.getElementById('device-modal-mask');
+    if(!mask||!mask.classList.contains('open'))return;
+    var info=getActiveDeviceDetail();
+    var body=document.getElementById('device-modal-body');
+    var sub=document.getElementById('device-modal-sub');
+    sub.textContent=deviceSubText(info.month,info.weekRange);
+    if(!info.detail||!Array.isArray(info.detail.groups)||!info.detail.groups.length){
+      body.innerHTML='<div class="device-modal-empty">'+info.month+'月暂无设备发货明细数据，请先运行一键更新物料看板。</div>';
+    }else{
+      body.innerHTML=info.detail.groups.map(buildDeviceDetailTable).join('');
+    }
   }
   function closeDeviceModal(){
     document.getElementById('device-modal-mask').classList.remove('open');
@@ -732,6 +757,7 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
   var availableFreightMonths=freightMonths.filter(function(item){return Number(item.monthValue)>=1&&Number(item.monthValue)<=12;});
   var latestMonth=availableFreightMonths.length?Number(availableFreightMonths[availableFreightMonths.length-1].monthValue):5;
   select.value=String(latestMonth);updateMonth(latestMonth);select.addEventListener('change',function(){updateMonth(Number(this.value));});
+  document.addEventListener('dashboardmonthchange',refreshDeviceModalIfOpen);
   if(document.fonts&&document.fonts.ready)document.fonts.ready.then(redraw);
   var resizeTimer;window.addEventListener('resize',function(){clearTimeout(resizeTimer);resizeTimer=setTimeout(redraw,120);});
 })();

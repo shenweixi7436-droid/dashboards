@@ -211,8 +211,9 @@ def build_approval(wb):
         result = norm(raw_row[9] if len(raw_row) >= 10 else "")
         if not any(values) and not result:
             continue
-        # 线上审批流程稽核明细按 B 列拆分月份；无月份的行不归入任何月份。
-        month = derive_month(raw_row, [1])
+        # 按源表 A 列"审核月份"归月（业务方会补录历史审核，A 列才是归属口径）；
+        # A 列为空时回落到 B 列"审核日期"的月份。
+        month = derive_month(raw_row, [0, 1])
         if not month:
             continue
         months.add(month)
@@ -388,11 +389,18 @@ def build_device(wb, months):
     haier_section = None
     haier_title_row = find_label_row("海尔冰柜")
     if haier_title_row:
+        # 表头曾由"台账数据/系统数据"更名为"台账数量/系统数量"，此处兼容两种命名。
         subheader_row = find_row_with_labels(
             haier_title_row + 1,
-            ["台账数据", "系统数据", "差异", "总数", "在库", "门店"],
+            ["台账数量", "系统数量", "差异", "总数", "在库", "门店"],
             search_rows=8,
         )
+        if not subheader_row:
+            subheader_row = find_row_with_labels(
+                haier_title_row + 1,
+                ["台账数据", "系统数据", "差异", "总数", "在库", "门店"],
+                search_rows=8,
+            )
         if subheader_row:
             headers = header_map(subheader_row)
             active_col = None
@@ -406,8 +414,8 @@ def build_device(wb, months):
             total_row, channel_col = find_value_row(subheader_row + 1, "合计")
             if total_row and channel_col:
                 columns = {
-                    "ledger": headers.get("台账数据"),
-                    "system": headers.get("系统数据"),
+                    "ledger": headers.get("台账数据") or headers.get("台账数量"),
+                    "system": headers.get("系统数据") or headers.get("系统数量"),
                     "difference": headers.get("差异"),
                     "active": active_col,
                     "inactive": headers.get("总数"),
@@ -1063,14 +1071,18 @@ def build_store_audit(wb):
             for row in rows
             if store_text(row[6]) and store_text(row[22]) == "无小虎产品售卖"
         )
+        # "无法判定"作为无意义参考项剔除：SKU/冰柜均值仅在有效稽核（result ≠ 无法判定）中计算。
+        effective_rows = [
+            row for row in rows if store_text(row[21]) != "无法判定"
+        ]
         sku_values = [
             float(row[10])
-            for row in rows
+            for row in effective_rows
             if isinstance(row[10], (int, float)) and not isinstance(row[10], bool)
         ]
         freezer_values = [
             float(row[11])
-            for row in rows
+            for row in effective_rows
             if isinstance(row[11], (int, float)) and not isinstance(row[11], bool)
         ]
         provinces = []
@@ -1079,13 +1091,16 @@ def build_store_audit(wb):
         ):
             qualified = province_qualified[province]
             uncertain = province_uncertain[province]
+            valid = max(0, total - uncertain)
             provinces.append(
                 {
                     "n": display_province(province),
                     "t": total,
                     "q": qualified,
                     "u": uncertain,
-                    "r": round(qualified / total * 100, 1) if total else 0,
+                    "valid": valid,
+                    # 省区合格率/不合格率分母剔除"无法判定"，与全局口径一致。
+                    "r": round(qualified / valid * 100, 1) if valid else 0,
                 }
             )
         payload[month] = {
@@ -1093,6 +1108,7 @@ def build_store_audit(wb):
             "q": results["合格"],
             "bad": results["不合格"],
             "u": results["无法判定"],
+            "valid": max(0, len(rows) - results["无法判定"]),
             "avgSku": round(sum(sku_values) / len(sku_values), 1)
             if sku_values
             else 0,
@@ -1148,11 +1164,13 @@ def build_store_audit_summary(store_audit: dict) -> dict:
         unqualified = int(data.get("bad") or 0)
         uncertain = int(data.get("u") or 0)
         other = max(0, total - qualified - unqualified - uncertain)
+        valid = max(0, total - uncertain)
         summary[month] = {
             "total": total,
             "qualified": qualified,
             "unqualified": unqualified,
             "uncertain": uncertain,
+            "valid": valid,
             "other": other,
         }
     return summary

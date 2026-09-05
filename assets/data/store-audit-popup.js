@@ -4,6 +4,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
     "q": 69,
     "bad": 131,
     "u": 0,
+    "valid": 200,
     "avgSku": 5.6,
     "avgFreezer": 2.4,
     "topBad": "上海市",
@@ -17,6 +18,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 51,
         "q": 30,
         "u": 0,
+        "valid": 51,
         "r": 58.8
       },
       {
@@ -24,6 +26,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 44,
         "q": 2,
         "u": 0,
+        "valid": 44,
         "r": 4.5
       },
       {
@@ -31,6 +34,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 43,
         "q": 22,
         "u": 0,
+        "valid": 43,
         "r": 51.2
       },
       {
@@ -38,6 +42,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 28,
         "q": 1,
         "u": 0,
+        "valid": 28,
         "r": 3.6
       },
       {
@@ -45,6 +50,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 22,
         "q": 13,
         "u": 0,
+        "valid": 22,
         "r": 59.1
       },
       {
@@ -52,6 +58,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 12,
         "q": 1,
         "u": 0,
+        "valid": 12,
         "r": 8.3
       }
     ]
@@ -61,6 +68,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
     "q": 77,
     "bad": 123,
     "u": 0,
+    "valid": 200,
     "avgSku": 4.3,
     "avgFreezer": 2.0,
     "topBad": "湖南省",
@@ -74,6 +82,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 52,
         "q": 17,
         "u": 0,
+        "valid": 52,
         "r": 32.7
       },
       {
@@ -81,6 +90,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 31,
         "q": 13,
         "u": 0,
+        "valid": 31,
         "r": 41.9
       },
       {
@@ -88,6 +98,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 31,
         "q": 14,
         "u": 0,
+        "valid": 31,
         "r": 45.2
       },
       {
@@ -95,6 +106,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 23,
         "q": 2,
         "u": 0,
+        "valid": 23,
         "r": 8.7
       },
       {
@@ -102,6 +114,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 20,
         "q": 11,
         "u": 0,
+        "valid": 20,
         "r": 55.0
       },
       {
@@ -109,6 +122,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 17,
         "q": 4,
         "u": 0,
+        "valid": 17,
         "r": 23.5
       },
       {
@@ -116,6 +130,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 16,
         "q": 12,
         "u": 0,
+        "valid": 16,
         "r": 75.0
       },
       {
@@ -123,6 +138,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 9,
         "q": 3,
         "u": 0,
+        "valid": 9,
         "r": 33.3
       },
       {
@@ -130,6 +146,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 1,
         "q": 1,
         "u": 0,
+        "valid": 1,
         "r": 100.0
       }
     ]
@@ -139,6 +156,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
     "q": 153,
     "bad": 247,
     "u": 0,
+    "valid": 400,
     "avgSku": 0,
     "avgFreezer": 0,
     "topBad": "广东省",
@@ -152,6 +170,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 110,
         "q": 18,
         "u": 0,
+        "valid": 110,
         "r": 16.4
       },
       {
@@ -159,6 +178,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 58,
         "q": 34,
         "u": 0,
+        "valid": 58,
         "r": 58.6
       },
       {
@@ -166,6 +186,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 46,
         "q": 25,
         "u": 0,
+        "valid": 46,
         "r": 54.3
       },
       {
@@ -173,6 +194,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 40,
         "q": 15,
         "u": 0,
+        "valid": 40,
         "r": 37.5
       },
       {
@@ -180,6 +202,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 40,
         "q": 24,
         "u": 0,
+        "valid": 40,
         "r": 60.0
       },
       {
@@ -187,6 +210,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 39,
         "q": 13,
         "u": 0,
+        "valid": 39,
         "r": 33.3
       },
       {
@@ -194,6 +218,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 22,
         "q": 12,
         "u": 0,
+        "valid": 22,
         "r": 54.5
       },
       {
@@ -201,6 +226,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 20,
         "q": 9,
         "u": 0,
+        "valid": 20,
         "r": 45.0
       },
       {
@@ -208,6 +234,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 19,
         "q": 1,
         "u": 0,
+        "valid": 19,
         "r": 5.3
       },
       {
@@ -215,6 +242,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 6,
         "q": 2,
         "u": 0,
+        "valid": 6,
         "r": 33.3
       }
     ]
@@ -224,6 +252,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
     "q": 123,
     "bad": 287,
     "u": 0,
+    "valid": 410,
     "avgSku": 0,
     "avgFreezer": 0,
     "topBad": "湖南省",
@@ -237,6 +266,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 63,
         "q": 16,
         "u": 0,
+        "valid": 63,
         "r": 25.4
       },
       {
@@ -244,6 +274,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 39,
         "q": 12,
         "u": 0,
+        "valid": 39,
         "r": 30.8
       },
       {
@@ -251,6 +282,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 38,
         "q": 7,
         "u": 0,
+        "valid": 38,
         "r": 18.4
       },
       {
@@ -258,6 +290,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 36,
         "q": 20,
         "u": 0,
+        "valid": 36,
         "r": 55.6
       },
       {
@@ -265,6 +298,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 24,
         "q": 8,
         "u": 0,
+        "valid": 24,
         "r": 33.3
       },
       {
@@ -272,6 +306,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 24,
         "q": 10,
         "u": 0,
+        "valid": 24,
         "r": 41.7
       },
       {
@@ -279,6 +314,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 21,
         "q": 2,
         "u": 0,
+        "valid": 21,
         "r": 9.5
       },
       {
@@ -286,6 +322,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 18,
         "q": 3,
         "u": 0,
+        "valid": 18,
         "r": 16.7
       },
       {
@@ -293,6 +330,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 17,
         "q": 3,
         "u": 0,
+        "valid": 17,
         "r": 17.6
       },
       {
@@ -300,6 +338,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 16,
         "q": 5,
         "u": 0,
+        "valid": 16,
         "r": 31.2
       },
       {
@@ -307,6 +346,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 14,
         "q": 5,
         "u": 0,
+        "valid": 14,
         "r": 35.7
       },
       {
@@ -314,6 +354,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 12,
         "q": 1,
         "u": 0,
+        "valid": 12,
         "r": 8.3
       },
       {
@@ -321,6 +362,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 11,
         "q": 2,
         "u": 0,
+        "valid": 11,
         "r": 18.2
       },
       {
@@ -328,6 +370,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 11,
         "q": 0,
         "u": 0,
+        "valid": 11,
         "r": 0.0
       },
       {
@@ -335,6 +378,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 10,
         "q": 1,
         "u": 0,
+        "valid": 10,
         "r": 10.0
       },
       {
@@ -342,6 +386,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 9,
         "q": 5,
         "u": 0,
+        "valid": 9,
         "r": 55.6
       },
       {
@@ -349,6 +394,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 9,
         "q": 4,
         "u": 0,
+        "valid": 9,
         "r": 44.4
       },
       {
@@ -356,6 +402,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 9,
         "q": 6,
         "u": 0,
+        "valid": 9,
         "r": 66.7
       },
       {
@@ -363,6 +410,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 6,
         "q": 2,
         "u": 0,
+        "valid": 6,
         "r": 33.3
       },
       {
@@ -370,6 +418,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 6,
         "q": 1,
         "u": 0,
+        "valid": 6,
         "r": 16.7
       },
       {
@@ -377,6 +426,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 6,
         "q": 5,
         "u": 0,
+        "valid": 6,
         "r": 83.3
       },
       {
@@ -384,6 +434,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 3,
         "q": 0,
         "u": 0,
+        "valid": 3,
         "r": 0.0
       },
       {
@@ -391,6 +442,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 3,
         "q": 2,
         "u": 0,
+        "valid": 3,
         "r": 66.7
       },
       {
@@ -398,6 +450,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 3,
         "q": 3,
         "u": 0,
+        "valid": 3,
         "r": 100.0
       },
       {
@@ -405,6 +458,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 2,
         "q": 0,
         "u": 0,
+        "valid": 2,
         "r": 0.0
       }
     ]
@@ -414,6 +468,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
     "q": 287,
     "bad": 524,
     "u": 14,
+    "valid": 811,
     "avgSku": 5.9,
     "avgFreezer": 2.0,
     "topBad": "广东省",
@@ -427,20 +482,23 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 152,
         "q": 34,
         "u": 5,
-        "r": 22.4
+        "valid": 147,
+        "r": 23.1
       },
       {
         "n": "湖南",
         "t": 82,
         "q": 21,
         "u": 2,
-        "r": 25.6
+        "valid": 80,
+        "r": 26.2
       },
       {
         "n": "福建",
         "t": 80,
         "q": 32,
         "u": 0,
+        "valid": 80,
         "r": 40.0
       },
       {
@@ -448,6 +506,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 70,
         "q": 23,
         "u": 0,
+        "valid": 70,
         "r": 32.9
       },
       {
@@ -455,6 +514,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 64,
         "q": 37,
         "u": 0,
+        "valid": 64,
         "r": 57.8
       },
       {
@@ -462,13 +522,15 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 55,
         "q": 7,
         "u": 1,
-        "r": 12.7
+        "valid": 54,
+        "r": 13.0
       },
       {
         "n": "浙江",
         "t": 49,
         "q": 19,
         "u": 0,
+        "valid": 49,
         "r": 38.8
       },
       {
@@ -476,13 +538,15 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 45,
         "q": 23,
         "u": 2,
-        "r": 51.1
+        "valid": 43,
+        "r": 53.5
       },
       {
         "n": "山西",
         "t": 35,
         "q": 9,
         "u": 0,
+        "valid": 35,
         "r": 25.7
       },
       {
@@ -490,27 +554,31 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 31,
         "q": 4,
         "u": 1,
-        "r": 12.9
+        "valid": 30,
+        "r": 13.3
       },
       {
         "n": "陕西",
         "t": 31,
         "q": 24,
         "u": 1,
-        "r": 77.4
+        "valid": 30,
+        "r": 80.0
       },
       {
         "n": "重庆",
         "t": 25,
         "q": 13,
         "u": 1,
-        "r": 52.0
+        "valid": 24,
+        "r": 54.2
       },
       {
         "n": "湖北",
         "t": 23,
         "q": 12,
         "u": 0,
+        "valid": 23,
         "r": 52.2
       },
       {
@@ -518,6 +586,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 21,
         "q": 6,
         "u": 0,
+        "valid": 21,
         "r": 28.6
       },
       {
@@ -525,6 +594,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 17,
         "q": 5,
         "u": 0,
+        "valid": 17,
         "r": 29.4
       },
       {
@@ -532,6 +602,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 13,
         "q": 5,
         "u": 0,
+        "valid": 13,
         "r": 38.5
       },
       {
@@ -539,6 +610,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 10,
         "q": 1,
         "u": 0,
+        "valid": 10,
         "r": 10.0
       },
       {
@@ -546,13 +618,15 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 9,
         "q": 4,
         "u": 1,
-        "r": 44.4
+        "valid": 8,
+        "r": 50.0
       },
       {
         "n": "甘肃",
         "t": 5,
         "q": 4,
         "u": 0,
+        "valid": 5,
         "r": 80.0
       },
       {
@@ -560,6 +634,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 4,
         "q": 1,
         "u": 0,
+        "valid": 4,
         "r": 25.0
       },
       {
@@ -567,6 +642,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 2,
         "q": 1,
         "u": 0,
+        "valid": 2,
         "r": 50.0
       },
       {
@@ -574,6 +650,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 1,
         "q": 1,
         "u": 0,
+        "valid": 1,
         "r": 100.0
       },
       {
@@ -581,6 +658,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 1,
         "q": 1,
         "u": 0,
+        "valid": 1,
         "r": 100.0
       }
     ]
@@ -590,7 +668,8 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
     "q": 786,
     "bad": 780,
     "u": 194,
-    "avgSku": 6.2,
+    "valid": 1566,
+    "avgSku": 6.5,
     "avgFreezer": 1.4,
     "topBad": "广东省",
     "topPhoto": "广东省",
@@ -603,104 +682,119 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 199,
         "q": 51,
         "u": 28,
-        "r": 25.6
+        "valid": 171,
+        "r": 29.8
       },
       {
         "n": "湖南",
         "t": 192,
         "q": 79,
         "u": 13,
-        "r": 41.1
+        "valid": 179,
+        "r": 44.1
       },
       {
         "n": "福建",
         "t": 162,
         "q": 67,
         "u": 16,
-        "r": 41.4
+        "valid": 146,
+        "r": 45.9
       },
       {
         "n": "山西",
         "t": 107,
         "q": 65,
         "u": 2,
-        "r": 60.7
+        "valid": 105,
+        "r": 61.9
       },
       {
         "n": "广西省",
         "t": 106,
         "q": 12,
         "u": 13,
-        "r": 11.3
+        "valid": 93,
+        "r": 12.9
       },
       {
         "n": "贵州",
         "t": 97,
         "q": 54,
         "u": 7,
-        "r": 55.7
+        "valid": 90,
+        "r": 60.0
       },
       {
         "n": "浙江",
         "t": 96,
         "q": 37,
         "u": 14,
-        "r": 38.5
+        "valid": 82,
+        "r": 45.1
       },
       {
         "n": "安徽",
         "t": 79,
         "q": 34,
         "u": 10,
-        "r": 43.0
+        "valid": 69,
+        "r": 49.3
       },
       {
         "n": "江苏",
         "t": 74,
         "q": 42,
         "u": 4,
-        "r": 56.8
+        "valid": 70,
+        "r": 60.0
       },
       {
         "n": "湖北",
         "t": 67,
         "q": 23,
         "u": 7,
-        "r": 34.3
+        "valid": 60,
+        "r": 38.3
       },
       {
         "n": "河北",
         "t": 66,
         "q": 21,
         "u": 18,
-        "r": 31.8
+        "valid": 48,
+        "r": 43.8
       },
       {
         "n": "山东",
         "t": 64,
         "q": 44,
         "u": 5,
-        "r": 68.8
+        "valid": 59,
+        "r": 74.6
       },
       {
         "n": "四川",
         "t": 62,
         "q": 37,
         "u": 6,
-        "r": 59.7
+        "valid": 56,
+        "r": 66.1
       },
       {
         "n": "河南",
         "t": 62,
         "q": 30,
         "u": 9,
-        "r": 48.4
+        "valid": 53,
+        "r": 56.6
       },
       {
         "n": "重庆",
         "t": 54,
         "q": 32,
         "u": 0,
+        "valid": 54,
         "r": 59.3
       },
       {
@@ -708,83 +802,95 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 52,
         "q": 23,
         "u": 16,
-        "r": 44.2
+        "valid": 36,
+        "r": 63.9
       },
       {
         "n": "陕西",
         "t": 45,
         "q": 36,
         "u": 2,
-        "r": 80.0
+        "valid": 43,
+        "r": 83.7
       },
       {
         "n": "黑龙江",
         "t": 43,
         "q": 33,
         "u": 3,
-        "r": 76.7
+        "valid": 40,
+        "r": 82.5
       },
       {
         "n": "江西",
         "t": 39,
         "q": 17,
         "u": 1,
-        "r": 43.6
+        "valid": 38,
+        "r": 44.7
       },
       {
         "n": "北京",
         "t": 25,
         "q": 18,
         "u": 2,
-        "r": 72.0
+        "valid": 23,
+        "r": 78.3
       },
       {
         "n": "天津",
         "t": 21,
         "q": 8,
         "u": 7,
-        "r": 38.1
+        "valid": 14,
+        "r": 57.1
       },
       {
         "n": "内蒙古",
         "t": 14,
         "q": 5,
         "u": 5,
-        "r": 35.7
+        "valid": 9,
+        "r": 55.6
       },
       {
         "n": "吉林",
         "t": 13,
         "q": 9,
         "u": 2,
-        "r": 69.2
+        "valid": 11,
+        "r": 81.8
       },
       {
         "n": "辽宁",
         "t": 9,
         "q": 3,
         "u": 1,
-        "r": 33.3
+        "valid": 8,
+        "r": 37.5
       },
       {
         "n": "甘肃",
         "t": 6,
         "q": 4,
         "u": 1,
-        "r": 66.7
+        "valid": 5,
+        "r": 80.0
       },
       {
         "n": "宁夏",
         "t": 5,
         "q": 2,
         "u": 2,
-        "r": 40.0
+        "valid": 3,
+        "r": 66.7
       },
       {
         "n": "上海",
         "t": 1,
         "q": 0,
         "u": 0,
+        "valid": 1,
         "r": 0.0
       }
     ]
@@ -794,7 +900,8 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
     "q": 490,
     "bad": 965,
     "u": 58,
-    "avgSku": 6.3,
+    "valid": 1455,
+    "avgSku": 6.4,
     "avgFreezer": 1.3,
     "topBad": "湖南省",
     "topPhoto": "河南省",
@@ -807,69 +914,79 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 301,
         "q": 58,
         "u": 7,
-        "r": 19.3
+        "valid": 294,
+        "r": 19.7
       },
       {
         "n": "河南",
         "t": 138,
         "q": 31,
         "u": 9,
-        "r": 22.5
+        "valid": 129,
+        "r": 24.0
       },
       {
         "n": "山西",
         "t": 118,
         "q": 54,
         "u": 1,
-        "r": 45.8
+        "valid": 117,
+        "r": 46.2
       },
       {
         "n": "云南",
         "t": 108,
         "q": 36,
         "u": 7,
-        "r": 33.3
+        "valid": 101,
+        "r": 35.6
       },
       {
         "n": "广东",
         "t": 105,
         "q": 19,
         "u": 3,
-        "r": 18.1
+        "valid": 102,
+        "r": 18.6
       },
       {
         "n": "四川",
         "t": 83,
         "q": 43,
         "u": 1,
-        "r": 51.8
+        "valid": 82,
+        "r": 52.4
       },
       {
         "n": "重庆",
         "t": 79,
         "q": 26,
         "u": 6,
-        "r": 32.9
+        "valid": 73,
+        "r": 35.6
       },
       {
         "n": "福建",
         "t": 76,
         "q": 24,
         "u": 4,
-        "r": 31.6
+        "valid": 72,
+        "r": 33.3
       },
       {
         "n": "浙江",
         "t": 71,
         "q": 18,
         "u": 1,
-        "r": 25.4
+        "valid": 70,
+        "r": 25.7
       },
       {
         "n": "贵州",
         "t": 61,
         "q": 24,
         "u": 0,
+        "valid": 61,
         "r": 39.3
       },
       {
@@ -877,41 +994,47 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 57,
         "q": 36,
         "u": 1,
-        "r": 63.2
+        "valid": 56,
+        "r": 64.3
       },
       {
         "n": "安徽",
         "t": 56,
         "q": 22,
         "u": 4,
-        "r": 39.3
+        "valid": 52,
+        "r": 42.3
       },
       {
         "n": "广西",
         "t": 51,
         "q": 4,
         "u": 3,
-        "r": 7.8
+        "valid": 48,
+        "r": 8.3
       },
       {
         "n": "江苏",
         "t": 42,
         "q": 9,
         "u": 3,
-        "r": 21.4
+        "valid": 39,
+        "r": 23.1
       },
       {
         "n": "黑龙江",
         "t": 35,
         "q": 30,
         "u": 1,
-        "r": 85.7
+        "valid": 34,
+        "r": 88.2
       },
       {
         "n": "陕西",
         "t": 31,
         "q": 20,
         "u": 0,
+        "valid": 31,
         "r": 64.5
       },
       {
@@ -919,48 +1042,55 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 22,
         "q": 3,
         "u": 2,
-        "r": 13.6
+        "valid": 20,
+        "r": 15.0
       },
       {
         "n": "海南",
         "t": 19,
         "q": 8,
         "u": 1,
-        "r": 42.1
+        "valid": 18,
+        "r": 44.4
       },
       {
         "n": "辽宁",
         "t": 14,
         "q": 6,
         "u": 1,
-        "r": 42.9
+        "valid": 13,
+        "r": 46.2
       },
       {
         "n": "甘肃",
         "t": 13,
         "q": 5,
         "u": 1,
-        "r": 38.5
+        "valid": 12,
+        "r": 41.7
       },
       {
         "n": "河北",
         "t": 11,
         "q": 3,
         "u": 1,
-        "r": 27.3
+        "valid": 10,
+        "r": 30.0
       },
       {
         "n": "内蒙古",
         "t": 10,
         "q": 5,
         "u": 1,
-        "r": 50.0
+        "valid": 9,
+        "r": 55.6
       },
       {
         "n": "北京",
         "t": 5,
         "q": 3,
         "u": 0,
+        "valid": 5,
         "r": 60.0
       },
       {
@@ -968,6 +1098,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 4,
         "q": 3,
         "u": 0,
+        "valid": 4,
         "r": 75.0
       },
       {
@@ -975,6 +1106,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 3,
         "q": 0,
         "u": 0,
+        "valid": 3,
         "r": 0.0
       }
     ]
@@ -984,7 +1116,8 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
     "q": 599,
     "bad": 1199,
     "u": 81,
-    "avgSku": 6.0,
+    "valid": 1798,
+    "avgSku": 6.1,
     "avgFreezer": 1.3,
     "topBad": "广东省",
     "topPhoto": "北京",
@@ -997,55 +1130,63 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 207,
         "q": 38,
         "u": 10,
-        "r": 18.4
+        "valid": 197,
+        "r": 19.3
       },
       {
         "n": "云南",
         "t": 206,
         "q": 82,
         "u": 12,
-        "r": 39.8
+        "valid": 194,
+        "r": 42.3
       },
       {
         "n": "湖南",
         "t": 199,
         "q": 35,
         "u": 6,
-        "r": 17.6
+        "valid": 193,
+        "r": 18.1
       },
       {
         "n": "贵州",
         "t": 153,
         "q": 71,
         "u": 3,
-        "r": 46.4
+        "valid": 150,
+        "r": 47.3
       },
       {
         "n": "广西",
         "t": 150,
         "q": 10,
         "u": 13,
-        "r": 6.7
+        "valid": 137,
+        "r": 7.3
       },
       {
         "n": "山西",
         "t": 147,
         "q": 82,
         "u": 2,
-        "r": 55.8
+        "valid": 145,
+        "r": 56.6
       },
       {
         "n": "河南",
         "t": 123,
         "q": 34,
         "u": 6,
-        "r": 27.6
+        "valid": 117,
+        "r": 29.1
       },
       {
         "n": "湖北",
         "t": 109,
         "q": 28,
         "u": 0,
+        "valid": 109,
         "r": 25.7
       },
       {
@@ -1053,6 +1194,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 78,
         "q": 38,
         "u": 0,
+        "valid": 78,
         "r": 48.7
       },
       {
@@ -1060,27 +1202,31 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 65,
         "q": 16,
         "u": 4,
-        "r": 24.6
+        "valid": 61,
+        "r": 26.2
       },
       {
         "n": "浙江",
         "t": 61,
         "q": 18,
         "u": 1,
-        "r": 29.5
+        "valid": 60,
+        "r": 30.0
       },
       {
         "n": "黑龙江",
         "t": 55,
         "q": 33,
         "u": 2,
-        "r": 60.0
+        "valid": 53,
+        "r": 62.3
       },
       {
         "n": "辽宁",
         "t": 51,
         "q": 17,
         "u": 0,
+        "valid": 51,
         "r": 33.3
       },
       {
@@ -1088,41 +1234,47 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 49,
         "q": 15,
         "u": 1,
-        "r": 30.6
+        "valid": 48,
+        "r": 31.2
       },
       {
         "n": "内蒙古",
         "t": 46,
         "q": 16,
         "u": 2,
-        "r": 34.8
+        "valid": 44,
+        "r": 36.4
       },
       {
         "n": "福建",
         "t": 46,
         "q": 11,
         "u": 1,
-        "r": 23.9
+        "valid": 45,
+        "r": 24.4
       },
       {
         "n": "山东",
         "t": 43,
         "q": 28,
         "u": 1,
-        "r": 65.1
+        "valid": 42,
+        "r": 66.7
       },
       {
         "n": "北京",
         "t": 20,
         "q": 3,
         "u": 13,
-        "r": 15.0
+        "valid": 7,
+        "r": 42.9
       },
       {
         "n": "吉林",
         "t": 19,
         "q": 9,
         "u": 0,
+        "valid": 19,
         "r": 47.4
       },
       {
@@ -1130,20 +1282,23 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 15,
         "q": 3,
         "u": 2,
-        "r": 20.0
+        "valid": 13,
+        "r": 23.1
       },
       {
         "n": "上海",
         "t": 12,
         "q": 4,
         "u": 2,
-        "r": 33.3
+        "valid": 10,
+        "r": 40.0
       },
       {
         "n": "天津",
         "t": 10,
         "q": 2,
         "u": 0,
+        "valid": 10,
         "r": 20.0
       },
       {
@@ -1151,6 +1306,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 7,
         "q": 3,
         "u": 0,
+        "valid": 7,
         "r": 42.9
       },
       {
@@ -1158,6 +1314,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 4,
         "q": 0,
         "u": 0,
+        "valid": 4,
         "r": 0.0
       },
       {
@@ -1165,6 +1322,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 2,
         "q": 1,
         "u": 0,
+        "valid": 2,
         "r": 50.0
       },
       {
@@ -1172,6 +1330,7 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "t": 2,
         "q": 2,
         "u": 0,
+        "valid": 2,
         "r": 100.0
       }
     ]

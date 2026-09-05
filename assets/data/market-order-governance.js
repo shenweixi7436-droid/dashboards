@@ -4934,8 +4934,8 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
     "caseCount": 65,
     "customerCount": 197,
     "lockedCustomerCount": 2,
-    "punishCount": 1,
-    "internalCount": 1,
+    "punishCount": 0,
+    "internalCount": 2,
     "unverifiedCount": 63,
     "otherNotes": [],
     "provinceRank": [
@@ -6039,7 +6039,7 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "verified": "已查实",
         "remark": "已内部处罚",
         "smuggler": "甜递生鲜超市系统",
-        "result": "省区通报处罚",
+        "result": "内部处理",
         "penaltyNotice": "",
         "penaltyImages": []
       },
@@ -9553,13 +9553,9 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
     "customerCount": 299,
     "lockedCustomerCount": 3,
     "punishCount": 0,
-    "internalCount": 0,
+    "internalCount": 3,
     "unverifiedCount": 139,
-    "otherNotes": [
-      "窜货2026081235河北高碑店已查实",
-      "窜货2026081441湖南长沙已查实",
-      "窜货2026081546黑龙江齐齐哈尔已查实"
-    ],
+    "otherNotes": [],
     "provinceRank": [
       {
         "name": "河南",
@@ -11315,7 +11311,7 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "verified": "已查实",
         "remark": "已反馈销管，省区内部沟通解决",
         "smuggler": "线下-大名县晟森水果店",
-        "result": "已查实",
+        "result": "内部处理",
         "penaltyNotice": "",
         "penaltyImages": []
       },
@@ -11397,9 +11393,9 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "feedback": "浩俞",
         "batch": "2026-07-26",
         "verified": "已查实",
-        "remark": "仓库发错货导致货物低价流入市场",
+        "remark": "仓库发错货导致货物低价流入市场，省区内部沟通解决",
         "smuggler": "线下-长沙红欢喜供应链管理有限公司",
-        "result": "已查实",
+        "result": "内部处理",
         "penaltyNotice": "",
         "penaltyImages": []
       },
@@ -11467,9 +11463,9 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "feedback": "",
         "batch": "2026-03-10",
         "verified": "已查实",
-        "remark": "已查实其中一名供货商，其他嫌疑客户已经反馈销管",
+        "remark": "已查实其中一名供货商，其他嫌疑客户已经反馈销管，省区内部沟通解决",
         "smuggler": "线下-锦州隆晟泰冷冻食品有限公司",
-        "result": "已查实",
+        "result": "内部处理",
         "penaltyNotice": "",
         "penaltyImages": []
       },
@@ -12827,13 +12823,9 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
   "customerCount": 299,
   "lockedCustomerCount": 3,
   "punishCount": 0,
-  "internalCount": 0,
+  "internalCount": 3,
   "unverifiedCount": 139,
-  "otherNotes": [
-    "窜货2026081235河北高碑店已查实",
-    "窜货2026081441湖南长沙已查实",
-    "窜货2026081546黑龙江齐齐哈尔已查实"
-  ],
+  "otherNotes": [],
   "provinceRank": [
     {
       "name": "河南",
@@ -14589,7 +14581,7 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "verified": "已查实",
       "remark": "已反馈销管，省区内部沟通解决",
       "smuggler": "线下-大名县晟森水果店",
-      "result": "已查实",
+      "result": "内部处理",
       "penaltyNotice": "",
       "penaltyImages": []
     },
@@ -14671,9 +14663,9 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "feedback": "浩俞",
       "batch": "2026-07-26",
       "verified": "已查实",
-      "remark": "仓库发错货导致货物低价流入市场",
+      "remark": "仓库发错货导致货物低价流入市场，省区内部沟通解决",
       "smuggler": "线下-长沙红欢喜供应链管理有限公司",
-      "result": "已查实",
+      "result": "内部处理",
       "penaltyNotice": "",
       "penaltyImages": []
     },
@@ -14741,9 +14733,9 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "feedback": "",
       "batch": "2026-03-10",
       "verified": "已查实",
-      "remark": "已查实其中一名供货商，其他嫌疑客户已经反馈销管",
+      "remark": "已查实其中一名供货商，其他嫌疑客户已经反馈销管，省区内部沟通解决",
       "smuggler": "线下-锦州隆晟泰冷冻食品有限公司",
-      "result": "已查实",
+      "result": "内部处理",
       "penaltyNotice": "",
       "penaltyImages": []
     },

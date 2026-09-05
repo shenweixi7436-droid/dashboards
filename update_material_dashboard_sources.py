@@ -396,8 +396,18 @@ def extract_device_brand(name: str) -> str:
     return ""
 
 
-def build_device_outbound_detail(frame: pd.DataFrame, current_month: int) -> dict[str, object]:
-    """按弹窗表格口径生成省区/鸣忙设备发货明细：本月量金额、本周量金额及环比差值。"""
+def build_device_outbound_detail(
+    frame: pd.DataFrame,
+    current_month: int,
+    this_week_range: tuple[pd.Timestamp, pd.Timestamp] | None = None,
+    last_week_range: tuple[pd.Timestamp, pd.Timestamp] | None = None,
+) -> dict[str, object]:
+    """按弹窗表格口径生成省区/鸣忙设备发货明细：本月量金额、本周量金额及环比差值。
+
+    本周/上周过滤规则：
+    - 若传入 this_week_range / last_week_range（首尾日期闭区间），按日期范围切片；
+    - 否则回退到「周次」列文本等于"本周"/"上周"的旧规则（兼容历史数据）。
+    """
     data = frame.copy()
     data["数量"] = pd.to_numeric(data["数量"], errors="coerce").fillna(0.0)
     data["设备单价"] = pd.to_numeric(data.get("设备单价"), errors="coerce").fillna(0.0)
@@ -405,11 +415,17 @@ def build_device_outbound_detail(frame: pd.DataFrame, current_month: int) -> dic
     data["月份值"] = pd.to_numeric(data.get("月份"), errors="coerce")
     data["大类"] = data["销售部门清洗-大类"].map(lambda v: "鸣忙" if clean_text(v) == "鸣忙" else "省区")
     data["设备"] = data["设备名称清洗"].map(lambda v: clean_text(v))
+    data["下单时间"] = pd.to_datetime(data.get("下单日期"), errors="coerce")
 
-    def week_slice(week: str) -> pd.DataFrame:
-        return data.loc[data["周次"].astype(str).str.strip() == week]
-
-    this_week, last_week = week_slice("本周"), week_slice("上周")
+    if this_week_range and last_week_range:
+        this_start, this_end = pd.Timestamp(this_week_range[0]), pd.Timestamp(this_week_range[1])
+        last_start, last_end = pd.Timestamp(last_week_range[0]), pd.Timestamp(last_week_range[1])
+        this_week = data.loc[(data["下单时间"] >= this_start) & (data["下单时间"] <= this_end)]
+        last_week = data.loc[(data["下单时间"] >= last_start) & (data["下单时间"] <= last_end)]
+    else:
+        def week_slice(week: str) -> pd.DataFrame:
+            return data.loc[data["周次"].astype(str).str.strip() == week]
+        this_week, last_week = week_slice("本周"), week_slice("上周")
     month_data = data.loc[data["月份值"] == current_month]
 
     groups: list[dict[str, object]] = []
@@ -457,16 +473,64 @@ def build_device_outbound_detail(frame: pd.DataFrame, current_month: int) -> dic
     return {"month": int(current_month), "groups": groups}
 
 
+def read_device_week_range(device_path: Path) -> tuple[pd.Timestamp | None, pd.Timestamp | None, pd.Timestamp | None, pd.Timestamp | None]:
+    """从关键字段汇总 sheet 读取 P2（上周末日期）/ Q2（本周末日期），推导本周/上周日期范围。"""
+    try:
+        from openpyxl import load_workbook
+    except ImportError:
+        return (None, None, None, None)
+    try:
+        wb = load_workbook(device_path, data_only=True, keep_vba=True, read_only=True)
+        ws = wb["关键字段汇总"]
+        o2 = ws["O2"].value
+        p2 = ws["P2"].value
+        q2 = ws["Q2"].value
+        wb.close()
+    except Exception:
+        return (None, None, None, None)
+    def _to_ts(value):
+        if value is None:
+            return None
+        try:
+            return pd.Timestamp(value)
+        except Exception:
+            return None
+    last_start, last_end, this_end = _to_ts(o2), _to_ts(p2), _to_ts(q2)
+    if last_end is None or this_end is None:
+        return (None, None, None, None)
+    if last_start is None:
+        last_start = last_end - pd.Timedelta(days=6)
+    this_start = last_end + pd.Timedelta(days=1)
+    return (this_start, this_end, last_start, last_end)
+
+
+def format_week_label(start: pd.Timestamp | None, end: pd.Timestamp | None) -> str:
+    if start is None or end is None:
+        return ""
+    return f"{start.strftime('%m.%d')} ~ {end.strftime('%m.%d')}"
+
+
 def build_device_weekly_summary(source_dir: Path, device_path: Path) -> dict[str, object]:
-    """从关键字段汇总 sheet 汇总本周线下/鸣忙设备出库数量，并生成弹窗明细数据。"""
+    """从关键字段汇总 sheet 汇总本周线下/鸣忙设备出库数量，并生成弹窗明细数据。
+
+    弹窗明细预生成 detailByMonth（按月键），供前端按顶端月份下拉切换；周次范围基于 P2/Q2。
+    """
     frame = pd.read_excel(device_path, sheet_name="关键字段汇总")
     required = {"周次", "销售部门清洗-大类", "数量", "设备名称清洗", "设备单价", "月份"}
     missing = required.difference(frame.columns)
     if missing:
         raise ValueError("关键字段汇总 sheet 缺少字段：" + "、".join(sorted(missing)))
-    week_frame = frame.loc[frame["周次"].astype(str).str.strip() == "本周"].copy()
+
+    this_start, this_end, last_start, last_end = read_device_week_range(device_path)
+    week_frame = frame.copy()
     week_frame["数量"] = pd.to_numeric(week_frame["数量"], errors="coerce")
     week_frame = week_frame.loc[week_frame["数量"].notna()].copy()
+    week_frame["下单时间"] = pd.to_datetime(week_frame.get("下单日期"), errors="coerce")
+
+    if this_start is not None and this_end is not None:
+        week_frame = week_frame.loc[
+            (week_frame["下单时间"] >= this_start) & (week_frame["下单时间"] <= this_end)
+        ]
 
     def classify(value: object) -> str:
         return "鸣忙" if clean_text(value) == "鸣忙" else "线下"
@@ -475,14 +539,35 @@ def build_device_weekly_summary(source_dir: Path, device_path: Path) -> dict[str
     summary = week_frame.groupby("类型")["数量"].sum().to_dict()
 
     month_values = pd.to_numeric(frame.get("月份"), errors="coerce").dropna()
-    current_month = int(month_values.max()) if len(month_values) else 1
-    detail = build_device_outbound_detail(frame, current_month)
+    month_list = sorted({int(m) for m in month_values if pd.notna(m)})
 
+    # 预生成各月份弹窗明细
+    detail_by_month: dict[str, dict[str, object]] = {}
+    for month_value in month_list:
+        month_detail = build_device_outbound_detail(
+            frame,
+            month_value,
+            this_week_range=(this_start, this_end) if this_start is not None else None,
+            last_week_range=(last_start, last_end) if last_start is not None else None,
+        )
+        detail_by_month[str(month_value)] = month_detail
+
+    latest_month = month_list[-1] if month_list else 1
     data = {
         "offline": round(float(summary.get("线下", 0.0)), 2),
         "mingmang": round(float(summary.get("鸣忙", 0.0)), 2),
         "weekLabel": "本周",
-        "detail": detail,
+        "weekRange": {
+            "thisStart": this_start.strftime("%Y-%m-%d") if this_start is not None else "",
+            "thisEnd": this_end.strftime("%Y-%m-%d") if this_end is not None else "",
+            "lastStart": last_start.strftime("%Y-%m-%d") if last_start is not None else "",
+            "lastEnd": last_end.strftime("%Y-%m-%d") if last_end is not None else "",
+            "thisLabel": format_week_label(this_start, this_end),
+            "lastLabel": format_week_label(last_start, last_end),
+        },
+        "monthList": month_list,
+        "latestMonth": latest_month,
+        "detailByMonth": detail_by_month,
     }
     (source_dir / "device_weekly_outbound_data.js").write_text(
         js_assignment("DEVICE_WEEKLY_OUTBOUND_DATA", data, spaced=True), encoding="utf-8"
@@ -535,6 +620,17 @@ def update(source_dir: Path) -> dict[str, object]:
     after_sales = build_after_sales(source_dir, paths["afterSales"])
     weekly_device = build_device_weekly_summary(source_dir, paths["device"])
     weekly_material = build_material_weekly_outbound(source_dir, paths["inventory"])
+
+    # 生成带版本号的副本，避免本地 file:// 浏览器对原文件名缓存顽固导致拿不到最新数据
+    import shutil
+    for src_name, dst_name in (
+        ("device_weekly_outbound_data.js", "device_weekly_outbound_data.v2.js"),
+        ("material_weekly_outbound_data.js", "material_weekly_outbound_data.v2.js"),
+    ):
+        src_path = source_dir / src_name
+        dst_path = source_dir / dst_name
+        if src_path.exists():
+            shutil.copyfile(src_path, dst_path)
     result = {
         "sources": {key: path.name for key, path in paths.items()},
         "inventory": inventory,

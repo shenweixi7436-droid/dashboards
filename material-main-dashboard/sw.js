@@ -1,11 +1,11 @@
-const CACHE_NAME = 'material-main-dashboard-23f71c93f5d3';
+const CACHE_NAME = 'material-main-dashboard-e4b8d8354458';
 const PRECACHE_URLS = [
   "./",
   "./index.html",
   "./assets/data/material_freight_dashboard_data.175ed8fac0ef.js",
   "./assets/data/material_development_gantt_data.e76b26bff36d.js",
   "./assets/data/inventory_outbound_data.143c6eb396ae.js",
-  "./assets/data/device_weekly_outbound_data.e1298426d1c1.js",
+  "./assets/data/device_weekly_outbound_data.ea9bfe762f31.js",
   "./assets/data/material_weekly_outbound_data.646872236618.js",
   "./assets/data/material_inventory_data.c18db6ad4bc1.js",
   "./../material-dashboard/assets/fonts/gotham-rounded-bold.f6281701cdb9.woff2",

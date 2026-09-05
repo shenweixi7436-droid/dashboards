@@ -4,6 +4,7 @@ window.STORE_AUDIT_SUMMARY_BY_MONTH = {
     "qualified": 69,
     "unqualified": 131,
     "uncertain": 0,
+    "valid": 200,
     "other": 0
   },
   "2月": {
@@ -11,6 +12,7 @@ window.STORE_AUDIT_SUMMARY_BY_MONTH = {
     "qualified": 77,
     "unqualified": 123,
     "uncertain": 0,
+    "valid": 200,
     "other": 0
   },
   "3月": {
@@ -18,6 +20,7 @@ window.STORE_AUDIT_SUMMARY_BY_MONTH = {
     "qualified": 153,
     "unqualified": 247,
     "uncertain": 0,
+    "valid": 400,
     "other": 0
   },
   "4月": {
@@ -25,6 +28,7 @@ window.STORE_AUDIT_SUMMARY_BY_MONTH = {
     "qualified": 123,
     "unqualified": 287,
     "uncertain": 0,
+    "valid": 410,
     "other": 0
   },
   "5月": {
@@ -32,6 +36,7 @@ window.STORE_AUDIT_SUMMARY_BY_MONTH = {
     "qualified": 287,
     "unqualified": 524,
     "uncertain": 14,
+    "valid": 811,
     "other": 0
   },
   "6月": {
@@ -39,6 +44,7 @@ window.STORE_AUDIT_SUMMARY_BY_MONTH = {
     "qualified": 786,
     "unqualified": 780,
     "uncertain": 194,
+    "valid": 1566,
     "other": 0
   },
   "7月": {
@@ -46,6 +52,7 @@ window.STORE_AUDIT_SUMMARY_BY_MONTH = {
     "qualified": 490,
     "unqualified": 965,
     "uncertain": 58,
+    "valid": 1455,
     "other": 0
   },
   "8月": {
@@ -53,6 +60,7 @@ window.STORE_AUDIT_SUMMARY_BY_MONTH = {
     "qualified": 599,
     "unqualified": 1199,
     "uncertain": 81,
+    "valid": 1798,
     "other": 0
   }
 };

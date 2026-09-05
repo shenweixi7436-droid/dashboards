@@ -1,6 +1,6 @@
 {
-  "version": "23f71c93f5d3",
-  "builtAt": "2026-08-31T13:15:35+08:00",
+  "version": "e4b8d8354458",
+  "builtAt": "2026-09-05T13:10:55+08:00",
   "source": "C:\\Users\\shenw\\Desktop\\看板\\物料小组看板",
   "files": {
     "html": "index.html",
@@ -8,7 +8,7 @@
       "assets/data/material_freight_dashboard_data.175ed8fac0ef.js",
       "assets/data/material_development_gantt_data.e76b26bff36d.js",
       "assets/data/inventory_outbound_data.143c6eb396ae.js",
-      "assets/data/device_weekly_outbound_data.e1298426d1c1.js",
+      "assets/data/device_weekly_outbound_data.ea9bfe762f31.js",
       "assets/data/material_weekly_outbound_data.646872236618.js",
       "assets/data/material_inventory_data.c18db6ad4bc1.js"
     ],
