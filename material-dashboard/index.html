@@ -8,7 +8,7 @@
 <script src="assets/data/province_outbound.ee2539864d9a.js"></script>
 <script src="assets/data/province_material.91ad57496230.js"></script>
 <script src="assets/data/device_outbound.d9ca9b39f635.js"></script>
-<script src="assets/data/core.9f20ea89a691.js"></script>
+<script src="assets/data/core.945b8b1c594e.js"></script>
 <script src="device_weekly_outbound_data.v2.js"></script>
 <style>
 @font-face{font-family:'GOTHAMRND-BOLD';src:url('assets/fonts/gotham-rounded-bold.f6281701cdb9.woff2') format('woff2');font-display:swap}
@@ -119,15 +119,16 @@ tr:hover td{background:#fafbff}
 .p6d-table td.num{font-variant-numeric:tabular-nums;text-align:right}
 .p6d-table th.num{text-align:right}
 .p6d-table td.name{text-align:left;max-width:180px;white-space:normal;line-height:1.3}
-.p6d-table tbody tr:nth-child(even){background:#fffaf0}
+.p6d-table tbody tr:nth-child(even){background:#fffaf0}.p6d-table .cat-row{background:#fff3d4!important;font-weight:600}.p6d-table .cat-toggle{display:inline-block;width:16px;cursor:pointer;user-select:none;color:#7c2d12}.p6d-table .sub-row .sub-name{padding-left:20px}
 .p6d-table .delta-pos{color:#c0392b;font-weight:600}
 .p6d-table .delta-neg{color:#1e8449;font-weight:600}
 .p6d-table tfoot td{background:#fff3e0;color:#7c2d12;font-weight:600;border-top:2px solid #f0c674}
+.p6d-table .p6d-align-spacer td{height:0;padding:0;border:0;background:transparent;font-size:0;line-height:0}
 .p6d-table .p6d-dev-link{color:#7c2d12;text-decoration:none;cursor:pointer;border-bottom:1px dashed #cbd5e1;padding-bottom:1px;transition:color .15s,border-color .15s}
 .p6d-table .p6d-dev-link:hover{color:#c0392b;border-bottom-color:#c0392b}
 .p6d-table tr.p6d-dev-selected{background:#fef3c7 !important}
 .p6d-table tr.p6d-dev-selected .p6d-dev-link{color:#c0392b;border-bottom-style:solid;border-bottom-color:#c0392b;font-weight:600}
-.p6d-empty{padding:60px 20px;text-align:center;color:#9ca3af;font-size:13px}
+.p6d-empty{padding:60px 20px;text-align:center;color:#9ca3af;font-size:13px} .p6d-date-note{margin:14px 0 0;padding:9px 14px;border-left:3px solid #fbbf24;background:#fff8e1;color:#7c2d12;font-size:12px;font-weight:600}
 body.loading-order-data::after{content:'正在加载出入库明细…';position:fixed;right:20px;bottom:20px;z-index:9999;padding:10px 14px;border-radius:9px;background:#1e3a8a;color:#fff;font-size:12px;box-shadow:0 8px 24px rgba(30,58,138,.24)}
 </style>
 </head>
@@ -451,6 +452,8 @@ body.loading-order-data::after{content:'正在加载出入库明细…';position
         <p style="margin:0 0 12px;color:#9ca3af;font-size:11px">月度发货金额（万元）与数量（台）对比 · 数据联动源数据周次</p>
         <div class="chart-box" id="c6d-trend" style="height:300px"></div>
       </div>
+      <div class="chart-card" style="margin-top:16px"><h3 style="margin:0 0 4px;font-size:15px;color:#1a1f36">&#35774;&#22791;&#21457;&#36135;&#25968;&#37327;&#29615;&#27604;</h3><p style="margin:0 0 12px;color:#9ca3af;font-size:11px">&#24403;&#21069;&#26102;&#38388;&#33539;&#22260;&#19982;&#23545;&#27604;&#26102;&#38388;&#33539;&#22260;&#30340;&#21457;&#36135;&#25968;&#37327;&#24046;&#24322;</p><div class="chart-box" id="c6d-mom" style="height:300px"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -549,7 +552,7 @@ function changeSupplierPageSize(value) {
 }
 
 
-const ORDER_DATA_URL='assets/data/orders.ba4e139dfb2a.json.gz';
+const ORDER_DATA_URL='assets/data/orders.b96b5ce72040.json.gz';
 let orderDataPromise=null;
 function ensureOrderData() {
   if (ORD.length) return Promise.resolve(ORD);
@@ -827,25 +830,31 @@ function renderP5WithData(inv, ord) {
 // ── PAGE 6: 各省份出库分析 ──
 var p6Mode = 'material';
 var P6_PROJECT_SELECTION = { material:'', device:'' };
+var P6_DEVICE_SELECTION = [];
+var P6_DEVICE_CAT_EXPANDED = {};
 
 function selectP6Project(mode,name) {
-  P6_PROJECT_SELECTION[mode]=name;
+  if(mode==='device'){
+    var idx=P6_DEVICE_SELECTION.indexOf(name);
+    if(idx>=0)P6_DEVICE_SELECTION.splice(idx,1);else P6_DEVICE_SELECTION.push(name);
+  }else{P6_PROJECT_SELECTION[mode]=name;}
   applyFilter('p6');
   var target=mode==='device'?'p6-device-content':'c6-out-amt';
   setTimeout(function(){var el=document.getElementById(target);if(el)el.scrollIntoView({behavior:'smooth',block:'center'});},40);
 }
 
 function clearP6ProjectSelection() {
-  P6_PROJECT_SELECTION[p6Mode]='';
+  if(p6Mode==='device')P6_DEVICE_SELECTION=[];else P6_PROJECT_SELECTION[p6Mode]='';
   applyFilter('p6');
 }
 
 function updateP6ProjectNote(mode) {
-  var selected=P6_PROJECT_SELECTION[mode]||'';
+  var selected=mode==='device'?P6_DEVICE_SELECTION:P6_PROJECT_SELECTION[mode]||'';
   var note=document.getElementById(mode==='device'?'p6-device-analysis-note':'p6-material-analysis-note');
   var name=document.getElementById(mode==='device'?'p6-device-analysis-name':'p6-material-analysis-name');
-  if(note)note.style.display=selected?'flex':'none';
-  if(name)name.textContent=selected;
+  var has=Array.isArray(selected)?selected.length>0:!!selected;
+  if(note)note.style.display=has?'flex':'none';
+  if(name)name.textContent=Array.isArray(selected)?selected.join('\u3001'):selected;
 }
 
 function switchP6Mode(mode) {
@@ -1000,125 +1009,40 @@ function p6dFmtWan(n){ n=Number(n)||0; return (n/10000).toFixed(1); }
 function p6dDeltaTxt(d){ d=Number(d)||0; if(d>0)return '+'+d; return String(d); }
 function p6dDeltaCls(d){ d=Number(d)||0; if(d>0)return 'delta-pos'; if(d<0)return 'delta-neg'; return ''; }
 function p6dEscape(s){ s=String(s==null?'':s); return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
-function p6dRenderTable(tableId, group, selectedDevice){
-  var table=document.getElementById(tableId);
-  if(!table)return;
-  var tbody=table.querySelector('tbody');
-  if(!tbody)return;
-  var oldTf=table.querySelector('tfoot'); if(oldTf)oldTf.parentNode.removeChild(oldTf);
-  while(tbody.firstChild)tbody.removeChild(tbody.firstChild);
-  if(!group||!group.rows||!group.rows.length){
-    var eTr=document.createElement('tr');
-    eTr.innerHTML='<td colspan="6" style="color:#9ca3af;text-align:center;padding:24px">暂无数据</td>';
-    tbody.appendChild(eTr);
-    return;
-  }
-  var rows=group.rows.slice().sort(function(a,b){return (Number(b.monthAmount)||0)-(Number(a.monthAmount)||0);});
-  rows.forEach(function(r){
-    var tr=document.createElement('tr');
-    if(selectedDevice && r.name===selectedDevice) tr.className='p6d-dev-selected';
-    var nm=p6dEscape(r.name||'');
-    tr.innerHTML=
-      '<td class="name"><a class="p6d-dev-link" href="javascript:void(0)" data-device="'+nm+'">'+nm+'</a></td>'+
-      '<td class="num">'+p6dFmtNum(r.monthQty)+'</td>'+
-      '<td class="num">¥'+p6dFmtNum(r.monthAmount)+'</td>'+
-      '<td class="num '+p6dDeltaCls(r.prevMonthQtyDelta)+'">'+p6dDeltaTxt(r.prevMonthQtyDelta)+'</td>'+
-      '<td class="num '+p6dDeltaCls(r.prevMonthAmountDelta)+'">'+p6dDeltaTxt(r.prevMonthAmountDelta)+'</td>'+
-      '<td>'+(r.note?p6dEscape(r.note):'<span style="color:#cbd5e1">—</span>')+'</td>';
-    tbody.appendChild(tr);
-  });
-  // 合计行
-  var t=group.total||{};
-  var tf=document.createElement('tfoot');
-  var ftr=document.createElement('tr');
-  ftr.innerHTML=
-    '<td class="name">合计</td>'+
-    '<td class="num">'+p6dFmtNum(t.monthQty)+'</td>'+
-    '<td class="num">¥'+p6dFmtNum(t.monthAmount)+'</td>'+
-    '<td class="num '+p6dDeltaCls(t.prevMonthQtyDelta)+'">'+p6dDeltaTxt(t.prevMonthQtyDelta)+'</td>'+
-    '<td class="num '+p6dDeltaCls(t.prevMonthAmountDelta)+'">'+p6dDeltaTxt(t.prevMonthAmountDelta)+'</td>'+
-    '<td>—</td>';
-  tf.appendChild(ftr);
-  table.appendChild(tf);
-  // 事件委托：设备名称点击 → 选中该设备联动曲线
-  if(!table._p6dLinkBound){
-    table.addEventListener('click',function(e){
-      var a=e.target.closest('.p6d-dev-link');
-      if(!a)return;
-      e.preventDefault();
-      var name=a.getAttribute('data-device');
-      if(name) selectP6Project('device',name);
-    });
-    table._p6dLinkBound=true;
-  }
+function p6dRenderTable(tableId, group, selectedDevices){
+  var table=document.getElementById(tableId);if(!table)return;
+  var tbody=table.querySelector('tbody');if(!tbody)return;
+  var thead=table.querySelector('thead');
+  if(thead)thead.innerHTML='<tr><th style="text-align:left">\u8bbe\u5907\u54c1\u724c</th><th style="text-align:left">\u8bbe\u5907\u5927\u7c7b</th><th class="num">\u53d1\u8d27\u91cf</th><th class="num">\u53d1\u8d27\u91d1\u989d</th><th class="num">\u53d1\u8d27\u6570\u91cf\u73af\u6bd4</th><th class="num">\u53d1\u8d27\u91d1\u989d\u73af\u6bd4</th><th>\u6570\u91cf\u5dee\u5f02\u539f\u56e0\u5206\u6790</th></tr>';
+  var oldTf=table.querySelector('tfoot');if(oldTf)oldTf.parentNode.removeChild(oldTf);while(tbody.firstChild)tbody.removeChild(tbody.firstChild);
+  if(!group||!group.rows||!group.rows.length){var empty=document.createElement('tr');empty.innerHTML='<td colspan="7" style="color:#9ca3af;text-align:center;padding:24px">\u6682\u65e0\u6570\u636e</td>';tbody.appendChild(empty);return;}
+  var rows=group.rows.slice().sort(function(a,b){return (Number(b.monthAmount)||0)-(Number(a.monthAmount)||0);});var catMap={},catOrder=[];
+  rows.forEach(function(r){var cat=String(r.category||'\u672a\u5206\u7c7b');if(!catMap[cat]){catMap[cat]=[];catOrder.push(cat);}catMap[cat].push(r);});
+  catOrder.forEach(function(cat){var catRows=catMap[cat],agg={monthQty:0,monthAmount:0,prevMonthQtyDelta:0,prevMonthAmountDelta:0};catRows.forEach(function(r){agg.monthQty+=Number(r.monthQty)||0;agg.monthAmount+=Number(r.monthAmount)||0;agg.prevMonthQtyDelta+=Number(r.prevMonthQtyDelta)||0;agg.prevMonthAmountDelta+=Number(r.prevMonthAmountDelta)||0;});var key=group.key+'::'+cat,expanded=P6_DEVICE_CAT_EXPANDED[key]!==false,brands=[];catRows.forEach(function(r){var brand=r.brand||'\u2014';if(brands.indexOf(brand)<0)brands.push(brand);});var catTr=document.createElement('tr');catTr.className='cat-row';catTr.setAttribute('data-cat-row',key);catTr.innerHTML='<td>'+p6dEscape(brands.join('\u3001'))+'</td><td class="name"><span class="cat-toggle" data-cat-toggle="'+p6dEscape(key)+'">'+(expanded?'\u25bc':'\u25b6')+'</span>'+p6dEscape(cat)+'</td><td class="num">'+p6dFmtNum(agg.monthQty)+'</td><td class="num">\u00a5'+p6dFmtNum(agg.monthAmount)+'</td><td class="num '+p6dDeltaCls(agg.prevMonthQtyDelta)+'">'+p6dDeltaTxt(agg.prevMonthQtyDelta)+'</td><td class="num '+p6dDeltaCls(agg.prevMonthAmountDelta)+'">'+p6dDeltaTxt(agg.prevMonthAmountDelta)+'</td><td>\u2014</td>';tbody.appendChild(catTr);catRows.forEach(function(r){var tr=document.createElement('tr');tr.className='sub-row'+(selectedDevices&&selectedDevices.indexOf(r.name)>=0?' p6d-dev-selected':'');tr.setAttribute('data-cat-parent',key);if(!expanded)tr.style.display='none';tr.innerHTML='<td>'+p6dEscape(r.brand||'\u2014')+'</td><td class="name sub-name"><a class="p6d-dev-link" href="javascript:void(0)" data-device="'+p6dEscape(r.name||'')+'">'+p6dEscape(r.name||'')+'</a></td><td class="num">'+p6dFmtNum(r.monthQty)+'</td><td class="num">\u00a5'+p6dFmtNum(r.monthAmount)+'</td><td class="num '+p6dDeltaCls(r.prevMonthQtyDelta)+'">'+p6dDeltaTxt(r.prevMonthQtyDelta)+'</td><td class="num '+p6dDeltaCls(r.prevMonthAmountDelta)+'">'+p6dDeltaTxt(r.prevMonthAmountDelta)+'</td><td>\u2014</td>';tbody.appendChild(tr);});});
+  var t=group.total||{},tf=document.createElement('tfoot'),ftr=document.createElement('tr');ftr.innerHTML='<td colspan="2">\u5408\u8ba1</td><td class="num">'+p6dFmtNum(t.monthQty)+'</td><td class="num">\u00a5'+p6dFmtNum(t.monthAmount)+'</td><td class="num '+p6dDeltaCls(t.prevMonthQtyDelta)+'">'+p6dDeltaTxt(t.prevMonthQtyDelta)+'</td><td class="num '+p6dDeltaCls(t.prevMonthAmountDelta)+'">'+p6dDeltaTxt(t.prevMonthAmountDelta)+'</td><td>\u2014</td>';tf.appendChild(ftr);table.appendChild(tf);
+  table.querySelectorAll('.cat-toggle').forEach(function(toggle){toggle.addEventListener('click',function(){var key=toggle.getAttribute('data-cat-toggle'),next=P6_DEVICE_CAT_EXPANDED[key]===false;P6_DEVICE_CAT_EXPANDED[key]=next;var row=table.querySelector('[data-cat-row="'+CSS.escape(key)+'"]');if(row)row.querySelector('.cat-toggle').textContent=next?'\u25bc':'\u25b6';table.querySelectorAll('[data-cat-parent="'+CSS.escape(key)+'"]').forEach(function(x){x.style.display=next?'':'none';});requestAnimationFrame(p6dAlignTableFooters);});});
+  table.querySelectorAll('.p6d-dev-link').forEach(function(link){link.addEventListener('click',function(e){e.preventDefault();var name=link.getAttribute('data-device');if(name)selectP6Project('device',name);});});
 }
-// 各月设备发货走势曲线（省区 vs 鸣忙，金额万元 + 数量台 双轴）
-function p6dRenderTrend(dw, selectedDevice){
-  var box=document.getElementById('c6d-trend');
-  if(!box)return;
-  var months=(dw.monthList||[]).slice().sort(function(a,b){return a-b;});
-  var provAmt=[], mmAmt=[], provQty=[], mmQty=[];
-  function rowOf(groups,key,name){
-    if(!groups)return null;
-    for(var i=0;i<groups.length;i++){
-      var g=groups[i];
-      if(g.key!==key && g.title!==key)continue;
-      for(var j=0;j<g.rows.length;j++){ if(g.rows[j].name===name) return g.rows[j]; }
-    }
-    return null;
-  }
-  months.forEach(function(m){
-    var detail=dw.detailByMonth&&dw.detailByMonth[String(m)];
-    var pg=null, mg=null;
-    if(detail&&Array.isArray(detail.groups))detail.groups.forEach(function(g){
-      if(g.key==='province'||g.title==='省区')pg=g;
-      else if(g.key==='mingmang'||g.title==='鸣忙')mg=g;
-    });
-    if(selectedDevice){
-      var pr=rowOf(pg&&pg.rows,'province',selectedDevice);
-      var mr=rowOf(mg&&mg.rows,'mingmang',selectedDevice);
-      provAmt.push(+((Number(pr&&pr.monthAmount)||0)/10000).toFixed(2));
-      mmAmt.push(+((Number(mr&&mr.monthAmount)||0)/10000).toFixed(2));
-      provQty.push(Number(pr&&pr.monthQty)||0);
-      mmQty.push(Number(mr&&mr.monthQty)||0);
-    }else{
-      var pt=(pg&&pg.total)||{},mt=(mg&&mg.total)||{};
-      provAmt.push(+((Number(pt.monthAmount)||0)/10000).toFixed(2));
-      mmAmt.push(+((Number(mt.monthAmount)||0)/10000).toFixed(2));
-      provQty.push(Number(pt.monthQty)||0);
-      mmQty.push(Number(mt.monthQty)||0);
-    }
-  });
-  // 同步图表卡片标题（选中设备时显示设备名）
-  var cardTitle=document.querySelector('#c6d-trend')?.closest('.chart-card')?.querySelector('h3');
-  if(cardTitle) cardTitle.textContent=(selectedDevice?(selectedDevice+' 各月发货走势（省区 vs 鸣忙）'):('各月设备发货走势（省区 vs 鸣忙）'));
-  ec('c6d-trend',{
-    tooltip:{trigger:'axis',axisPointer:{type:'cross'},
-      formatter:function(ps){
-        var s=ps[0].axisValue+'<br/>';
-        ps.forEach(function(p){
-          var unit=p.seriesName.indexOf('金额')>=0?'万元':'台';
-          var val=p.seriesName.indexOf('金额')>=0?Number(p.value).toFixed(1):p.value.toLocaleString('zh-CN');
-          s+=p.marker+p.seriesName+'：'+val+' '+unit+'<br/>';
-        });
-        return s;
-      }},
-    legend:{data:['省区金额','鸣忙金额','省区数量','鸣忙数量'],bottom:0,textStyle:{fontSize:11}},
-    grid:{left:12,right:14,top:34,bottom:46,containLabel:true},
-    xAxis:{type:'category',data:months.map(function(m){return m+'月';}),axisLabel:{fontSize:10},boundaryGap:false},
-    yAxis:[
-      {type:'value',name:'金额(万元)',axisLabel:{fontSize:10,formatter:function(v){return v.toFixed(0)+'万';}},splitLine:{lineStyle:{color:'#eef1f6'}}},
-      {type:'value',name:'数量(台)',axisLabel:{fontSize:10},splitLine:{show:false}}
-    ],
-    series:[
-      {name:'省区金额',type:'line',data:provAmt,smooth:true,lineStyle:{color:'#7c2d12',width:2.5},symbol:'circle',symbolSize:7,itemStyle:{color:'#7c2d12'}},
-      {name:'鸣忙金额',type:'line',data:mmAmt,smooth:true,lineStyle:{color:'#fbbf24',width:2.5},symbol:'circle',symbolSize:7,itemStyle:{color:'#fbbf24'}},
-      {name:'省区数量',type:'line',yAxisIndex:1,data:provQty,smooth:true,lineStyle:{color:'#7c2d12',width:1.8,type:'dashed'},symbol:'circle',symbolSize:5,itemStyle:{color:'#7c2d12'}},
-      {name:'鸣忙数量',type:'line',yAxisIndex:1,data:mmQty,smooth:true,lineStyle:{color:'#fbbf24',width:1.8,type:'dashed'},symbol:'circle',symbolSize:5,itemStyle:{color:'#fbbf24'}}
-    ]
-  });
+function p6dRenderTrend(dw, selectedDevices, currentAgg, rangeLabel){
+  var box=document.getElementById('c6d-trend');if(!box)return;
+  var selected=Array.isArray(selectedDevices)?selectedDevices:[],agg=currentAgg||{},names=Object.keys(agg);
+  names.sort(function(a,b){return ((agg[b].province.qty+agg[b].mingmang.qty)-(agg[a].province.qty+agg[a].mingmang.qty));});
+  if(selected.length)names=selected.filter(function(n){return agg[n];});
+  var provQty=names.map(function(n){return Number(agg[n].province.qty)||0;});
+  var mmQty=names.map(function(n){return Number(agg[n].mingmang.qty)||0;});
+  var card=document.querySelector('#c6d-trend')?.closest('.chart-card');
+  if(card){var title=card.querySelector('h3'),sub=card.querySelector('p');if(title)title.textContent=selected.length?'\u5df2\u9009\u8bbe\u5907\u53d1\u8d27\u6570\u91cf':'\u8bbe\u5907\u53d1\u8d27\u6570\u91cf\uff08\u7701\u533a vs \u9e23\u5fd9\uff09';if(sub)sub.textContent='\u5f53\u524d\u65f6\u95f4\u8303\u56f4\uff1a'+(rangeLabel||'\u2014')+' \u00b7 \u6309\u8bbe\u5907\u540d\u79f0\u6c47\u603b\u6570\u91cf';}
+  ec('c6d-trend',{tooltip:{trigger:'axis',axisPointer:{type:'shadow'},formatter:function(ps){var s=ps[0].axisValue+'<br/>';ps.forEach(function(x){s+=x.marker+x.seriesName+'\uff1a'+Number(x.value||0).toLocaleString('zh-CN')+' \u53f0<br/>';});return s;}},legend:{data:['\u7701\u533a\u6570\u91cf','\u9e23\u5fd9\u6570\u91cf'],bottom:0,textStyle:{fontSize:11}},grid:{left:12,right:14,top:34,bottom:70,containLabel:true},xAxis:{type:'category',data:names,axisLabel:{fontSize:10,interval:0,rotate:names.length>8?28:0}},yAxis:{type:'value',name:'\u6570\u91cf\uff08\u53f0\uff09',axisLabel:{fontSize:10,formatter:function(v){return Number(v).toLocaleString('zh-CN');}},splitLine:{lineStyle:{color:'#eef1f6'}}},series:[{name:'\u7701\u533a\u6570\u91cf',type:'bar',data:provQty.map(function(v){return{value:v,label:{show:true,position:Number(v)<0?'bottom':'top',distance:5,formatter:function(p){return Number(p.value||0).toLocaleString('zh-CN');}},itemStyle:{borderRadius:Number(v)<0?[0,0,4,4]:[4,4,0,0]}};}),barMaxWidth:26,itemStyle:{color:'#7c2d12'}},{name:'\u9e23\u5fd9\u6570\u91cf',type:'bar',data:mmQty.map(function(v){return{value:v,label:{show:true,position:Number(v)<0?'bottom':'top',distance:5,formatter:function(p){return Number(p.value||0).toLocaleString('zh-CN');}},itemStyle:{borderRadius:Number(v)<0?[0,0,4,4]:[4,4,0,0]}};}),barMaxWidth:26,itemStyle:{color:'#fbbf24'}}]});
 }
-// 等高：测量左栏表格高度，给右栏各行分配 padding 使总高匹配（两栏卡片在 grid stretch 下等高，从而右表刚好填满右卡片）
+function p6dRenderMomChart(selectedDevices,currentAgg,prevAgg,rangeLabel){
+  var box=document.getElementById('c6d-mom');if(!box)return;
+  var selected=Array.isArray(selectedDevices)?selectedDevices:[],cur=currentAgg||{},prev=prevAgg||{},set={};Object.keys(cur).forEach(function(n){set[n]=1;});Object.keys(prev).forEach(function(n){set[n]=1;});var names=Object.keys(set);
+  names.sort(function(a,b){var ad=((cur[a]?.province.qty||0)+(cur[a]?.mingmang.qty||0))-((prev[a]?.province.qty||0)+(prev[a]?.mingmang.qty||0));var bd=((cur[b]?.province.qty||0)+(cur[b]?.mingmang.qty||0))-((prev[b]?.province.qty||0)+(prev[b]?.mingmang.qty||0));return bd-ad;});
+  if(selected.length)names=selected.filter(function(n){return set[n];});
+  var prov=names.map(function(n){return (cur[n]?.province.qty||0)-(prev[n]?.province.qty||0);});var mm=names.map(function(n){return (cur[n]?.mingmang.qty||0)-(prev[n]?.mingmang.qty||0);});
+  var card=document.querySelector('#c6d-mom')?.closest('.chart-card');if(card){var sub=card.querySelector('p');if(sub)sub.textContent='\u5f53\u524d\uff1a'+(rangeLabel||'\u2014')+' \u00b7 \u5bf9\u6bd4\uff1a'+(window.P6_COMPARE_RANGE_LABEL||'\u2014')+' \u00b7 \u6570\u91cf\u5dee\u503c';}
+  ec('c6d-mom',{tooltip:{trigger:'axis',axisPointer:{type:'shadow'},formatter:function(ps){var s=ps[0].axisValue+'<br/>';ps.forEach(function(x){s+=x.marker+x.seriesName+'\uff1a'+Number(x.value||0).toLocaleString('zh-CN')+' \u53f0<br/>';});return s;}},legend:{data:['\u7701\u533a\u6570\u91cf\u73af\u6bd4','\u9e23\u5fd9\u6570\u91cf\u73af\u6bd4'],bottom:0,textStyle:{fontSize:11}},grid:{left:12,right:14,top:34,bottom:70,containLabel:true},xAxis:{type:'category',data:names,axisLabel:{fontSize:10,interval:0,rotate:names.length>8?28:0}},yAxis:{type:'value',name:'\u6570\u91cf\u5dee\u503c\uff08\u53f0\uff09',axisLabel:{fontSize:10,formatter:function(v){return Number(v).toLocaleString('zh-CN');}},splitLine:{lineStyle:{color:'#eef1f6'}}},series:[{name:'\u7701\u533a\u6570\u91cf\u73af\u6bd4',type:'bar',data:prov.map(function(v){return{value:v,label:{show:true,position:Number(v)<0?'bottom':'top',distance:5,formatter:function(p){return Number(p.value||0).toLocaleString('zh-CN');}},itemStyle:{borderRadius:Number(v)<0?[0,0,4,4]:[4,4,0,0]}};}),barMaxWidth:26,itemStyle:{color:'#7c2d12'}},{name:'\u9e23\u5fd9\u6570\u91cf\u73af\u6bd4',type:'bar',data:mm.map(function(v){return{value:v,label:{show:true,position:Number(v)<0?'bottom':'top',distance:5,formatter:function(p){return Number(p.value||0).toLocaleString('zh-CN');}},itemStyle:{borderRadius:Number(v)<0?[0,0,4,4]:[4,4,0,0]}};}),barMaxWidth:26,itemStyle:{color:'#fbbf24'}}]});
+}
 function p6dEqualizeHeights(){
   var lt=document.getElementById('p6d-table-province');
   var rt=document.getElementById('p6d-table-mingmang');
@@ -1142,6 +1066,23 @@ function p6dEqualizeHeights(){
   });
 }
 // 按日期范围聚合设备省区/鸣忙 amount/qty（联动"本月发货量/金额"列与 KPI）
+function p6dAlignTableFooters(){
+  var tables=[document.getElementById("p6d-table-province"),document.getElementById("p6d-table-mingmang")];
+  if(!tables[0]||!tables[1])return;
+  tables.forEach(function(table){var old=table.querySelector("tbody .p6d-align-spacer");if(old)old.parentNode.removeChild(old);});
+  var footers=tables.map(function(table){return table.querySelector("tfoot");});
+  if(!footers[0]||!footers[1])return;
+  var tops=footers.map(function(footer){return footer.getBoundingClientRect().top;});
+  var delta=Math.round(Math.abs(tops[0]-tops[1]));
+  if(delta<2)return;
+  var shortIndex=tops[0]<tops[1]?0:1;
+  var tbody=tables[shortIndex].querySelector("tbody");if(!tbody)return;
+  var spacer=document.createElement("tr");spacer.className="p6d-align-spacer";spacer.innerHTML="<td colspan=\"7\" aria-hidden=\"true\"></td>";tbody.appendChild(spacer);
+  spacer.firstElementChild.style.height=delta+"px";
+}
+function p6dFormatDateText(v){if(!v)return '—';var p=String(v).split('-');return p.length>=3?Number(p[0])+'年'+Number(p[1])+'月'+Number(p[2])+'日':String(v);}
+function p6dRangeLabel(f){return p6dFormatDateText(f&&f.ds)+'-'+p6dFormatDateText(f&&f.de);}
+function p6dCompareFilter(f){var s=new Date((f&&f.ds||DATA.today)+'T12:00:00'),e=new Date((f&&f.de||DATA.today)+'T12:00:00');var last=new Date(s.getFullYear(),s.getMonth()+1,0);if(s.getDate()===1&&e.getFullYear()===s.getFullYear()&&e.getMonth()===s.getMonth()&&e.getDate()===last.getDate()){return{ds:formatDateValue(new Date(s.getFullYear(),s.getMonth()-1,1)),de:formatDateValue(new Date(s.getFullYear(),s.getMonth(),0))};}var days=Math.max(1,Math.round((e-s)/86400000)+1);var ps=new Date(s);ps.setDate(ps.getDate()-days);var pe=new Date(s);pe.setDate(pe.getDate()-1);return{ds:formatDateValue(ps),de:formatDateValue(pe)};}
 function p6dAggregateByDateRange(dob, f){
   var map={};
   Object.keys(dob).forEach(function(d){
@@ -1160,59 +1101,17 @@ function p6dAggregateByDateRange(dob, f){
   return map;
 }
 // 基于 detailByMonth（固定周次）+ devAggMap（联动日期）合成表格行（含环比上月）。selectedDevice 时只保留该设备。
-function p6dBuildRows(detailByMonth, month, devAggMap, selectedDevice){
-  var emptyTot={monthQty:0,monthAmount:0,weekQty:0,qtyDelta:0,weekAmount:0,amountDelta:0,prevMonthQtyDelta:0,prevMonthAmountDelta:0};
-  var cur = detailByMonth && detailByMonth[String(month)];
-  var prev = detailByMonth && detailByMonth[String(month-1)];
-  function rowOf(groups, key, name){
-    if(!groups) return null;
-    for(var i=0;i<groups.length;i++){
-      var g=groups[i];
-      if(g.key!==key && g.title!==key) continue;
-      for(var j=0;j<g.rows.length;j++){ if(g.rows[j].name===name) return g.rows[j]; }
-    }
-    return null;
-  }
-  if(!cur) return {provinceGroup:{key:'province',title:'省区',rows:[],total:Object.assign({},emptyTot)}, mingmangGroup:{key:'mingmang',title:'鸣忙',rows:[],total:Object.assign({},emptyTot)}};
-  var nameSet={};
-  cur.groups.forEach(function(g){ (g.rows||[]).forEach(function(r){ nameSet[r.name]=1; }); });
-  // 上月有但本月无的设备也纳入（环比上月完整性）
-  if(prev) prev.groups.forEach(function(g){ (g.rows||[]).forEach(function(r){ nameSet[r.name]=1; }); });
-  Object.keys(devAggMap).forEach(function(n){ nameSet[n]=1; });
-  if(selectedDevice){ nameSet={}; nameSet[selectedDevice]=1; }
-  var names=Object.keys(nameSet);
-  function build(groupKey){
-    var rows=[];
-    var tot=Object.assign({},emptyTot);
-    names.forEach(function(n){
-      var curRow=rowOf(cur.groups, groupKey, n);
-      var prevRow=prev?rowOf(prev.groups, groupKey, n):null;
-      var agg=devAggMap[n];
-      var chData=(agg&&agg[groupKey])||{amount:0,qty:0};
-      var mQty=chData.qty, mAmt=chData.amount;
-      var weekQty=curRow?curRow.weekQty:0;
-      var qtyDelta=curRow?curRow.qtyDelta:0;
-      var weekAmount=curRow?curRow.weekAmount:0;
-      var amountDelta=curRow?curRow.amountDelta:0;
-      // 环比上月差值：本月(无则0) - 上月(无则0)
-      var prevMonthQtyDelta = (curRow?curRow.monthQty:0) - (prevRow?prevRow.monthQty:0);
-      var prevMonthAmountDelta = (curRow?curRow.monthAmount:0) - (prevRow?prevRow.monthAmount:0);
-      // 跳过完全无数据且上月也无的行（保留上月有但本月无的设备用于环比展示）
-      if(!curRow && !mQty && !mAmt && !prevRow) return;
-      rows.push({name:n, brand:curRow?curRow.brand:'', monthQty:mQty, monthAmount:mAmt, weekQty:weekQty, qtyDelta:qtyDelta, weekAmount:weekAmount, amountDelta:amountDelta, prevMonthQtyDelta:prevMonthQtyDelta, prevMonthAmountDelta:prevMonthAmountDelta, note:curRow?curRow.note:''});
-      tot.monthQty+=mQty; tot.monthAmount+=mAmt;
-      tot.weekQty+=weekQty; tot.qtyDelta+=qtyDelta;
-      tot.weekAmount+=weekAmount; tot.amountDelta+=amountDelta;
-      tot.prevMonthQtyDelta+=prevMonthQtyDelta; tot.prevMonthAmountDelta+=prevMonthAmountDelta;
-    });
-    return {key:groupKey, title:groupKey==='province'?'省区':'鸣忙', rows:rows, total:tot};
-  }
-  return {provinceGroup:build('province'), mingmangGroup:build('mingmang')};
+function p6dBuildRows(detailByMonth, month, devAggMap, prevAggMap, selectedDevices){
+  var emptyTot={monthQty:0,monthAmount:0,prevMonthQtyDelta:0,prevMonthAmountDelta:0};var cur=detailByMonth&&detailByMonth[String(month)],prevDetail=detailByMonth&&detailByMonth[String(month-1)];
+  function rowOf(groups,key,name){if(!groups)return null;for(var i=0;i<groups.length;i++){var g=groups[i];if(g.key!==key&&g.title!==key)continue;for(var j=0;j<g.rows.length;j++){if(g.rows[j].name===name)return g.rows[j];}}return null;}
+  var nameSet={};if(cur)cur.groups.forEach(function(g){(g.rows||[]).forEach(function(r){nameSet[r.name]=1;});});if(prevDetail)prevDetail.groups.forEach(function(g){(g.rows||[]).forEach(function(r){nameSet[r.name]=1;});});Object.keys(devAggMap||{}).forEach(function(n){nameSet[n]=1;});Object.keys(prevAggMap||{}).forEach(function(n){nameSet[n]=1;});var names=Object.keys(nameSet);
+  function build(groupKey){var rows=[],tot=Object.assign({},emptyTot);names.forEach(function(n){var cr=cur?rowOf(cur.groups,groupKey,n):null,pr=prevDetail?rowOf(prevDetail.groups,groupKey,n):null,meta=cr||pr||{};var c=(devAggMap&&devAggMap[n]&&devAggMap[n][groupKey])||{qty:0,amount:0},p=(prevAggMap&&prevAggMap[n]&&prevAggMap[n][groupKey])||{qty:0,amount:0};if(!c.qty&&!c.amount&&!p.qty&&!p.amount)return;var qd=c.qty-p.qty,ad=c.amount-p.amount;rows.push({name:n,brand:meta.supplier||meta.brand||'',category:meta.category||'',monthQty:c.qty,monthAmount:c.amount,prevMonthQtyDelta:qd,prevMonthAmountDelta:ad,note:meta.note||''});tot.monthQty+=c.qty;tot.monthAmount+=c.amount;tot.prevMonthQtyDelta+=qd;tot.prevMonthAmountDelta+=ad;});return{key:groupKey,title:groupKey==='province'?'\u7701\u533a':'\u9e23\u5fd9',rows:rows,total:tot};}
+  return{provinceGroup:build('province'),mingmangGroup:build('mingmang')};
 }
 function renderP6DeviceWithData(f) {
   var dob=window.DEVICE_OUTBOUND_DATA||{};
   var dw=window.DEVICE_WEEKLY_OUTBOUND_DATA||{};
-  var selectedDevice=P6_PROJECT_SELECTION.device||'';
+  var selectedDevices=P6_DEVICE_SELECTION.slice();
   updateP6ProjectNote('device');
 
   // 当前月份（由日期筛选起始月推导）
@@ -1222,7 +1121,15 @@ function renderP6DeviceWithData(f) {
   var devAgg=p6dAggregateByDateRange(dob, f);
 
   // 合成新 groups（含环比上月 + 联动本月列 + 选中设备筛选）
-  var built=p6dBuildRows(dw.detailByMonth||{}, month, devAgg, selectedDevice);
+  var prevFilter=p6dCompareFilter(f);
+  var prevAgg=p6dAggregateByDateRange(dob, prevFilter);
+  var rangeLabel=p6dRangeLabel(f);
+  window.P6_COMPARE_RANGE_LABEL=p6dRangeLabel(prevFilter);
+  var dateNote=document.getElementById('p6d-date-note');
+  if(!dateNote){dateNote=document.createElement('div');dateNote.id='p6d-date-note';dateNote.className='p6d-date-note';var noteAnchor=document.querySelector('#p6-device-content .kpi-row');if(noteAnchor)noteAnchor.parentNode.insertBefore(dateNote,noteAnchor);}
+  dateNote.textContent='\u5f53\u524d\u65f6\u95f4\u8303\u56f4\uff1a'+rangeLabel+' \u00b7 \u73af\u6bd4\u5bf9\u6bd4\uff1a'+p6dRangeLabel(prevFilter);
+  document.querySelectorAll('#p6-device-content .p6d-card-header p').forEach(function(el){el.textContent='\u6309\u53d1\u8d27\u91d1\u989d\u964d\u5e8f\uff0c\u8054\u52a8\u65e5\u671f\u8303\u56f4\uff1a'+rangeLabel;});
+  var built=p6dBuildRows(dw.detailByMonth||{}, month, devAgg, prevAgg, selectedDevices);
   var provinceGroup=built.provinceGroup;
   var mingmangGroup=built.mingmangGroup;
 
@@ -1260,11 +1167,13 @@ function renderP6DeviceWithData(f) {
   }
 
   // === 双栏表格 ===
-  p6dRenderTable('p6d-table-province', provinceGroup, selectedDevice);
-  p6dRenderTable('p6d-table-mingmang', mingmangGroup, selectedDevice);
+  p6dRenderTable('p6d-table-province', provinceGroup, selectedDevices);
+  p6dRenderTable('p6d-table-mingmang', mingmangGroup, selectedDevices);
+  requestAnimationFrame(p6dAlignTableFooters);
 
   // === 各月发货走势曲线（联动选中设备） ===
-  p6dRenderTrend(dw, selectedDevice);
+  p6dRenderTrend(dw, selectedDevices, devAgg, rangeLabel);
+  p6dRenderMomChart(selectedDevices, devAgg, prevAgg, rangeLabel);
 
 // === 左右两栏表格行高一致（鸣忙卡片下方可能留白，tfoot 不严格对齐）===
 // p6dEqualizeHeights()  // 已停用：拉伸行高导致行距不均；改为自然行高，tfoot 接近对齐
@@ -1288,17 +1197,30 @@ function formatDateValue(date) {
   return year+'-'+month+'-'+day;
 }
 
-function getDefaultMonthRange() {
+function getQueryMonth() {
+  const raw = new URLSearchParams(window.location.search).get('month');
+  if (!raw) return 0;
+  const match = String(raw).match(/^(1[0-2]|[1-9])(?:%E6%9C%88|\u6708)?$/);
+  const month = match ? Number(match[1]) : 0;
+  return month >= 1 && month <= 12 ? month : 0;
+}
+
+function getMonthRange(month) {
   const reference=new Date(DATA.today+'T12:00:00');
+  const selected=Number(month)||reference.getMonth()+1;
   return {
-    start:formatDateValue(new Date(reference.getFullYear(),reference.getMonth(),1)),
-    end:formatDateValue(new Date(reference.getFullYear(),reference.getMonth()+1,0))
+    start:formatDateValue(new Date(reference.getFullYear(),selected-1,1)),
+    end:formatDateValue(new Date(reference.getFullYear(),selected,0))
   };
+}
+
+function getDefaultMonthRange() {
+  return getMonthRange(getQueryMonth());
 }
 
 function setQuickDate(pid,range) {
   // 本周/上月按真实当前日期计算，不依赖数据最新日期
-  const reference=new Date();
+  const reference=new Date(DATA.today+'T12:00:00');
   let start,end;
   if(range==='week') {
     const weekday=reference.getDay()||7;

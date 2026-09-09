@@ -1,8 +1,8 @@
-const CACHE_NAME = 'material-inventory-dashboard-87c397ccdbe3';
+const CACHE_NAME = 'material-inventory-dashboard-30e596827fab';
 const PRECACHE_URLS = [
   "./",
   "./index.html",
-  "./assets/data/core.9f20ea89a691.js",
+  "./assets/data/core.945b8b1c594e.js",
   "./assets/data/device_outbound.d9ca9b39f635.js",
   "./assets/data/province_material.91ad57496230.js",
   "./assets/data/province_outbound.ee2539864d9a.js",
