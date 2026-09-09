@@ -631,7 +631,8 @@ def update(source_dir: Path) -> dict[str, object]:
         "afterSales": source_dir / AFTER_SALES_FILE,
         "development": source_dir / DEVELOPMENT_FILE,
     }
-    missing = [path.name for path in paths.values() if not path.exists()]
+    # 售后数据不是其他看板生成的前置条件；缺失时保留主看板 HTML 中已有统计。
+    missing = [path.name for key, path in paths.items() if key != "afterSales" and not path.exists()]
     if missing:
         raise FileNotFoundError("缺少独立源数据：" + "、".join(missing))
 
@@ -665,7 +666,11 @@ def update(source_dir: Path) -> dict[str, object]:
 
     device = build_device_outbound_file(source_dir, paths["device"])
     freight_details = build_freight_detail_files(source_dir, paths["freight"])
-    after_sales = build_after_sales(source_dir, paths["afterSales"])
+    if paths["afterSales"].exists():
+        after_sales = build_after_sales(source_dir, paths["afterSales"])
+    else:
+        after_sales = {"skipped": True, "reason": f"未找到 {paths['afterSales'].name}，保留现有售后统计"}
+        print(f"警告：未找到 {paths['afterSales'].name}，保留主看板现有售后统计。")
     weekly_device = build_device_weekly_summary(source_dir, paths["device"])
     weekly_material = build_material_weekly_outbound(source_dir, paths["inventory"])
 
