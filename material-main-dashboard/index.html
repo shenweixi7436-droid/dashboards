@@ -575,7 +575,7 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
   }
   function updateMonth(monthNumber){
     activeMonth=Number(monthNumber);var label=activeMonth+'月';var source=freightMonths.find(function(item){return item.month===label;})||null;
-    window.DASHBOARD_MONTH=activeMonth;main.dataset.activeMonth=String(activeMonth);freightLink.href='../material-freight-dashboard/?month='+encodeURIComponent(label);if(inventoryLink)inventoryLink.href='物料进销存看板.html?month='+encodeURIComponent(label);
+    window.DASHBOARD_MONTH=activeMonth;main.dataset.activeMonth=String(activeMonth);freightLink.href='../material-freight-dashboard/?month='+encodeURIComponent(label);if(inventoryLink)inventoryLink.href='../material-dashboard/?month='+encodeURIComponent(label);
     if(source&&source.cards){freightValue.textContent=formatMoney(source.cards.freight);freightMeta.textContent=label+'运费金额合计';}else{freightValue.textContent='暂无数据';freightMeta.textContent=label+'尚无运费看板源数据';}
     var prevFreightSource=freightMonths.find(function(item){return Number(item.monthValue)===activeMonth-1;})||null;
     var prevFreight=prevFreightSource&&prevFreightSource.cards?prevFreightSource.cards.freight:null;

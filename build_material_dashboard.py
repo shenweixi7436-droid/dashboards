@@ -240,6 +240,7 @@ def build_main_dashboard(source_dir: Path, gotham: Path, yuan: Path) -> dict[str
     html = html.replace('href="运费看板.html?month=5%E6%9C%88"', 'href="../material-freight-dashboard/?month=5%E6%9C%88"')
     html = html.replace('href="物料进销存看板.html"', 'href="../material-dashboard/"')
     html = html.replace("freightLink.href='运费看板.html?month='", "freightLink.href='../material-freight-dashboard/?month='")
+    html = html.replace("inventoryLink.href='物料进销存看板.html?month='", "inventoryLink.href='../material-dashboard/?month='")
     html = html.replace("</body>", service_worker_registration() + "</body>", 1)
     assets = [f"assets/data/{names[name]}" for name in data_files] + [
         f"../material-dashboard/assets/fonts/{gotham.name}",
