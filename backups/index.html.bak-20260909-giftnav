@@ -1609,7 +1609,7 @@ body{
       <div class="kpi-live-sub" id="marketOrderVerifiedLive">累计溯源窜货 · 已查实 -- 起</div>
     </div>
   </div>
-  <div class="kc gift-kpi-card" id="giftAuditKpiCard" role="link" tabindex="0" data-href="./assets/pages/线下活动与样品申请异常解读看板.html" aria-label="打开线下活动与样品申请异常解读看板" title="打开线下活动与样品申请异常解读看板" style="cursor:pointer" onclick="var h=this.dataset.href; if(h){window.location.assign(new URL(h, document.baseURI).href)}">
+  <div class="kc gift-kpi-card" id="giftAuditKpiCard" role="button" tabindex="0" data-href="file:///C:/Users/shenw/WorkBuddy/2026-08-25-13-53-45/%E7%BA%BF%E4%B8%8B%E6%B4%BB%E5%8A%A8%E4%B8%8E%E6%A0%B7%E5%93%81%E7%94%B3%E8%AF%B7%E5%BC%82%E5%B8%B8%E8%A7%A3%E8%AF%BB%E7%9C%8B%E6%9D%BF.html" style="cursor:pointer" onclick="var h=this.dataset.href; if(h){location.assign(h)}">
     <div class="kt">&#128221; 线下赠品稽核</div>
     <div class="gift-audit-content">
       <div class="gift-audit-row">
@@ -2397,20 +2397,16 @@ function bindGiftAuditCard(){
   var card=document.getElementById("giftAuditKpiCard");
   if(!card || card.dataset.giftClickBound==="1") return;
   card.dataset.giftClickBound="1";
-  // 点击/回车/空格 → 同源跳转到独立大屏（assets/pages/…）。
-  // 注意：此前的捕获监听会 stopImmediatePropagation 并改开站内弹窗 openGiftAuditDetail()，
-  // 导致内联 onclick 的 location.assign 永远执行不到（点卡片文字=只弹旧数据弹窗）。
-  // 站内弹窗仍保留，由顶部导航胶囊 [data-module-gift] 触发，二者互不干扰。
-  function goGiftDashboard(event){
-    var h=card.getAttribute("data-href");
-    if(!h) return;
-    if(event){ event.preventDefault(); event.stopImmediatePropagation(); }
-    window.location.assign(new URL(h, document.baseURI).href);
-  }
-  card.addEventListener("click",goGiftDashboard,true);
+  card.addEventListener("click",function(event){
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    openGiftAuditDetail();
+  },true);
   card.addEventListener("keydown",function(event){
     if(event.key!=="Enter" && event.key!==" ") return;
-    goGiftDashboard(event);
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    openGiftAuditDetail();
   },true);
 }
 if(document.readyState==="loading"){

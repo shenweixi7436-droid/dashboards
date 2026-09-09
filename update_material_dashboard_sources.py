@@ -402,11 +402,16 @@ def build_device_outbound_detail(
     this_week_range: tuple[pd.Timestamp, pd.Timestamp] | None = None,
     last_week_range: tuple[pd.Timestamp, pd.Timestamp] | None = None,
 ) -> dict[str, object]:
-    """按弹窗表格口径生成省区/鸣忙设备发货明细：本月量金额、本周量金额及环比差值。
+    """按弹窗表格口径生成省区/鸣忙设备发货明细：周维度(上周/本周) + 月维度(上月/本月)。
 
     本周/上周过滤规则：
     - 若传入 this_week_range / last_week_range（首尾日期闭区间），按日期范围切片；
     - 否则回退到「周次」列文本等于"本周"/"上周"的旧规则（兼容历史数据）。
+
+    每行含：brand(关键词提取) + supplier(供应商清洗B列) + category(设备大类N列)
+    周维度：lastWeekQty/thisWeekQty/lastWeekAmount/thisWeekAmount
+    月维度：prevMonthQty/thisMonthQty/prevMonthAmount/thisMonthAmount
+    旧字段(monthQty/weekQty/qtyDelta 等)保留以兼容进销存看板。
     """
     data = frame.copy()
     data["数量"] = pd.to_numeric(data["数量"], errors="coerce").fillna(0.0)
@@ -415,6 +420,16 @@ def build_device_outbound_detail(
     data["月份值"] = pd.to_numeric(data.get("月份"), errors="coerce")
     data["大类"] = data["销售部门清洗-大类"].map(lambda v: "鸣忙" if clean_text(v) == "鸣忙" else "省区")
     data["设备"] = data["设备名称清洗"].map(lambda v: clean_text(v))
+    # 设备大类(N列) + 供应商(B列)
+    cat_col = "设备大类" if "设备大类" in data.columns else None
+    sup_col = "供应商清洗" if "供应商清洗" in data.columns else None
+    data["设备大类值"] = (
+        data[cat_col].map(lambda v: clean_text(v) if pd.notna(v) and clean_text(v) not in ("", "/") else "未分类")
+        if cat_col else "未分类"
+    )
+    data["供应商"] = (
+        data[sup_col].map(clean_text) if sup_col else ""
+    )
     data["下单时间"] = pd.to_datetime(data.get("下单日期"), errors="coerce")
 
     if this_week_range and last_week_range:
@@ -427,6 +442,7 @@ def build_device_outbound_detail(
             return data.loc[data["周次"].astype(str).str.strip() == week]
         this_week, last_week = week_slice("本周"), week_slice("上周")
     month_data = data.loc[data["月份值"] == current_month]
+    prev_month_data = data.loc[data["月份值"] == (current_month - 1)]
 
     groups: list[dict[str, object]] = []
     for key, group_value, title in (("province", "省区", "省区"), ("mingmang", "鸣忙", "鸣忙")):
@@ -434,6 +450,7 @@ def build_device_outbound_detail(
         g_month = month_data.loc[month_data["大类"] == group_value]
         g_this = this_week.loc[this_week["大类"] == group_value]
         g_last = last_week.loc[last_week["大类"] == group_value]
+        g_prev = prev_month_data.loc[prev_month_data["大类"] == group_value]
         names = sorted(
             set(g_month["设备"]) | set(g_this["设备"]) | set(g_last["设备"]),
             key=lambda n: (DEVICE_BRAND_KEYWORDS.index(extract_device_brand(n)) if extract_device_brand(n) in DEVICE_BRAND_KEYWORDS else len(DEVICE_BRAND_KEYWORDS), n),
@@ -448,10 +465,20 @@ def build_device_outbound_detail(
             week_amount = float(g_this.loc[g_this["设备"] == name, "金额"].sum())
             last_qty = float(g_last.loc[g_last["设备"] == name, "数量"].sum())
             last_amount = float(g_last.loc[g_last["设备"] == name, "金额"].sum())
+            prev_month_qty = float(g_prev.loc[g_prev["设备"] == name, "数量"].sum())
+            prev_month_amount = float(g_prev.loc[g_prev["设备"] == name, "金额"].sum())
+            # 设备大类(N列) + 供应商(B列)
+            cat_series = g_all.loc[g_all["设备"] == name, "设备大类值"]
+            category = clean_text(cat_series.iloc[0]) if not cat_series.empty and pd.notna(cat_series.iloc[0]) else "未分类"
+            sup_series = g_all.loc[g_all["设备"] == name, "供应商"]
+            supplier = clean_text(sup_series.iloc[0]) if not sup_series.empty else ""
             rows.append(
                 {
                     "brand": extract_device_brand(name) or "-",
+                    "supplier": supplier or extract_device_brand(name) or "-",
+                    "category": category,
                     "name": name,
+                    # 旧字段（兼容进销存看板）
                     "monthQty": round(month_qty),
                     "monthAmount": round(month_amount),
                     "weekQty": round(week_qty),
@@ -459,15 +486,36 @@ def build_device_outbound_detail(
                     "weekAmount": round(week_amount),
                     "amountDelta": round(week_amount - last_amount),
                     "note": "",
+                    # 周维度
+                    "lastWeekQty": round(last_qty),
+                    "thisWeekQty": round(week_qty),
+                    "lastWeekAmount": round(last_amount),
+                    "thisWeekAmount": round(week_amount),
+                    # 月维度
+                    "prevMonthQty": round(prev_month_qty),
+                    "thisMonthQty": round(month_qty),
+                    "prevMonthAmount": round(prev_month_amount),
+                    "thisMonthAmount": round(month_amount),
                 }
             )
         total = {
+            # 旧字段
             "monthQty": round(float(g_month["数量"].sum())),
             "monthAmount": round(float(g_month["金额"].sum())),
             "weekQty": round(float(g_this["数量"].sum())),
             "qtyDelta": round(float(g_this["数量"].sum() - g_last["数量"].sum())),
             "weekAmount": round(float(g_this["金额"].sum())),
             "amountDelta": round(float(g_this["金额"].sum() - g_last["金额"].sum())),
+            # 周维度
+            "lastWeekQty": round(float(g_last["数量"].sum())),
+            "thisWeekQty": round(float(g_this["数量"].sum())),
+            "lastWeekAmount": round(float(g_last["金额"].sum())),
+            "thisWeekAmount": round(float(g_this["金额"].sum())),
+            # 月维度
+            "prevMonthQty": round(float(g_prev["数量"].sum())),
+            "thisMonthQty": round(float(g_month["数量"].sum())),
+            "prevMonthAmount": round(float(g_prev["金额"].sum())),
+            "thisMonthAmount": round(float(g_month["金额"].sum())),
         }
         groups.append({"key": key, "title": title, "rows": rows, "total": total})
     return {"month": int(current_month), "groups": groups}

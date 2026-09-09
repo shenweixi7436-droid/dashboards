@@ -8,7 +8,8 @@
 <script src="assets/data/province_outbound.ee2539864d9a.js"></script>
 <script src="assets/data/province_material.91ad57496230.js"></script>
 <script src="assets/data/device_outbound.d9ca9b39f635.js"></script>
-<script src="assets/data/core.cf13bcd010ab.js"></script>
+<script src="assets/data/core.9f20ea89a691.js"></script>
+<script src="device_weekly_outbound_data.v2.js"></script>
 <style>
 @font-face{font-family:'GOTHAMRND-BOLD';src:url('assets/fonts/gotham-rounded-bold.f6281701cdb9.woff2') format('woff2');font-display:swap}
 @font-face{font-family:'HKYuan-W7';src:url('assets/fonts/hk-yuan-w7.a0f4d903956d.woff2') format('woff2');font-display:swap}
@@ -102,6 +103,31 @@ tr:hover td{background:#fafbff}
 .ship-rank-row{display:grid;grid-template-columns:minmax(155px,40%) minmax(120px,1fr) 88px;gap:10px;align-items:center;min-height:42px;padding:4px 0;border-bottom:1px solid #f1f5f9}
 .ship-rank-name{color:#274c77;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ship-rank-name.project-link{border:0;padding:0;background:transparent;cursor:pointer;text-align:left;font-family:inherit}.ship-rank-name.project-link:hover,.ship-rank-name.project-link:focus{color:#4361EE;text-decoration:underline;outline:none}.project-analysis-note{display:none;align-items:center;justify-content:space-between;gap:12px;margin:0 0 -16px;padding:10px 14px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:9px;color:#1e3a8a;font-size:12px}.project-analysis-note strong{color:#1d4ed8}.project-analysis-note button{border:0;background:transparent;color:#4361EE;font-size:12px;font-weight:700;cursor:pointer;padding:2px 0}.ship-rank-track{height:7px;border:1px solid #ead0c7;border-radius:999px;background:#fff;overflow:hidden}.ship-rank-fill{height:100%;border-radius:999px;min-width:2px}.ship-rank-fill.qty{background:#fbbf24}.ship-rank-fill.amount{background:#7c2d12}.ship-rank-values{text-align:right;font-size:11px;line-height:1.35;white-space:nowrap}.ship-rank-values .qty{color:#9a6700;font-weight:700}.ship-rank-values .amount{color:#7c2d12;font-weight:700}.ship-rank-empty{padding:70px 20px;text-align:center;color:#94a3b8;font-size:13px}
 @media(max-width:900px){.ship-rank-grid{grid-template-columns:1fr}}@media(max-width:760px){.ship-rank-row{grid-template-columns:minmax(110px,42%) minmax(100px,1fr) 74px;gap:7px;min-height:38px}.ship-rank-list,.ship-rank-header{padding-left:11px;padding-right:11px}.ship-rank-legend{padding-left:11px}.ship-rank-name{font-size:11px}.ship-rank-values{font-size:10px}.ship-rank-list{max-height:420px}}
+/* P6 设备板块：省区/鸣忙左右双栏 */
+.p6d-split{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px}
+@media(max-width:900px){.p6d-split{grid-template-columns:1fr}}
+.p6d-card{background:#fff;border-radius:12px;padding:0;box-shadow:0 1px 4px rgba(0,0,0,.06);border:1px solid #f0f2f5;overflow:hidden}
+.p6d-card-header{padding:12px 18px;border-bottom:1px solid #f0f2f5;background:linear-gradient(90deg,#fff7ed,#fffaf0)}
+.p6d-card-header h3{margin:0;font-size:15px;color:#7c2d12;display:flex;align-items:center;gap:10px}
+.p6d-card-header p{margin:4px 0 0;color:#9ca3af;font-size:11px}
+.p6d-card-header .p6d-tag{display:inline-block;padding:2px 9px;border-radius:999px;background:#7c2d12;color:#fff;font-size:11px;font-weight:600}
+.p6d-card-header .p6d-tag.mingmang{background:#fbbf24;color:#7c2d12}
+.p6d-table-scroll{overflow:visible}
+.p6d-table{width:100%;border-collapse:collapse;font-size:11px;color:#1a1f36}
+.p6d-table th,.p6d-table td{padding:5px 6px;border-bottom:1px solid #f1f5f9;text-align:center;white-space:nowrap}
+.p6d-table th{background:#f8fafc;color:#475569;font-weight:600;font-size:10px;position:sticky;top:0;z-index:1}
+.p6d-table td.num{font-variant-numeric:tabular-nums;text-align:right}
+.p6d-table th.num{text-align:right}
+.p6d-table td.name{text-align:left;max-width:180px;white-space:normal;line-height:1.3}
+.p6d-table tbody tr:nth-child(even){background:#fffaf0}
+.p6d-table .delta-pos{color:#c0392b;font-weight:600}
+.p6d-table .delta-neg{color:#1e8449;font-weight:600}
+.p6d-table tfoot td{background:#fff3e0;color:#7c2d12;font-weight:600;border-top:2px solid #f0c674}
+.p6d-table .p6d-dev-link{color:#7c2d12;text-decoration:none;cursor:pointer;border-bottom:1px dashed #cbd5e1;padding-bottom:1px;transition:color .15s,border-color .15s}
+.p6d-table .p6d-dev-link:hover{color:#c0392b;border-bottom-color:#c0392b}
+.p6d-table tr.p6d-dev-selected{background:#fef3c7 !important}
+.p6d-table tr.p6d-dev-selected .p6d-dev-link{color:#c0392b;border-bottom-style:solid;border-bottom-color:#c0392b;font-weight:600}
+.p6d-empty{padding:60px 20px;text-align:center;color:#9ca3af;font-size:13px}
 body.loading-order-data::after{content:'正在加载出入库明细…';position:fixed;right:20px;bottom:20px;z-index:9999;padding:10px 14px;border-radius:9px;background:#1e3a8a;color:#fff;font-size:12px;box-shadow:0 8px 24px rgba(30,58,138,.24)}
 </style>
 </head>
@@ -379,21 +405,51 @@ body.loading-order-data::after{content:'正在加载出入库明细…';position
     <div id="p6-device-content" style="display:none">
       <div class="project-analysis-note" id="p6-device-analysis-note"><span>当前查看：<strong id="p6-device-analysis-name"></strong> 的独立省份出库分析</span><button type="button" onclick="clearP6ProjectSelection()">清除筛选</button></div>
       <div class="kpi-row kpi-row-4">
-        <div class="kpi-card"><div class="kpi-label">省份数</div><div class="kpi-value" id="p6d-provinces">—</div><div class="kpi-sub">有设备出库记录</div></div>
-        <div class="kpi-card"><div class="kpi-label">设备出库总金额（万元）</div><div class="kpi-value" id="p6d-out-amt">—</div><div class="kpi-sub">按总货值</div></div>
-        <div class="kpi-card"><div class="kpi-label">设备出库总数量</div><div class="kpi-value" id="p6d-out-qty">—</div><div class="kpi-sub">按实际发货数量</div></div>
+        <div class="kpi-card"><div class="kpi-label">省区数</div><div class="kpi-value" id="p6d-provinces">—</div><div class="kpi-sub">有设备出库记录</div></div>
+        <div class="kpi-card"><div class="kpi-label">省区出库总金额（万元）</div><div class="kpi-value" id="p6d-out-amt">—</div><div class="kpi-sub">按总货值</div></div>
+        <div class="kpi-card"><div class="kpi-label">鸣忙出库总金额（万元）</div><div class="kpi-value" id="p6d-mingmang-amt">—</div><div class="kpi-sub">按总货值</div></div>
         <div class="kpi-card"><div class="kpi-label">设备种类数</div><div class="kpi-value" id="p6d-sku-count">—</div><div class="kpi-sub">不同设备SKU</div></div>
       </div>
-      <div class="ship-rank-grid">
-        <div class="chart-card ship-rank-card"><div class="ship-rank-header"><h3><span id="c6d-device-amount-title">各省设备出库金额</span></h3><p id="c6d-device-amount-subtitle">按出库金额从高到低排序</p></div><div class="ship-rank-legend"><i class="ship-rank-dot amount"></i>出库金额</div><div class="ship-rank-list" id="c6d-device-amount"></div></div>
-        <div class="chart-card ship-rank-card"><div class="ship-rank-header"><h3><span id="c6d-device-qty-title">各省设备发货数量</span></h3><p id="c6d-device-qty-subtitle">按发货数量从高到低排序</p></div><div class="ship-rank-legend"><i class="ship-rank-dot qty"></i>发货数量</div><div class="ship-rank-list" id="c6d-device-qty"></div></div>
+      <div class="p6d-split">
+        <div class="p6d-card">
+          <div class="p6d-card-header">
+            <h3><span class="p6d-tag">省区</span>线下设备发货一览</h3>
+            <p>按本月发货金额降序，联动日期范围</p>
+          </div>
+          <div class="p6d-table-scroll"><table class="p6d-table" id="p6d-table-province">
+            <thead><tr>
+              <th class="name" style="text-align:left">设备名称</th>
+              <th class="num">本月发货量</th>
+              <th class="num">本月发货金额</th>
+              <th class="num">发货数量环比上月</th>
+              <th class="num">发货金额环比上月</th>
+              <th>数量差异原因分析</th>
+            </tr></thead>
+            <tbody></tbody>
+          </table></div>
+        </div>
+        <div class="p6d-card">
+          <div class="p6d-card-header">
+            <h3><span class="p6d-tag mingmang">鸣忙</span>鸣忙设备发货一览</h3>
+            <p>按本月发货金额降序，联动日期范围</p>
+          </div>
+          <div class="p6d-table-scroll"><table class="p6d-table" id="p6d-table-mingmang">
+            <thead><tr>
+              <th class="name" style="text-align:left">设备名称</th>
+              <th class="num">本月发货量</th>
+              <th class="num">本月发货金额</th>
+              <th class="num">发货数量环比上月</th>
+              <th class="num">发货金额环比上月</th>
+              <th>数量差异原因分析</th>
+            </tr></thead>
+            <tbody></tbody>
+          </table></div>
+        </div>
       </div>
-      <div class="chart-row chart-row-2">
-        <div class="chart-card"><h3>各省设备出库金额排名</h3><p>按出库金额降序排列</p><div class="chart-box" id="c6d-out-amt" style="height:340px"></div></div>
-        <div class="chart-card"><h3>各省设备出库数量排名</h3><p>按出库数量降序排列</p><div class="chart-box" id="c6d-out-qty" style="height:340px"></div></div>
-      </div>
-      <div class="chart-row">
-        <div class="chart-card" style="grid-column:1/-1"><h3>各省设备出库金额占比</h3><p>Top10省份 vs 其他省份金额分布</p><div class="chart-box" id="c6d-pie" style="height:320px"></div></div>
+      <div class="chart-card" style="margin-top:0">
+        <h3 style="margin:0 0 4px;font-size:15px;color:#1a1f36">各月设备发货走势（省区 vs 鸣忙）</h3>
+        <p style="margin:0 0 12px;color:#9ca3af;font-size:11px">月度发货金额（万元）与数量（台）对比 · 数据联动源数据周次</p>
+        <div class="chart-box" id="c6d-trend" style="height:300px"></div>
       </div>
     </div>
   </div>
@@ -493,7 +549,7 @@ function changeSupplierPageSize(value) {
 }
 
 
-const ORDER_DATA_URL='assets/data/orders.7b04a2c5ac0e.json.gz';
+const ORDER_DATA_URL='assets/data/orders.ba4e139dfb2a.json.gz';
 let orderDataPromise=null;
 function ensureOrderData() {
   if (ORD.length) return Promise.resolve(ORD);
@@ -775,7 +831,7 @@ var P6_PROJECT_SELECTION = { material:'', device:'' };
 function selectP6Project(mode,name) {
   P6_PROJECT_SELECTION[mode]=name;
   applyFilter('p6');
-  var target=mode==='device'?'c6d-out-amt':'c6-out-amt';
+  var target=mode==='device'?'p6-device-content':'c6-out-amt';
   setTimeout(function(){var el=document.getElementById(target);if(el)el.scrollIntoView({behavior:'smooth',block:'center'});},40);
 }
 
@@ -926,131 +982,292 @@ function renderP6WithData(f) {
   renderShipmentRanking('c6-material-qty',pmByQuantity,'material','quantity');
 }
 
-// ── P6 设备出库渲染 ──
-function renderP6DeviceWithData(f) {
-  var dob=window.DEVICE_OUTBOUND_DATA||{};
-  var agg={}, allSku={};
-  Object.keys(dob).forEach(function(m){
-    if(f.ds && m<f.ds)return;
-    if(f.de && m>f.de)return;
-    dob[m].forEach(function(r){
-      if(!agg[r.province])agg[r.province]={amount:0,quantity:0};
-      agg[r.province].amount+=r.amount;
-      agg[r.province].quantity+=r.quantity;
-      if(r.devices)r.devices.forEach(function(d){allSku[d.name]=1;});
-    });
-  });
-  // 选中设备时，下方省份图表与 KPI 只使用该设备的独立省份数据
-  var selectedDevice=P6_PROJECT_SELECTION.device||'';
-  updateP6ProjectNote('device');
-  if(selectedDevice){
-    agg={};
-    Object.keys(dob).forEach(function(m){
-      if(f.ds&&m<f.ds)return;
-      if(f.de&&m>f.de)return;
-      dob[m].forEach(function(r){
-        if(f.pv&&r.province!==f.pv)return;
-        (r.devices||[]).forEach(function(d){
-          if(d.name!==selectedDevice)return;
-          if(!agg[r.province])agg[r.province]={amount:0,quantity:0};
-          agg[r.province].amount+=Number(d.amount)||0;
-          agg[r.province].quantity+=Number(d.quantity)||0;
-        });
-      });
-    });
+// ── P6 设备出库渲染（省区/鸣忙 左右双栏表格）──
+// 由日期筛选起始月推导当前月份；周次固定跟随源数据 P2/Q2
+function p6dResolveMonth(f, dw){
+  var m=0;
+  if(f&&f.ds){ var parts=String(f.ds).split('-'); if(parts.length>=2){ m=parseInt(parts[1],10); } }
+  if(!m||isNaN(m)){
+    try{ var ref=new Date(DATA.today+'T12:00:00'); m=ref.getMonth()+1; }catch(e){}
   }
-  var list=Object.keys(agg).map(function(p){return{province:p,amount:agg[p].amount,quantity:agg[p].quantity};});
-  var byAmt=list.slice().sort(function(a,b){return b.amount-a.amount;});
-  var byQty=list.slice().sort(function(a,b){return b.quantity-a.quantity;});
-  var totalAmt=byAmt.reduce(function(a,r){return a+r.amount;},0);
-  var totalQty=byQty.reduce(function(a,r){return a+r.quantity;},0);
-  var skuCount=Object.keys(allSku).length;
-
-  document.getElementById('p6d-provinces').textContent=byAmt.length;
-  document.getElementById('p6d-out-amt').textContent=(totalAmt/10000).toFixed(1);
-  document.getElementById('p6d-out-qty').textContent=totalQty.toLocaleString('zh-CN');
-  document.getElementById('p6d-sku-count').textContent=skuCount;
-
-  if(byAmt.length===0){
-    ['c6d-out-amt','c6d-out-qty','c6d-pie'].forEach(function(id){ec(id,{title:{text:'暂无数据',left:'center',top:'center',textStyle:{fontSize:14,color:'#9ca3af'}}});});
-    renderShipmentRanking('c6d-device-amount',[],'name','amount');
-    renderShipmentRanking('c6d-device-qty',[],'name','quantity');
+  if((!m||isNaN(m))&&dw&&dw.latestMonth){ m=dw.latestMonth; }
+  if(!m||isNaN(m)){ m=8; }
+  return m;
+}
+function p6dSetText(id,v){ var el=document.getElementById(id); if(el)el.textContent=v; }
+function p6dFmtNum(n){ n=Number(n)||0; return n.toLocaleString('zh-CN',{maximumFractionDigits:0}); }
+function p6dFmtWan(n){ n=Number(n)||0; return (n/10000).toFixed(1); }
+function p6dDeltaTxt(d){ d=Number(d)||0; if(d>0)return '+'+d; return String(d); }
+function p6dDeltaCls(d){ d=Number(d)||0; if(d>0)return 'delta-pos'; if(d<0)return 'delta-neg'; return ''; }
+function p6dEscape(s){ s=String(s==null?'':s); return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+function p6dRenderTable(tableId, group, selectedDevice){
+  var table=document.getElementById(tableId);
+  if(!table)return;
+  var tbody=table.querySelector('tbody');
+  if(!tbody)return;
+  var oldTf=table.querySelector('tfoot'); if(oldTf)oldTf.parentNode.removeChild(oldTf);
+  while(tbody.firstChild)tbody.removeChild(tbody.firstChild);
+  if(!group||!group.rows||!group.rows.length){
+    var eTr=document.createElement('tr');
+    eTr.innerHTML='<td colspan="6" style="color:#9ca3af;text-align:center;padding:24px">暂无数据</td>';
+    tbody.appendChild(eTr);
     return;
   }
-
-  // 出库金额排名（立柱：分类间留白）
-  var amtTop=byAmt.slice(0,20);
-  ec('c6d-out-amt',{
-    tooltip:{trigger:'axis',axisPointer:{type:'shadow'},formatter:function(p){return p[0].name+'<br>设备出库金额：¥'+Number(p[0].value).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});}},
-    grid:{left:12,right:12,top:22,bottom:65,containLabel:true},
-    xAxis:{type:'category',data:amtTop.map(function(r){return r.province;}),axisLabel:{fontSize:9,rotate:38,interval:0},axisTick:{alignWithLabel:true}},
-    yAxis:{type:'value',axisLabel:{fontSize:9,formatter:function(v){return(v/10000).toFixed(0)+'万';}},splitLine:{lineStyle:{color:'#eef1f6'}}},
-    series:[{type:'bar',data:amtTop.map(function(r){return +r.amount.toFixed(2);}),barWidth:'42%',barCategoryGap:'48%',itemStyle:{color:'#EF476F',borderRadius:[4,4,0,0]},label:{show:true,position:'top',fontSize:8,color:'#475569',formatter:function(p){return(p.value/10000).toFixed(1)+'万';}}}]
+  var rows=group.rows.slice().sort(function(a,b){return (Number(b.monthAmount)||0)-(Number(a.monthAmount)||0);});
+  rows.forEach(function(r){
+    var tr=document.createElement('tr');
+    if(selectedDevice && r.name===selectedDevice) tr.className='p6d-dev-selected';
+    var nm=p6dEscape(r.name||'');
+    tr.innerHTML=
+      '<td class="name"><a class="p6d-dev-link" href="javascript:void(0)" data-device="'+nm+'">'+nm+'</a></td>'+
+      '<td class="num">'+p6dFmtNum(r.monthQty)+'</td>'+
+      '<td class="num">¥'+p6dFmtNum(r.monthAmount)+'</td>'+
+      '<td class="num '+p6dDeltaCls(r.prevMonthQtyDelta)+'">'+p6dDeltaTxt(r.prevMonthQtyDelta)+'</td>'+
+      '<td class="num '+p6dDeltaCls(r.prevMonthAmountDelta)+'">'+p6dDeltaTxt(r.prevMonthAmountDelta)+'</td>'+
+      '<td>'+(r.note?p6dEscape(r.note):'<span style="color:#cbd5e1">—</span>')+'</td>';
+    tbody.appendChild(tr);
   });
-
-  // 出库数量排名（立柱：分类间留白）
-  var qtyTop=byQty.slice(0,20);
-  ec('c6d-out-qty',{
-    tooltip:{trigger:'axis',axisPointer:{type:'shadow'},formatter:function(p){return p[0].name+'<br>设备出库数量：'+Number(p[0].value).toLocaleString('zh-CN');}},
-    grid:{left:12,right:12,top:22,bottom:65,containLabel:true},
-    xAxis:{type:'category',data:qtyTop.map(function(r){return r.province;}),axisLabel:{fontSize:9,rotate:38,interval:0},axisTick:{alignWithLabel:true}},
-    yAxis:{type:'value',axisLabel:{fontSize:9},splitLine:{lineStyle:{color:'#eef1f6'}}},
-    series:[{type:'bar',data:qtyTop.map(function(r){return r.quantity;}),barWidth:'42%',barCategoryGap:'48%',itemStyle:{color:'#F77F00',borderRadius:[4,4,0,0]},label:{show:true,position:'top',fontSize:8,color:'#475569',formatter:function(p){return p.value.toLocaleString('zh-CN');}}}]
+  // 合计行
+  var t=group.total||{};
+  var tf=document.createElement('tfoot');
+  var ftr=document.createElement('tr');
+  ftr.innerHTML=
+    '<td class="name">合计</td>'+
+    '<td class="num">'+p6dFmtNum(t.monthQty)+'</td>'+
+    '<td class="num">¥'+p6dFmtNum(t.monthAmount)+'</td>'+
+    '<td class="num '+p6dDeltaCls(t.prevMonthQtyDelta)+'">'+p6dDeltaTxt(t.prevMonthQtyDelta)+'</td>'+
+    '<td class="num '+p6dDeltaCls(t.prevMonthAmountDelta)+'">'+p6dDeltaTxt(t.prevMonthAmountDelta)+'</td>'+
+    '<td>—</td>';
+  tf.appendChild(ftr);
+  table.appendChild(tf);
+  // 事件委托：设备名称点击 → 选中该设备联动曲线
+  if(!table._p6dLinkBound){
+    table.addEventListener('click',function(e){
+      var a=e.target.closest('.p6d-dev-link');
+      if(!a)return;
+      e.preventDefault();
+      var name=a.getAttribute('data-device');
+      if(name) selectP6Project('device',name);
+    });
+    table._p6dLinkBound=true;
+  }
+}
+// 各月设备发货走势曲线（省区 vs 鸣忙，金额万元 + 数量台 双轴）
+function p6dRenderTrend(dw, selectedDevice){
+  var box=document.getElementById('c6d-trend');
+  if(!box)return;
+  var months=(dw.monthList||[]).slice().sort(function(a,b){return a-b;});
+  var provAmt=[], mmAmt=[], provQty=[], mmQty=[];
+  function rowOf(groups,key,name){
+    if(!groups)return null;
+    for(var i=0;i<groups.length;i++){
+      var g=groups[i];
+      if(g.key!==key && g.title!==key)continue;
+      for(var j=0;j<g.rows.length;j++){ if(g.rows[j].name===name) return g.rows[j]; }
+    }
+    return null;
+  }
+  months.forEach(function(m){
+    var detail=dw.detailByMonth&&dw.detailByMonth[String(m)];
+    var pg=null, mg=null;
+    if(detail&&Array.isArray(detail.groups))detail.groups.forEach(function(g){
+      if(g.key==='province'||g.title==='省区')pg=g;
+      else if(g.key==='mingmang'||g.title==='鸣忙')mg=g;
+    });
+    if(selectedDevice){
+      var pr=rowOf(pg&&pg.rows,'province',selectedDevice);
+      var mr=rowOf(mg&&mg.rows,'mingmang',selectedDevice);
+      provAmt.push(+((Number(pr&&pr.monthAmount)||0)/10000).toFixed(2));
+      mmAmt.push(+((Number(mr&&mr.monthAmount)||0)/10000).toFixed(2));
+      provQty.push(Number(pr&&pr.monthQty)||0);
+      mmQty.push(Number(mr&&mr.monthQty)||0);
+    }else{
+      var pt=(pg&&pg.total)||{},mt=(mg&&mg.total)||{};
+      provAmt.push(+((Number(pt.monthAmount)||0)/10000).toFixed(2));
+      mmAmt.push(+((Number(mt.monthAmount)||0)/10000).toFixed(2));
+      provQty.push(Number(pt.monthQty)||0);
+      mmQty.push(Number(mt.monthQty)||0);
+    }
   });
-
-  // 金额占比饼图
-  var pieTop=byAmt.slice(0,10);
-  var otherAmt=byAmt.slice(10).reduce(function(a,r){return a+r.amount;},0);
-  var pieData=pieTop.map(function(r){return{name:r.province,value:+r.amount.toFixed(2)};});
-  if(otherAmt>0)pieData.push({name:'其他省份',value:+otherAmt.toFixed(2)});
-  var pieColors=['#EF476F','#F77F00','#FFD166','#06D6A0','#118AB2','#073B4C','#7209B7','#FB5607','#2EC4B6','#4361EE','#9ca3af'];
-  ec('c6d-pie',{
-    tooltip:{trigger:'item',formatter:function(p){return p.name+'<br>设备出库金额：¥'+Number(p.value).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})+'<br>占比：'+p.percent+'%';}},
-    legend:{type:'scroll',orient:'vertical',right:10,top:'center',textStyle:{fontSize:10}},
-    series:[{type:'pie',radius:['30%','60%'],center:['35%','52%'],
-      data:pieData.map(function(d,i){return{name:d.name,value:d.value,itemStyle:{color:pieColors[i%pieColors.length]}};}),
-      label:{show:true,formatter:'{b}\n{d}%',fontSize:10},labelLine:{length:8,length2:8}
-    }]
+  // 同步图表卡片标题（选中设备时显示设备名）
+  var cardTitle=document.querySelector('#c6d-trend')?.closest('.chart-card')?.querySelector('h3');
+  if(cardTitle) cardTitle.textContent=(selectedDevice?(selectedDevice+' 各月发货走势（省区 vs 鸣忙）'):('各月设备发货走势（省区 vs 鸣忙）'));
+  ec('c6d-trend',{
+    tooltip:{trigger:'axis',axisPointer:{type:'cross'},
+      formatter:function(ps){
+        var s=ps[0].axisValue+'<br/>';
+        ps.forEach(function(p){
+          var unit=p.seriesName.indexOf('金额')>=0?'万元':'台';
+          var val=p.seriesName.indexOf('金额')>=0?Number(p.value).toFixed(1):p.value.toLocaleString('zh-CN');
+          s+=p.marker+p.seriesName+'：'+val+' '+unit+'<br/>';
+        });
+        return s;
+      }},
+    legend:{data:['省区金额','鸣忙金额','省区数量','鸣忙数量'],bottom:0,textStyle:{fontSize:11}},
+    grid:{left:12,right:14,top:34,bottom:46,containLabel:true},
+    xAxis:{type:'category',data:months.map(function(m){return m+'月';}),axisLabel:{fontSize:10},boundaryGap:false},
+    yAxis:[
+      {type:'value',name:'金额(万元)',axisLabel:{fontSize:10,formatter:function(v){return v.toFixed(0)+'万';}},splitLine:{lineStyle:{color:'#eef1f6'}}},
+      {type:'value',name:'数量(台)',axisLabel:{fontSize:10},splitLine:{show:false}}
+    ],
+    series:[
+      {name:'省区金额',type:'line',data:provAmt,smooth:true,lineStyle:{color:'#7c2d12',width:2.5},symbol:'circle',symbolSize:7,itemStyle:{color:'#7c2d12'}},
+      {name:'鸣忙金额',type:'line',data:mmAmt,smooth:true,lineStyle:{color:'#fbbf24',width:2.5},symbol:'circle',symbolSize:7,itemStyle:{color:'#fbbf24'}},
+      {name:'省区数量',type:'line',yAxisIndex:1,data:provQty,smooth:true,lineStyle:{color:'#7c2d12',width:1.8,type:'dashed'},symbol:'circle',symbolSize:5,itemStyle:{color:'#7c2d12'}},
+      {name:'鸣忙数量',type:'line',yAxisIndex:1,data:mmQty,smooth:true,lineStyle:{color:'#fbbf24',width:1.8,type:'dashed'},symbol:'circle',symbolSize:5,itemStyle:{color:'#fbbf24'}}
+    ]
   });
+}
+// 等高：测量左栏表格高度，给右栏各行分配 padding 使总高匹配（两栏卡片在 grid stretch 下等高，从而右表刚好填满右卡片）
+function p6dEqualizeHeights(){
+  var lt=document.getElementById('p6d-table-province');
+  var rt=document.getElementById('p6d-table-mingmang');
+  if(!lt||!rt)return;
+  var target=lt.offsetHeight;
+  var cur=rt.offsetHeight;
+  if(target<=cur||target<=0)return;
+  var rows=rt.querySelectorAll('tbody tr, tfoot tr');
+  if(!rows.length)return;
+  var diff=target-cur;
+  var per=Math.floor(diff/rows.length);
+  var rem=diff-per*rows.length;
+  var topAdd=8+Math.floor(per/2);
+  rows.forEach(function(r,i){
+    var botAdd=8+Math.ceil(per/2)+(i<rem?1:0);
+    var tds=r.querySelectorAll('td');
+    tds.forEach(function(td){
+      td.style.paddingTop=topAdd+'px';
+      td.style.paddingBottom=botAdd+'px';
+    });
+  });
+}
+// 按日期范围聚合设备省区/鸣忙 amount/qty（联动"本月发货量/金额"列与 KPI）
+function p6dAggregateByDateRange(dob, f){
+  var map={};
+  Object.keys(dob).forEach(function(d){
+    if(f&&f.ds && d<f.ds) return;
+    if(f&&f.de && d>f.de) return;
+    dob[d].forEach(function(r){
+      var ch = (r.province==='鸣忙') ? 'mingmang' : 'province';
+      (r.devices||[]).forEach(function(dev){
+        var n=dev.name;
+        if(!map[n]) map[n]={province:{amount:0,qty:0}, mingmang:{amount:0,qty:0}};
+        map[n][ch].amount += Number(dev.amount)||0;
+        map[n][ch].qty += Number(dev.quantity)||0;
+      });
+    });
+  });
+  return map;
+}
+// 基于 detailByMonth（固定周次）+ devAggMap（联动日期）合成表格行（含环比上月）。selectedDevice 时只保留该设备。
+function p6dBuildRows(detailByMonth, month, devAggMap, selectedDevice){
+  var emptyTot={monthQty:0,monthAmount:0,weekQty:0,qtyDelta:0,weekAmount:0,amountDelta:0,prevMonthQtyDelta:0,prevMonthAmountDelta:0};
+  var cur = detailByMonth && detailByMonth[String(month)];
+  var prev = detailByMonth && detailByMonth[String(month-1)];
+  function rowOf(groups, key, name){
+    if(!groups) return null;
+    for(var i=0;i<groups.length;i++){
+      var g=groups[i];
+      if(g.key!==key && g.title!==key) continue;
+      for(var j=0;j<g.rows.length;j++){ if(g.rows[j].name===name) return g.rows[j]; }
+    }
+    return null;
+  }
+  if(!cur) return {provinceGroup:{key:'province',title:'省区',rows:[],total:Object.assign({},emptyTot)}, mingmangGroup:{key:'mingmang',title:'鸣忙',rows:[],total:Object.assign({},emptyTot)}};
+  var nameSet={};
+  cur.groups.forEach(function(g){ (g.rows||[]).forEach(function(r){ nameSet[r.name]=1; }); });
+  // 上月有但本月无的设备也纳入（环比上月完整性）
+  if(prev) prev.groups.forEach(function(g){ (g.rows||[]).forEach(function(r){ nameSet[r.name]=1; }); });
+  Object.keys(devAggMap).forEach(function(n){ nameSet[n]=1; });
+  if(selectedDevice){ nameSet={}; nameSet[selectedDevice]=1; }
+  var names=Object.keys(nameSet);
+  function build(groupKey){
+    var rows=[];
+    var tot=Object.assign({},emptyTot);
+    names.forEach(function(n){
+      var curRow=rowOf(cur.groups, groupKey, n);
+      var prevRow=prev?rowOf(prev.groups, groupKey, n):null;
+      var agg=devAggMap[n];
+      var chData=(agg&&agg[groupKey])||{amount:0,qty:0};
+      var mQty=chData.qty, mAmt=chData.amount;
+      var weekQty=curRow?curRow.weekQty:0;
+      var qtyDelta=curRow?curRow.qtyDelta:0;
+      var weekAmount=curRow?curRow.weekAmount:0;
+      var amountDelta=curRow?curRow.amountDelta:0;
+      // 环比上月差值：本月(无则0) - 上月(无则0)
+      var prevMonthQtyDelta = (curRow?curRow.monthQty:0) - (prevRow?prevRow.monthQty:0);
+      var prevMonthAmountDelta = (curRow?curRow.monthAmount:0) - (prevRow?prevRow.monthAmount:0);
+      // 跳过完全无数据且上月也无的行（保留上月有但本月无的设备用于环比展示）
+      if(!curRow && !mQty && !mAmt && !prevRow) return;
+      rows.push({name:n, brand:curRow?curRow.brand:'', monthQty:mQty, monthAmount:mAmt, weekQty:weekQty, qtyDelta:qtyDelta, weekAmount:weekAmount, amountDelta:amountDelta, prevMonthQtyDelta:prevMonthQtyDelta, prevMonthAmountDelta:prevMonthAmountDelta, note:curRow?curRow.note:''});
+      tot.monthQty+=mQty; tot.monthAmount+=mAmt;
+      tot.weekQty+=weekQty; tot.qtyDelta+=qtyDelta;
+      tot.weekAmount+=weekAmount; tot.amountDelta+=amountDelta;
+      tot.prevMonthQtyDelta+=prevMonthQtyDelta; tot.prevMonthAmountDelta+=prevMonthAmountDelta;
+    });
+    return {key:groupKey, title:groupKey==='province'?'省区':'鸣忙', rows:rows, total:tot};
+  }
+  return {provinceGroup:build('province'), mingmangGroup:build('mingmang')};
+}
+function renderP6DeviceWithData(f) {
+  var dob=window.DEVICE_OUTBOUND_DATA||{};
+  var dw=window.DEVICE_WEEKLY_OUTBOUND_DATA||{};
+  var selectedDevice=P6_PROJECT_SELECTION.device||'';
+  updateP6ProjectNote('device');
 
-  // 填充省份下拉（每次渲染都重新填充）
+  // 当前月份（由日期筛选起始月推导）
+  var month=p6dResolveMonth(f, dw);
+
+  // 按日期范围聚合设备省区/鸣忙（联动"本月发货量/金额"列与 KPI）
+  var devAgg=p6dAggregateByDateRange(dob, f);
+
+  // 合成新 groups（含环比上月 + 联动本月列 + 选中设备筛选）
+  var built=p6dBuildRows(dw.detailByMonth||{}, month, devAgg, selectedDevice);
+  var provinceGroup=built.provinceGroup;
+  var mingmangGroup=built.mingmangGroup;
+
+  // === KPI（按日期范围联动） ===
+  var provSet={};
+  Object.keys(dob).forEach(function(d){
+    if(f&&f.ds && d<f.ds) return;
+    if(f&&f.de && d>f.de) return;
+    dob[d].forEach(function(r){ if(r.province==='鸣忙')return; provSet[r.province]=1; });
+  });
+  var provCount=Object.keys(provSet).length;
+
+  var provAmt=0, mmAmt=0, skuSet={};
+  Object.keys(devAgg).forEach(function(n){
+    provAmt += (devAgg[n].province.amount||0);
+    mmAmt += (devAgg[n].mingmang.amount||0);
+    skuSet[n]=1;
+  });
+  // 补充 detailByMonth 当月有但日期范围内无发货的设备（计入 skuCount 完整性）
+  var curDetail=dw.detailByMonth&&dw.detailByMonth[String(month)];
+  if(curDetail&&curDetail.groups) curDetail.groups.forEach(function(g){ (g.rows||[]).forEach(function(r){ skuSet[r.name]=1; }); });
+  var skuCount=Object.keys(skuSet).length;
+
+  p6dSetText('p6d-provinces', provCount||'—');
+  p6dSetText('p6d-out-amt', p6dFmtWan(provAmt));
+  p6dSetText('p6d-mingmang-amt', p6dFmtWan(mmAmt));
+  p6dSetText('p6d-sku-count', skuCount||'—');
+
+  // 省份下拉填充（按日期范围）
   var sel=document.getElementById('p6-province');
   if(sel){
     while(sel.options.length>1){ sel.remove(1); }
-    var allProvinces=[];byAmt.forEach(function(r){allProvinces.push(r.province);});
-    allProvinces.sort();
-    allProvinces.forEach(function(p){var o=document.createElement('option');o.value=p;o.textContent=p;sel.appendChild(o);});
+    Object.keys(provSet).sort().forEach(function(p){var o=document.createElement('option');o.value=p;o.textContent=p;sel.appendChild(o);});
     sel.value=f.pv||'';
   }
 
-  // 设备明细图表（按省份筛选）
-  var devAgg={};
-  Object.keys(dob).forEach(function(m){
-    if(f.ds && m<f.ds)return;
-    if(f.de && m>f.de)return;
-    dob[m].forEach(function(r){
-      if(f.pv && r.province!==f.pv)return;
-      if(r.devices)r.devices.forEach(function(d){
-        if(!devAgg[d.name])devAgg[d.name]={amount:0,quantity:0};
-        devAgg[d.name].amount+=d.amount;
-        devAgg[d.name].quantity+=d.quantity;
-      });
-    });
-  });
-  var devList=Object.keys(devAgg).map(function(n){return{name:n,amount:devAgg[n].amount,quantity:devAgg[n].quantity};});
-  var devByAmount=devList.slice().sort(function(a,b){return b.amount-a.amount;});
-  var devByQuantity=devList.slice().sort(function(a,b){return b.quantity-a.quantity;});
-  var scope=f.pv?f.pv:'各省';
-  var amountTitle=document.getElementById('c6d-device-amount-title');
-  var qtyTitle=document.getElementById('c6d-device-qty-title');
-  var amountSub=document.getElementById('c6d-device-amount-subtitle');
-  var qtySub=document.getElementById('c6d-device-qty-subtitle');
-  if(amountTitle)amountTitle.textContent=scope+'设备出库金额';
-  if(qtyTitle)qtyTitle.textContent=scope+'设备发货数量';
-  if(amountSub)amountSub.textContent='按出库金额从高到低排序 · 共 '+devList.length+' 种设备';
-  if(qtySub)qtySub.textContent='按发货数量从高到低排序 · 共 '+devList.length+' 种设备';
-  renderShipmentRanking('c6d-device-amount',devByAmount,'name','amount');
-  renderShipmentRanking('c6d-device-qty',devByQuantity,'name','quantity');
+  // === 双栏表格 ===
+  p6dRenderTable('p6d-table-province', provinceGroup, selectedDevice);
+  p6dRenderTable('p6d-table-mingmang', mingmangGroup, selectedDevice);
+
+  // === 各月发货走势曲线（联动选中设备） ===
+  p6dRenderTrend(dw, selectedDevice);
+
+// === 左右两栏表格行高一致（鸣忙卡片下方可能留白，tfoot 不严格对齐）===
+// p6dEqualizeHeights()  // 已停用：拉伸行高导致行距不均；改为自然行高，tfoot 接近对齐
 }
 
 // ── FILTER LOGIC ──

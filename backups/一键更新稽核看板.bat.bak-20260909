@@ -48,11 +48,6 @@ echo Updating gift anomaly live data...
 if errorlevel 1 goto fail
 
 echo.
-echo Updating gift anomaly dashboard page (assets/pages)...
-"%PY%" "%~dp0update_gift_anomaly_page.py"
-if errorlevel 1 goto fail
-
-echo.
 echo Updating schedule of progress dashboard...
 "%PY%" "%~dp0..\scripts\build_material_development_dashboard.py"
 if errorlevel 1 goto fail
