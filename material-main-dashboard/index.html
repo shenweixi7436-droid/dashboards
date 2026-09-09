@@ -140,6 +140,16 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
 .device-detail-table td.name{text-align:left}
 .device-detail-table tbody tr:nth-child(even){background:rgba(234,170,0,.06)}
 .device-detail-table tfoot td{background:rgba(255,204,0,.28);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;border-top:2px solid var(--tiger-brown)}
+.device-modal-header-right{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.device-modal-dim-toggle{display:inline-flex;border:2px solid var(--tiger-brown);border-radius:10px;overflow:hidden}
+.dim-btn{padding:6px 14px;border:none;background:#fff;color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:12px;cursor:pointer;transition:background .15s}
+.dim-btn.active{background:var(--tiger-yellow)}
+.dim-btn:hover:not(.active){background:rgba(234,170,0,.2)}
+.device-modal-month-span{color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:13px;white-space:nowrap}
+.device-detail-table tbody.cat-group .cat-row td{background:rgba(234,170,0,.14)}
+.device-detail-table .cat-toggle{display:inline-block;width:14px;cursor:pointer;user-select:none;color:var(--tiger-brown);margin-right:2px}
+.device-detail-table .sub-row .sub-name{padding-left:28px}
+.device-detail-table tbody.cat-collapsed .sub-row{display:none}
 .delta-pos{color:#c0392b}
 .delta-neg{color:#1e8449}
 .device-modal-empty{padding:34px;text-align:center;color:rgba(99,44,22,.6);font-size:13px}
@@ -150,12 +160,16 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
 .material-modal-header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 26px;background:var(--tiger-yellow);border-bottom:2px solid var(--tiger-brown)}
 .material-modal-title{color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:19px}
 .material-modal-sub{margin-top:4px;color:rgba(99,44,22,.72);font-size:12px}
+.material-modal-dim-hint{margin-top:8px;padding:7px 12px;background:rgba(234,170,0,.10);border-left:3px solid var(--tiger-yellow);border-radius:6px;color:rgba(99,44,22,.78);font-size:12px;line-height:1.6}
+.material-modal-dim-hint b{color:var(--tiger-brown);font-weight:500;margin-right:6px}
 .material-modal-close{flex:none;width:34px;height:34px;display:grid;place-items:center;border:2px solid var(--tiger-brown);border-radius:10px;background:#fff;cursor:pointer;color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:15px}
 .material-modal-close:hover{background:var(--tiger-yellow)}
 .material-modal-body{padding:20px 26px 26px}
 .material-inventory-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;color:rgba(99,44,22,.72);font-size:12px;flex-wrap:wrap}
 .material-inventory-toolbar input{flex:1;min-width:200px;max-width:340px;padding:8px 12px;border:1.5px solid rgba(99,44,22,.32);border-radius:8px;background:#fff;color:var(--tiger-brown);font:inherit;font-size:12px;outline:none}
 .material-inventory-toolbar input:focus{border-color:var(--tiger-brown)}
+.material-inventory-reset{padding:7px 11px;border:1.5px solid rgba(99,44,22,.32);border-radius:8px;background:#fff;color:var(--tiger-brown);font:inherit;font-size:12px;cursor:pointer;white-space:nowrap}
+.material-inventory-reset:hover{background:rgba(234,170,0,.16);border-color:var(--tiger-brown)}
 .material-inventory-toolbar .urgency-stats{display:flex;gap:10px;flex-wrap:wrap}
 .material-inventory-toolbar .urgency-stats span{padding:3px 9px;border-radius:999px;font-size:11px;font-weight:500;background:rgba(99,44,22,.08);color:var(--tiger-brown)}
 .material-inventory-toolbar .urgency-stats span.urg-紧急{background:rgba(192,57,43,.18);color:#a32d2d}
@@ -169,17 +183,28 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
 .material-inventory-table td.num{font-variant-numeric:tabular-nums;text-align:right}
 .material-inventory-table th.num{text-align:right}
 .material-inventory-table td.name{text-align:left;max-width:280px;white-space:normal}
-.material-inventory-table tbody tr:nth-child(even){background:rgba(234,170,0,.06)}
+.material-inventory-table tbody tr.urg-紧急{background:rgba(192,57,43,.10)}
+.material-inventory-table tbody tr.urg-断货{background:rgba(99,44,22,.12)}
+.material-inventory-table tbody tr.urg-预警{background:rgba(234,170,0,.16)}
+.material-inventory-table tbody tr.urg-正常{background:rgba(30,132,73,.08)}
+.material-inventory-table tbody tr.urg-其他{background:rgba(180,180,180,.05)}
+.material-inventory-table tbody tr.urg-紧急.urg-row-hover,.material-inventory-table tbody tr.urg-紧急:hover{background:rgba(192,57,43,.18)}
+.material-inventory-table tbody tr.urg-断货.urg-row-hover,.material-inventory-table tbody tr.urg-断货:hover{background:rgba(99,44,22,.20)}
+.material-inventory-table tbody tr.urg-预警.urg-row-hover,.material-inventory-table tbody tr.urg-预警:hover{background:rgba(234,170,0,.26)}
+.material-inventory-table tbody tr.urg-正常.urg-row-hover,.material-inventory-table tbody tr.urg-正常:hover{background:rgba(30,132,73,.16)}
 .material-inventory-table tbody tr.hidden{display:none}
 .material-inventory-table .urg-pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:500}
 .material-inventory-table .urg-紧急{background:rgba(192,57,43,.18);color:#a32d2d}
 .material-inventory-table .urg-断货{background:rgba(99,44,22,.18);color:#3c2a1a}
 .material-inventory-table .urg-预警{background:rgba(234,170,0,.32);color:#854f0b}
 .material-inventory-table .urg-正常{background:rgba(30,132,73,.18);color:#1e8449}
+.material-inventory-toolbar .urgency-stats span{cursor:pointer;user-select:none;transition:transform .12s ease,box-shadow .12s ease,outline-color .12s ease}
+.material-inventory-toolbar .urgency-stats span:hover{transform:translateY(-1px);box-shadow:0 2px 6px rgba(99,44,22,.18)}
+.material-inventory-toolbar .urgency-stats span.active{outline:2px solid var(--tiger-brown);outline-offset:1px;box-shadow:0 0 0 3px rgba(234,170,0,.32)}
 .material-inventory-table th.sortable{cursor:pointer;user-select:none}
 .material-inventory-table th.sortable:hover{background:rgba(99,44,22,.12);color:var(--tiger-brown)}
 .material-inventory-table th.sortable .sort-indicator{display:inline-block;margin-left:6px;font-size:10px;color:var(--tiger-brown);opacity:.85;transition:transform .15s ease}
-.material-inventory-table th.sortable[data-sort-dir="asc"] .sort-indicator{transform:rotate(0deg)}
+.material-inventory-table th.sortable[data-sort-dir="asc"] .sort-indicator{transform:rotate(180deg)}
 .material-inventory-table th.sortable[data-sort-dir="desc"] .sort-indicator{transform:rotate(0deg)}
 .material-modal-empty{padding:34px;text-align:center;color:rgba(99,44,22,.6);font-size:13px}
 @media(max-width:680px){.material-modal-mask{padding:16px 10px}.material-modal-body{padding:14px 12px 18px}}
@@ -280,7 +305,14 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
         <div class="device-modal-title" id="device-modal-title">设备发货明细</div>
         <div class="device-modal-sub" id="device-modal-sub"></div>
       </div>
-      <button type="button" class="device-modal-close" id="device-modal-close" aria-label="关闭明细弹窗">✕</button>
+      <div class="device-modal-header-right">
+        <div class="device-modal-dim-toggle" id="device-modal-dim-toggle">
+          <button type="button" class="dim-btn active" data-dim="week">周维度</button>
+          <button type="button" class="dim-btn" data-dim="month">月维度</button>
+        </div>
+        <div class="device-modal-month-span" id="device-modal-month-span"></div>
+        <button type="button" class="device-modal-close" id="device-modal-close" aria-label="关闭明细弹窗">✕</button>
+      </div>
     </div>
     <div class="device-modal-body" id="device-modal-body"></div>
   </div>
@@ -292,17 +324,24 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
         <div class="material-modal-title" id="material-modal-title">物料库存明细</div>
         <div class="material-modal-sub" id="material-modal-sub"></div>
       </div>
-      <button type="button" class="material-modal-close" id="material-modal-close" aria-label="关闭库存明细弹窗">✕</button>
+      <div class="device-modal-header-right">
+        <div class="device-modal-dim-toggle" id="material-modal-dim-toggle">
+          <button type="button" class="dim-btn active" data-dim="week">周维度</button>
+          <button type="button" class="dim-btn" data-dim="month">月维度</button>
+        </div>
+        <div class="device-modal-month-span" id="material-modal-month-span"></div>
+        <button type="button" class="material-modal-close" id="material-modal-close" aria-label="关闭库存明细弹窗">✕</button>
+      </div>
     </div>
     <div class="material-modal-body" id="material-modal-body"></div>
   </div>
 </div>
 <script src="assets/data/material_freight_dashboard_data.175ed8fac0ef.js"></script>
 <script src="assets/data/material_development_gantt_data.e76b26bff36d.js"></script>
-<script src="assets/data/inventory_outbound_data.143c6eb396ae.js"></script>
-<script src="assets/data/device_weekly_outbound_data.ea9bfe762f31.js"></script>
-<script src="assets/data/material_weekly_outbound_data.646872236618.js"></script>
-<script src="assets/data/material_inventory_data.c18db6ad4bc1.js"></script>
+<script src="assets/data/inventory_outbound_data.f430140bf186.js"></script>
+<script src="assets/data/device_weekly_outbound_data.8896066240e6.js"></script>
+<script src="assets/data/material_weekly_outbound_data.01cde9f6055e.js"></script>
+<script src="assets/data/material_inventory_data.9efb0e8947a0.js"></script>
 <script>
 (function(){
   'use strict';
@@ -316,6 +355,7 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
   var select=document.getElementById('month-select');
   var main=document.getElementById('dashboard-main');
   var freightLink=document.getElementById('freight-card-link');
+  var inventoryLink=document.getElementById('inventory-card-link');
   var freightValue=document.getElementById('freight-month-value');
   var freightMeta=document.getElementById('freight-month-meta');
   var freightMom=document.getElementById('freight-mom');
@@ -329,6 +369,7 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
   var developmentMeta=document.getElementById('development-meta');
   var deviceWeeklyValue=document.getElementById('device-weekly-value');
   var deviceWeeklyData=window.DEVICE_WEEKLY_OUTBOUND_DATA||{};
+  window.deviceWeeklyData=deviceWeeklyData;
   var materialWeeklyValue=document.getElementById('material-weekly-value');
   var materialWeeklyData=window.MATERIAL_WEEKLY_OUTBOUND_DATA||{};
   var freightMonths=window.FREIGHT_PAYLOAD&&Array.isArray(window.FREIGHT_PAYLOAD.months)?window.FREIGHT_PAYLOAD.months:[];
@@ -534,7 +575,7 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
   }
   function updateMonth(monthNumber){
     activeMonth=Number(monthNumber);var label=activeMonth+'月';var source=freightMonths.find(function(item){return item.month===label;})||null;
-    window.DASHBOARD_MONTH=activeMonth;main.dataset.activeMonth=String(activeMonth);freightLink.href='../material-freight-dashboard/?month='+encodeURIComponent(label);
+    window.DASHBOARD_MONTH=activeMonth;main.dataset.activeMonth=String(activeMonth);freightLink.href='../material-freight-dashboard/?month='+encodeURIComponent(label);if(inventoryLink)inventoryLink.href='物料进销存看板.html?month='+encodeURIComponent(label);
     if(source&&source.cards){freightValue.textContent=formatMoney(source.cards.freight);freightMeta.textContent=label+'运费金额合计';}else{freightValue.textContent='暂无数据';freightMeta.textContent=label+'尚无运费看板源数据';}
     var prevFreightSource=freightMonths.find(function(item){return Number(item.monthValue)===activeMonth-1;})||null;
     var prevFreight=prevFreightSource&&prevFreightSource.cards?prevFreightSource.cards.freight:null;
@@ -548,32 +589,93 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
   }
   function deviceDeltaClass(value){return value>0?'delta-pos':(value<0?'delta-neg':'');}
   function deviceDeltaText(value){return (value>0?'+':'')+formatQuantity(value);}
-  function buildDeviceDetailTable(group){
-    var table='<div class="device-detail-group"><div class="device-detail-title">'+group.title+'</div><div class="device-detail-scroll"><table class="device-detail-table">'+
-      '<thead><tr><th>品牌</th><th class="name" style="text-align:left">设备名称</th><th class="num">本月发货量</th><th class="num">本月发货金额</th><th class="num">本周发货数量</th><th class="num">数量环比上周</th><th class="num">本周发货金额</th><th class="num">金额环比上周</th><th>数量差异原因分析</th></tr></thead><tbody>';
-    if(!group.rows.length){
-      table+='<tr><td colspan="9" style="padding:20px;color:rgba(99,44,22,.56)">暂无设备发货记录</td></tr>';
+  function formatMoneyWan(value){
+    var n=Number(value||0)/10000;
+    return '¥'+n.toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})+'万';
+  }
+  function formatMoneyDeltaWan(value){
+    var n=Number(value||0)/10000;
+    var abs=Math.abs(n);
+    var str=abs.toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});
+    if(n>0)return '+¥'+str+'万';
+    if(n<0)return '-¥'+str+'万';
+    return '¥0.00万';
+  }
+  var deviceModalDim='week';
+  var deviceModalExpanded={};
+  function deviceDimHeaders(dim){
+    return dim==='month'
+      ?['设备品牌','设备大类','上月发货数量','本月发货数量','环比差异','本月发货金额','发货金额环比']
+      :['设备品牌','设备大类','上周发货数量','本周发货数量','环比差异','本周发货金额','发货金额环比'];
+  }
+  function deviceRowValues(row,dim){
+    if(dim==='month'){
+      var pQ=Number(row.prevMonthQty||0),tQ=Number(row.thisMonthQty||row.monthQty||0);
+      var pA=Number(row.prevMonthAmount||0),tA=Number(row.thisMonthAmount||row.monthAmount||0);
+      var qd=tQ-pQ,ad=tA-pA;
+      return{q1:formatQuantity(pQ),q2:formatQuantity(tQ),qd:deviceDeltaText(qd),qdCls:deviceDeltaClass(qd),a1:formatMoneyWan(tA),ad:formatMoneyDeltaWan(ad),adCls:deviceDeltaClass(ad)};
     }
-    group.rows.forEach(function(row){
-      table+='<tr><td>'+row.brand+'</td><td class="name">'+row.name+'</td>'+
-        '<td class="num">'+formatQuantity(row.monthQty)+'</td>'+
-        '<td class="num">'+formatMoney(row.monthAmount)+'</td>'+
-        '<td class="num">'+formatQuantity(row.weekQty)+'</td>'+
-        '<td class="num '+deviceDeltaClass(row.qtyDelta)+'">'+deviceDeltaText(row.qtyDelta)+'</td>'+
-        '<td class="num">'+formatMoney(row.weekAmount)+'</td>'+
-        '<td class="num '+deviceDeltaClass(row.amountDelta)+'">'+deviceDeltaText(row.amountDelta)+'</td>'+
-        '<td>'+(row.note||'')+'</td></tr>';
+    var lQ=Number(row.lastWeekQty||0),tQ=Number(row.thisWeekQty||row.weekQty||0);
+    var lA=Number(row.lastWeekAmount||0),tA=Number(row.thisWeekAmount||row.weekAmount||0);
+    var qd=tQ-lQ,ad=tA-lA;
+    return{q1:formatQuantity(lQ),q2:formatQuantity(tQ),qd:deviceDeltaText(qd),qdCls:deviceDeltaClass(qd),a1:formatMoneyWan(tA),ad:formatMoneyDeltaWan(ad),adCls:deviceDeltaClass(ad)};
+  }
+  function deviceAggCat(rows){
+    var t={lastWeekQty:0,lastWeekAmount:0,thisWeekQty:0,thisWeekAmount:0,prevMonthQty:0,prevMonthAmount:0,thisMonthQty:0,thisMonthAmount:0};
+    rows.forEach(function(r){
+      t.lastWeekQty+=Number(r.lastWeekQty||0);t.lastWeekAmount+=Number(r.lastWeekAmount||0);
+      t.thisWeekQty+=Number(r.thisWeekQty||0);t.thisWeekAmount+=Number(r.thisWeekAmount||0);
+      t.prevMonthQty+=Number(r.prevMonthQty||0);t.prevMonthAmount+=Number(r.prevMonthAmount||0);
+      t.thisMonthQty+=Number(r.thisMonthQty||0);t.thisMonthAmount+=Number(r.thisMonthAmount||0);
     });
-    var total=group.total;
-    table+='</tbody><tfoot><tr><td colspan="2">合计</td>'+
-      '<td class="num">'+formatQuantity(total.monthQty)+'</td>'+
-      '<td class="num">'+formatMoney(total.monthAmount)+'</td>'+
-      '<td class="num">'+formatQuantity(total.weekQty)+'</td>'+
-      '<td class="num '+deviceDeltaClass(total.qtyDelta)+'">'+deviceDeltaText(total.qtyDelta)+'</td>'+
-      '<td class="num">'+formatMoney(total.weekAmount)+'</td>'+
-      '<td class="num '+deviceDeltaClass(total.amountDelta)+'">'+deviceDeltaText(total.amountDelta)+'</td>'+
-      '<td></td></tr></tfoot></table></div></div>';
-    return table;
+    return t;
+  }
+  function buildDeviceDetailTable(group,dim){
+    dim=dim||'week';
+    var h=deviceDimHeaders(dim);
+    var tbl='<div class="device-detail-group"><div class="device-detail-title">'+group.title+'</div><div class="device-detail-scroll"><table class="device-detail-table">'+
+      '<thead><tr><th>'+h[0]+'</th><th class="name" style="text-align:left">'+h[1]+'</th><th class="num">'+h[2]+'</th><th class="num">'+h[3]+'</th><th class="num">'+h[4]+'</th><th class="num">'+h[5]+'</th><th class="num">'+h[6]+'</th></tr></thead>';
+    var rows=group.rows||[];
+    if(!rows.length){
+      tbl+='<tbody><tr><td colspan="7" style="padding:20px;color:rgba(99,44,22,.56)">暂无设备发货记录</td></tr></tbody>';
+    }else{
+      var catMap={},catOrder=[],brandMap={};
+      rows.forEach(function(r){
+        var cat=String(r.category||'未分类');
+        if(!catMap[cat]){catMap[cat]=[];catOrder.push(cat);brandMap[cat]=[];}
+        catMap[cat].push(r);
+        if(r.supplier){var sb=r.supplier;if(brandMap[cat].indexOf(sb)===-1)brandMap[cat].push(sb);}else if(r.brand&&brandMap[cat].indexOf(r.brand)===-1)brandMap[cat].push(r.brand);
+      });
+      catOrder.forEach(function(cat){
+        var catRows=catMap[cat];
+        var agg=deviceAggCat(catRows);
+        var v=deviceRowValues(agg,dim);
+        var key=group.key+'::'+cat;
+        var expanded=deviceModalExpanded[key];
+        tbl+='<tbody class="cat-group'+(expanded?'':' cat-collapsed')+'">';
+        tbl+='<tr class="cat-row"><td>'+brandMap[cat].join('、')+'</td>'+
+          '<td class="name"><span class="cat-toggle" data-cat-toggle="'+key+'">'+(expanded?'▼':'▶')+'</span>'+cat+'</td>'+
+          '<td class="num">'+v.q1+'</td><td class="num">'+v.q2+'</td>'+
+          '<td class="num '+v.qdCls+'">'+v.qd+'</td>'+
+          '<td class="num">'+v.a1+'</td><td class="num '+v.adCls+'">'+v.ad+'</td></tr>';
+        catRows.forEach(function(r){
+          var rv=deviceRowValues(r,dim);
+          tbl+='<tr class="sub-row"><td>'+(r.supplier||r.brand||'-')+'</td>'+
+            '<td class="name sub-name">'+r.name+'</td>'+
+            '<td class="num">'+rv.q1+'</td><td class="num">'+rv.q2+'</td>'+
+            '<td class="num '+rv.qdCls+'">'+rv.qd+'</td>'+
+            '<td class="num">'+rv.a1+'</td><td class="num '+rv.adCls+'">'+rv.ad+'</td></tr>';
+        });
+        tbl+='</tbody>';
+      });
+    }
+    var total=group.total||{};
+    var tv=deviceRowValues(total,dim);
+    tbl+='<tfoot><tr><td colspan="2">合计</td>'+
+      '<td class="num">'+tv.q1+'</td><td class="num">'+tv.q2+'</td>'+
+      '<td class="num '+tv.qdCls+'">'+tv.qd+'</td>'+
+      '<td class="num">'+tv.a1+'</td><td class="num '+tv.adCls+'">'+tv.ad+'</td></tr></tfoot></table></div></div>';
+    return tbl;
   }
   function getActiveDeviceDetail(){
     var dw=window.deviceWeeklyData||{};
@@ -582,20 +684,35 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
     var detail=map[String(month)]||null;
     return {month:month, detail:detail, weekRange:dw.weekRange||null};
   }
-  function deviceSubText(month,weekRange){
-    var weekLabel=weekRange&&weekRange.thisLabel?('本周 '+weekRange.thisLabel):'本周';
-    return month+'月 · '+weekLabel+' · 数据源：2026年设备发货明细-共享版.xlsm（关键字段汇总）· 随看板数据更新自动刷新';
+  function deviceMonthSpanText(info,dim){
+    if(dim==='week'){
+      var wr=info.weekRange;
+      if(wr&&wr.thisLabel){return '本周 '+wr.thisLabel;}
+      else if(wr&&wr.thisStart&&wr.thisEnd){
+        return '本周 '+wr.thisStart.slice(5).replace('-','.')+'~'+wr.thisEnd.slice(5).replace('-','.');
+      }
+      return '本周';
+    }
+    return info.month+'月';
   }
-  function openDeviceModal(){
-    var info=getActiveDeviceDetail();
+  function deviceSubText(){
+    return'数据源：2026年设备发货明细-共享版.xlsm（关键字段汇总）· 随看板数据更新自动刷新';
+  }
+  function renderDeviceModalBody(info,dim){
     var body=document.getElementById('device-modal-body');
     var sub=document.getElementById('device-modal-sub');
-    sub.textContent=deviceSubText(info.month,info.weekRange);
+    var span=document.getElementById('device-modal-month-span');
+    sub.textContent=deviceSubText();
+    span.textContent=deviceMonthSpanText(info,dim);
     if(!info.detail||!Array.isArray(info.detail.groups)||!info.detail.groups.length){
       body.innerHTML='<div class="device-modal-empty">'+info.month+'月暂无设备发货明细数据，请先运行一键更新物料看板。</div>';
     }else{
-      body.innerHTML=info.detail.groups.map(buildDeviceDetailTable).join('');
+      body.innerHTML=info.detail.groups.map(function(g){return buildDeviceDetailTable(g,dim);}).join('');
     }
+  }
+  function openDeviceModal(){
+    var info=getActiveDeviceDetail();
+    renderDeviceModalBody(info,deviceModalDim);
     document.getElementById('device-modal-mask').classList.add('open');
     document.body.style.overflow='hidden';
   }
@@ -603,14 +720,7 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
     var mask=document.getElementById('device-modal-mask');
     if(!mask||!mask.classList.contains('open'))return;
     var info=getActiveDeviceDetail();
-    var body=document.getElementById('device-modal-body');
-    var sub=document.getElementById('device-modal-sub');
-    sub.textContent=deviceSubText(info.month,info.weekRange);
-    if(!info.detail||!Array.isArray(info.detail.groups)||!info.detail.groups.length){
-      body.innerHTML='<div class="device-modal-empty">'+info.month+'月暂无设备发货明细数据，请先运行一键更新物料看板。</div>';
-    }else{
-      body.innerHTML=info.detail.groups.map(buildDeviceDetailTable).join('');
-    }
+    renderDeviceModalBody(info,deviceModalDim);
   }
   function closeDeviceModal(){
     document.getElementById('device-modal-mask').classList.remove('open');
@@ -621,61 +731,143 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
     if(typeof value!=='number'||!isFinite(value))return String(value);
     return value.toLocaleString('zh-CN',{maximumFractionDigits:2});
   }
-  function buildMaterialInventoryTable(){
+  var materialModalDim='week';
+  function materialDimHeaders(dim){
+    return dim==='month'
+      ?['物料名称','上月出库数','本月出库数','环比差异','当前库存','预计消化时间']
+      :['物料名称','上周出库数','本周出库数','环比差异','当前库存','预计消化时间'];
+  }
+  function materialRowValues(row,dim){
+    var stock=formatInventoryNum(row.currentStock);
+    var lQ,tQ,periodDays;
+    if(dim==='month'){
+      lQ=Number(row.lastMonthOut||0);tQ=Number(row.thisMonthOut||0);
+      periodDays=30;
+    }else{
+      lQ=Number(row.lastWeekOut||0);tQ=Number(row.thisWeekOut||0);
+      periodDays=7;
+    }
+    var qd=tQ-lQ;
+    // 预计消化时间统一为天数：currentStock / 出库数 * 周期天数
+    var digest='—';
+    if(tQ>0){
+      var days=Number(row.currentStock||0)/tQ*periodDays;
+      if(isFinite(days)&&days>0){
+        if(days>=365){digest='>1年';}
+        else{digest=Math.round(days)+'天';}
+      }else if(days===0){digest='充足';}
+    }else if(Number(row.currentStock||0)>0){
+      digest='充足';
+    }
+    return{
+      q1:formatInventoryNum(lQ),
+      q2:formatInventoryNum(tQ),
+      qd:deviceDeltaText(qd),qdCls:deviceDeltaClass(qd),
+      stock:stock,digest:digest
+    };
+  }
+  function getActiveMaterialDetail(){
     var data=window.materialInventoryData||{};
-    var allItems=Array.isArray(data.items)?data.items:[];
-    var items=allItems.filter(function(it){return String(it.code||'').trim()!=='停发';});
+    var dw=window.deviceWeeklyData||{};
+    var month=Number(window.DASHBOARD_MONTH)||data.latestMonth||1;
+    var map=data.detailByMonth||{};
+    var detail=map[String(month)]||null;
+    return{month:month,detail:detail,source:data,weekRange:dw.weekRange||null};
+  }
+  function materialMonthSpanText(info,dim){
+    if(dim==='month')return info.month+'月';
+    var wr=info.weekRange;
+    if(wr&&wr.thisLabel){return '本周 '+wr.thisLabel;}
+    if(wr&&wr.thisStart&&wr.thisEnd){
+      return '本周 '+wr.thisStart.slice(5).replace('-','.')+'~'+wr.thisEnd.slice(5).replace('-','.');
+    }
+    return '本周';
+  }
+  function materialSubText(info){
+    var data=info.source||{};
+    var items=info.detail&&Array.isArray(info.detail.items)?info.detail.items:[];
+    var totalItems=Array.isArray(data.items)?data.items.length:items.length;
+    var activeItems=items.filter(function(it){return String(it.code||'').trim()!=='停发';}).length;
+    var stopCount=totalItems-activeItems;
+    var sub='数据源：库存分析看板源数据_含宏.xlsm（库存源数据）· 共 '+activeItems+' 条物料';
+    if(stopCount>0)sub+='（已过滤 '+stopCount+' 条停发记录）';
+    if(data.updatedAt)sub+=' · 同步时间 '+data.updatedAt;
+    if(materialModalDim==='month')sub+=' · 月维度数据来源：出入库流水（J列年月）';
+    return sub;
+  }
+  function materialDimHintText(dim){
+    if(dim==='month'){
+      return '<b>月维度消化天数</b> ≈ 长期预测：按本月平均出库速度，预测当前库存能维持的天数';
+    }
+    return '<b>周维度消化天数</b> ≈ 短期预警：按本周出库速度持续推算，预测当前库存告急的天数';
+  }
+  function buildMaterialInventoryTable(dim,info){
+    dim=dim||'week';
+    var h=materialDimHeaders(dim);
+    var items=info.detail&&Array.isArray(info.detail.items)
+      ?info.detail.items.filter(function(it){return String(it.code||'').trim()!=='停发';})
+      :[];
     var stats={'紧急':0,'断货':0,'预警':0,'正常':0,'其他':0};
     items.forEach(function(it){var key=stats[it.urgency]!==undefined?it.urgency:'其他';stats[key]++;});
+    // 色块加 data-urg-filter 用于点击筛选
     var statsHtml=Object.keys(stats).filter(function(k){return stats[k]>0;}).map(function(k){
-      return '<span class="urg-'+k+'">'+k+' '+stats[k]+'</span>';
+      return '<span class="urg-'+k+'" data-urg-filter="'+k+'" role="button" tabindex="0" title="点击仅显示'+k+'物料">'+k+' '+stats[k]+'</span>';
     }).join('');
     var toolbar='<div class="material-inventory-toolbar">'+
       '<input type="search" id="material-inventory-search" placeholder="搜索物料名称或编码…" aria-label="搜索物料">'+
-      '<div class="urgency-stats">'+statsHtml+'</div>'+
+      '<button type="button" class="material-inventory-reset" id="material-inventory-reset" title="清除搜索和紧急程度筛选">重置筛选</button>'+
+      '<div class="urgency-stats">'+statsHtml+'</div>'+ 
       '</div>';
-    var table='<div class="material-inventory-scroll"><table class="material-inventory-table">'+
+    // 表头：本周/本月出库数列加 sortable
+    var th2='<th class="num sortable" data-sort-key="thisOut" data-sort-dir="desc" title="点击切换升序/降序">'+h[2]+'<span class="sort-indicator">▼</span></th>';
+    var table='<div class="material-inventory-scroll"><table class="material-inventory-table material-detail-table">'+
       '<thead><tr>'+
-      '<th class="name" style="text-align:left">物料名称</th>'+
-      '<th>物料编码</th>'+
-      '<th class="num">当前库存</th>'+
-      '<th class="num">默认起发量</th>'+
-      '<th class="num sortable" data-sort-key="weekOut" data-sort-dir="desc" title="点击切换升序/降序">本周出库数<span class="sort-indicator">▼</span></th>'+
-      '<th class="num">安全库存</th>'+
-      '<th class="num">补货提前期(天)</th>'+
-      '<th>紧急程度</th>'+
-      '<th>预计断货日期</th>'+
-      '<th>其他备注</th>'+
+      '<th class="name" style="text-align:left">'+h[0]+'</th>'+
+      '<th class="num">'+h[1]+'</th>'+
+      th2+
+      '<th class="num">'+h[3]+'</th>'+
+      '<th class="num">'+h[4]+'</th>'+
+      '<th class="num">'+h[5]+'</th>'+
       '</tr></thead><tbody>';
     if(!items.length){
-      table+='<tr><td colspan="10" style="padding:20px;color:rgba(99,44,22,.56)">暂无库存数据</td></tr>';
+      table+='<tr><td colspan="6" style="padding:20px;color:rgba(99,44,22,.56)">暂无库存数据</td></tr>';
+    }else{
+      items.forEach(function(it){
+        var v=materialRowValues(it,dim);
+        var urg=it.urgency||'其他';
+        var urgCls=stats[urg]!==undefined?('urg-'+urg):'urg-其他';
+        var tQ=dim==='month'?Number(it.thisMonthOut||0):Number(it.thisWeekOut||0);
+        table+='<tr class="'+urgCls+'" data-name="'+String(it.name||'').replace(/"/g,'&quot;')+'" data-code="'+String(it.code||'').replace(/"/g,'&quot;')+'" data-urgency="'+urg.replace(/"/g,'&quot;')+'" data-this-out="'+tQ+'">'+
+          '<td class="name">'+String(it.name||'')+'</td>'+
+          '<td class="num">'+v.q1+'</td>'+
+          '<td class="num">'+v.q2+'</td>'+
+          '<td class="num '+v.qdCls+'">'+v.qd+'</td>'+
+          '<td class="num">'+v.stock+'</td>'+
+          '<td class="num">'+v.digest+'</td>'+
+          '</tr>';
+      });
     }
-    items.forEach(function(it){
-      var urg=it.urgency||'—';
-      var urgPill=stats[urg]!==undefined
-        ? '<span class="urg-pill urg-'+urg+'">'+urg+'</span>'
-        : '<span class="urg-pill">'+urg+'</span>';
-      var weekOutAttr=it.weekOut===null||it.weekOut===undefined?'':String(it.weekOut);
-      table+='<tr data-name="'+String(it.name||'').replace(/"/g,'&quot;')+'" data-code="'+String(it.code||'').replace(/"/g,'&quot;')+'" data-week-out="'+weekOutAttr+'">'+
-        '<td class="name">'+String(it.name||'')+'</td>'+
-        '<td>'+String(it.code||'')+'</td>'+
-        '<td class="num">'+formatInventoryNum(it.currentStock)+'</td>'+
-        '<td class="num">'+formatInventoryNum(it.defaultMoq)+'</td>'+
-        '<td class="num">'+formatInventoryNum(it.weekOut)+'</td>'+
-        '<td class="num">'+formatInventoryNum(it.safetyStock)+'</td>'+
-        '<td class="num">'+formatInventoryNum(it.leadTime)+'</td>'+
-        '<td>'+urgPill+'</td>'+
-        '<td>'+String(it.expectedOutage||'')+'</td>'+
-        '<td style="text-align:left;max-width:240px;white-space:normal">'+String(it.remark||'')+'</td>'+
-        '</tr>';
-    });
     table+='</tbody></table></div>';
     return toolbar+table;
+  }
+  function applyMaterialInventoryFilter(){
+    var input=document.getElementById('material-inventory-search');
+    var stats=document.querySelector('.urgency-stats');
+    var q=input?String(input.value||'').trim().toLowerCase():'';
+    var urgFilter=stats?(stats.getAttribute('data-urg-active')||''):'';
+    var rows=document.querySelectorAll('.material-inventory-table tbody tr[data-name]');
+    rows.forEach(function(row){
+      var name=(row.getAttribute('data-name')||'').toLowerCase();
+      var code=(row.getAttribute('data-code')||'').toLowerCase();
+      var urg=row.getAttribute('data-urgency')||'';
+      var matchSearch=!q||name.indexOf(q)>=0||code.indexOf(q)>=0;
+      var matchUrg=!urgFilter||urg===urgFilter;
+      row.classList.toggle('hidden',!(matchSearch&&matchUrg));
+    });
   }
   function sortMaterialInventoryTable(th){
     if(!th)return;
     var dir=th.getAttribute('data-sort-dir')==='asc'?'desc':'asc';
-    var key=th.getAttribute('data-sort-key');
     var table=th.closest('table');
     if(!table)return;
     var ths=table.querySelectorAll('thead th.sortable');
@@ -689,10 +881,10 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
     var ind=th.querySelector('.sort-indicator');if(ind)ind.textContent=dir==='asc'?'▲':'▼';
     var tbody=table.querySelector('tbody');
     if(!tbody)return;
-    var rows=Array.prototype.slice.call(tbody.querySelectorAll('tr[data-week-out]'));
+    var rows=Array.prototype.slice.call(tbody.querySelectorAll('tr[data-this-out]'));
     rows.sort(function(a,b){
-      var av=parseFloat(a.getAttribute('data-week-out'));
-      var bv=parseFloat(b.getAttribute('data-week-out'));
+      var av=parseFloat(a.getAttribute('data-this-out'));
+      var bv=parseFloat(b.getAttribute('data-this-out'));
       if(isNaN(av)&&isNaN(bv))return 0;
       if(isNaN(av))return 1;
       if(isNaN(bv))return-1;
@@ -702,40 +894,66 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
     rows.forEach(function(r){frag.appendChild(r);});
     tbody.appendChild(frag);
   }
-  function applyMaterialInventoryFilter(){
-    var input=document.getElementById('material-inventory-search');
-    if(!input)return;
-    var q=String(input.value||'').trim().toLowerCase();
-    var rows=document.querySelectorAll('.material-inventory-table tbody tr[data-name]');
-    rows.forEach(function(row){
-      var name=(row.getAttribute('data-name')||'').toLowerCase();
-      var code=(row.getAttribute('data-code')||'').toLowerCase();
-      var match=!q||name.indexOf(q)>=0||code.indexOf(q)>=0;
-      row.classList.toggle('hidden',!match);
-    });
-  }
-  function openMaterialModal(){
+  function renderMaterialModalBody(info,dim){
     var body=document.getElementById('material-modal-body');
     var sub=document.getElementById('material-modal-sub');
-    var data=window.materialInventoryData||{};
-    var allItems=Array.isArray(data.items)?data.items:[];
-    var activeItems=allItems.filter(function(it){return String(it.code||'').trim()!=='停发';});
-    if(data.updatedAt){
-      sub.textContent='数据源：库存分析看板源数据_含宏.xlsm（库存源数据）· 共 '+activeItems.length+' 条物料（已过滤 '+ (allItems.length-activeItems.length) +' 条停发记录）· 同步时间 '+data.updatedAt;
-    }else{
-      sub.textContent='数据源：库存分析看板源数据_含宏.xlsm（库存源数据）';
+    var span=document.getElementById('material-modal-month-span');
+    sub.textContent=materialSubText(info);
+    span.textContent=materialMonthSpanText(info,dim);
+    // 维度消化天数解释 hint（弹窗顶端 sub 下方，dim 切换时自动更新）
+    var hint=document.getElementById('material-modal-dim-hint');
+    if(!hint){
+      hint=document.createElement('div');
+      hint.id='material-modal-dim-hint';
+      hint.className='material-modal-dim-hint';
+      sub.parentNode.appendChild(hint);
     }
-    if(!activeItems.length){
-      body.innerHTML='<div class="material-modal-empty">暂无物料库存数据，请先运行一键更新物料看板。</div>';
+    hint.innerHTML=materialDimHintText(dim);
+    if(!info.detail||!Array.isArray(info.detail.items)||!info.detail.items.length){
+      body.innerHTML='<div class="material-modal-empty">'+info.month+'月暂无物料库存数据，请先运行一键更新物料看板。</div>';
     }else{
-      body.innerHTML=buildMaterialInventoryTable();
+      body.innerHTML=buildMaterialInventoryTable(dim,info);
+      // 搜索输入
       var input=document.getElementById('material-inventory-search');
       if(input)input.addEventListener('input',applyMaterialInventoryFilter);
+      var reset=document.getElementById('material-inventory-reset');
+      if(reset)reset.addEventListener('click',function(){
+        if(input)input.value='';
+        var resetStats=body.querySelector('.urgency-stats');
+        if(resetStats)resetStats.setAttribute('data-urg-active','');
+        body.querySelectorAll('.urgency-stats [data-urg-filter]').forEach(function(x){x.classList.remove('active');});
+        applyMaterialInventoryFilter();
+      });
+      // 紧急度色块点击筛选
+      var stats=body.querySelectorAll('.urgency-stats [data-urg-filter]');
+      stats.forEach(function(s){
+        var handler=function(){
+          var parent=s.parentElement;
+          var cur=parent.getAttribute('data-urg-active')||'';
+          var next=cur===s.getAttribute('data-urg-filter')?'':s.getAttribute('data-urg-filter');
+          parent.setAttribute('data-urg-active',next);
+          stats.forEach(function(x){x.classList.toggle('active',x.getAttribute('data-urg-filter')===next);});
+          applyMaterialInventoryFilter();
+        };
+        s.addEventListener('click',handler);
+        s.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();handler();}});
+      });
+      // 表头本周/本月出库数排序
       var sortHeader=body.querySelector('.material-inventory-table th.sortable');
       if(sortHeader)sortHeader.addEventListener('click',function(){sortMaterialInventoryTable(sortHeader);});
     }
+  }
+  function openMaterialModal(){
+    var info=getActiveMaterialDetail();
+    renderMaterialModalBody(info,materialModalDim);
     document.getElementById('material-modal-mask').classList.add('open');
     document.body.style.overflow='hidden';
+  }
+  function refreshMaterialModalIfOpen(){
+    var mask=document.getElementById('material-modal-mask');
+    if(!mask||!mask.classList.contains('open'))return;
+    var info=getActiveMaterialDetail();
+    renderMaterialModalBody(info,materialModalDim);
   }
   function closeMaterialModal(){
     document.getElementById('material-modal-mask').classList.remove('open');
@@ -747,17 +965,52 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
   document.getElementById('device-modal-close').addEventListener('click',closeDeviceModal);
   document.getElementById('device-modal-mask').addEventListener('click',function(event){if(event.target===this)closeDeviceModal();});
   document.addEventListener('keydown',function(event){if(event.key==='Escape')closeDeviceModal();});
+  document.getElementById('device-modal-dim-toggle').addEventListener('click',function(e){
+    var btn=e.target.closest('.dim-btn');
+    if(!btn)return;
+    var dim=btn.getAttribute('data-dim');
+    if(dim===deviceModalDim)return;
+    deviceModalDim=dim;
+    this.querySelectorAll('.dim-btn').forEach(function(b){b.classList.toggle('active',b===btn);});
+    refreshDeviceModalIfOpen();
+  });
+  document.getElementById('device-modal-body').addEventListener('click',function(e){
+    var toggle=e.target.closest('[data-cat-toggle]');
+    if(!toggle)return;
+    e.preventDefault();
+    var key=toggle.getAttribute('data-cat-toggle');
+    var tbody=toggle.closest('tbody.cat-group');
+    if(!tbody)return;
+    if(tbody.classList.contains('cat-collapsed')){
+      tbody.classList.remove('cat-collapsed');
+      toggle.textContent='▼';
+      deviceModalExpanded[key]=true;
+    }else{
+      tbody.classList.add('cat-collapsed');
+      toggle.textContent='▶';
+      deviceModalExpanded[key]=false;
+    }
+  });
   var materialWeeklyCard=document.getElementById('material-weekly-card');
   materialWeeklyCard.addEventListener('click',openMaterialModal);
   materialWeeklyCard.addEventListener('keydown',function(event){if(event.key==='Enter'||event.key===' '){event.preventDefault();openMaterialModal();}});
   document.getElementById('material-modal-close').addEventListener('click',closeMaterialModal);
   document.getElementById('material-modal-mask').addEventListener('click',function(event){if(event.target===this)closeMaterialModal();});
   document.addEventListener('keydown',function(event){if(event.key==='Escape')closeMaterialModal();});
+  document.getElementById('material-modal-dim-toggle').addEventListener('click',function(e){
+    var btn=e.target.closest('.dim-btn');
+    if(!btn)return;
+    var dim=btn.getAttribute('data-dim');
+    if(dim===materialModalDim)return;
+    materialModalDim=dim;
+    this.querySelectorAll('.dim-btn').forEach(function(b){b.classList.toggle('active',b===btn);});
+    refreshMaterialModalIfOpen();
+  });
   initializeDevelopmentFilters();
-  var availableFreightMonths=freightMonths.filter(function(item){return Number(item.monthValue)>=1&&Number(item.monthValue)<=12;});
-  var latestMonth=availableFreightMonths.length?Number(availableFreightMonths[availableFreightMonths.length-1].monthValue):5;
-  select.value=String(latestMonth);updateMonth(latestMonth);select.addEventListener('change',function(){updateMonth(Number(this.value));});
+  var currentMonth=new Date().getMonth()+1;
+  select.value=String(currentMonth);updateMonth(currentMonth);select.addEventListener('change',function(){updateMonth(Number(this.value));});
   document.addEventListener('dashboardmonthchange',refreshDeviceModalIfOpen);
+  document.addEventListener('dashboardmonthchange',refreshMaterialModalIfOpen);
   if(document.fonts&&document.fonts.ready)document.fonts.ready.then(redraw);
   var resizeTimer;window.addEventListener('resize',function(){clearTimeout(resizeTimer);resizeTimer=setTimeout(redraw,120);});
 })();

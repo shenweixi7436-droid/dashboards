@@ -221,6 +221,13 @@ def build_main_dashboard(source_dir: Path, gotham: Path, yuan: Path) -> dict[str
     html = source_html.read_text(encoding="utf-8")
     for original, hashed in names.items():
         old = f'<script src="{original}"></script>'
+        # 本地 file:// 看板可能使用带版本后缀的副本，发布时统一按源文件处理。
+        if old not in html and original in {
+            "device_weekly_outbound_data.js",
+            "material_weekly_outbound_data.js",
+            "material_inventory_data.js",
+        }:
+            old = f'<script src="{original[:-3]}.v2.js"></script>'
         new = f'<script src="assets/data/{hashed}"></script>'
         if old not in html:
             raise RuntimeError(f"主看版缺少资源引用：{old}")
