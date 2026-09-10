@@ -33,6 +33,11 @@ echo Updating device detail data...
 if errorlevel 1 goto fail
 
 echo.
+echo Updating device region analysis data...
+"%PY%" "%~dp0build_device_region_analysis.py"
+if errorlevel 1 goto fail
+
+echo.
 echo Updating month-aware key work data...
 "%PY%" "%~dp0update_work_month_data.py"
 if errorlevel 1 goto fail

@@ -25,6 +25,7 @@ P6_DATA_FILES = (
     "province_outbound_data.js",
     "province_material_data.js",
     "device_outbound_data.js",
+    "device_weekly_outbound_data.v2.js",
 )
 
 
@@ -340,7 +341,7 @@ def build(source_dir: Path, run_source_update: bool) -> dict[str, object]:
         source = source_dir / filename
         if not source.exists():
             raise FileNotFoundError(f"缺少省份分析数据文件：{source}")
-        stem = Path(filename).stem.replace("_data", "")
+        stem = Path(filename).stem.replace("_data", "").replace(".v2", "")
         p6_names[filename] = write_hashed(DATA_DIR, stem, ".js", source.read_bytes())
 
     keep_data = {core_name, orders_name, *p6_names.values()}
@@ -360,6 +361,7 @@ def build(source_dir: Path, run_source_update: bool) -> dict[str, object]:
         '<script src="province_outbound_data.js"></script>': f'<script src="assets/data/{p6_names["province_outbound_data.js"]}"></script>',
         '<script src="province_material_data.js"></script>': f'<script src="assets/data/{p6_names["province_material_data.js"]}"></script>',
         '<script src="device_outbound_data.js"></script>': f'<script src="assets/data/{p6_names["device_outbound_data.js"]}"></script>\n<script src="assets/data/{core_name}"></script>',
+        '<script src="device_weekly_outbound_data.v2.js"></script>': f'<script src="assets/data/{p6_names["device_weekly_outbound_data.v2.js"]}"></script>',
     }
     for old, new in script_replacements.items():
         if old not in html:

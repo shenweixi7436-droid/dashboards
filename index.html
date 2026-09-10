@@ -628,6 +628,7 @@ svg text{font-family:'华康圆体-W7','HKYuanW7','Microsoft YaHei',sans-serif}
 <script src="assets/data/approval-detail.js?v=20260904181211"></script>
 <script src="assets/data/device-channel-status.js?v=20260904181211"></script>
 <script src="assets/data/device-detail.js?v=20260904181211"></script>
+<script src="assets/data/device-region-analysis.js?v=20260910120000"></script>
 <script src="assets/data/store-business-analysis.js?v=20260904181211"></script>
 <script src="assets/data/store-audit-popup.js?v=20260904181211"></script>
 <script src="assets/data/market-order-governance.js?v=20260904181211"></script>
@@ -991,6 +992,37 @@ body{
   .ct>.kr:first-of-type>.kc:nth-child(n+4){grid-column:span 3!important}
   .detail-inner{width:calc(100% - 18px)!important;margin:9px auto!important}
 }
+</style>
+<style id="device-region-analysis-0910">
+.dt-section-button{display:block;width:100%;border:0;background:transparent;text-align:left;cursor:pointer;padding:0;color:inherit;font:inherit}
+.dt-section-button:hover{color:#703a1e}
+.device-analysis-modal{position:fixed;inset:0;z-index:1200;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(47,25,15,.56)}
+.device-analysis-modal.show{display:flex}
+.device-analysis-dialog{width:min(1320px,96vw);max-height:92vh;overflow:auto;background:#fffdf8;border-radius:12px;box-shadow:0 22px 70px rgba(0,0,0,.28)}
+.device-analysis-header{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;padding:18px 24px;background:#703a1e;color:#fff}
+.device-analysis-header h2{margin:0;font-size:20px;font-family:'HKYuanW9','Microsoft YaHei',sans-serif}
+.device-analysis-header button{border:0;border-radius:50%;width:34px;height:34px;background:rgba(255,255,255,.16);color:#fff;font-size:26px;line-height:1;cursor:pointer}
+.device-analysis-note{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 24px;margin:16px 24px 0;padding:11px 14px;border-left:4px solid #fcc900;background:#fff7d6;color:#6d5520;font-size:13px;line-height:1.5}
+.device-analysis-note strong{font-family:'HKYuanW8','Microsoft YaHei',sans-serif;color:#703a1e}
+.device-analysis-toolbar{display:flex;align-items:center;gap:10px;padding:16px 24px 0}
+.device-analysis-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;flex:1}
+.device-analysis-tab{min-height:42px;border:1px solid #dccfc4;background:#fff;color:#703a1e;padding:8px 12px;font-family:'HKYuanW8','Microsoft YaHei',sans-serif;font-size:13px;cursor:pointer}
+.device-analysis-tab:hover{border-color:#703a1e;background:#fff8ef}
+.device-analysis-tab.on{border-color:#703a1e;background:#703a1e;color:#fff}
+.device-analysis-capture{flex:0 0 auto;min-height:42px;border:1px solid #d93924;background:#fff;color:#d93924;padding:8px 16px;font-family:'HKYuanW8','Microsoft YaHei',sans-serif;font-size:13px;cursor:pointer}
+.device-analysis-capture:hover{background:#d93924;color:#fff}
+.device-analysis-grid{display:block;padding:14px 24px 26px}
+.device-analysis-card{min-width:0;border:1px solid #eadfd6;border-radius:10px;background:#fff;overflow:hidden}
+.device-analysis-card[hidden]{display:none}
+.device-analysis-card h3{margin:0;padding:12px 14px;background:#f4f1ed;color:#703a1e;font-size:15px;font-family:'HKYuanW8','Microsoft YaHei',sans-serif}
+.device-analysis-table-wrap{overflow-x:auto}
+.device-analysis-table{width:100%;border-collapse:collapse;font-size:12px;color:#333}
+.device-analysis-table th,.device-analysis-table td{padding:9px 8px;border-bottom:1px solid #eee;text-align:right;white-space:nowrap}
+.device-analysis-table th:first-child,.device-analysis-table td:first-child{text-align:left;position:sticky;left:0;background:#fff;z-index:1}
+.device-analysis-table thead th{position:sticky;top:0;background:#f8f7f5;color:#555;font-family:'HKYuanW8','Microsoft YaHei',sans-serif;z-index:2}
+.device-analysis-table tbody tr:hover td{background:#fff8ef}
+.device-analysis-table tfoot td{font-weight:800;color:#d93924;background:#fffaf5}
+@media(max-width:900px){.device-analysis-toolbar{align-items:stretch;flex-direction:column;padding:14px 14px 0}.device-analysis-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}.device-analysis-capture{width:100%}.device-analysis-grid{padding:14px}.device-analysis-note{grid-template-columns:1fr;margin:14px 14px 0}.device-analysis-header{padding:15px 16px}}
 </style>
 <style id="display-audit-popup-style">
 .dap-modal{display:none;position:fixed;inset:0;z-index:5000;background:rgba(42,22,11,.62);overflow:auto;padding:22px}
@@ -1917,7 +1949,7 @@ body{
     <div id="detailAlerts"></div>
     <div class="detail-body">
       <div class="detail-chart">
-        <div class="dt-section-title">&#128200; 区域分析</div>
+        <button type="button" class="dt-section-title dt-section-button" id="deviceRegionAnalysisButton">&#128200; 区域分析</button>
         <div id="detailChart" style="width:100%;height:420px"></div>
       </div>
       <div class="detail-table">
@@ -1931,6 +1963,17 @@ body{
       </div>
     </div>
   </div>
+</div>
+<div class="device-analysis-modal" id="deviceRegionAnalysisModal" aria-hidden="true">
+  <section class="device-analysis-dialog" role="dialog" aria-modal="true" aria-labelledby="deviceRegionAnalysisTitle">
+    <div class="device-analysis-header"><h2 id="deviceRegionAnalysisTitle">智能设备区域分析</h2><button type="button" id="deviceRegionAnalysisClose" aria-label="关闭">&times;</button></div>
+    <div class="device-analysis-note" id="deviceRegionAnalysisNote"></div>
+    <div class="device-analysis-toolbar" id="deviceRegionAnalysisToolbar" hidden>
+      <div class="device-analysis-tabs" id="deviceRegionAnalysisTabs" role="tablist" aria-label="分析维度"></div>
+      <button type="button" class="device-analysis-capture" id="deviceRegionAnalysisCapture">截图当前表</button>
+    </div>
+    <div class="device-analysis-grid" id="deviceRegionAnalysisGrid"></div>
+  </section>
 </div>
 <script src="assets/data/dashboard-snapshot.js?v=20260904181211"></script>
 <script>
@@ -4569,6 +4612,166 @@ document.addEventListener("DOMContentLoaded",function(){
   setupModal("deviceBanPopup","[data-module-device-ban]","deviceBanPopupClose",renderDeviceBan);
   setupModal("smartDevicePopup","[data-module-smart-device]","smartDevicePopupClose",renderSmartDevice);
   renderDeviceBanCard();
+})();
+</script>
+<script id="device-region-analysis-render-0910">
+(function(){
+  var modal=document.getElementById('deviceRegionAnalysisModal');
+  var trigger=document.getElementById('deviceRegionAnalysisButton');
+  var close=document.getElementById('deviceRegionAnalysisClose');
+  var grid=document.getElementById('deviceRegionAnalysisGrid');
+  var note=document.getElementById('deviceRegionAnalysisNote');
+  var toolbar=document.getElementById('deviceRegionAnalysisToolbar');
+  var tabs=document.getElementById('deviceRegionAnalysisTabs');
+  var capture=document.getElementById('deviceRegionAnalysisCapture');
+  var analysisNotes=[
+    {label:'未开机率：',text:'未开机数/省区投放总数'},
+    {label:'合格时长：',text:'设备单天平均使用时长≥8小时'},
+    {label:'时长未达标率：',text:'设备（保温柜+烤肠机）时长未达标数/设备（保温柜+烤肠机）开机数'},
+    {label:'数据来源：',text:'百舸云数据'}
+  ];
+  var activeIndex=0;
+  if(!modal||!trigger||!close||!grid||!toolbar||!tabs||!capture) return;
+  function esc(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function n(v){var x=Number(v);return isFinite(x)?x:0;}
+  function fmt(v){return Math.round(n(v)).toLocaleString();}
+  function pct(v){return n(v).toFixed(1)+'%';}
+  function renderTable(title, rows, mode, index){
+    var headers=mode==='notOn'?['维度','保温柜投放台数','保温柜未开机数','烤肠机投放台数','烤肠机未开机数','未开机率']:
+      ['维度','保温柜开机台数','保温柜时长未达标数','烤肠机开机台数','烤肠机时长未达标数','未达标率'];
+    var body=rows.map(function(r){return '<tr><td>'+esc(r.dimension)+'</td><td>'+fmt(r.warmOnOrVolume)+'</td><td>'+fmt(r.warmBad)+'</td><td>'+fmt(r.sausageOnOrVolume)+'</td><td>'+fmt(r.sausageBad)+'</td><td>'+pct(r.rate)+'</td></tr>';}).join('');
+    var total=rows.reduce(function(a,r){a.warmOnOrVolume+=n(r.warmOnOrVolume);a.warmBad+=n(r.warmBad);a.sausageOnOrVolume+=n(r.sausageOnOrVolume);a.sausageBad+=n(r.sausageBad);return a;},{warmOnOrVolume:0,warmBad:0,sausageOnOrVolume:0,sausageBad:0});
+    var totalRate=(total.warmOnOrVolume+total.sausageOnOrVolume)?(total.warmBad+total.sausageBad)/(total.warmOnOrVolume+total.sausageOnOrVolume)*100:0;
+    return '<section class="device-analysis-card" data-analysis-panel="'+index+'"'+(index?' hidden':'')+'><h3>'+esc(title)+'</h3><div class="device-analysis-table-wrap"><table class="device-analysis-table"><thead><tr>'+headers.map(function(h){return '<th>'+h+'</th>';}).join('')+'</tr></thead><tbody>'+ (body||'<tr><td colspan="6">暂无数据</td></tr>') +'</tbody><tfoot><tr><td>合计</td><td>'+fmt(total.warmOnOrVolume)+'</td><td>'+fmt(total.warmBad)+'</td><td>'+fmt(total.sausageOnOrVolume)+'</td><td>'+fmt(total.sausageBad)+'</td><td>'+pct(totalRate)+'</td></tr></tfoot></table></div></section>';
+  }
+  function selectPanel(index){
+    activeIndex=index;
+    Array.prototype.forEach.call(tabs.querySelectorAll('[data-analysis-tab]'),function(button){
+      var selected=Number(button.getAttribute('data-analysis-tab'))===index;
+      button.classList.toggle('on',selected);
+      button.setAttribute('aria-selected',selected?'true':'false');
+      button.tabIndex=selected?0:-1;
+    });
+    Array.prototype.forEach.call(grid.querySelectorAll('[data-analysis-panel]'),function(panel){
+      panel.hidden=Number(panel.getAttribute('data-analysis-panel'))!==index;
+    });
+  }
+  async function downloadCurrentTable(){
+    var panel=grid.querySelector('[data-analysis-panel="'+activeIndex+'"]');
+    var table=panel&&panel.querySelector('table');
+    if(!panel||!table) return;
+    if(document.fonts&&document.fonts.load){
+      await Promise.all([
+        document.fonts.load("500 15px '华康圆体-W7'"),
+        document.fonts.load("700 15px '华康圆体-W8'"),
+        document.fonts.load("800 21px '华康圆体-W9'"),
+        document.fonts.load("800 15px 'GOTHAMRND-BOLD'")
+      ]);
+    }
+    var title=(panel.querySelector('h3')||{}).textContent||'智能设备区域分析';
+    var rows=Array.prototype.map.call(table.rows,function(row){
+      return Array.prototype.map.call(row.cells,function(cell){return cell.textContent.trim();});
+    });
+    if(!rows.length) return;
+    var scale=2;
+    var padding=28;
+    var titleHeight=68;
+    var noteLineHeight=27;
+    var noteHeight=analysisNotes.length*noteLineHeight+18;
+    var rowHeight=40;
+    var measure=document.createElement('canvas').getContext('2d');
+    measure.font="500 15px '华康圆体-W7','HKYuanW7','Microsoft YaHei',sans-serif";
+    var colCount=rows[0].length;
+    var widths=[];
+    for(var col=0;col<colCount;col++){
+      var maxWidth=0;
+      rows.forEach(function(row){maxWidth=Math.max(maxWidth,measure.measureText(row[col]||'').width);});
+      widths[col]=Math.max(col===0?150:112,Math.ceil(maxWidth)+30);
+    }
+    var tableWidth=widths.reduce(function(sum,width){return sum+width;},0);
+    if(tableWidth<900){widths[0]+=900-tableWidth;tableWidth=900;}
+    var canvas=document.createElement('canvas');
+    canvas.width=(tableWidth+padding*2)*scale;
+    canvas.height=(titleHeight+noteHeight+rows.length*rowHeight+padding)*scale;
+    var ctx=canvas.getContext('2d');
+    ctx.scale(scale,scale);
+    ctx.fillStyle='#fffdf9';
+    ctx.fillRect(0,0,canvas.width/scale,canvas.height/scale);
+    ctx.fillStyle='#703a1e';
+    ctx.fillRect(padding,16,tableWidth,titleHeight-12);
+    ctx.fillStyle='#ffffff';
+    ctx.font="800 21px '华康圆体-W9','HKYuanW9','Microsoft YaHei',sans-serif";
+    ctx.textBaseline='middle';
+    ctx.fillText(title,padding+18,16+(titleHeight-12)/2);
+    ctx.fillStyle='#fff7d6';
+    ctx.fillRect(padding,titleHeight,tableWidth,noteHeight);
+    ctx.fillStyle='#fcc900';
+    ctx.fillRect(padding,titleHeight,4,noteHeight);
+    analysisNotes.forEach(function(item,index){
+      var lineY=titleHeight+14+index*noteLineHeight+noteLineHeight/2;
+      ctx.textAlign='left';
+      ctx.fillStyle='#703a1e';
+      ctx.font="700 14px '华康圆体-W8','HKYuanW8','Microsoft YaHei',sans-serif";
+      ctx.fillText(item.label,padding+18,lineY);
+      var labelWidth=ctx.measureText(item.label).width;
+      ctx.fillStyle='#6d5520';
+      ctx.font="500 14px '华康圆体-W7','HKYuanW7','Microsoft YaHei',sans-serif";
+      ctx.fillText(item.text,padding+18+labelWidth,lineY);
+    });
+    var y=titleHeight+noteHeight;
+    rows.forEach(function(row,rowIndex){
+      var isHeader=rowIndex===0;
+      var isTotal=rowIndex===rows.length-1;
+      ctx.fillStyle=isHeader?'#f0ebe7':(isTotal?'#fff4ed':'#ffffff');
+      ctx.fillRect(padding,y,tableWidth,rowHeight);
+      var x=padding;
+      row.forEach(function(value,colIndex){
+        ctx.strokeStyle='#d9d2cc';
+        ctx.lineWidth=1;
+        ctx.strokeRect(x,y,widths[colIndex],rowHeight);
+        ctx.fillStyle=isTotal?'#d83a25':'#332d29';
+        var isNumber=colIndex>0;
+        ctx.font=isNumber
+          ? "800 15px 'GOTHAMRND-BOLD','GothamRndBold','华康圆体-W9',sans-serif"
+          : (isHeader||isTotal
+            ? "700 15px '华康圆体-W8','HKYuanW8','Microsoft YaHei',sans-serif"
+            : "500 15px '华康圆体-W7','HKYuanW7','Microsoft YaHei',sans-serif");
+        ctx.textAlign=colIndex===0?'left':'center';
+        ctx.fillText(value,colIndex===0?x+12:x+widths[colIndex]/2,y+rowHeight/2);
+        x+=widths[colIndex];
+      });
+      y+=rowHeight;
+    });
+    var link=document.createElement('a');
+    link.download=title.replace(/[\\/:*?"<>|]/g,'_')+'.png';
+    link.href=canvas.toDataURL('image/png');
+    link.click();
+  }
+  function open(){
+    var data=window.DEVICE_REGION_ANALYSIS;
+    modal.classList.add('show'); modal.setAttribute('aria-hidden','false');
+    if(!data||data.available===false){note.textContent=(data&&data.message)||'当前未找到“智能设备明细”数据，请补充源工作簿后重新更新看板。';toolbar.hidden=true;grid.innerHTML='';return;}
+    var definitions=[
+      {title:'省份维度：未开机情况',rows:data.provinceNotOn||[],mode:'notOn'},
+      {title:'客户维度：未开机率 TOP20',rows:data.customerNotOn||[],mode:'notOn'},
+      {title:'省份维度：时长未达标情况',rows:data.provinceNotQualified||[],mode:'notQualified'},
+      {title:'客户维度：未达标率 TOP20',rows:data.customerNotQualified||[],mode:'notQualified'}
+    ];
+    note.innerHTML=analysisNotes.map(function(item){return '<span><strong>'+esc(item.label)+'</strong>'+esc(item.text)+'</span>';}).join('');
+    toolbar.hidden=false;
+    tabs.innerHTML=definitions.map(function(item,index){return '<button type="button" class="device-analysis-tab" role="tab" data-analysis-tab="'+index+'" aria-selected="false">'+esc(item.title)+'</button>';}).join('');
+    grid.innerHTML=definitions.map(function(item,index){return renderTable(item.title,item.rows,item.mode,index);}).join('');
+    Array.prototype.forEach.call(tabs.querySelectorAll('[data-analysis-tab]'),function(button){
+      button.addEventListener('click',function(){selectPanel(Number(button.getAttribute('data-analysis-tab')));});
+    });
+    selectPanel(0);
+  }
+  function hide(){modal.classList.remove('show');modal.setAttribute('aria-hidden','true');}
+  trigger.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();open();});
+  capture.addEventListener('click',downloadCurrentTable);
+  close.addEventListener('click',hide);
+  modal.addEventListener('click',function(e){if(e.target===modal) hide();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal.classList.contains('show'))hide();});
 })();
 </script>
 <script id="popup-mom-color-0730">
