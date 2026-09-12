@@ -32,6 +32,10 @@ echo Updating device detail data...
 "%PY%" "%~dp0update_device_detail.py"
 if errorlevel 1 goto fail
 
+echo Updating device ban action data...
+"%PY%" "%~dp0build_device_ban_action.py"
+if errorlevel 1 goto fail
+
 echo.
 echo Updating device region analysis data...
 "%PY%" "%~dp0build_device_region_analysis.py"

@@ -127,7 +127,7 @@ window.APPROVAL_PIES_BY_MONTH = {
     "rate": 75.3,
     "issues": [
       {
-        "name": "未使用公司最新品牌logo今日水印相机",
+        "name": "未使用今日水印相机",
         "value": 98
       },
       {
@@ -304,7 +304,7 @@ window.APPROVAL_PIES_BY_MONTH = {
         "value": 47
       },
       {
-        "name": "未使用公司最新品牌logo今日水印相机",
+        "name": "未使用今日水印相机",
         "value": 41
       }
     ],
@@ -477,11 +477,11 @@ window.APPROVAL_PIES_BY_MONTH = {
         "value": 51
       },
       {
-        "name": "未使用公司最新品牌logo今日水印相机",
+        "name": "未使用今日水印相机",
         "value": 27
       },
       {
-        "name": "无大单品陈列且未使用最新版水印相机",
+        "name": "无大单品陈列且未使用水印相机",
         "value": 2
       }
     ],
@@ -574,6 +574,95 @@ window.APPROVAL_PIES_BY_MONTH = {
       }
     ]
   },
+  "9月": {
+    "month": "9月",
+    "total": 157,
+    "qualified": 143,
+    "unqualified": 14,
+    "rate": 91.1,
+    "issues": [
+      {
+        "name": "着装不规范",
+        "value": 7
+      },
+      {
+        "name": "流程不合规",
+        "value": 4
+      },
+      {
+        "name": "未使用今日水印相机",
+        "value": 2
+      }
+    ],
+    "dressIssues": [
+      {
+        "name": "帽子,口罩",
+        "value": 2
+      },
+      {
+        "name": "口罩",
+        "value": 2
+      },
+      {
+        "name": "帽子,围裙,口罩",
+        "value": 1
+      },
+      {
+        "name": "口罩,帽子",
+        "value": 1
+      },
+      {
+        "name": "帽子",
+        "value": 1
+      }
+    ],
+    "provinceIssues": [
+      {
+        "province": "安徽省区",
+        "value": 3
+      },
+      {
+        "province": "川渝藏大区",
+        "value": 2
+      },
+      {
+        "province": "福建省区",
+        "value": 1
+      },
+      {
+        "province": "广东省区",
+        "value": 1
+      },
+      {
+        "province": "浙江省区",
+        "value": 1
+      },
+      {
+        "province": "吉林省区",
+        "value": 1
+      },
+      {
+        "province": "西北大区",
+        "value": 1
+      },
+      {
+        "province": "河南省区",
+        "value": 1
+      },
+      {
+        "province": "内蒙省区",
+        "value": 1
+      },
+      {
+        "province": "湖南省区",
+        "value": 1
+      },
+      {
+        "province": "山东省区",
+        "value": 1
+      }
+    ]
+  },
   "12月": {
     "month": "12月",
     "total": 1,
@@ -612,11 +701,11 @@ window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH 
       "value": 51
     },
     {
-      "name": "未使用公司最新品牌logo今日水印相机",
+      "name": "未使用今日水印相机",
       "value": 27
     },
     {
-      "name": "无大单品陈列且未使用最新版水印相机",
+      "name": "无大单品陈列且未使用水印相机",
       "value": 2
     }
   ],

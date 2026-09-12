@@ -180,18 +180,18 @@ window.CURRENT_AUDIT_PROGRESS = {
     {
       "province": "川渝藏",
       "target": 3.0,
-      "audit": 0,
-      "progress": 0.0,
-      "done": 0.0,
-      "remain": 100.0
+      "audit": 3,
+      "progress": 100.0,
+      "done": 100.0,
+      "remain": 0.0
     },
     {
       "province": "西北",
       "target": 5.4,
-      "audit": 0,
-      "progress": 0.0,
-      "done": 0.0,
-      "remain": 100.0
+      "audit": 5,
+      "progress": 92.6,
+      "done": 92.6,
+      "remain": 7.4
     }
   ]
 };
