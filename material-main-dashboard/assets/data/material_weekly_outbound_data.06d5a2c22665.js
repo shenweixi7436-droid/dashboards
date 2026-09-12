@@ -1,0 +1,1 @@
+window.MATERIAL_WEEKLY_OUTBOUND_DATA = {"thisWeek":153210,"lastWeek":306393,"monthQty":428864,"monthLabel":"9月","weekLabel":"本周","weekRange":{"thisStart":"2026-09-06","thisEnd":"2026-09-12","lastStart":"2026-08-30","lastEnd":"2026-09-05","thisLabel":"09.06 ~ 09.12","lastLabel":"08.30 ~ 09.05"}};

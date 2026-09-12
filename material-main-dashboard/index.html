@@ -338,10 +338,10 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
 </div>
 <script src="assets/data/material_freight_dashboard_data.175ed8fac0ef.js"></script>
 <script src="assets/data/material_development_gantt_data.e76b26bff36d.js"></script>
-<script src="assets/data/inventory_outbound_data.f430140bf186.js"></script>
-<script src="assets/data/device_weekly_outbound_data.8896066240e6.js"></script>
-<script src="assets/data/material_weekly_outbound_data.01cde9f6055e.js"></script>
-<script src="assets/data/material_inventory_data.9efb0e8947a0.js"></script>
+<script src="assets/data/inventory_outbound_data.2a1478071f53.js"></script>
+<script src="assets/data/device_weekly_outbound_data.a198eb28d15f.js"></script>
+<script src="assets/data/material_weekly_outbound_data.06d5a2c22665.js"></script>
+<script src="assets/data/material_inventory_data.f51c4eaddb17.js"></script>
 <script>
 (function(){
   'use strict';
@@ -768,11 +768,10 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
   }
   function getActiveMaterialDetail(){
     var data=window.materialInventoryData||{};
-    var dw=window.deviceWeeklyData||{};
     var month=Number(window.DASHBOARD_MONTH)||data.latestMonth||1;
     var map=data.detailByMonth||{};
     var detail=map[String(month)]||null;
-    return{month:month,detail:detail,source:data,weekRange:dw.weekRange||null};
+    return{month:month,detail:detail,source:data,weekRange:materialWeeklyData.weekRange||null};
   }
   function materialMonthSpanText(info,dim){
     if(dim==='month')return info.month+'月';

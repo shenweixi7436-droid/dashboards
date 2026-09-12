@@ -349,7 +349,20 @@ DEVICE_BRAND_KEYWORDS = ("皇家小虎", "酷福", "美的", "智虎", "合马",
 
 
 def build_material_weekly_outbound(source_dir: Path, inventory_path: Path) -> dict[str, object]:
-    """从出入库流水 sheet 汇总本周/本月物料出库总量（周次=K列，数量=B列，仅出库）。"""
+    """从库存源数据的出入库流水按 O2/N2 日期控制值汇总物料出库。"""
+    from openpyxl import load_workbook
+
+    wb = load_workbook(inventory_path, data_only=True, read_only=True)
+    ws = wb["出入库流水"]
+    date_o2 = pd.Timestamp(ws["O2"].value) if ws["O2"].value else None
+    date_n2 = pd.Timestamp(ws["N2"].value) if ws["N2"].value else None
+    wb.close()
+    if date_o2 is None or date_n2 is None:
+        raise ValueError("出入库流水 O2/N2 缺少周次结束日期")
+    # 兼容源表列名/公式顺序变化：较晚日期必然是本周结束日。
+    this_end, last_end = max(date_o2, date_n2), min(date_o2, date_n2)
+    this_start = this_end - pd.Timedelta(days=6)
+    last_start = last_end - pd.Timedelta(days=6)
     frame = pd.read_excel(inventory_path, sheet_name="出入库流水", engine="openpyxl")
     required = {"周次", "数量", "出入库", "日期"}
     missing = required.difference(frame.columns)
@@ -357,14 +370,11 @@ def build_material_weekly_outbound(source_dir: Path, inventory_path: Path) -> di
         raise ValueError("出入库流水 sheet 缺少字段：" + "、".join(sorted(missing)))
     frame = frame.copy()
     frame["数量"] = pd.to_numeric(frame["数量"], errors="coerce").fillna(0.0)
-    frame["周次"] = frame["周次"].astype(str).str.strip()
     frame["出入库"] = frame["出入库"].astype(str).str.strip()
     frame["日期值"] = pd.to_datetime(frame["日期"], errors="coerce")
     outbound = frame.loc[frame["出入库"] == "出库"]
-
-    def week_total(week: str) -> float:
-        subset = outbound.loc[outbound["周次"] == week]
-        return round(float(subset["数量"].sum()))
+    this_week = outbound.loc[(outbound["日期值"] >= this_start) & (outbound["日期值"] <= this_end)]
+    last_week = outbound.loc[(outbound["日期值"] >= last_start) & (outbound["日期值"] <= last_end)]
 
     month_qty = 0.0
     month_label = ""
@@ -376,11 +386,19 @@ def build_material_weekly_outbound(source_dir: Path, inventory_path: Path) -> di
         month_label = f"{current_month}月"
 
     data = {
-        "thisWeek": week_total("本周"),
-        "lastWeek": week_total("上周"),
+        "thisWeek": round(float(this_week["数量"].sum())),
+        "lastWeek": round(float(last_week["数量"].sum())),
         "monthQty": month_qty,
         "monthLabel": month_label,
         "weekLabel": "本周",
+        "weekRange": {
+            "thisStart": this_start.strftime("%Y-%m-%d"),
+            "thisEnd": this_end.strftime("%Y-%m-%d"),
+            "lastStart": last_start.strftime("%Y-%m-%d"),
+            "lastEnd": last_end.strftime("%Y-%m-%d"),
+            "thisLabel": format_week_label(this_start, this_end),
+            "lastLabel": format_week_label(last_start, last_end),
+        },
     }
     (source_dir / "material_weekly_outbound_data.js").write_text(
         js_assignment("MATERIAL_WEEKLY_OUTBOUND_DATA", data, spaced=True), encoding="utf-8"
@@ -659,6 +677,9 @@ def update(source_dir: Path) -> dict[str, object]:
     legacy.pd.read_excel = routed_read_excel
     try:
         inventory = legacy.update_inventory()
+        # 旧更新器的 update_inventory() 不会生成物料明细弹窗使用的
+        # material_inventory_data.js；显式调用该构建函数，避免明细停留在旧日期。
+        material_inventory = legacy.build_material_inventory()
         freight = legacy.update_freight()
         development = legacy.update_gantt()
     finally:
@@ -687,6 +708,7 @@ def update(source_dir: Path) -> dict[str, object]:
     result = {
         "sources": {key: path.name for key, path in paths.items()},
         "inventory": inventory,
+        "materialInventory": material_inventory,
         "device": device,
         "freight": freight,
         "freightDetails": freight_details,

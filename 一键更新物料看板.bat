@@ -15,8 +15,11 @@ echo Building all three GitHub Pages dashboards...
 "%PY%" "%~dp0build_material_dashboard.py"
 if errorlevel 1 goto fail
 
+if not exist "C:\Users\shenw\Desktop\看板\物料小组看板\物料进销存看板.html" goto local_panel_missing
+
 echo.
 echo Material dashboard update completed.
+echo Local inventory panel data: C:\Users\shenw\Desktop\看板\物料小组看板\物料进销存看板.html
 echo Main dashboard:      %~dp0material-main-dashboard\index.html
 echo Inventory dashboard: %~dp0material-dashboard\index.html
 echo Freight dashboard:   %~dp0material-freight-dashboard\index.html
@@ -25,6 +28,15 @@ echo.
 if /I "%~1"=="nopause" exit /b 0
 pause
 exit /b 0
+
+:local_panel_missing
+echo.
+echo Source update completed, but the local inventory panel was not found:
+echo C:\Users\shenw\Desktop\看板\物料小组看板\物料进销存看板.html
+echo Please restore the file or ask Codex to repair the source directory.
+if /I "%~1"=="nopause" exit /b 1
+pause
+exit /b 1
 
 :missing_python
 echo.
