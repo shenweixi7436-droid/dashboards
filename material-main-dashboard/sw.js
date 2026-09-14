@@ -1,4 +1,4 @@
-const CACHE_NAME = 'material-main-dashboard-0797093025bf';
+const CACHE_NAME = 'material-main-dashboard-c19643e77532';
 const PRECACHE_URLS = [
   "./",
   "./index.html",
@@ -7,7 +7,7 @@ const PRECACHE_URLS = [
   "./assets/data/inventory_outbound_data.2a1478071f53.js",
   "./assets/data/device_weekly_outbound_data.667911b2d00c.js",
   "./assets/data/material_weekly_outbound_data.06d5a2c22665.js",
-  "./assets/data/material_inventory_data.894501c54b87.js",
+  "./assets/data/material_inventory_data.193515f4c0ed.js",
   "./../material-dashboard/assets/fonts/gotham-rounded-bold.f6281701cdb9.woff2",
   "./../material-dashboard/assets/fonts/hk-yuan-w7.a0f4d903956d.woff2"
 ];
