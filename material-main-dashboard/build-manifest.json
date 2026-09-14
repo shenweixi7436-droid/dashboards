@@ -1,6 +1,6 @@
 {
-  "version": "eeca4300d24e",
-  "builtAt": "2026-09-12T18:32:44+08:00",
+  "version": "0797093025bf",
+  "builtAt": "2026-09-14T09:47:31+08:00",
   "source": "C:\\Users\\shenw\\Desktop\\看板\\物料小组看板",
   "files": {
     "html": "index.html",
@@ -8,9 +8,9 @@
       "assets/data/material_freight_dashboard_data.175ed8fac0ef.js",
       "assets/data/material_development_gantt_data.e76b26bff36d.js",
       "assets/data/inventory_outbound_data.2a1478071f53.js",
-      "assets/data/device_weekly_outbound_data.a198eb28d15f.js",
+      "assets/data/device_weekly_outbound_data.667911b2d00c.js",
       "assets/data/material_weekly_outbound_data.06d5a2c22665.js",
-      "assets/data/material_inventory_data.f51c4eaddb17.js"
+      "assets/data/material_inventory_data.894501c54b87.js"
     ],
     "fonts": [
       "../material-dashboard/assets/fonts/gotham-rounded-bold.f6281701cdb9.woff2",

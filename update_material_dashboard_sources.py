@@ -450,7 +450,13 @@ def build_device_outbound_detail(
     )
     data["下单时间"] = pd.to_datetime(data.get("下单日期"), errors="coerce")
 
-    if this_week_range and last_week_range:
+    # Excel 源表已经通过“周次”列标记了本周/上周，优先沿用该口径。
+    # 日期范围仅用于没有周次标记的历史文件，避免边界日被重复/遗漏计算。
+    labeled_weeks = data["周次"].astype(str).str.strip()
+    if labeled_weeks.isin(["本周", "上周"]).any():
+        this_week = data.loc[labeled_weeks == "本周"]
+        last_week = data.loc[labeled_weeks == "上周"]
+    elif this_week_range and last_week_range:
         this_start, this_end = pd.Timestamp(this_week_range[0]), pd.Timestamp(this_week_range[1])
         last_start, last_end = pd.Timestamp(last_week_range[0]), pd.Timestamp(last_week_range[1])
         this_week = data.loc[(data["下单时间"] >= this_start) & (data["下单时间"] <= this_end)]
@@ -593,7 +599,16 @@ def build_device_weekly_summary(source_dir: Path, device_path: Path) -> dict[str
     week_frame = week_frame.loc[week_frame["数量"].notna()].copy()
     week_frame["下单时间"] = pd.to_datetime(week_frame.get("下单日期"), errors="coerce")
 
-    if this_start is not None and this_end is not None:
+    labeled_weeks = week_frame["周次"].astype(str).str.strip()
+    if labeled_weeks.isin(["本周", "上周"]).any():
+        # 周次列是源表的最终统计口径，显示区间也跟随其实际记录边界。
+        this_dates = week_frame.loc[labeled_weeks == "本周", "下单时间"].dropna()
+        last_dates = week_frame.loc[labeled_weeks == "上周", "下单时间"].dropna()
+        if not this_dates.empty:
+            this_start, this_end = this_dates.min(), this_dates.max()
+        if not last_dates.empty:
+            last_start, last_end = last_dates.min(), last_dates.max()
+    elif this_start is not None and this_end is not None:
         week_frame = week_frame.loc[
             (week_frame["下单时间"] >= this_start) & (week_frame["下单时间"] <= this_end)
         ]
