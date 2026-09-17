@@ -77,6 +77,21 @@ def date_value(value) -> str:
     return str(value)
 
 
+PROVINCE_ALIASES = {
+    "北京": "北京市",
+    "上海": "上海市",
+    "天津": "天津市",
+    "重庆": "重庆市",
+    "广西省壮族自治区": "广西壮族自治区",
+}
+
+
+def normalize_province(value) -> str:
+    """统一 G 列省份别名，避免同一省/直辖市拆成多个分类。"""
+    province = text_value(value).replace(" ", "")
+    return PROVINCE_ALIASES.get(province, province)
+
+
 def main():
     check_only = "--check" in sys.argv
     wb = load_workbook(SOURCE, data_only=True, read_only=True)
@@ -100,14 +115,15 @@ def main():
         def num(v):
             return v if v not in (None, "") else ""
 
+        province = normalize_province(row[COL_PROVINCE - 1])
         out.append(
             {
                 "rowNum": excel_row_idx,
                 "yearClean": text_value(row[COL_YEAR - 1]),
                 "monthClean": text_value(row[COL_MONTH - 1]),
-                "auditGroup": text_value(row[COL_CITY - 1]),
+                "auditGroup": province,
                 "store": text_value(row[COL_STORE - 1]),
-                "province": text_value(row[COL_PROVINCE - 1]),
+                "province": province,
                 "city": text_value(row[COL_CITY - 1]),
                 "district": text_value(row[COL_DISTRICT - 1]),
                 "address": text_value(row[COL_ADDRESS - 1]),

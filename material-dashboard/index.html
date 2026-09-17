@@ -7,9 +7,9 @@
 <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
 <script src="assets/data/province_outbound.e6deca30e2bc.js"></script>
 <script src="assets/data/province_material.13f8249053bc.js"></script>
-<script src="assets/data/device_outbound.1aa26c133288.js"></script>
-<script src="assets/data/core.ae45cde44cc3.js"></script>
-<script src="assets/data/device_weekly_outbound.667911b2d00c.js"></script>
+<script src="assets/data/device_outbound.14d2dc47e5b8.js"></script>
+<script src="assets/data/core.76c597869d1c.js"></script>
+<script src="assets/data/device_weekly_outbound.a24d1bde7cde.js"></script>
 <style>
 @font-face{font-family:'GOTHAMRND-BOLD';src:url('assets/fonts/gotham-rounded-bold.f6281701cdb9.woff2') format('woff2');font-display:swap}
 @font-face{font-family:'HKYuan-W7';src:url('assets/fonts/hk-yuan-w7.a0f4d903956d.woff2') format('woff2');font-display:swap}
@@ -1092,7 +1092,7 @@ function p6dAggregateByDateRange(dob, f){
       var ch = (r.province==='鸣忙') ? 'mingmang' : 'province';
       (r.devices||[]).forEach(function(dev){
         var n=dev.name;
-        if(!map[n]) map[n]={province:{amount:0,qty:0}, mingmang:{amount:0,qty:0}};
+        if(!map[n]) map[n]={category:dev.category||'',province:{amount:0,qty:0}, mingmang:{amount:0,qty:0}};if(!map[n].category&&dev.category)map[n].category=dev.category;
         map[n][ch].amount += Number(dev.amount)||0;
         map[n][ch].qty += Number(dev.quantity)||0;
       });
@@ -1105,7 +1105,7 @@ function p6dBuildRows(detailByMonth, month, devAggMap, prevAggMap, selectedDevic
   var emptyTot={monthQty:0,monthAmount:0,prevMonthQtyDelta:0,prevMonthAmountDelta:0};var cur=detailByMonth&&detailByMonth[String(month)],prevDetail=detailByMonth&&detailByMonth[String(month-1)];
   function rowOf(groups,key,name){if(!groups)return null;for(var i=0;i<groups.length;i++){var g=groups[i];if(g.key!==key&&g.title!==key)continue;for(var j=0;j<g.rows.length;j++){if(g.rows[j].name===name)return g.rows[j];}}return null;}
   var nameSet={};if(cur)cur.groups.forEach(function(g){(g.rows||[]).forEach(function(r){nameSet[r.name]=1;});});if(prevDetail)prevDetail.groups.forEach(function(g){(g.rows||[]).forEach(function(r){nameSet[r.name]=1;});});Object.keys(devAggMap||{}).forEach(function(n){nameSet[n]=1;});Object.keys(prevAggMap||{}).forEach(function(n){nameSet[n]=1;});var names=Object.keys(nameSet);
-  function build(groupKey){var rows=[],tot=Object.assign({},emptyTot);names.forEach(function(n){var cr=cur?rowOf(cur.groups,groupKey,n):null,pr=prevDetail?rowOf(prevDetail.groups,groupKey,n):null,meta=cr||pr||{};var c=(devAggMap&&devAggMap[n]&&devAggMap[n][groupKey])||{qty:0,amount:0},p=(prevAggMap&&prevAggMap[n]&&prevAggMap[n][groupKey])||{qty:0,amount:0};if(!c.qty&&!c.amount&&!p.qty&&!p.amount)return;var qd=c.qty-p.qty,ad=c.amount-p.amount;rows.push({name:n,brand:meta.supplier||meta.brand||'',category:meta.category||'',monthQty:c.qty,monthAmount:c.amount,prevMonthQtyDelta:qd,prevMonthAmountDelta:ad,note:meta.note||''});tot.monthQty+=c.qty;tot.monthAmount+=c.amount;tot.prevMonthQtyDelta+=qd;tot.prevMonthAmountDelta+=ad;});return{key:groupKey,title:groupKey==='province'?'\u7701\u533a':'\u9e23\u5fd9',rows:rows,total:tot};}
+  function build(groupKey){var rows=[],tot=Object.assign({},emptyTot);names.forEach(function(n){var cr=cur?rowOf(cur.groups,groupKey,n):null,pr=prevDetail?rowOf(prevDetail.groups,groupKey,n):null,meta=cr||pr||{};var c=(devAggMap&&devAggMap[n]&&devAggMap[n][groupKey])||{qty:0,amount:0},p=(prevAggMap&&prevAggMap[n]&&prevAggMap[n][groupKey])||{qty:0,amount:0};if(!c.qty&&!c.amount&&!p.qty&&!p.amount)return;var qd=c.qty-p.qty,ad=c.amount-p.amount;rows.push({name:n,brand:meta.supplier||meta.brand||'',category:meta.category||((devAggMap&&devAggMap[n]&&devAggMap[n].category)||(prevAggMap&&prevAggMap[n]&&prevAggMap[n].category)||'未分类'),monthQty:c.qty,monthAmount:c.amount,prevMonthQtyDelta:qd,prevMonthAmountDelta:ad,note:meta.note||''});tot.monthQty+=c.qty;tot.monthAmount+=c.amount;tot.prevMonthQtyDelta+=qd;tot.prevMonthAmountDelta+=ad;});return{key:groupKey,title:groupKey==='province'?'\u7701\u533a':'\u9e23\u5fd9',rows:rows,total:tot};}
   return{provinceGroup:build('province'),mingmangGroup:build('mingmang')};
 }
 function renderP6DeviceWithData(f) {

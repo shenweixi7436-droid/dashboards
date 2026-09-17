@@ -48,6 +48,11 @@ def number_series(frame: pd.DataFrame, column: str) -> pd.Series:
     return pd.to_numeric(frame[column], errors="coerce").fillna(0.0)
 
 
+def normalize_device_category(value: object) -> str:
+    text = clean_text(value)
+    return "未分类" if text in ("", "/") else text
+
+
 def normalize_freight_columns(frame: pd.DataFrame) -> pd.DataFrame:
     """兼容物料运费分析表的新旧字段名称。"""
     frame = frame.copy()
@@ -121,6 +126,11 @@ def load_device_workbook(device_path: Path) -> tuple[pd.DataFrame, list[dict[str
         frame["数量"] = number_series(frame, "数量")
         frame["总货值"] = number_series(frame, "总货值")
         frame["设备名称清洗"] = frame["设备名称清洗"].map(lambda value: clean_text(value, "未命名设备"))
+        frame["设备大类值"] = (
+            frame["设备大类"].map(normalize_device_category)
+            if "设备大类" in frame.columns
+            else "未分类"
+        )
         order_date_column = next(
             (column for column in ("下单日期", "下单时间") if column in frame.columns),
             None,
@@ -152,6 +162,19 @@ def load_device_workbook(device_path: Path) -> tuple[pd.DataFrame, list[dict[str
 
 def build_device_outbound_file(source_dir: Path, device_path: Path) -> dict[str, object]:
     device_df, sheets = load_device_workbook(device_path)
+    try:
+        category_frame = pd.read_excel(device_path, sheet_name="关键字段汇总")
+        if {"设备名称清洗", "设备大类"}.issubset(category_frame.columns):
+            category_map = (
+                category_frame.assign(_category=category_frame["设备大类"].map(normalize_device_category))
+                .dropna(subset=["设备名称清洗"])
+                .drop_duplicates("设备名称清洗")
+                .set_index("设备名称清洗")["_category"]
+                .to_dict()
+            )
+            device_df["设备大类值"] = device_df["设备名称清洗"].map(category_map).fillna(device_df["设备大类值"])
+    except Exception:
+        pass
     device_df = device_df.loc[
         device_df["下单时间标准"].notna()
         & device_df["销售部门清洗-省区"].ne("")
@@ -171,7 +194,7 @@ def build_device_outbound_file(source_dir: Path, device_path: Path) -> dict[str,
             province = str(region["销售部门清洗-省区"])
             province_group = group.loc[group["销售部门清洗-省区"].eq(province)]
             devices = (
-                province_group.groupby("设备名称清洗")
+                province_group.groupby(["设备名称清洗", "设备大类值"])
                 .agg(amount=("总货值", "sum"), quantity=("实际发货数量", "sum"))
                 .reset_index()
                 .sort_values("amount", ascending=False)
@@ -183,6 +206,7 @@ def build_device_outbound_file(source_dir: Path, device_path: Path) -> dict[str,
                 "devices": [
                     {
                         "name": str(row["设备名称清洗"]),
+                        "category": str(row["设备大类值"]),
                         "amount": round(float(row["amount"]), 2),
                         "quantity": round(float(row["quantity"]), 2),
                     }
@@ -200,6 +224,29 @@ def build_device_outbound_file(source_dir: Path, device_path: Path) -> dict[str,
         "quantity": round(float(device_df["实际发货数量"].sum()), 2),
         "amount": round(float(device_df["总货值"].sum()), 2),
     }
+
+
+def ensure_device_category_ui(source_dir: Path) -> None:
+    """让进销存日期聚合保留设备大类，避免家用/商用烤箱再次合并。"""
+    html_path = source_dir / "物料进销存看板.html"
+    html = html_path.read_text(encoding="utf-8")
+    replacements = (
+        (
+            "if(!map[n]) map[n]={province:{amount:0,qty:0}, mingmang:{amount:0,qty:0}};",
+            "if(!map[n]) map[n]={category:dev.category||'',province:{amount:0,qty:0}, mingmang:{amount:0,qty:0}};if(!map[n].category&&dev.category)map[n].category=dev.category;",
+        ),
+        (
+            "category:meta.category||''",
+            "category:meta.category||((devAggMap&&devAggMap[n]&&devAggMap[n].category)||(prevAggMap&&prevAggMap[n]&&prevAggMap[n].category)||'未分类')",
+        ),
+    )
+    for old, new in replacements:
+        if new in html:
+            continue
+        if old not in html:
+            raise ValueError(f"进销存看板缺少设备大类兼容锚点：{old[:48]}")
+        html = html.replace(old, new, 1)
+    html_path.write_text(html, encoding="utf-8", newline="\n")
 
 
 def build_freight_detail_files(source_dir: Path, freight_path: Path) -> dict[str, int]:
@@ -442,7 +489,7 @@ def build_device_outbound_detail(
     cat_col = "设备大类" if "设备大类" in data.columns else None
     sup_col = "供应商清洗" if "供应商清洗" in data.columns else None
     data["设备大类值"] = (
-        data[cat_col].map(lambda v: clean_text(v) if pd.notna(v) and clean_text(v) not in ("", "/") else "未分类")
+        data[cat_col].map(normalize_device_category)
         if cat_col else "未分类"
     )
     data["供应商"] = (
@@ -701,6 +748,7 @@ def update(source_dir: Path) -> dict[str, object]:
         legacy.pd.read_excel = original_read_excel
 
     device = build_device_outbound_file(source_dir, paths["device"])
+    ensure_device_category_ui(source_dir)
     freight_details = build_freight_detail_files(source_dir, paths["freight"])
     if paths["afterSales"].exists():
         after_sales = build_after_sales(source_dir, paths["afterSales"])

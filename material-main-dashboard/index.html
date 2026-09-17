@@ -161,6 +161,8 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
 .material-modal-title{color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:19px}
 .material-modal-sub{margin-top:4px;color:rgba(99,44,22,.72);font-size:12px}
 .material-modal-dim-hint{margin-top:8px;padding:7px 12px;background:rgba(234,170,0,.10);border-left:3px solid var(--tiger-yellow);border-radius:6px;color:rgba(99,44,22,.78);font-size:12px;line-height:1.6}
+.material-modal-dim-hint ul{margin:0;padding-left:18px;display:grid;gap:2px}
+.material-modal-dim-hint code{padding:1px 5px;border-radius:4px;background:rgba(99,44,22,.08);font-family:inherit}
 .material-modal-dim-hint b{color:var(--tiger-brown);font-weight:500;margin-right:6px}
 .material-modal-close{flex:none;width:34px;height:34px;display:grid;place-items:center;border:2px solid var(--tiger-brown);border-radius:10px;background:#fff;cursor:pointer;color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:15px}
 .material-modal-close:hover{background:var(--tiger-yellow)}
@@ -339,9 +341,9 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
 <script src="assets/data/material_freight_dashboard_data.175ed8fac0ef.js"></script>
 <script src="assets/data/material_development_gantt_data.e76b26bff36d.js"></script>
 <script src="assets/data/inventory_outbound_data.2a1478071f53.js"></script>
-<script src="assets/data/device_weekly_outbound_data.667911b2d00c.js"></script>
+<script src="assets/data/device_weekly_outbound_data.a24d1bde7cde.js"></script>
 <script src="assets/data/material_weekly_outbound_data.06d5a2c22665.js"></script>
-<script src="assets/data/material_inventory_data.193515f4c0ed.js"></script>
+<script src="assets/data/material_inventory_data.657420acaa59.js"></script>
 <script>
 (function(){
   'use strict';
@@ -795,10 +797,14 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
     return sub;
   }
   function materialDimHintText(dim){
-    if(dim==='month'){
-      return '<b>月维度消化天数</b> ≈ 长期预测：按本月平均出库速度，预测当前库存能维持的天数';
-    }
-    return '<b>周维度消化天数</b> ≈ 短期预警：按本周出库速度持续推算，预测当前库存告急的天数';
+    return '<ul>'+
+      '<li>周维度：<code>当前库存 ÷ 本周出库数 × 7天</code></li>'+
+      '<li>月维度：<code>当前库存 ÷ 本月出库数 × 30天</code></li>'+
+      '<li>计算结果不足365天：四舍五入显示“XX天”</li>'+
+      '<li>计算结果达到365天：显示“&gt;1年”</li>'+
+      '<li>本期出库数为0、当前库存大于0：显示“充足”</li>'+
+      '<li>当前库存和本期出库数均为0：显示“—”</li>'+
+      '</ul>';
   }
   function buildMaterialInventoryTable(dim,info){
     dim=dim||'week';
@@ -806,16 +812,9 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
     var items=info.detail&&Array.isArray(info.detail.items)
       ?info.detail.items.filter(function(it){return String(it.code||'').trim()!=='停发';})
       :[];
-    var stats={'紧急':0,'断货':0,'预警':0,'正常':0,'其他':0};
-    items.forEach(function(it){var key=stats[it.urgency]!==undefined?it.urgency:'其他';stats[key]++;});
-    // 色块加 data-urg-filter 用于点击筛选
-    var statsHtml=Object.keys(stats).filter(function(k){return stats[k]>0;}).map(function(k){
-      return '<span class="urg-'+k+'" data-urg-filter="'+k+'" role="button" tabindex="0" title="点击仅显示'+k+'物料">'+k+' '+stats[k]+'</span>';
-    }).join('');
     var toolbar='<div class="material-inventory-toolbar">'+
       '<input type="search" id="material-inventory-search" placeholder="搜索物料名称或编码…" aria-label="搜索物料">'+
-      '<button type="button" class="material-inventory-reset" id="material-inventory-reset" title="清除搜索和紧急程度筛选">重置筛选</button>'+
-      '<div class="urgency-stats">'+statsHtml+'</div>'+ 
+      '<button type="button" class="material-inventory-reset" id="material-inventory-reset" title="清除搜索">重置筛选</button>'+
       '</div>';
     // 表头：本周/本月出库数列加 sortable
     var th2='<th class="num sortable" data-sort-key="thisOut" data-sort-dir="desc" title="点击切换升序/降序">'+h[2]+'<span class="sort-indicator">▼</span></th>';
@@ -826,15 +825,16 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
       th2+
       '<th class="num">'+h[3]+'</th>'+
       '<th class="num">'+h[4]+'</th>'+
-      '<th class="num">'+h[5]+'</th>'+
+      '<th class="num">预计消化时间</th>'+
+      '<th class="num">库存状态</th>'+
       '</tr></thead><tbody>';
     if(!items.length){
-      table+='<tr><td colspan="6" style="padding:20px;color:rgba(99,44,22,.56)">暂无库存数据</td></tr>';
+      table+='<tr><td colspan="7" style="padding:20px;color:rgba(99,44,22,.56)">暂无库存数据</td></tr>';
     }else{
       items.forEach(function(it){
         var v=materialRowValues(it,dim);
-        var urg=it.urgency||'其他';
-        var urgCls=stats[urg]!==undefined?('urg-'+urg):'urg-其他';
+        var urg=it.urgency||'-';
+        var urgCls=urg==='【需补货】<=80%'?'urg-预警':urg==='【需补货】>80%'?'urg-紧急':urg==='0'?'urg-断货':'urg-正常';
         var tQ=dim==='month'?Number(it.thisMonthOut||0):Number(it.thisWeekOut||0);
         table+='<tr class="'+urgCls+'" data-name="'+String(it.name||'').replace(/"/g,'&quot;')+'" data-code="'+String(it.code||'').replace(/"/g,'&quot;')+'" data-urgency="'+urg.replace(/"/g,'&quot;')+'" data-this-out="'+tQ+'">'+
           '<td class="name">'+String(it.name||'')+'</td>'+
@@ -843,6 +843,7 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
           '<td class="num '+v.qdCls+'">'+v.qd+'</td>'+
           '<td class="num">'+v.stock+'</td>'+
           '<td class="num">'+v.digest+'</td>'+
+          '<td class="num"><span class="urg-pill '+urgCls+'">'+urg+'</span></td>'+
           '</tr>';
       });
     }
@@ -851,17 +852,13 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
   }
   function applyMaterialInventoryFilter(){
     var input=document.getElementById('material-inventory-search');
-    var stats=document.querySelector('.urgency-stats');
     var q=input?String(input.value||'').trim().toLowerCase():'';
-    var urgFilter=stats?(stats.getAttribute('data-urg-active')||''):'';
     var rows=document.querySelectorAll('.material-inventory-table tbody tr[data-name]');
     rows.forEach(function(row){
       var name=(row.getAttribute('data-name')||'').toLowerCase();
       var code=(row.getAttribute('data-code')||'').toLowerCase();
-      var urg=row.getAttribute('data-urgency')||'';
       var matchSearch=!q||name.indexOf(q)>=0||code.indexOf(q)>=0;
-      var matchUrg=!urgFilter||urg===urgFilter;
-      row.classList.toggle('hidden',!(matchSearch&&matchUrg));
+      row.classList.toggle('hidden',!matchSearch);
     });
   }
   function sortMaterialInventoryTable(th){
@@ -918,24 +915,7 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
       var reset=document.getElementById('material-inventory-reset');
       if(reset)reset.addEventListener('click',function(){
         if(input)input.value='';
-        var resetStats=body.querySelector('.urgency-stats');
-        if(resetStats)resetStats.setAttribute('data-urg-active','');
-        body.querySelectorAll('.urgency-stats [data-urg-filter]').forEach(function(x){x.classList.remove('active');});
         applyMaterialInventoryFilter();
-      });
-      // 紧急度色块点击筛选
-      var stats=body.querySelectorAll('.urgency-stats [data-urg-filter]');
-      stats.forEach(function(s){
-        var handler=function(){
-          var parent=s.parentElement;
-          var cur=parent.getAttribute('data-urg-active')||'';
-          var next=cur===s.getAttribute('data-urg-filter')?'':s.getAttribute('data-urg-filter');
-          parent.setAttribute('data-urg-active',next);
-          stats.forEach(function(x){x.classList.toggle('active',x.getAttribute('data-urg-filter')===next);});
-          applyMaterialInventoryFilter();
-        };
-        s.addEventListener('click',handler);
-        s.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();handler();}});
       });
       // 表头本周/本月出库数排序
       var sortHeader=body.querySelector('.material-inventory-table th.sortable');
