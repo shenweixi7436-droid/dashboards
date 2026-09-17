@@ -1,8 +1,8 @@
-// 自动生成自 build_gift_anomaly_dashboard.py（2026-09-12 13:51:48）
+// 自动生成自 build_gift_anomaly_dashboard.py（2026-09-17 17:23:54）
 window.GIFT_LIVE_DATA = {
   "source": "费用分析-样品及活动.xlsx",
-  "generatedAt": "2026-09-12 13:51:48",
-  "t1Month": "8月",
+  "generatedAt": "2026-09-17 17:23:54",
+  "t1Month": "9月",
   "activity": {
     "monthly": {
       "1月": {
@@ -36,6 +36,10 @@ window.GIFT_LIVE_DATA = {
       "8月": {
         "count": 614,
         "amount": 111414.8
+      },
+      "9月": {
+        "count": 325,
+        "amount": 65175.65
       }
     },
     "byCategoryMonthly": {
@@ -182,18 +186,36 @@ window.GIFT_LIVE_DATA = {
           "count": 4,
           "amount": 373.5
         }
+      },
+      "9月": {
+        "消费者搭赠": {
+          "count": 129,
+          "amount": 25500.2
+        },
+        "消费者试吃": {
+          "count": 170,
+          "amount": 31273.450000000008
+        },
+        "经销商搭赠": {
+          "count": 12,
+          "amount": 8402.0
+        },
+        "其他": {
+          "count": 14,
+          "amount": 0.0
+        }
       }
     },
     "t1": {
+      "count": 325,
+      "amount": 65175.65
+    },
+    "t0": {
       "count": 614,
       "amount": 111414.8
     },
-    "t0": {
-      "count": 480,
-      "amount": 48866.4
-    },
-    "countMomPct": 27.9,
-    "amountMomPct": 128.0
+    "countMomPct": -47.1,
+    "amountMomPct": -41.5
   },
   "sample": {
     "monthly": {
@@ -228,6 +250,10 @@ window.GIFT_LIVE_DATA = {
       "8月": {
         "count": 3280,
         "amount": 108525.9700000001
+      },
+      "9月": {
+        "count": 1041,
+        "amount": 44507.100000000006
       }
     },
     "byCategoryMonthly": {
@@ -310,18 +336,28 @@ window.GIFT_LIVE_DATA = {
           "count": 1355,
           "amount": 23078.62000000002
         }
+      },
+      "9月": {
+        "老客户增加品类送样": {
+          "count": 566,
+          "amount": 30499.249999999956
+        },
+        "新客户招商送样": {
+          "count": 475,
+          "amount": 14007.849999999993
+        }
       }
     },
     "t1": {
+      "count": 1041,
+      "amount": 44507.100000000006
+    },
+    "t0": {
       "count": 3280,
       "amount": 108525.9700000001
     },
-    "t0": {
-      "count": 3586,
-      "amount": 93815.64999999985
-    },
-    "countMomPct": -8.5,
-    "amountMomPct": 15.7
+    "countMomPct": -68.3,
+    "amountMomPct": -59.0
   },
   "skippedRows": {
     "activity": 0,
