@@ -576,10 +576,10 @@ window.APPROVAL_PIES_BY_MONTH = {
   },
   "9月": {
     "month": "9月",
-    "total": 277,
-    "qualified": 248,
-    "unqualified": 29,
-    "rate": 89.5,
+    "total": 285,
+    "qualified": 257,
+    "unqualified": 28,
+    "rate": 90.2,
     "issues": [
       {
         "name": "着装不规范",
@@ -642,10 +642,6 @@ window.APPROVAL_PIES_BY_MONTH = {
         "value": 2
       },
       {
-        "province": "吉林省区",
-        "value": 2
-      },
-      {
         "province": "川渝藏大区",
         "value": 2
       },
@@ -655,6 +651,10 @@ window.APPROVAL_PIES_BY_MONTH = {
       },
       {
         "province": "福建省区",
+        "value": 1
+      },
+      {
+        "province": "吉林省区",
         "value": 1
       },
       {
@@ -699,10 +699,10 @@ window.APPROVAL_PIES_BY_MONTH = {
 };
 window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH || "9月"] || {
   "month": "9月",
-  "total": 277,
-  "qualified": 248,
-  "unqualified": 29,
-  "rate": 89.5,
+  "total": 285,
+  "qualified": 257,
+  "unqualified": 28,
+  "rate": 90.2,
   "issues": [
     {
       "name": "着装不规范",
@@ -765,10 +765,6 @@ window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH 
       "value": 2
     },
     {
-      "province": "吉林省区",
-      "value": 2
-    },
-    {
       "province": "川渝藏大区",
       "value": 2
     },
@@ -778,6 +774,10 @@ window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH 
     },
     {
       "province": "福建省区",
+      "value": 1
+    },
+    {
+      "province": "吉林省区",
       "value": 1
     },
     {

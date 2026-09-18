@@ -6961,9 +6961,9 @@ window.APPROVAL_DETAIL_BY_MONTH = {
       "问题类型",
       "着装不合格类型"
     ],
-    "total": 277,
-    "qualified": 248,
-    "unqualified": 29,
+    "total": 285,
+    "qualified": 257,
+    "unqualified": 28,
     "rows": [
       {
         "row": 1953,
@@ -7356,20 +7356,6 @@ window.APPROVAL_DETAIL_BY_MONTH = {
           "口罩"
         ],
         "result": "不合格"
-      },
-      {
-        "row": 2228,
-        "values": [
-          "2026-09-13",
-          "市场活动费用",
-          "FY2026091301056",
-          "吉林省区",
-          "线下-四平市展际商贸有限公司",
-          "",
-          "",
-          ""
-        ],
-        "result": "不合格"
       }
     ],
     "dressIssues": [
@@ -7420,10 +7406,6 @@ window.APPROVAL_DETAIL_BY_MONTH = {
         "value": 2
       },
       {
-        "province": "吉林省区",
-        "value": 2
-      },
-      {
         "province": "川渝藏大区",
         "value": 2
       },
@@ -7433,6 +7415,10 @@ window.APPROVAL_DETAIL_BY_MONTH = {
       },
       {
         "province": "福建省区",
+        "value": 1
+      },
+      {
+        "province": "吉林省区",
         "value": 1
       },
       {
@@ -7508,9 +7494,9 @@ window.APPROVAL_DETAIL = window.APPROVAL_DETAIL_BY_MONTH[window.MAIN_SELECTED_MO
     "问题类型",
     "着装不合格类型"
   ],
-  "total": 277,
-  "qualified": 248,
-  "unqualified": 29,
+  "total": 285,
+  "qualified": 257,
+  "unqualified": 28,
   "rows": [
     {
       "row": 1953,
@@ -7903,20 +7889,6 @@ window.APPROVAL_DETAIL = window.APPROVAL_DETAIL_BY_MONTH[window.MAIN_SELECTED_MO
         "口罩"
       ],
       "result": "不合格"
-    },
-    {
-      "row": 2228,
-      "values": [
-        "2026-09-13",
-        "市场活动费用",
-        "FY2026091301056",
-        "吉林省区",
-        "线下-四平市展际商贸有限公司",
-        "",
-        "",
-        ""
-      ],
-      "result": "不合格"
     }
   ],
   "dressIssues": [
@@ -7967,10 +7939,6 @@ window.APPROVAL_DETAIL = window.APPROVAL_DETAIL_BY_MONTH[window.MAIN_SELECTED_MO
       "value": 2
     },
     {
-      "province": "吉林省区",
-      "value": 2
-    },
-    {
       "province": "川渝藏大区",
       "value": 2
     },
@@ -7980,6 +7948,10 @@ window.APPROVAL_DETAIL = window.APPROVAL_DETAIL_BY_MONTH[window.MAIN_SELECTED_MO
     },
     {
       "province": "福建省区",
+      "value": 1
+    },
+    {
+      "province": "吉林省区",
       "value": 1
     },
     {

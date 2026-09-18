@@ -1,7 +1,7 @@
-Update started 2026/09/18 ÖÜÎå 17:23:48.10
+Update started 2026/09/18 ÖÜÎå 17:44:21.08
 [RUN] MAIN_DASHBOARDS 
 === å¸‚åœºç¨½æ ¸éƒ¨é‡ç‚¹å·¥ä½œçœ‹æ¿ç”Ÿæˆå™¨ v2 ===
-æ—¶é—´: 2026-09-18 17:23:50
+æ—¶é—´: 2026-09-18 17:44:21
 
 åŠ è½½ Excel æ•°æ®...
   ç¨½æ ¸æ˜ç»†: 2829 è¡Œ
@@ -9,7 +9,7 @@ Update started 2026/09/18 ÖÜÎå 17:23:48.10
   å„æˆ˜åŒºç¨½æ ¸è¿›æ±‡æ€»: 91 è¡Œ
   æœˆåº¦é™ˆåˆ—ç¨½æ ¸è´¹ç”¨: 12 è¡Œ
   æ¨å¹¿ä¿ƒé”€: 26 è¡Œ
-  çº¿ä¸Šå®¡æ‰¹: 2226 è¡Œ
+  çº¿ä¸Šå®¡æ‰¹: 2234 è¡Œ
   è®¾å¤‡å°è´¦: 22 è¡Œ
 å¯ç”¨æœˆä»½: 1æœˆ, 2æœˆ, 3æœˆ, 4æœˆ, 5æœˆ, 6æœˆ, 7æœˆ, 8æœˆ, 9æœˆï¼›é»˜è®¤æœˆä»½: 9æœˆ
 é¢„è®¡ç®—ç»Ÿè®¡æ•°æ®...
@@ -113,7 +113,7 @@ Promo task total: 231, audited: 26, progress: 11.3%
 [RUN] APPROVAL_AUDIT 
 Generated: C:\Users\shenw\Documents\New project\github-dashboards\assets\data\approval-detail.js
 Generated: C:\Users\shenw\Documents\New project\github-dashboards\assets\data\approval-pies.js
-Approval total: 2226, qualified: 1742, unqualified: 484
+Approval total: 2234, qualified: 1751, unqualified: 483
 [OK] APPROVAL_AUDIT 
 [RUN] DEVICE_CHANNEL 
 Updated: C:\Users\shenw\Documents\New project\github-dashboards\assets\data\device-channel-status.js
@@ -139,7 +139,7 @@ GIFT_LIVE_DATA written: t1=9ÔÂ, »î¶¯ 325Ìõ/65176Ôª, ÑùÆ· 1041Ìõ/44507Ôª
 ÒÑĞ´Èë:
   C:\Users\shenw\Documents\New project\github-dashboards\assets\pages\ÏßÏÂ»î¶¯ÓëÑùÆ·ÉêÇëÒì³£½â¶Á¿´°å.html
   C:\Users\shenw\WorkBuddy\2026-08-25-13-53-45\ÏßÏÂ»î¶¯ÓëÑùÆ·ÉêÇëÒì³£½â¶Á¿´°å.html
-±¸·İ: C:\Users\shenw\Documents\New project\github-dashboards\backups/*.bak-auto-20260918-172428.*
+±¸·İ: C:\Users\shenw\Documents\New project\github-dashboards\backups/*.bak-auto-20260918-174456.*
 [OK] GIFT_ANOMALY_PAGE 
 [RUN] SCHEDULE_PROGRESS 
 saved=C:\Users\shenw\Documents\New project\dist\material_development_progress_dashboard.html
@@ -157,7 +157,7 @@ wrote C:\Users\shenw\Documents\New project\github-dashboards\assets\data\device-
 [OK] DEVICE_BAN 
 [RUN] STORE_AUDIT 
 built rows from Excel: 8754
-existing snapshot rows: 8333
+existing snapshot rows: 8754
 RAW_DATA updated in store-business-analysis.html: 8754 rows (source-pill updated: 1)
 [OK] STORE_AUDIT 
 [RUN] GIFT_LIVE_DATA 
@@ -181,7 +181,7 @@ GIFT_LIVE_DATA written: t1=9ÔÂ, »î¶¯ 325Ìõ/65176Ôª, ÑùÆ· 1041Ìõ/44507Ôª
 ÒÑĞ´Èë:
   C:\Users\shenw\Documents\New project\github-dashboards\assets\pages\ÏßÏÂ»î¶¯ÓëÑùÆ·ÉêÇëÒì³£½â¶Á¿´°å.html
   C:\Users\shenw\WorkBuddy\2026-08-25-13-53-45\ÏßÏÂ»î¶¯ÓëÑùÆ·ÉêÇëÒì³£½â¶Á¿´°å.html
-±¸·İ: C:\Users\shenw\Documents\New project\github-dashboards\backups/*.bak-auto-20260918-172513.*
+±¸·İ: C:\Users\shenw\Documents\New project\github-dashboards\backups/*.bak-auto-20260918-174600.*
 [OK] GIFT_ANOMALY_PAGE 
 [RUN] SCHEDULE_PROGRESS 
 saved=C:\Users\shenw\Documents\New project\dist\material_development_progress_dashboard.html
