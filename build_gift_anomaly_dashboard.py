@@ -174,7 +174,12 @@ def main():
         f"// 自动生成自 build_gift_anomaly_dashboard.py（{payload['generatedAt']}）\n"
         f"window.GIFT_LIVE_DATA = {json.dumps(payload, ensure_ascii=False, indent=2)};\n"
     )
-    OUTPUT.write_text(js_body, encoding="utf-8")
+    try:
+        OUTPUT.write_text(js_body, encoding="utf-8")
+    except (PermissionError, OSError) as exc:
+        # The WorkBuddy copy may be open in another application. The repo
+        # deployment file is authoritative and must still be refreshed.
+        print(f"WARN: unable to update WorkBuddy copy {OUTPUT}: {exc}")
     REPO_OUTPUT.write_text(js_body, encoding="utf-8")
     print(
         f"GIFT_LIVE_DATA written: t1={payload['t1Month']}, "

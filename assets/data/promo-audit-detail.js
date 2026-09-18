@@ -334,8 +334,8 @@ window.PROMO_AUDIT_DETAIL_BY_MONTH = {
     ]
   }
 };
-window.PROMO_AUDIT_DETAIL = window.PROMO_AUDIT_DETAIL_BY_MONTH[window.MAIN_SELECTED_MONTH || "8月"] || {
-  "month": 8,
+window.PROMO_AUDIT_DETAIL = window.PROMO_AUDIT_DETAIL_BY_MONTH[window.MAIN_SELECTED_MONTH || "9月"] || {
+  "month": 6,
   "source": "市场稽核部重点工作.xlsx / 推广促销稽核",
   "headers": [
     "省区总经理",
@@ -344,116 +344,83 @@ window.PROMO_AUDIT_DETAIL = window.PROMO_AUDIT_DETAIL_BY_MONTH[window.MAIN_SELEC
     "经销商",
     "稽核方式"
   ],
-  "total": 10,
+  "total": 7,
   "qualified": 0,
-  "unqualified": 10,
+  "unqualified": 7,
   "rows": [
     {
-      "row": 20,
+      "row": 4,
       "values": [
-        "郁离",
-        "湖南省",
-        "衡阳市",
-        "",
+        "梧桐",
+        "广东",
+        "广州",
+        "广州市炽发贸易有限公司",
         "线下"
       ],
       "result": "不合格"
     },
     {
-      "row": 21,
+      "row": 5,
       "values": [
-        "郁离",
-        "湖南省",
-        "衡阳市",
-        "",
+        "梧桐",
+        "广东",
+        "广州",
+        "广州市炽发贸易有限公司",
         "线下"
       ],
       "result": "不合格"
     },
     {
-      "row": 22,
+      "row": 6,
       "values": [
-        "郁离",
-        "湖南省",
-        "衡阳市",
-        "",
+        "梧桐",
+        "广东",
+        "广州",
+        "广州市炽发贸易有限公司",
         "线下"
       ],
       "result": "不合格"
     },
     {
-      "row": 23,
+      "row": 7,
       "values": [
-        "郁离",
-        "湖南省",
-        "衡阳市",
-        "",
+        "梧桐",
+        "广东",
+        "广州",
+        "广州市炽发贸易有限公司",
         "线下"
       ],
       "result": "不合格"
     },
     {
-      "row": 24,
+      "row": 8,
       "values": [
-        "郁离",
-        "湖南省",
-        "衡阳市",
-        "",
+        "梧桐",
+        "广东",
+        "广州",
+        "广州市炽发贸易有限公司",
         "线下"
       ],
       "result": "不合格"
     },
     {
-      "row": 25,
+      "row": 9,
       "values": [
-        "郁离",
-        "湖南省",
-        "长沙市",
-        "",
+        "梧桐",
+        "广东",
+        "广州",
+        "广州市炽发贸易有限公司",
         "线下"
       ],
       "result": "不合格"
     },
     {
-      "row": 26,
+      "row": 10,
       "values": [
-        "郁离",
-        "湖南省",
-        "长沙市",
-        "",
-        "线下"
-      ],
-      "result": "不合格"
-    },
-    {
-      "row": 27,
-      "values": [
-        "郁离",
-        "湖南省",
-        "长沙市",
-        "",
-        "线下"
-      ],
-      "result": "不合格"
-    },
-    {
-      "row": 28,
-      "values": [
-        "郁离",
-        "湖南省",
-        "长沙市",
-        "",
-        "线下"
-      ],
-      "result": "不合格"
-    },
-    {
-      "row": 29,
-      "values": [
-        "郁离",
-        "湖南省",
-        "长沙市",
-        "",
+        "梧桐",
+        "广东",
+        "广州",
+        "广州市炽发贸易有限公司",
         "线下"
       ],
       "result": "不合格"

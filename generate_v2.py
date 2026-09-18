@@ -145,7 +145,7 @@ def sync_data_range(html):
 
 
 def apply_data_cache_buster(html, build_tag):
-    pattern = r'(assets/data/[^"\']+\.js)(\?v=[^"\']+)?'
+    pattern = r'(assets/(?:data|pages)/[^"\']+\.js)(\?v=[^"\']+)?'
     return re.sub(pattern, lambda m: m.group(1) + '?v=' + build_tag, html)
 
 
@@ -213,6 +213,19 @@ def build_current_audit_progress():
             for _, row in progress.iterrows()
         ],
     }
+
+
+def audit_date_column(df_audit):
+    """Return the audit-date column used by the source workbook.
+
+    ``稽核日期`` is the actual daily audit completion date. ``执行时间`` is
+    an operational update date and may batch many records onto one day, so it
+    must only be used as a fallback when no audit-date field exists.
+    """
+    for column in ('核查日期', '稽核日期', '执行时间'):
+        if column in df_audit.columns:
+            return column
+    raise KeyError("稽核明细-汇总缺少日期字段：核查日期/执行时间/稽核日期")
 
 
 def precompute_all(df_audit, df_plan, df_display_audit_fee):
@@ -298,9 +311,10 @@ def precompute_all(df_audit, df_plan, df_display_audit_fee):
             }
 
     # 每日稽核趋势:(月份, 战区) -> [{label, value}, ...]
+    date_column = audit_date_column(df_audit)
     for m in MONTHS:
         sub = df_audit[df_audit['稽核月份'] == m]
-        dates = pd.to_datetime(sub['核查日期'].dropna())
+        dates = pd.to_datetime(sub[date_column].dropna(), errors='coerce').dropna()
         daily = dates.dt.day.value_counts()
         month_num = int(m.replace('月', ''))
         days = month_days(m)
@@ -309,7 +323,7 @@ def precompute_all(df_audit, df_plan, df_display_audit_fee):
 
         for zone in ZONES:
             z_sub = sub[sub['战区'] == zone]
-            z_dates = pd.to_datetime(z_sub['核查日期'].dropna())
+            z_dates = pd.to_datetime(z_sub[date_column].dropna(), errors='coerce').dropna()
             z_daily = z_dates.dt.day.value_counts()
             z_points = [{'label': f'{d}日', 'value': int(z_daily.get(d, 0))} for d in range(1, days + 1)]
             cache[('trend', m, zone)] = z_points

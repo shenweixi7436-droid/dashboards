@@ -1183,7 +1183,7 @@ def bump_index_data_cache():
     html = index_path.read_text(encoding="utf-8")
     cache_tag = datetime.now().strftime("%Y%m%d%H%M%S")
     updated = re.sub(
-        r'(<script\s+src="assets/data/[^"?]+\.js)(?:\?v=[^"]*)?("\s*></script>)',
+        r'(<script\s+src="assets/(?:data|pages)/[^"?]+\.js)(?:\?v=[^"]*)?("\s*></script>)',
         rf'\1?v={cache_tag}\2',
         html,
     )
@@ -1215,7 +1215,12 @@ def main():
         month: sum(1 for payload_by_month in month_maps if month in payload_by_month)
         for month in source_months
     }
-    default_month = max(source_months, key=lambda month: (coverage[month], month_key(month)))
+    # Prefer the latest month available up to the current calendar month.
+    # Coverage must not make a sparse historical month (or a future month)
+    # become the dashboard default after a source refresh.
+    current_month = datetime.now().month
+    eligible_months = [month for month in source_months if month_key(month) <= current_month]
+    default_month = max(eligible_months or source_months, key=month_key)
     selector_months = [f"{month}月" for month in range(1, 13)]
     device_status, device_detail = build_device(wb, source_months)
     month_extra = (
@@ -1234,7 +1239,9 @@ def main():
     write_js(DATA_DIR / "device-detail.js", "DEVICE_DETAIL", "DEVICE_DETAIL_BY_MONTH", device_detail, default_month)
     write_js(DATA_DIR / "market-order-governance.js", "MARKET_ORDER_GOVERNANCE", "MARKET_ORDER_GOVERNANCE_BY_MONTH", market_order, default_month)
     write_plain_js(DATA_DIR / "gift-audit.js", "GIFT_AUDIT", gift_audit)
-    write_js(DATA_DIR / "device-ban-action.js", "DEVICE_BAN_ACTION", "DEVICE_BAN_ACTION_BY_MONTH", device_ban, default_month)
+    # Device-ban data has a dedicated builder because its source table is a
+    # full-workbook action list rather than a month-keyed summary. Do not let
+    # this legacy month-data pass overwrite the dedicated output.
     write_plain_js(DATA_DIR / "store-audit-popup.js", "STORE_AUDIT_POPUP_BY_MONTH", store_audit)
     write_plain_js(DATA_DIR / "store-business-analysis.js", "STORE_AUDIT_SUMMARY_BY_MONTH", build_store_audit_summary(store_audit))
     bump_index_data_cache()

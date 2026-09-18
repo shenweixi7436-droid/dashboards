@@ -1,33 +1,41 @@
 window.DEVICE_BAN_ACTION_BY_MONTH = {
   "8月": {
-    "total": 14,
+    "total": 18,
     "platform": "闲鱼",
-    "removed": 5,
+    "removed": 7,
     "noReply": 0,
     "reported": 2,
-    "merchantInfo": 5,
-    "followUp": 2,
+    "merchantInfo": 2,
+    "followUp": 7,
     "statuses": [
       {
-        "name": "商家信息获取中",
-        "count": 5
-      },
-      {
         "name": "已下架",
-        "count": 5
-      },
-      {
-        "name": "已向平台举报",
-        "count": 2
+        "count": 7
       },
       {
         "name": "当地业务跟进中",
+        "count": 7
+      },
+      {
+        "name": "商家信息获取中",
+        "count": 2
+      },
+      {
+        "name": "已向平台举报",
         "count": 2
       }
     ],
     "locations": [
       {
+        "name": "广东广州",
+        "count": 2
+      },
+      {
         "name": "广东东莞",
+        "count": 2
+      },
+      {
+        "name": "广东深圳",
         "count": 2
       },
       {
@@ -47,7 +55,11 @@ window.DEVICE_BAN_ACTION_BY_MONTH = {
         "count": 1
       },
       {
-        "name": "广东深圳",
+        "name": "广东清远",
+        "count": 1
+      },
+      {
+        "name": "江苏宿迁",
         "count": 1
       },
       {
@@ -55,11 +67,7 @@ window.DEVICE_BAN_ACTION_BY_MONTH = {
         "count": 1
       },
       {
-        "name": "广东清远",
-        "count": 1
-      },
-      {
-        "name": "江苏宿迁",
+        "name": "浙江杭州",
         "count": 1
       },
       {
@@ -78,41 +86,31 @@ window.DEVICE_BAN_ACTION_BY_MONTH = {
     "details": [
       {
         "platform": "闲鱼",
-        "location": "贵州省安顺市",
+        "location": "浙江绍兴",
         "deviceType": "保温柜",
         "count": 1,
-        "processingDays": 3,
-        "processingAge": ">= 3天",
+        "processingDays": 21,
+        "processingAge": ">= 21天",
+        "progress": "当地业务跟进中",
+        "result": "设备为赵一鸣（浙江绍兴海樾府店），无闭店信息，已反馈鸣忙组翼万；9.4暂无进展，9.15无闭店信息"
+      },
+      {
+        "platform": "闲鱼",
+        "location": "广东东莞",
+        "deviceType": "保温柜",
+        "count": 1,
+        "processingDays": 14,
+        "processingAge": ">= 14天",
         "progress": "当地业务跟进中",
         "result": "待补充"
       },
       {
         "platform": "闲鱼",
-        "location": "浙江绍兴",
-        "deviceType": "保温柜",
-        "count": 1,
-        "processingDays": 7,
-        "processingAge": ">= 7天",
-        "progress": "商家信息获取中",
-        "result": "设备为赵一鸣（浙江绍兴海樾府店），无闭店信息，已反馈鸣忙组翼万；9.4暂无进展"
-      },
-      {
-        "platform": "闲鱼",
         "location": "广东东莞",
         "deviceType": "保温柜",
         "count": 1,
-        "processingDays": 2,
-        "processingAge": ">= 2天",
-        "progress": "商家信息获取中",
-        "result": "待补充"
-      },
-      {
-        "platform": "闲鱼",
-        "location": "广东东莞",
-        "deviceType": "保温柜",
-        "count": 1,
-        "processingDays": 2,
-        "processingAge": ">= 2天",
+        "processingDays": 14,
+        "processingAge": ">= 14天",
         "progress": "商家信息获取中",
         "result": "待补充"
       },
@@ -121,8 +119,8 @@ window.DEVICE_BAN_ACTION_BY_MONTH = {
         "location": "海南海口",
         "deviceType": "保温柜",
         "count": 1,
-        "processingDays": 4,
-        "processingAge": ">= 4天",
+        "processingDays": 14,
+        "processingAge": ">= 14天",
         "progress": "当地业务跟进中",
         "result": "待补充"
       },
@@ -131,24 +129,24 @@ window.DEVICE_BAN_ACTION_BY_MONTH = {
         "location": "陕西西安",
         "deviceType": "保温柜",
         "count": 1,
-        "processingDays": 2,
-        "processingAge": ">= 2天",
-        "progress": "商家信息获取中",
+        "processingDays": 10,
+        "processingAge": ">= 10天",
+        "progress": "当地业务跟进中",
         "result": "经销商去门店沟通收回设备"
       },
       {
         "platform": "闲鱼",
-        "location": "海南海口",
+        "location": "广东深圳",
         "deviceType": "保温柜",
         "count": 1,
-        "processingDays": 1,
-        "processingAge": ">= 1天",
-        "progress": "已向平台举报",
-        "result": "商家态度恶劣，无法直接联系上"
+        "processingDays": 0,
+        "processingAge": ">= 0天",
+        "progress": "当地业务跟进中",
+        "result": "待补充"
       },
       {
         "platform": "闲鱼",
-        "location": "山东枣庄",
+        "location": "广东广州",
         "deviceType": "保温柜",
         "count": 1,
         "processingDays": 0,
@@ -158,45 +156,83 @@ window.DEVICE_BAN_ACTION_BY_MONTH = {
       },
       {
         "platform": "闲鱼",
+        "location": "广东广州",
+        "deviceType": "保温柜",
+        "count": 1,
+        "processingDays": 0,
+        "processingAge": ">= 0天",
+        "progress": "当地业务跟进中",
+        "result": "待补充"
+      },
+      {
+        "platform": "闲鱼",
+        "location": "浙江杭州",
+        "deviceType": "保温柜",
+        "count": 1,
+        "processingDays": 0,
+        "processingAge": ">= 0天",
+        "progress": "当地业务跟进中",
+        "result": "待补充"
+      },
+      {
+        "platform": "闲鱼",
         "location": "江苏宿迁",
         "deviceType": "保温柜",
         "count": 1,
-        "processingDays": 41,
-        "processingAge": ">= 41天",
+        "processingDays": 48,
+        "processingAge": ">= 48天",
         "progress": "已向平台举报",
         "result": "电话沟通反馈非小虎设备"
+      },
+      {
+        "platform": "闲鱼",
+        "location": "海南海口",
+        "deviceType": "保温柜",
+        "count": 1,
+        "processingDays": 10,
+        "processingAge": ">= 10天",
+        "progress": "已向平台举报",
+        "result": "商家态度恶劣，无法直接联系上，目前已向平台举报"
       }
     ]
   },
   "全年": {
-    "total": 14,
+    "total": 18,
     "platform": "闲鱼",
-    "removed": 5,
+    "removed": 7,
     "noReply": 0,
     "reported": 2,
-    "merchantInfo": 5,
-    "followUp": 2,
+    "merchantInfo": 2,
+    "followUp": 7,
     "statuses": [
       {
-        "name": "商家信息获取中",
-        "count": 5
-      },
-      {
         "name": "已下架",
-        "count": 5
-      },
-      {
-        "name": "已向平台举报",
-        "count": 2
+        "count": 7
       },
       {
         "name": "当地业务跟进中",
+        "count": 7
+      },
+      {
+        "name": "商家信息获取中",
+        "count": 2
+      },
+      {
+        "name": "已向平台举报",
         "count": 2
       }
     ],
     "locations": [
       {
+        "name": "广东广州",
+        "count": 2
+      },
+      {
         "name": "广东东莞",
+        "count": 2
+      },
+      {
+        "name": "广东深圳",
         "count": 2
       },
       {
@@ -216,7 +252,11 @@ window.DEVICE_BAN_ACTION_BY_MONTH = {
         "count": 1
       },
       {
-        "name": "广东深圳",
+        "name": "广东清远",
+        "count": 1
+      },
+      {
+        "name": "江苏宿迁",
         "count": 1
       },
       {
@@ -224,11 +264,7 @@ window.DEVICE_BAN_ACTION_BY_MONTH = {
         "count": 1
       },
       {
-        "name": "广东清远",
-        "count": 1
-      },
-      {
-        "name": "江苏宿迁",
+        "name": "浙江杭州",
         "count": 1
       },
       {
@@ -247,41 +283,31 @@ window.DEVICE_BAN_ACTION_BY_MONTH = {
     "details": [
       {
         "platform": "闲鱼",
-        "location": "贵州省安顺市",
+        "location": "浙江绍兴",
         "deviceType": "保温柜",
         "count": 1,
-        "processingDays": 3,
-        "processingAge": ">= 3天",
+        "processingDays": 21,
+        "processingAge": ">= 21天",
+        "progress": "当地业务跟进中",
+        "result": "设备为赵一鸣（浙江绍兴海樾府店），无闭店信息，已反馈鸣忙组翼万；9.4暂无进展，9.15无闭店信息"
+      },
+      {
+        "platform": "闲鱼",
+        "location": "广东东莞",
+        "deviceType": "保温柜",
+        "count": 1,
+        "processingDays": 14,
+        "processingAge": ">= 14天",
         "progress": "当地业务跟进中",
         "result": "待补充"
       },
       {
         "platform": "闲鱼",
-        "location": "浙江绍兴",
-        "deviceType": "保温柜",
-        "count": 1,
-        "processingDays": 7,
-        "processingAge": ">= 7天",
-        "progress": "商家信息获取中",
-        "result": "设备为赵一鸣（浙江绍兴海樾府店），无闭店信息，已反馈鸣忙组翼万；9.4暂无进展"
-      },
-      {
-        "platform": "闲鱼",
         "location": "广东东莞",
         "deviceType": "保温柜",
         "count": 1,
-        "processingDays": 2,
-        "processingAge": ">= 2天",
-        "progress": "商家信息获取中",
-        "result": "待补充"
-      },
-      {
-        "platform": "闲鱼",
-        "location": "广东东莞",
-        "deviceType": "保温柜",
-        "count": 1,
-        "processingDays": 2,
-        "processingAge": ">= 2天",
+        "processingDays": 14,
+        "processingAge": ">= 14天",
         "progress": "商家信息获取中",
         "result": "待补充"
       },
@@ -290,8 +316,8 @@ window.DEVICE_BAN_ACTION_BY_MONTH = {
         "location": "海南海口",
         "deviceType": "保温柜",
         "count": 1,
-        "processingDays": 4,
-        "processingAge": ">= 4天",
+        "processingDays": 14,
+        "processingAge": ">= 14天",
         "progress": "当地业务跟进中",
         "result": "待补充"
       },
@@ -300,24 +326,24 @@ window.DEVICE_BAN_ACTION_BY_MONTH = {
         "location": "陕西西安",
         "deviceType": "保温柜",
         "count": 1,
-        "processingDays": 2,
-        "processingAge": ">= 2天",
-        "progress": "商家信息获取中",
+        "processingDays": 10,
+        "processingAge": ">= 10天",
+        "progress": "当地业务跟进中",
         "result": "经销商去门店沟通收回设备"
       },
       {
         "platform": "闲鱼",
-        "location": "海南海口",
+        "location": "广东深圳",
         "deviceType": "保温柜",
         "count": 1,
-        "processingDays": 1,
-        "processingAge": ">= 1天",
-        "progress": "已向平台举报",
-        "result": "商家态度恶劣，无法直接联系上"
+        "processingDays": 0,
+        "processingAge": ">= 0天",
+        "progress": "当地业务跟进中",
+        "result": "待补充"
       },
       {
         "platform": "闲鱼",
-        "location": "山东枣庄",
+        "location": "广东广州",
         "deviceType": "保温柜",
         "count": 1,
         "processingDays": 0,
@@ -327,13 +353,43 @@ window.DEVICE_BAN_ACTION_BY_MONTH = {
       },
       {
         "platform": "闲鱼",
+        "location": "广东广州",
+        "deviceType": "保温柜",
+        "count": 1,
+        "processingDays": 0,
+        "processingAge": ">= 0天",
+        "progress": "当地业务跟进中",
+        "result": "待补充"
+      },
+      {
+        "platform": "闲鱼",
+        "location": "浙江杭州",
+        "deviceType": "保温柜",
+        "count": 1,
+        "processingDays": 0,
+        "processingAge": ">= 0天",
+        "progress": "当地业务跟进中",
+        "result": "待补充"
+      },
+      {
+        "platform": "闲鱼",
         "location": "江苏宿迁",
         "deviceType": "保温柜",
         "count": 1,
-        "processingDays": 41,
-        "processingAge": ">= 41天",
+        "processingDays": 48,
+        "processingAge": ">= 48天",
         "progress": "已向平台举报",
         "result": "电话沟通反馈非小虎设备"
+      },
+      {
+        "platform": "闲鱼",
+        "location": "海南海口",
+        "deviceType": "保温柜",
+        "count": 1,
+        "processingDays": 10,
+        "processingAge": ">= 10天",
+        "progress": "已向平台举报",
+        "result": "商家态度恶劣，无法直接联系上，目前已向平台举报"
       }
     ]
   }

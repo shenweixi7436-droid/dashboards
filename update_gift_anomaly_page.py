@@ -712,7 +712,12 @@ def main():
             shutil.copy2(target, BACKUP_DIR / f"{target.stem}.bak-auto-{stamp}{target.suffix}")
     REPO_PAGE.write_text(html, encoding="utf-8", newline="")
     WB_PAGE.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(REPO_PAGE, WB_PAGE)
+    try:
+        shutil.copy2(REPO_PAGE, WB_PAGE)
+    except (PermissionError, OSError) as exc:
+        # The WorkBuddy copy may be open. The repository deployment page is
+        # authoritative and has already been written above.
+        print(f"WARN: unable to update WorkBuddy page {WB_PAGE}: {exc}")
 
     print("\n===== 更新完成 =====")
     print(f'活动：{year["total"]}场 / 金额异常{year["amt_n"]} / 数量异常{year["qty_n"]} / 双维{year["both_n"]} / 月份{months}')
