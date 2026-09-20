@@ -1,6 +1,6 @@
 {
-  "version": "922533fc1d4c",
-  "builtAt": "2026-09-16T17:31:50+08:00",
+  "version": "228156fde249",
+  "builtAt": "2026-09-20T18:00:59+08:00",
   "source": "C:\\Users\\shenw\\Desktop\\看板\\物料小组看板",
   "files": {
     "html": "index.html",
@@ -13,8 +13,8 @@
     "province": [
       "assets/data/province_outbound.e6deca30e2bc.js",
       "assets/data/province_material.13f8249053bc.js",
-      "assets/data/device_outbound.14d2dc47e5b8.js",
-      "assets/data/device_weekly_outbound.a24d1bde7cde.js"
+      "assets/data/device_outbound.2e25cef87f55.js",
+      "assets/data/device_weekly_outbound.67270887d1eb.js"
     ]
   }
 }
