@@ -1,4 +1,4 @@
-const CACHE_NAME = 'material-inventory-dashboard-228156fde249';
+const CACHE_NAME = 'material-inventory-dashboard-6c609aaa2aab';
 const PRECACHE_URLS = [
   "./",
   "./index.html",

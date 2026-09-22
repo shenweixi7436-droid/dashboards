@@ -1,7 +1,7 @@
-Update started 2026/09/18 ÖÜÎå 17:44:21.08
+Update started 2026/09/22 ÖÜ¶ş 13:22:35.82
 [RUN] MAIN_DASHBOARDS 
 === å¸‚åœºç¨½æ ¸éƒ¨é‡ç‚¹å·¥ä½œçœ‹æ¿ç”Ÿæˆå™¨ v2 ===
-æ—¶é—´: 2026-09-18 17:44:21
+æ—¶é—´: 2026-09-22 13:22:38
 
 åŠ è½½ Excel æ•°æ®...
   ç¨½æ ¸æ˜ç»†: 2829 è¡Œ
@@ -134,12 +134,12 @@ GIFT_LIVE_DATA written: t1=9ÔÂ, »î¶¯ 325Ìõ/65176Ôª, ÑùÆ· 1041Ìõ/44507Ôª
 ===== ¸üĞÂÍê³É =====
 »î¶¯£º1196³¡ / ½ğ¶îÒì³£1123 / ÊıÁ¿Òì³£817 / Ë«Î¬770 / ÔÂ·İ[1, 2, 3, 4, 5, 6, 7, 8, 9]
 ÑùÆ·£º4077µ¥ / ½ğ¶îÒì³£1861 / ÊıÁ¿Òì³£1837
-ºËÏú£º586µ¥ / ×Ü¶î507,901.9 / ·Ñ±È6.9% / ÔÂ·İ[9]
+ºËÏú£º734µ¥ / ×Ü¶î660,487.7 / ·Ñ±È7.2% / ÔÂ·İ[9]
 ¾É¡úĞÂ »î¶¯×Ü³¡´Î: 1196 ¡ú 1196
 ÒÑĞ´Èë:
   C:\Users\shenw\Documents\New project\github-dashboards\assets\pages\ÏßÏÂ»î¶¯ÓëÑùÆ·ÉêÇëÒì³£½â¶Á¿´°å.html
   C:\Users\shenw\WorkBuddy\2026-08-25-13-53-45\ÏßÏÂ»î¶¯ÓëÑùÆ·ÉêÇëÒì³£½â¶Á¿´°å.html
-±¸·İ: C:\Users\shenw\Documents\New project\github-dashboards\backups/*.bak-auto-20260918-174456.*
+±¸·İ: C:\Users\shenw\Documents\New project\github-dashboards\backups/*.bak-auto-20260922-132316.*
 [OK] GIFT_ANOMALY_PAGE 
 [RUN] SCHEDULE_PROGRESS 
 saved=C:\Users\shenw\Documents\New project\dist\material_development_progress_dashboard.html
@@ -176,12 +176,12 @@ GIFT_LIVE_DATA written: t1=9ÔÂ, »î¶¯ 325Ìõ/65176Ôª, ÑùÆ· 1041Ìõ/44507Ôª
 ===== ¸üĞÂÍê³É =====
 »î¶¯£º1196³¡ / ½ğ¶îÒì³£1123 / ÊıÁ¿Òì³£817 / Ë«Î¬770 / ÔÂ·İ[1, 2, 3, 4, 5, 6, 7, 8, 9]
 ÑùÆ·£º4077µ¥ / ½ğ¶îÒì³£1861 / ÊıÁ¿Òì³£1837
-ºËÏú£º586µ¥ / ×Ü¶î507,901.9 / ·Ñ±È6.9% / ÔÂ·İ[9]
+ºËÏú£º734µ¥ / ×Ü¶î660,487.7 / ·Ñ±È7.2% / ÔÂ·İ[9]
 ¾É¡úĞÂ »î¶¯×Ü³¡´Î: 1196 ¡ú 1196
 ÒÑĞ´Èë:
   C:\Users\shenw\Documents\New project\github-dashboards\assets\pages\ÏßÏÂ»î¶¯ÓëÑùÆ·ÉêÇëÒì³£½â¶Á¿´°å.html
   C:\Users\shenw\WorkBuddy\2026-08-25-13-53-45\ÏßÏÂ»î¶¯ÓëÑùÆ·ÉêÇëÒì³£½â¶Á¿´°å.html
-±¸·İ: C:\Users\shenw\Documents\New project\github-dashboards\backups/*.bak-auto-20260918-174600.*
+±¸·İ: C:\Users\shenw\Documents\New project\github-dashboards\backups/*.bak-auto-20260922-132504.*
 [OK] GIFT_ANOMALY_PAGE 
 [RUN] SCHEDULE_PROGRESS 
 saved=C:\Users\shenw\Documents\New project\dist\material_development_progress_dashboard.html

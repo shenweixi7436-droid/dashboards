@@ -421,9 +421,9 @@ body.loading-order-data::after{content:'正在加载出入库明细…';position
             <thead><tr>
               <th class="name" style="text-align:left">设备名称</th>
               <th class="num">本月发货量</th>
-              <th class="num">本月发货金额</th>
+              <th class="num">本月发货金额（万元）</th>
               <th class="num">发货数量环比上月</th>
-              <th class="num">发货金额环比上月</th>
+              <th class="num">发货金额环比上月（万元）</th>
               <th>数量差异原因分析</th>
             </tr></thead>
             <tbody></tbody>
@@ -438,9 +438,9 @@ body.loading-order-data::after{content:'正在加载出入库明细…';position
             <thead><tr>
               <th class="name" style="text-align:left">设备名称</th>
               <th class="num">本月发货量</th>
-              <th class="num">本月发货金额</th>
+              <th class="num">本月发货金额（万元）</th>
               <th class="num">发货数量环比上月</th>
-              <th class="num">发货金额环比上月</th>
+              <th class="num">发货金额环比上月（万元）</th>
               <th>数量差异原因分析</th>
             </tr></thead>
             <tbody></tbody>
@@ -1006,6 +1006,8 @@ function p6dResolveMonth(f, dw){
 function p6dSetText(id,v){ var el=document.getElementById(id); if(el)el.textContent=v; }
 function p6dFmtNum(n){ n=Number(n)||0; return n.toLocaleString('zh-CN',{maximumFractionDigits:0}); }
 function p6dFmtWan(n){ n=Number(n)||0; return (n/10000).toFixed(1); }
+function p6dFmtMoneyWan(n){ n=Number(n)||0; return '¥'+(n/10000).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})+'万'; }
+function p6dFmtMoneyDeltaWan(n){ n=Number(n)||0; var v=n/10000, s=Math.abs(v).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2}); if(n>0)return '+¥'+s+'万'; if(n<0)return '-¥'+s+'万'; return '¥0.00万'; }
 function p6dDeltaTxt(d){ d=Number(d)||0; if(d>0)return '+'+d; return String(d); }
 function p6dDeltaCls(d){ d=Number(d)||0; if(d>0)return 'delta-pos'; if(d<0)return 'delta-neg'; return ''; }
 function p6dEscape(s){ s=String(s==null?'':s); return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
@@ -1013,13 +1015,13 @@ function p6dRenderTable(tableId, group, selectedDevices){
   var table=document.getElementById(tableId);if(!table)return;
   var tbody=table.querySelector('tbody');if(!tbody)return;
   var thead=table.querySelector('thead');
-  if(thead)thead.innerHTML='<tr><th style="text-align:left">\u8bbe\u5907\u54c1\u724c</th><th style="text-align:left">\u8bbe\u5907\u5927\u7c7b</th><th class="num">\u53d1\u8d27\u91cf</th><th class="num">\u53d1\u8d27\u91d1\u989d</th><th class="num">\u53d1\u8d27\u6570\u91cf\u73af\u6bd4</th><th class="num">\u53d1\u8d27\u91d1\u989d\u73af\u6bd4</th><th>\u6570\u91cf\u5dee\u5f02\u539f\u56e0\u5206\u6790</th></tr>';
+  if(thead)thead.innerHTML='<tr><th style="text-align:left">\u8bbe\u5907\u54c1\u724c</th><th style="text-align:left">\u8bbe\u5907\u5927\u7c7b</th><th class="num">\u53d1\u8d27\u91cf</th><th class="num">\u53d1\u8d27\u91d1\u989d\uff08\u4e07\u5143\uff09</th><th class="num">\u53d1\u8d27\u6570\u91cf\u73af\u6bd4</th><th class="num">\u53d1\u8d27\u91d1\u989d\u73af\u6bd4\uff08\u4e07\u5143\uff09</th><th>\u6570\u91cf\u5dee\u5f02\u539f\u56e0\u5206\u6790</th></tr>';
   var oldTf=table.querySelector('tfoot');if(oldTf)oldTf.parentNode.removeChild(oldTf);while(tbody.firstChild)tbody.removeChild(tbody.firstChild);
   if(!group||!group.rows||!group.rows.length){var empty=document.createElement('tr');empty.innerHTML='<td colspan="7" style="color:#9ca3af;text-align:center;padding:24px">\u6682\u65e0\u6570\u636e</td>';tbody.appendChild(empty);return;}
   var rows=group.rows.slice().sort(function(a,b){return (Number(b.monthAmount)||0)-(Number(a.monthAmount)||0);});var catMap={},catOrder=[];
   rows.forEach(function(r){var cat=String(r.category||'\u672a\u5206\u7c7b');if(!catMap[cat]){catMap[cat]=[];catOrder.push(cat);}catMap[cat].push(r);});
-  catOrder.forEach(function(cat){var catRows=catMap[cat],agg={monthQty:0,monthAmount:0,prevMonthQtyDelta:0,prevMonthAmountDelta:0};catRows.forEach(function(r){agg.monthQty+=Number(r.monthQty)||0;agg.monthAmount+=Number(r.monthAmount)||0;agg.prevMonthQtyDelta+=Number(r.prevMonthQtyDelta)||0;agg.prevMonthAmountDelta+=Number(r.prevMonthAmountDelta)||0;});var key=group.key+'::'+cat,expanded=P6_DEVICE_CAT_EXPANDED[key]!==false,brands=[];catRows.forEach(function(r){var brand=r.brand||'\u2014';if(brands.indexOf(brand)<0)brands.push(brand);});var catTr=document.createElement('tr');catTr.className='cat-row';catTr.setAttribute('data-cat-row',key);catTr.innerHTML='<td>'+p6dEscape(brands.join('\u3001'))+'</td><td class="name"><span class="cat-toggle" data-cat-toggle="'+p6dEscape(key)+'">'+(expanded?'\u25bc':'\u25b6')+'</span>'+p6dEscape(cat)+'</td><td class="num">'+p6dFmtNum(agg.monthQty)+'</td><td class="num">\u00a5'+p6dFmtNum(agg.monthAmount)+'</td><td class="num '+p6dDeltaCls(agg.prevMonthQtyDelta)+'">'+p6dDeltaTxt(agg.prevMonthQtyDelta)+'</td><td class="num '+p6dDeltaCls(agg.prevMonthAmountDelta)+'">'+p6dDeltaTxt(agg.prevMonthAmountDelta)+'</td><td>\u2014</td>';tbody.appendChild(catTr);catRows.forEach(function(r){var tr=document.createElement('tr');tr.className='sub-row'+(selectedDevices&&selectedDevices.indexOf(r.name)>=0?' p6d-dev-selected':'');tr.setAttribute('data-cat-parent',key);if(!expanded)tr.style.display='none';tr.innerHTML='<td>'+p6dEscape(r.brand||'\u2014')+'</td><td class="name sub-name"><a class="p6d-dev-link" href="javascript:void(0)" data-device="'+p6dEscape(r.name||'')+'">'+p6dEscape(r.name||'')+'</a></td><td class="num">'+p6dFmtNum(r.monthQty)+'</td><td class="num">\u00a5'+p6dFmtNum(r.monthAmount)+'</td><td class="num '+p6dDeltaCls(r.prevMonthQtyDelta)+'">'+p6dDeltaTxt(r.prevMonthQtyDelta)+'</td><td class="num '+p6dDeltaCls(r.prevMonthAmountDelta)+'">'+p6dDeltaTxt(r.prevMonthAmountDelta)+'</td><td>\u2014</td>';tbody.appendChild(tr);});});
-  var t=group.total||{},tf=document.createElement('tfoot'),ftr=document.createElement('tr');ftr.innerHTML='<td colspan="2">\u5408\u8ba1</td><td class="num">'+p6dFmtNum(t.monthQty)+'</td><td class="num">\u00a5'+p6dFmtNum(t.monthAmount)+'</td><td class="num '+p6dDeltaCls(t.prevMonthQtyDelta)+'">'+p6dDeltaTxt(t.prevMonthQtyDelta)+'</td><td class="num '+p6dDeltaCls(t.prevMonthAmountDelta)+'">'+p6dDeltaTxt(t.prevMonthAmountDelta)+'</td><td>\u2014</td>';tf.appendChild(ftr);table.appendChild(tf);
+  catOrder.forEach(function(cat){var catRows=catMap[cat],agg={monthQty:0,monthAmount:0,prevMonthQtyDelta:0,prevMonthAmountDelta:0};catRows.forEach(function(r){agg.monthQty+=Number(r.monthQty)||0;agg.monthAmount+=Number(r.monthAmount)||0;agg.prevMonthQtyDelta+=Number(r.prevMonthQtyDelta)||0;agg.prevMonthAmountDelta+=Number(r.prevMonthAmountDelta)||0;});var key=group.key+'::'+cat,expanded=P6_DEVICE_CAT_EXPANDED[key]!==false,brands=[];catRows.forEach(function(r){var brand=r.brand||'\u2014';if(brands.indexOf(brand)<0)brands.push(brand);});var catTr=document.createElement('tr');catTr.className='cat-row';catTr.setAttribute('data-cat-row',key);catTr.innerHTML='<td>'+p6dEscape(brands.join('\u3001'))+'</td><td class="name"><span class="cat-toggle" data-cat-toggle="'+p6dEscape(key)+'">'+(expanded?'\u25bc':'\u25b6')+'</span>'+p6dEscape(cat)+'</td><td class="num">'+p6dFmtNum(agg.monthQty)+'</td><td class="num">'+p6dFmtMoneyWan(agg.monthAmount)+'</td><td class="num '+p6dDeltaCls(agg.prevMonthQtyDelta)+'">'+p6dDeltaTxt(agg.prevMonthQtyDelta)+'</td><td class="num '+p6dDeltaCls(agg.prevMonthAmountDelta)+'">'+p6dFmtMoneyDeltaWan(agg.prevMonthAmountDelta)+'</td><td>\u2014</td>';tbody.appendChild(catTr);catRows.forEach(function(r){var tr=document.createElement('tr');tr.className='sub-row'+(selectedDevices&&selectedDevices.indexOf(r.name)>=0?' p6d-dev-selected':'');tr.setAttribute('data-cat-parent',key);if(!expanded)tr.style.display='none';tr.innerHTML='<td>'+p6dEscape(r.brand||'\u2014')+'</td><td class="name sub-name"><a class="p6d-dev-link" href="javascript:void(0)" data-device="'+p6dEscape(r.name||'')+'">'+p6dEscape(r.name||'')+'</a></td><td class="num">'+p6dFmtNum(r.monthQty)+'</td><td class="num">'+p6dFmtMoneyWan(r.monthAmount)+'</td><td class="num '+p6dDeltaCls(r.prevMonthQtyDelta)+'">'+p6dDeltaTxt(r.prevMonthQtyDelta)+'</td><td class="num '+p6dDeltaCls(r.prevMonthAmountDelta)+'">'+p6dFmtMoneyDeltaWan(r.prevMonthAmountDelta)+'</td><td>\u2014</td>';tbody.appendChild(tr);});});
+  var t=group.total||{},tf=document.createElement('tfoot'),ftr=document.createElement('tr');ftr.innerHTML='<td colspan="2">\u5408\u8ba1</td><td class="num">'+p6dFmtNum(t.monthQty)+'</td><td class="num">'+p6dFmtMoneyWan(t.monthAmount)+'</td><td class="num '+p6dDeltaCls(t.prevMonthQtyDelta)+'">'+p6dDeltaTxt(t.prevMonthQtyDelta)+'</td><td class="num '+p6dDeltaCls(t.prevMonthAmountDelta)+'">'+p6dFmtMoneyDeltaWan(t.prevMonthAmountDelta)+'</td><td>\u2014</td>';tf.appendChild(ftr);table.appendChild(tf);
   table.querySelectorAll('.cat-toggle').forEach(function(toggle){toggle.addEventListener('click',function(){var key=toggle.getAttribute('data-cat-toggle'),next=P6_DEVICE_CAT_EXPANDED[key]===false;P6_DEVICE_CAT_EXPANDED[key]=next;var row=table.querySelector('[data-cat-row="'+CSS.escape(key)+'"]');if(row)row.querySelector('.cat-toggle').textContent=next?'\u25bc':'\u25b6';table.querySelectorAll('[data-cat-parent="'+CSS.escape(key)+'"]').forEach(function(x){x.style.display=next?'':'none';});requestAnimationFrame(p6dAlignTableFooters);});});
   table.querySelectorAll('.p6d-dev-link').forEach(function(link){link.addEventListener('click',function(e){e.preventDefault();var name=link.getAttribute('data-device');if(name)selectP6Project('device',name);});});
 }

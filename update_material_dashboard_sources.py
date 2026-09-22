@@ -249,6 +249,43 @@ def ensure_device_category_ui(source_dir: Path) -> None:
     html_path.write_text(html, encoding="utf-8", newline="\n")
 
 
+def ensure_device_money_ui(source_dir: Path) -> None:
+    """让库存分析看板的设备发货金额与主看板统一按万元显示。"""
+    html_path = source_dir / "物料进销存看板.html"
+    html = html_path.read_text(encoding="utf-8")
+    if "function p6dFmtMoneyWan" not in html:
+        marker = "function p6dFmtWan(n){ n=Number(n)||0; return (n/10000).toFixed(1); }"
+        if marker not in html:
+            raise ValueError("进销存看板缺少设备金额格式化锚点")
+        html = html.replace(
+            marker,
+            marker
+            + "\nfunction p6dFmtMoneyWan(n){ n=Number(n)||0; return '¥'+(n/10000).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})+'万'; }"
+            + "\nfunction p6dFmtMoneyDeltaWan(n){ n=Number(n)||0; var v=n/10000, s=Math.abs(v).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2}); if(n>0)return '+¥'+s+'万'; if(n<0)return '-¥'+s+'万'; return '¥0.00万'; }",
+            1,
+        )
+
+    replacements = (
+        ("<th class=\"num\">本月发货金额</th>", "<th class=\"num\">本月发货金额（万元）</th>"),
+        ("<th class=\"num\">发货金额环比上月</th>", "<th class=\"num\">发货金额环比上月（万元）</th>"),
+        ("\\u53d1\\u8d27\\u91d1\\u989d</th>", "\\u53d1\\u8d27\\u91d1\\u989d\\uff08\\u4e07\\u5143\\uff09</th>"),
+        ("\\u53d1\\u8d27\\u91d1\\u989d\\u73af\\u6bd4</th>", "\\u53d1\\u8d27\\u91d1\\u989d\\u73af\\u6bd4\\uff08\\u4e07\\u5143\\uff09</th>"),
+        ("p6dFmtNum(agg.monthAmount)", "p6dFmtMoneyWan(agg.monthAmount)"),
+        ("p6dFmtNum(r.monthAmount)", "p6dFmtMoneyWan(r.monthAmount)"),
+        ("p6dFmtNum(t.monthAmount)", "p6dFmtMoneyWan(t.monthAmount)"),
+        ("\\u00a5'+p6dFmtMoneyWan(agg.monthAmount)", "'+p6dFmtMoneyWan(agg.monthAmount)"),
+        ("\\u00a5'+p6dFmtMoneyWan(r.monthAmount)", "'+p6dFmtMoneyWan(r.monthAmount)"),
+        ("\\u00a5'+p6dFmtMoneyWan(t.monthAmount)", "'+p6dFmtMoneyWan(t.monthAmount)"),
+        ("p6dDeltaTxt(agg.prevMonthAmountDelta)", "p6dFmtMoneyDeltaWan(agg.prevMonthAmountDelta)"),
+        ("p6dDeltaTxt(r.prevMonthAmountDelta)", "p6dFmtMoneyDeltaWan(r.prevMonthAmountDelta)"),
+        ("p6dDeltaTxt(t.prevMonthAmountDelta)", "p6dFmtMoneyDeltaWan(t.prevMonthAmountDelta)"),
+    )
+    for old, new in replacements:
+        if old in html:
+            html = html.replace(old, new)
+    html_path.write_text(html, encoding="utf-8", newline="\n")
+
+
 def build_freight_detail_files(source_dir: Path, freight_path: Path) -> dict[str, int]:
     frame = normalize_freight_columns(
         pd.read_excel(freight_path, sheet_name="物料运费分析")
@@ -749,6 +786,7 @@ def update(source_dir: Path) -> dict[str, object]:
 
     device = build_device_outbound_file(source_dir, paths["device"])
     ensure_device_category_ui(source_dir)
+    ensure_device_money_ui(source_dir)
     freight_details = build_freight_detail_files(source_dir, paths["freight"])
     if paths["afterSales"].exists():
         after_sales = build_after_sales(source_dir, paths["afterSales"])

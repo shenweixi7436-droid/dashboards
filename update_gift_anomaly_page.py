@@ -421,10 +421,21 @@ CO = "合计费用:费用金额:总合计"
 CV = "合计费用:费用项目"
 XW = "活动执行费用.活动执行外包人员费用:工资金额"
 ZS = "活动执行费用.活动执行外包人员费用:实际销售额"
+VERIFY_DETAIL_COLUMNS = ("申请单号", "提交人所属部门", "客户名称", "提交人")
+
+
+def first_text(frame, column):
+    """Return the first non-empty value for an order-level source field."""
+    values = frame[column].dropna().astype(str).str.strip()
+    values = values[values.ne("")]
+    return values.iloc[0] if not values.empty else ""
 
 
 def build_verify(xlsx):
     df = pd.read_excel(xlsx, sheet_name="线下活动执行费用核销单", header=0)
+    missing_columns = [column for column in VERIFY_DETAIL_COLUMNS if column not in df.columns]
+    if missing_columns:
+        raise KeyError(f"线下活动执行费用核销单缺少字段：{'、'.join(missing_columns)}")
     df["报销月份"] = pd.to_datetime(df["报销日期"]).dt.month
     fee_order = list(FEE_SHORT.keys())
 
@@ -442,7 +453,12 @@ def build_verify(xlsx):
             fee_map[str(cvv)] = round(float(sub[CN].sum()), 1)
         summary.append({
             "月份": int(g["报销月份"].iloc[0]), "流水号": sid, "标题": str(g["标题"].iloc[0]),
-            "报销日期": str(g["报销日期"].iloc[0])[:10], "合计金额": total_amt,
+            "申请单号": first_text(g, "申请单号"),
+            "报销日期": str(g["报销日期"].iloc[0])[:10],
+            "提交人所属部门": first_text(g, "提交人所属部门"),
+            "客户名称": first_text(g, "客户名称"),
+            "提交人": first_text(g, "提交人"),
+            "合计金额": total_amt,
             "活动销售额": sales, "活动费比": fee_rate, "人数": n_ppl, "工资合计": wage_sum,
             "费用拆解": {FEE_SHORT.get(k, k): v for k, v in fee_map.items()},
         })
