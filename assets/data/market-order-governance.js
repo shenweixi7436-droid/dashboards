@@ -12819,7 +12819,7 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
     "month": "9月",
     "source": "市场稽核部重点工作.xlsx / 市场秩序治理",
     "caseCount": 108,
-    "customerCount": 235,
+    "customerCount": 301,
     "lockedCustomerCount": 7,
     "punishCount": 0,
     "internalCount": 7,
@@ -12881,15 +12881,43 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
     ],
     "customerRank": [
       {
+        "name": "线下-陕西好食汇冷链食品有限公司",
+        "count": 14
+      },
+      {
+        "name": "线下-河南良麟食品有限公司",
+        "count": 11
+      },
+      {
+        "name": "线下-河南妙口福食品有限公司",
+        "count": 10
+      },
+      {
         "name": "线下-济南禧悦食品有限公司",
         "count": 10
       },
       {
+        "name": "线下-保定晶那商贸有限公司",
+        "count": 9
+      },
+      {
         "name": "线下-山东鲁味臻鲜供应链有限公司",
+        "count": 9
+      },
+      {
+        "name": "线下-邢东新区寒雪食品店",
+        "count": 9
+      },
+      {
+        "name": "线下-商丘骐铄商贸有限公司",
         "count": 8
       },
       {
-        "name": "线下-陕西好食汇冷链食品有限公司",
+        "name": "线下-河南晴年商贸有限公司",
+        "count": 8
+      },
+      {
+        "name": "线下-石家庄伯利恒商贸有限公司",
         "count": 8
       },
       {
@@ -12897,23 +12925,31 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 7
       },
       {
-        "name": "线下-商丘骐铄商贸有限公司",
-        "count": 7
-      },
-      {
-        "name": "线下-河南良麟食品有限公司",
+        "name": "线下-山西鸿财润冷冻食品有限公司",
         "count": 7
       },
       {
         "name": "线下-德州银星商贸有限公司",
+        "count": 7
+      },
+      {
+        "name": "线下-长沙红欢喜供应链管理有限公司",
+        "count": 7
+      },
+      {
+        "name": "线下-天津鸿熙优选科技有限公司",
         "count": 6
       },
       {
-        "name": "线下-河南妙口福食品有限公司",
+        "name": "线下-山西荷美斯食品科技有限公司",
         "count": 6
       },
       {
-        "name": "线下-河南晴年商贸有限公司",
+        "name": "线下-武汉汇鑫莱食品有限公司",
+        "count": 6
+      },
+      {
+        "name": "线下-河南华世食品有限公司",
         "count": 6
       },
       {
@@ -12925,15 +12961,11 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 6
       },
       {
+        "name": "线下-唐山天地乐食品有限公司",
+        "count": 5
+      },
+      {
         "name": "线下-怀远县永泰商贸有限公司",
-        "count": 5
-      },
-      {
-        "name": "线下-武汉汇鑫莱食品有限公司",
-        "count": 5
-      },
-      {
-        "name": "线下-河南华世食品有限公司",
         "count": 5
       },
       {
@@ -12953,7 +12985,11 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 5
       },
       {
-        "name": "线下-邢东新区寒雪食品店",
+        "name": "线下-邢台市安氏商贸有限公司",
+        "count": 5
+      },
+      {
+        "name": "线下-郑州乾泰食品有限公司",
         "count": 5
       },
       {
@@ -12961,7 +12997,7 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 4
       },
       {
-        "name": "线下-保定晶那商贸有限公司",
+        "name": "线下-保定市锦禾晟供应链管理有限公司",
         "count": 4
       },
       {
@@ -12969,15 +13005,27 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 4
       },
       {
-        "name": "线下-唐山天地乐食品有限公司",
+        "name": "线下-恩施州东杜商贸有限责任公司",
         "count": 4
       },
       {
-        "name": "线下-山西鸿财润冷冻食品有限公司",
+        "name": "线下-河南寻味兽科技有限公司",
         "count": 4
       },
       {
-        "name": "线下-石家庄伯利恒商贸有限公司",
+        "name": "线下-湖北融誉冷冻食品有限公司",
+        "count": 4
+      },
+      {
+        "name": "线下-潍坊硕和经贸有限公司",
+        "count": 4
+      },
+      {
+        "name": "线下-石家庄凯华网络科技有限公司",
+        "count": 4
+      },
+      {
+        "name": "线下-石家庄永旺食品贸易有限公司",
         "count": 4
       },
       {
@@ -12985,7 +13033,15 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 4
       },
       {
-        "name": "线下-郑州乾泰食品有限公司",
+        "name": "线下-邢台市浩瀚商贸有限责任公司",
+        "count": 4
+      },
+      {
+        "name": "线下-邯郸市复兴区嘉尚贸易有限公司",
+        "count": 4
+      },
+      {
+        "name": "线下-长沙吉鲜岛贸易有限公司（衡阳仓）",
         "count": 4
       },
       {
@@ -12997,7 +13053,31 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 3
       },
       {
-        "name": "线下-山西荷美斯食品科技有限公司",
+        "name": "线下-保定金大商贸有限公司",
+        "count": 3
+      },
+      {
+        "name": "线下-信阳市浉河区鸿源食品销售店",
+        "count": 3
+      },
+      {
+        "name": "线下-内蒙古鸿恩商贸有限公司",
+        "count": 3
+      },
+      {
+        "name": "线下-唐山市丰润区东蒙商贸有限公司",
+        "count": 3
+      },
+      {
+        "name": "线下-宜昌鼎兴商贸",
+        "count": 3
+      },
+      {
+        "name": "线下-山西东呈祥商贸有限公司",
+        "count": 3
+      },
+      {
+        "name": "线下-开封市祥符区兴隆森成食品店",
         "count": 3
       },
       {
@@ -13005,7 +13085,19 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 3
       },
       {
+        "name": "线下-新疆同盛源优选电子商务有限公司",
+        "count": 3
+      },
+      {
+        "name": "线下-桐柏金隆冷食",
+        "count": 3
+      },
+      {
         "name": "线下-正阳县西城兴乔冻品商行",
+        "count": 3
+      },
+      {
+        "name": "线下-毛毛雨食品销售(河北)有限公司",
         "count": 3
       },
       {
@@ -13013,11 +13105,15 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 3
       },
       {
-        "name": "线下-河南云派商贸有限公司",
+        "name": "线下-江西奥丝思贸易有限公司",
         "count": 3
       },
       {
-        "name": "线下-河南寻味兽科技有限公司",
+        "name": "线下-沧州新阿奇商贸有限公司",
+        "count": 3
+      },
+      {
+        "name": "线下-河南云派商贸有限公司",
         "count": 3
       },
       {
@@ -13029,11 +13125,7 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 3
       },
       {
-        "name": "线下-湖北融誉冷冻食品有限公司",
-        "count": 3
-      },
-      {
-        "name": "线下-潍坊硕和经贸有限公司",
+        "name": "线下-湖南宁友水产品有限公司",
         "count": 3
       },
       {
@@ -13045,15 +13137,15 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 3
       },
       {
+        "name": "线下-许昌豫茂源食品有限公司",
+        "count": 3
+      },
+      {
         "name": "线下-赤峰顺扬商贸有限公司",
         "count": 3
       },
       {
-        "name": "线下-邢台市安氏商贸有限公司",
-        "count": 3
-      },
-      {
-        "name": "线下-邢台市浩瀚商贸有限责任公司",
+        "name": "线下-辉县市巨鑫商贸有限公司",
         "count": 3
       },
       {
@@ -13065,6 +13157,10 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 3
       },
       {
+        "name": "线下-三河市王瑞明商行",
+        "count": 2
+      },
+      {
         "name": "线下-三门峡市帝康食品有限公司",
         "count": 2
       },
@@ -13073,11 +13169,11 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 2
       },
       {
-        "name": "线下-云南中英食品有限责任公司",
+        "name": "线下-临颖县实诚冻品商行",
         "count": 2
       },
       {
-        "name": "线下-信阳市浉河区鸿源食品销售店",
+        "name": "线下-云南中英食品有限责任公司",
         "count": 2
       },
       {
@@ -13085,7 +13181,11 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 2
       },
       {
-        "name": "线下-内蒙古鸿恩商贸有限公司",
+        "name": "线下-北京九州鲜冻商贸有限公司",
+        "count": 2
+      },
+      {
+        "name": "线下-北京盛源汇鑫商贸有限公司",
         "count": 2
       },
       {
@@ -13109,19 +13209,11 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 2
       },
       {
-        "name": "线下-天津鸿熙优选科技有限公司",
-        "count": 2
-      },
-      {
         "name": "线下-太和县泳翔商贸",
         "count": 2
       },
       {
-        "name": "线下-宜昌鼎兴商贸",
-        "count": 2
-      },
-      {
-        "name": "线下-山西东呈祥商贸有限公司",
+        "name": "线下-宝鸡市诚宇商贸有限公司",
         "count": 2
       },
       {
@@ -13129,11 +13221,19 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 2
       },
       {
-        "name": "线下-开封市祥符区兴隆森成食品店",
+        "name": "线下-扈阳(天津)食品销售有限公司",
         "count": 2
       },
       {
-        "name": "线下-新疆同盛源优选电子商务有限公司",
+        "name": "线下-新乡市恒达商贸有限公司",
+        "count": 2
+      },
+      {
+        "name": "线下-新疆开利尔商贸有限公司",
+        "count": 2
+      },
+      {
+        "name": "线下-昆明蒙翊商贸有限公司",
         "count": 2
       },
       {
@@ -13145,7 +13245,27 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 2
       },
       {
+        "name": "线下-沧州市海旭食品有限公司",
+        "count": 2
+      },
+      {
+        "name": "线下-河南晟合食品有限公司",
+        "count": 2
+      },
+      {
         "name": "线下-河南省广利源餐饮管理服务有限公司",
+        "count": 2
+      },
+      {
+        "name": "线下-河南餐道食品有限公司",
+        "count": 2
+      },
+      {
+        "name": "线下-河间市欣旭商贸有限公司",
+        "count": 2
+      },
+      {
+        "name": "线下-洛阳统菜鲜生供应链管理有限公司",
         "count": 2
       },
       {
@@ -13157,7 +13277,15 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 2
       },
       {
+        "name": "线下-湖南领鲜食品有限公司",
+        "count": 2
+      },
+      {
         "name": "线下-滨州市丰禄庆商贸有限公司",
+        "count": 2
+      },
+      {
+        "name": "线下-潢川县天盛食品商行",
         "count": 2
       },
       {
@@ -13165,15 +13293,19 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 2
       },
       {
-        "name": "线下-石家庄凯华网络科技有限公司",
+        "name": "线下-石家庄绮俪商贸有限公司",
         "count": 2
       },
       {
-        "name": "线下-石家庄永旺食品贸易有限公司",
+        "name": "线下-石家庄驰兴食品有限责任公司",
         "count": 2
       },
       {
         "name": "线下-禹州市涌泉冷食配送中心",
+        "count": 2
+      },
+      {
+        "name": "线下-秦皇岛隽聚商贸有限公司",
         "count": 2
       },
       {
@@ -13193,11 +13325,15 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 2
       },
       {
-        "name": "线下-许昌豫茂源食品有限公司",
+        "name": "线下-衡水开隆食品商贸有限公司",
         "count": 2
       },
       {
-        "name": "线下-邯郸市复兴区嘉尚贸易有限公司",
+        "name": "线下-辉县市城南农贸市场罗氏干鲜店",
+        "count": 2
+      },
+      {
+        "name": "线下-邓州市锦淼商贸有限公司",
         "count": 2
       },
       {
@@ -13205,7 +13341,15 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 2
       },
       {
-        "name": "线下-长沙红欢喜供应链管理有限公司",
+        "name": "线下-重庆骆乐雪商贸有限公司",
+        "count": 2
+      },
+      {
+        "name": "线下-铜陵市领鲜天下商贸有限责任公司",
+        "count": 2
+      },
+      {
+        "name": "线下-陕西领鲜优怡供应链有限公司",
         "count": 2
       },
       {
@@ -13213,7 +13357,15 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 2
       },
       {
-        "name": "线下-三河市王瑞明商行",
+        "name": "线下-高碑店市高碑店新大都冷饮门市部",
+        "count": 2
+      },
+      {
+        "name": "线下-鸡泽县铄钎商贸有限公司",
+        "count": 2
+      },
+      {
+        "name": "线下-万福冻品",
         "count": 1
       },
       {
@@ -13229,6 +13381,10 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 1
       },
       {
+        "name": "线下-上高县王式冷食经营部",
+        "count": 1
+      },
+      {
         "name": "线下-东营安储食品有限公司",
         "count": 1
       },
@@ -13237,11 +13393,11 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 1
       },
       {
-        "name": "线下-临颖县实诚冻品商行",
+        "name": "线下-义乌快行线食品有限公司",
         "count": 1
       },
       {
-        "name": "线下-义乌快行线食品有限公司",
+        "name": "线下-乌鲁木齐厨士邦商贸有限公司",
         "count": 1
       },
       {
@@ -13254,14 +13410,6 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
       },
       {
         "name": "线下-亳州市泰丰食品销售有限责任公司",
-        "count": 1
-      },
-      {
-        "name": "线下-保定市锦禾晟供应链管理有限公司",
-        "count": 1
-      },
-      {
-        "name": "线下-保定金大商贸有限公司",
         "count": 1
       },
       {
@@ -13281,11 +13429,15 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 1
       },
       {
+        "name": "线下-内蒙古赤牧食品有限公司",
+        "count": 1
+      },
+      {
         "name": "线下-冠县高德食品销售有限公司",
         "count": 1
       },
       {
-        "name": "线下-北京九州鲜冻商贸有限公司",
+        "name": "线下-利川市美伊商贸有限责任公司",
         "count": 1
       },
       {
@@ -13293,7 +13445,11 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 1
       },
       {
-        "name": "线下-北京盛源汇鑫商贸有限公司",
+        "name": "线下-北京易豪鑫源商贸有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-北京泰和力创商贸有限公司",
         "count": 1
       },
       {
@@ -13317,6 +13473,10 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 1
       },
       {
+        "name": "线下-南阳市润佳商贸有限公司",
+        "count": 1
+      },
+      {
         "name": "线下-南阳市鸭河工区皇路店镇魏氏冷鲜总汇店",
         "count": 1
       },
@@ -13337,6 +13497,10 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 1
       },
       {
+        "name": "线下-吉林省龙鹏经贸有限公司",
+        "count": 1
+      },
+      {
         "name": "线下-吕梁市离石区批发雪糕凤山底店",
         "count": 1
       },
@@ -13345,11 +13509,11 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 1
       },
       {
-        "name": "线下-周口泓硕商贸有限公司",
+        "name": "线下-吴知音",
         "count": 1
       },
       {
-        "name": "线下-唐山市丰润区东蒙商贸有限公司",
+        "name": "线下-周口泓硕商贸有限公司",
         "count": 1
       },
       {
@@ -13361,11 +13525,19 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 1
       },
       {
+        "name": "线下-四川美淇胜供应链管理有限公司",
+        "count": 1
+      },
+      {
         "name": "线下-大同市融林商贸有限责任公司",
         "count": 1
       },
       {
         "name": "线下-大名县晟森水果店",
+        "count": 1
+      },
+      {
+        "name": "线下-大城县新城区康乐冷食店",
         "count": 1
       },
       {
@@ -13381,11 +13553,23 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 1
       },
       {
+        "name": "线下-太原市昌盛海新源商贸有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-威县振驰副食店（个体工商户）",
+        "count": 1
+      },
+      {
         "name": "线下-孟庆满",
         "count": 1
       },
       {
         "name": "线下-安徽亿喜年食品有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-宜航远扬国际贸易(北京)有限公司",
         "count": 1
       },
       {
@@ -13405,7 +13589,15 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 1
       },
       {
+        "name": "线下-封丘县味美思冷饮批发部",
+        "count": 1
+      },
+      {
         "name": "线下-封丘县城关镇李记调味品商行",
+        "count": 1
+      },
+      {
+        "name": "线下-尉氏县森林果果商贸有限公司",
         "count": 1
       },
       {
@@ -13418,6 +13610,14 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
       },
       {
         "name": "线下-巨野麟州冷饮",
+        "count": 1
+      },
+      {
+        "name": "线下-巩义市北山口鼎旺冷食店",
+        "count": 1
+      },
+      {
+        "name": "线下-平顶山晨势商贸有限公司",
         "count": 1
       },
       {
@@ -13437,11 +13637,15 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 1
       },
       {
+        "name": "线下-开封信佑德商贸有限公司",
+        "count": 1
+      },
+      {
         "name": "线下-德州市聚旺德水产有限公司",
         "count": 1
       },
       {
-        "name": "线下-恩施州东杜商贸有限责任公司",
+        "name": "线下-怀化市园丰贸易有限公司",
         "count": 1
       },
       {
@@ -13449,15 +13653,19 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 1
       },
       {
+        "name": "线下-成都市弘鑫隆商贸有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-成都鼎瑞翔贸易有限公司",
+        "count": 1
+      },
+      {
         "name": "线下-扶沟县杜氏冷冻食品经营有限公司",
         "count": 1
       },
       {
-        "name": "线下-新乡市恒达商贸有限公司",
-        "count": 1
-      },
-      {
-        "name": "线下-新疆开利尔商贸有限公司",
+        "name": "线下-承德市坤丰商贸有限公司",
         "count": 1
       },
       {
@@ -13466,6 +13674,10 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
       },
       {
         "name": "线下-新郑市聚和润食品有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-新野县犇辰商贸行",
         "count": 1
       },
       {
@@ -13478,10 +13690,6 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
       },
       {
         "name": "线下-日照市优冠贸易有限公司",
-        "count": 1
-      },
-      {
-        "name": "线下-昆明蒙翊商贸有限公司",
         "count": 1
       },
       {
@@ -13517,7 +13725,7 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 1
       },
       {
-        "name": "线下-桐柏金隆冷食",
+        "name": "线下-梦雪冷冻肖敏",
         "count": 1
       },
       {
@@ -13525,7 +13733,11 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 1
       },
       {
-        "name": "线下-毛毛雨食品销售(河北)有限公司",
+        "name": "线下-武汉思莱怡食品有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-永新供应链管理服务(天津)有限公司",
         "count": 1
       },
       {
@@ -13541,7 +13753,15 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 1
       },
       {
-        "name": "线下-江西奥丝思贸易有限公司",
+        "name": "线下-江门市泰川贸易有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-沈丘县赵德营镇大公速冻冷食",
+        "count": 1
+      },
+      {
+        "name": "线下-沈阳浚恒贸易有限公司",
         "count": 1
       },
       {
@@ -13549,11 +13769,7 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 1
       },
       {
-        "name": "线下-沧州市海旭食品有限公司",
-        "count": 1
-      },
-      {
-        "name": "线下-沧州新阿奇商贸有限公司",
+        "name": "线下-沧州乾元国际贸易有限公司",
         "count": 1
       },
       {
@@ -13561,19 +13777,7 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 1
       },
       {
-        "name": "线下-河南晟合食品有限公司",
-        "count": 1
-      },
-      {
-        "name": "线下-河南餐道食品有限公司",
-        "count": 1
-      },
-      {
         "name": "线下-河源市源城区汇源友冷冻食品经销部",
-        "count": 1
-      },
-      {
-        "name": "线下-河间市欣旭商贸有限公司",
         "count": 1
       },
       {
@@ -13589,11 +13793,19 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 1
       },
       {
+        "name": "线下-洞口卫君百货有限责任公司",
+        "count": 1
+      },
+      {
         "name": "线下-济宁市舟航商贸有限公司",
         "count": 1
       },
       {
         "name": "线下-济阳县同乐购食品超市",
+        "count": 1
+      },
+      {
+        "name": "线下-浏阳品元商贸有限公司",
         "count": 1
       },
       {
@@ -13641,7 +13853,7 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 1
       },
       {
-        "name": "线下-潢川县天盛食品商行",
+        "name": "线下-潍坊惠海商贸有限公司",
         "count": 1
       },
       {
@@ -13669,6 +13881,10 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 1
       },
       {
+        "name": "线下-登封市千惠商贸有限公司",
+        "count": 1
+      },
+      {
         "name": "线下-盐城以赛亚食品有限公司",
         "count": 1
       },
@@ -13677,15 +13893,15 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 1
       },
       {
-        "name": "线下-石家庄绮俪商贸有限公司",
-        "count": 1
-      },
-      {
-        "name": "线下-石家庄驰兴食品有限责任公司",
+        "name": "线下-磁县诚信食品经销处",
         "count": 1
       },
       {
         "name": "线下-秦亮冷食",
+        "count": 1
+      },
+      {
+        "name": "线下-秦皇岛福亿食品有限责任公司",
         "count": 1
       },
       {
@@ -13694,6 +13910,10 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
       },
       {
         "name": "线下-罗山县亿澜食品有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-罗平鑫鸿商贸有限公司",
         "count": 1
       },
       {
@@ -13706,6 +13926,10 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
       },
       {
         "name": "线下-苏州市怡良食品有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-荥阳市新妍食品商行",
         "count": 1
       },
       {
@@ -13729,7 +13953,11 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 1
       },
       {
-        "name": "线下-衡水开隆食品商贸有限公司",
+        "name": "线下-蕲春县兴荣商贸有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-蠡县蠡吾镇八里庄盛安冷库",
         "count": 1
       },
       {
@@ -13745,6 +13973,10 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 1
       },
       {
+        "name": "线下-西安众志食品有限公司",
+        "count": 1
+      },
+      {
         "name": "线下-西安海尚食品有限公司",
         "count": 1
       },
@@ -13757,7 +13989,15 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 1
       },
       {
-        "name": "线下-辉县市巨鑫商贸有限公司",
+        "name": "线下-迁西县城关家旺冷食批发部",
+        "count": 1
+      },
+      {
+        "name": "线下-通辽市钱裕商贸有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-邢台雨昂商贸有限公司",
         "count": 1
       },
       {
@@ -13769,11 +14009,11 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 1
       },
       {
-        "name": "线下-郓城县士杰商贸中心",
+        "name": "线下-郑州佳特商贸有限公司",
         "count": 1
       },
       {
-        "name": "线下-重庆骆乐雪商贸有限公司",
+        "name": "线下-郓城县士杰商贸中心",
         "count": 1
       },
       {
@@ -13782,6 +14022,22 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
       },
       {
         "name": "线下-铜陵龙之奥商贸有限责任公司",
+        "count": 1
+      },
+      {
+        "name": "线下-长沙吉鲜岛贸易有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-长沙开路者商贸有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-长沙盟江食品有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-长沙鼎坤食品贸易有限公司",
         "count": 1
       },
       {
@@ -13809,15 +14065,23 @@ window.MARKET_ORDER_GOVERNANCE_BY_MONTH = {
         "count": 1
       },
       {
+        "name": "线下-项城市雪腾商贸有限公司",
+        "count": 1
+      },
+      {
         "name": "线下-马鞍山市林家铺子商贸有限公司",
         "count": 1
       },
       {
-        "name": "线下-高碑店市高碑店新大都冷饮门市部",
+        "name": "线下-魏县富强冷冻食品批发交易店",
         "count": 1
       },
       {
-        "name": "线下-鸡泽县铄钎商贸有限公司",
+        "name": "线下-魏县明奎冷库商贸有限公司",
+        "count": 1
+      },
+      {
+        "name": "线下-黄石市蕲鑫食品有限公司",
         "count": 1
       }
     ],
@@ -15341,7 +15605,7 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
   "month": "9月",
   "source": "市场稽核部重点工作.xlsx / 市场秩序治理",
   "caseCount": 108,
-  "customerCount": 235,
+  "customerCount": 301,
   "lockedCustomerCount": 7,
   "punishCount": 0,
   "internalCount": 7,
@@ -15403,15 +15667,43 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
   ],
   "customerRank": [
     {
+      "name": "线下-陕西好食汇冷链食品有限公司",
+      "count": 14
+    },
+    {
+      "name": "线下-河南良麟食品有限公司",
+      "count": 11
+    },
+    {
+      "name": "线下-河南妙口福食品有限公司",
+      "count": 10
+    },
+    {
       "name": "线下-济南禧悦食品有限公司",
       "count": 10
     },
     {
+      "name": "线下-保定晶那商贸有限公司",
+      "count": 9
+    },
+    {
       "name": "线下-山东鲁味臻鲜供应链有限公司",
+      "count": 9
+    },
+    {
+      "name": "线下-邢东新区寒雪食品店",
+      "count": 9
+    },
+    {
+      "name": "线下-商丘骐铄商贸有限公司",
       "count": 8
     },
     {
-      "name": "线下-陕西好食汇冷链食品有限公司",
+      "name": "线下-河南晴年商贸有限公司",
+      "count": 8
+    },
+    {
+      "name": "线下-石家庄伯利恒商贸有限公司",
       "count": 8
     },
     {
@@ -15419,23 +15711,31 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 7
     },
     {
-      "name": "线下-商丘骐铄商贸有限公司",
-      "count": 7
-    },
-    {
-      "name": "线下-河南良麟食品有限公司",
+      "name": "线下-山西鸿财润冷冻食品有限公司",
       "count": 7
     },
     {
       "name": "线下-德州银星商贸有限公司",
+      "count": 7
+    },
+    {
+      "name": "线下-长沙红欢喜供应链管理有限公司",
+      "count": 7
+    },
+    {
+      "name": "线下-天津鸿熙优选科技有限公司",
       "count": 6
     },
     {
-      "name": "线下-河南妙口福食品有限公司",
+      "name": "线下-山西荷美斯食品科技有限公司",
       "count": 6
     },
     {
-      "name": "线下-河南晴年商贸有限公司",
+      "name": "线下-武汉汇鑫莱食品有限公司",
+      "count": 6
+    },
+    {
+      "name": "线下-河南华世食品有限公司",
       "count": 6
     },
     {
@@ -15447,15 +15747,11 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 6
     },
     {
+      "name": "线下-唐山天地乐食品有限公司",
+      "count": 5
+    },
+    {
       "name": "线下-怀远县永泰商贸有限公司",
-      "count": 5
-    },
-    {
-      "name": "线下-武汉汇鑫莱食品有限公司",
-      "count": 5
-    },
-    {
-      "name": "线下-河南华世食品有限公司",
       "count": 5
     },
     {
@@ -15475,7 +15771,11 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 5
     },
     {
-      "name": "线下-邢东新区寒雪食品店",
+      "name": "线下-邢台市安氏商贸有限公司",
+      "count": 5
+    },
+    {
+      "name": "线下-郑州乾泰食品有限公司",
       "count": 5
     },
     {
@@ -15483,7 +15783,7 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 4
     },
     {
-      "name": "线下-保定晶那商贸有限公司",
+      "name": "线下-保定市锦禾晟供应链管理有限公司",
       "count": 4
     },
     {
@@ -15491,15 +15791,27 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 4
     },
     {
-      "name": "线下-唐山天地乐食品有限公司",
+      "name": "线下-恩施州东杜商贸有限责任公司",
       "count": 4
     },
     {
-      "name": "线下-山西鸿财润冷冻食品有限公司",
+      "name": "线下-河南寻味兽科技有限公司",
       "count": 4
     },
     {
-      "name": "线下-石家庄伯利恒商贸有限公司",
+      "name": "线下-湖北融誉冷冻食品有限公司",
+      "count": 4
+    },
+    {
+      "name": "线下-潍坊硕和经贸有限公司",
+      "count": 4
+    },
+    {
+      "name": "线下-石家庄凯华网络科技有限公司",
+      "count": 4
+    },
+    {
+      "name": "线下-石家庄永旺食品贸易有限公司",
       "count": 4
     },
     {
@@ -15507,7 +15819,15 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 4
     },
     {
-      "name": "线下-郑州乾泰食品有限公司",
+      "name": "线下-邢台市浩瀚商贸有限责任公司",
+      "count": 4
+    },
+    {
+      "name": "线下-邯郸市复兴区嘉尚贸易有限公司",
+      "count": 4
+    },
+    {
+      "name": "线下-长沙吉鲜岛贸易有限公司（衡阳仓）",
       "count": 4
     },
     {
@@ -15519,7 +15839,31 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 3
     },
     {
-      "name": "线下-山西荷美斯食品科技有限公司",
+      "name": "线下-保定金大商贸有限公司",
+      "count": 3
+    },
+    {
+      "name": "线下-信阳市浉河区鸿源食品销售店",
+      "count": 3
+    },
+    {
+      "name": "线下-内蒙古鸿恩商贸有限公司",
+      "count": 3
+    },
+    {
+      "name": "线下-唐山市丰润区东蒙商贸有限公司",
+      "count": 3
+    },
+    {
+      "name": "线下-宜昌鼎兴商贸",
+      "count": 3
+    },
+    {
+      "name": "线下-山西东呈祥商贸有限公司",
+      "count": 3
+    },
+    {
+      "name": "线下-开封市祥符区兴隆森成食品店",
       "count": 3
     },
     {
@@ -15527,7 +15871,19 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 3
     },
     {
+      "name": "线下-新疆同盛源优选电子商务有限公司",
+      "count": 3
+    },
+    {
+      "name": "线下-桐柏金隆冷食",
+      "count": 3
+    },
+    {
       "name": "线下-正阳县西城兴乔冻品商行",
+      "count": 3
+    },
+    {
+      "name": "线下-毛毛雨食品销售(河北)有限公司",
       "count": 3
     },
     {
@@ -15535,11 +15891,15 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 3
     },
     {
-      "name": "线下-河南云派商贸有限公司",
+      "name": "线下-江西奥丝思贸易有限公司",
       "count": 3
     },
     {
-      "name": "线下-河南寻味兽科技有限公司",
+      "name": "线下-沧州新阿奇商贸有限公司",
+      "count": 3
+    },
+    {
+      "name": "线下-河南云派商贸有限公司",
       "count": 3
     },
     {
@@ -15551,11 +15911,7 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 3
     },
     {
-      "name": "线下-湖北融誉冷冻食品有限公司",
-      "count": 3
-    },
-    {
-      "name": "线下-潍坊硕和经贸有限公司",
+      "name": "线下-湖南宁友水产品有限公司",
       "count": 3
     },
     {
@@ -15567,15 +15923,15 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 3
     },
     {
+      "name": "线下-许昌豫茂源食品有限公司",
+      "count": 3
+    },
+    {
       "name": "线下-赤峰顺扬商贸有限公司",
       "count": 3
     },
     {
-      "name": "线下-邢台市安氏商贸有限公司",
-      "count": 3
-    },
-    {
-      "name": "线下-邢台市浩瀚商贸有限责任公司",
+      "name": "线下-辉县市巨鑫商贸有限公司",
       "count": 3
     },
     {
@@ -15587,6 +15943,10 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 3
     },
     {
+      "name": "线下-三河市王瑞明商行",
+      "count": 2
+    },
+    {
       "name": "线下-三门峡市帝康食品有限公司",
       "count": 2
     },
@@ -15595,11 +15955,11 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 2
     },
     {
-      "name": "线下-云南中英食品有限责任公司",
+      "name": "线下-临颖县实诚冻品商行",
       "count": 2
     },
     {
-      "name": "线下-信阳市浉河区鸿源食品销售店",
+      "name": "线下-云南中英食品有限责任公司",
       "count": 2
     },
     {
@@ -15607,7 +15967,11 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 2
     },
     {
-      "name": "线下-内蒙古鸿恩商贸有限公司",
+      "name": "线下-北京九州鲜冻商贸有限公司",
+      "count": 2
+    },
+    {
+      "name": "线下-北京盛源汇鑫商贸有限公司",
       "count": 2
     },
     {
@@ -15631,19 +15995,11 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 2
     },
     {
-      "name": "线下-天津鸿熙优选科技有限公司",
-      "count": 2
-    },
-    {
       "name": "线下-太和县泳翔商贸",
       "count": 2
     },
     {
-      "name": "线下-宜昌鼎兴商贸",
-      "count": 2
-    },
-    {
-      "name": "线下-山西东呈祥商贸有限公司",
+      "name": "线下-宝鸡市诚宇商贸有限公司",
       "count": 2
     },
     {
@@ -15651,11 +16007,19 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 2
     },
     {
-      "name": "线下-开封市祥符区兴隆森成食品店",
+      "name": "线下-扈阳(天津)食品销售有限公司",
       "count": 2
     },
     {
-      "name": "线下-新疆同盛源优选电子商务有限公司",
+      "name": "线下-新乡市恒达商贸有限公司",
+      "count": 2
+    },
+    {
+      "name": "线下-新疆开利尔商贸有限公司",
+      "count": 2
+    },
+    {
+      "name": "线下-昆明蒙翊商贸有限公司",
       "count": 2
     },
     {
@@ -15667,7 +16031,27 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 2
     },
     {
+      "name": "线下-沧州市海旭食品有限公司",
+      "count": 2
+    },
+    {
+      "name": "线下-河南晟合食品有限公司",
+      "count": 2
+    },
+    {
       "name": "线下-河南省广利源餐饮管理服务有限公司",
+      "count": 2
+    },
+    {
+      "name": "线下-河南餐道食品有限公司",
+      "count": 2
+    },
+    {
+      "name": "线下-河间市欣旭商贸有限公司",
+      "count": 2
+    },
+    {
+      "name": "线下-洛阳统菜鲜生供应链管理有限公司",
       "count": 2
     },
     {
@@ -15679,7 +16063,15 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 2
     },
     {
+      "name": "线下-湖南领鲜食品有限公司",
+      "count": 2
+    },
+    {
       "name": "线下-滨州市丰禄庆商贸有限公司",
+      "count": 2
+    },
+    {
+      "name": "线下-潢川县天盛食品商行",
       "count": 2
     },
     {
@@ -15687,15 +16079,19 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 2
     },
     {
-      "name": "线下-石家庄凯华网络科技有限公司",
+      "name": "线下-石家庄绮俪商贸有限公司",
       "count": 2
     },
     {
-      "name": "线下-石家庄永旺食品贸易有限公司",
+      "name": "线下-石家庄驰兴食品有限责任公司",
       "count": 2
     },
     {
       "name": "线下-禹州市涌泉冷食配送中心",
+      "count": 2
+    },
+    {
+      "name": "线下-秦皇岛隽聚商贸有限公司",
       "count": 2
     },
     {
@@ -15715,11 +16111,15 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 2
     },
     {
-      "name": "线下-许昌豫茂源食品有限公司",
+      "name": "线下-衡水开隆食品商贸有限公司",
       "count": 2
     },
     {
-      "name": "线下-邯郸市复兴区嘉尚贸易有限公司",
+      "name": "线下-辉县市城南农贸市场罗氏干鲜店",
+      "count": 2
+    },
+    {
+      "name": "线下-邓州市锦淼商贸有限公司",
       "count": 2
     },
     {
@@ -15727,7 +16127,15 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 2
     },
     {
-      "name": "线下-长沙红欢喜供应链管理有限公司",
+      "name": "线下-重庆骆乐雪商贸有限公司",
+      "count": 2
+    },
+    {
+      "name": "线下-铜陵市领鲜天下商贸有限责任公司",
+      "count": 2
+    },
+    {
+      "name": "线下-陕西领鲜优怡供应链有限公司",
       "count": 2
     },
     {
@@ -15735,7 +16143,15 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 2
     },
     {
-      "name": "线下-三河市王瑞明商行",
+      "name": "线下-高碑店市高碑店新大都冷饮门市部",
+      "count": 2
+    },
+    {
+      "name": "线下-鸡泽县铄钎商贸有限公司",
+      "count": 2
+    },
+    {
+      "name": "线下-万福冻品",
       "count": 1
     },
     {
@@ -15751,6 +16167,10 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 1
     },
     {
+      "name": "线下-上高县王式冷食经营部",
+      "count": 1
+    },
+    {
       "name": "线下-东营安储食品有限公司",
       "count": 1
     },
@@ -15759,11 +16179,11 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 1
     },
     {
-      "name": "线下-临颖县实诚冻品商行",
+      "name": "线下-义乌快行线食品有限公司",
       "count": 1
     },
     {
-      "name": "线下-义乌快行线食品有限公司",
+      "name": "线下-乌鲁木齐厨士邦商贸有限公司",
       "count": 1
     },
     {
@@ -15776,14 +16196,6 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
     },
     {
       "name": "线下-亳州市泰丰食品销售有限责任公司",
-      "count": 1
-    },
-    {
-      "name": "线下-保定市锦禾晟供应链管理有限公司",
-      "count": 1
-    },
-    {
-      "name": "线下-保定金大商贸有限公司",
       "count": 1
     },
     {
@@ -15803,11 +16215,15 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 1
     },
     {
+      "name": "线下-内蒙古赤牧食品有限公司",
+      "count": 1
+    },
+    {
       "name": "线下-冠县高德食品销售有限公司",
       "count": 1
     },
     {
-      "name": "线下-北京九州鲜冻商贸有限公司",
+      "name": "线下-利川市美伊商贸有限责任公司",
       "count": 1
     },
     {
@@ -15815,7 +16231,11 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 1
     },
     {
-      "name": "线下-北京盛源汇鑫商贸有限公司",
+      "name": "线下-北京易豪鑫源商贸有限公司",
+      "count": 1
+    },
+    {
+      "name": "线下-北京泰和力创商贸有限公司",
       "count": 1
     },
     {
@@ -15839,6 +16259,10 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 1
     },
     {
+      "name": "线下-南阳市润佳商贸有限公司",
+      "count": 1
+    },
+    {
       "name": "线下-南阳市鸭河工区皇路店镇魏氏冷鲜总汇店",
       "count": 1
     },
@@ -15859,6 +16283,10 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 1
     },
     {
+      "name": "线下-吉林省龙鹏经贸有限公司",
+      "count": 1
+    },
+    {
       "name": "线下-吕梁市离石区批发雪糕凤山底店",
       "count": 1
     },
@@ -15867,11 +16295,11 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 1
     },
     {
-      "name": "线下-周口泓硕商贸有限公司",
+      "name": "线下-吴知音",
       "count": 1
     },
     {
-      "name": "线下-唐山市丰润区东蒙商贸有限公司",
+      "name": "线下-周口泓硕商贸有限公司",
       "count": 1
     },
     {
@@ -15883,11 +16311,19 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 1
     },
     {
+      "name": "线下-四川美淇胜供应链管理有限公司",
+      "count": 1
+    },
+    {
       "name": "线下-大同市融林商贸有限责任公司",
       "count": 1
     },
     {
       "name": "线下-大名县晟森水果店",
+      "count": 1
+    },
+    {
+      "name": "线下-大城县新城区康乐冷食店",
       "count": 1
     },
     {
@@ -15903,11 +16339,23 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 1
     },
     {
+      "name": "线下-太原市昌盛海新源商贸有限公司",
+      "count": 1
+    },
+    {
+      "name": "线下-威县振驰副食店（个体工商户）",
+      "count": 1
+    },
+    {
       "name": "线下-孟庆满",
       "count": 1
     },
     {
       "name": "线下-安徽亿喜年食品有限公司",
+      "count": 1
+    },
+    {
+      "name": "线下-宜航远扬国际贸易(北京)有限公司",
       "count": 1
     },
     {
@@ -15927,7 +16375,15 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 1
     },
     {
+      "name": "线下-封丘县味美思冷饮批发部",
+      "count": 1
+    },
+    {
       "name": "线下-封丘县城关镇李记调味品商行",
+      "count": 1
+    },
+    {
+      "name": "线下-尉氏县森林果果商贸有限公司",
       "count": 1
     },
     {
@@ -15940,6 +16396,14 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
     },
     {
       "name": "线下-巨野麟州冷饮",
+      "count": 1
+    },
+    {
+      "name": "线下-巩义市北山口鼎旺冷食店",
+      "count": 1
+    },
+    {
+      "name": "线下-平顶山晨势商贸有限公司",
       "count": 1
     },
     {
@@ -15959,11 +16423,15 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 1
     },
     {
+      "name": "线下-开封信佑德商贸有限公司",
+      "count": 1
+    },
+    {
       "name": "线下-德州市聚旺德水产有限公司",
       "count": 1
     },
     {
-      "name": "线下-恩施州东杜商贸有限责任公司",
+      "name": "线下-怀化市园丰贸易有限公司",
       "count": 1
     },
     {
@@ -15971,15 +16439,19 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 1
     },
     {
+      "name": "线下-成都市弘鑫隆商贸有限公司",
+      "count": 1
+    },
+    {
+      "name": "线下-成都鼎瑞翔贸易有限公司",
+      "count": 1
+    },
+    {
       "name": "线下-扶沟县杜氏冷冻食品经营有限公司",
       "count": 1
     },
     {
-      "name": "线下-新乡市恒达商贸有限公司",
-      "count": 1
-    },
-    {
-      "name": "线下-新疆开利尔商贸有限公司",
+      "name": "线下-承德市坤丰商贸有限公司",
       "count": 1
     },
     {
@@ -15988,6 +16460,10 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
     },
     {
       "name": "线下-新郑市聚和润食品有限公司",
+      "count": 1
+    },
+    {
+      "name": "线下-新野县犇辰商贸行",
       "count": 1
     },
     {
@@ -16000,10 +16476,6 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
     },
     {
       "name": "线下-日照市优冠贸易有限公司",
-      "count": 1
-    },
-    {
-      "name": "线下-昆明蒙翊商贸有限公司",
       "count": 1
     },
     {
@@ -16039,7 +16511,7 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 1
     },
     {
-      "name": "线下-桐柏金隆冷食",
+      "name": "线下-梦雪冷冻肖敏",
       "count": 1
     },
     {
@@ -16047,7 +16519,11 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 1
     },
     {
-      "name": "线下-毛毛雨食品销售(河北)有限公司",
+      "name": "线下-武汉思莱怡食品有限公司",
+      "count": 1
+    },
+    {
+      "name": "线下-永新供应链管理服务(天津)有限公司",
       "count": 1
     },
     {
@@ -16063,7 +16539,15 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 1
     },
     {
-      "name": "线下-江西奥丝思贸易有限公司",
+      "name": "线下-江门市泰川贸易有限公司",
+      "count": 1
+    },
+    {
+      "name": "线下-沈丘县赵德营镇大公速冻冷食",
+      "count": 1
+    },
+    {
+      "name": "线下-沈阳浚恒贸易有限公司",
       "count": 1
     },
     {
@@ -16071,11 +16555,7 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 1
     },
     {
-      "name": "线下-沧州市海旭食品有限公司",
-      "count": 1
-    },
-    {
-      "name": "线下-沧州新阿奇商贸有限公司",
+      "name": "线下-沧州乾元国际贸易有限公司",
       "count": 1
     },
     {
@@ -16083,19 +16563,7 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 1
     },
     {
-      "name": "线下-河南晟合食品有限公司",
-      "count": 1
-    },
-    {
-      "name": "线下-河南餐道食品有限公司",
-      "count": 1
-    },
-    {
       "name": "线下-河源市源城区汇源友冷冻食品经销部",
-      "count": 1
-    },
-    {
-      "name": "线下-河间市欣旭商贸有限公司",
       "count": 1
     },
     {
@@ -16111,11 +16579,19 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 1
     },
     {
+      "name": "线下-洞口卫君百货有限责任公司",
+      "count": 1
+    },
+    {
       "name": "线下-济宁市舟航商贸有限公司",
       "count": 1
     },
     {
       "name": "线下-济阳县同乐购食品超市",
+      "count": 1
+    },
+    {
+      "name": "线下-浏阳品元商贸有限公司",
       "count": 1
     },
     {
@@ -16163,7 +16639,7 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 1
     },
     {
-      "name": "线下-潢川县天盛食品商行",
+      "name": "线下-潍坊惠海商贸有限公司",
       "count": 1
     },
     {
@@ -16191,6 +16667,10 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 1
     },
     {
+      "name": "线下-登封市千惠商贸有限公司",
+      "count": 1
+    },
+    {
       "name": "线下-盐城以赛亚食品有限公司",
       "count": 1
     },
@@ -16199,15 +16679,15 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 1
     },
     {
-      "name": "线下-石家庄绮俪商贸有限公司",
-      "count": 1
-    },
-    {
-      "name": "线下-石家庄驰兴食品有限责任公司",
+      "name": "线下-磁县诚信食品经销处",
       "count": 1
     },
     {
       "name": "线下-秦亮冷食",
+      "count": 1
+    },
+    {
+      "name": "线下-秦皇岛福亿食品有限责任公司",
       "count": 1
     },
     {
@@ -16216,6 +16696,10 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
     },
     {
       "name": "线下-罗山县亿澜食品有限公司",
+      "count": 1
+    },
+    {
+      "name": "线下-罗平鑫鸿商贸有限公司",
       "count": 1
     },
     {
@@ -16228,6 +16712,10 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
     },
     {
       "name": "线下-苏州市怡良食品有限公司",
+      "count": 1
+    },
+    {
+      "name": "线下-荥阳市新妍食品商行",
       "count": 1
     },
     {
@@ -16251,7 +16739,11 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 1
     },
     {
-      "name": "线下-衡水开隆食品商贸有限公司",
+      "name": "线下-蕲春县兴荣商贸有限公司",
+      "count": 1
+    },
+    {
+      "name": "线下-蠡县蠡吾镇八里庄盛安冷库",
       "count": 1
     },
     {
@@ -16267,6 +16759,10 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 1
     },
     {
+      "name": "线下-西安众志食品有限公司",
+      "count": 1
+    },
+    {
       "name": "线下-西安海尚食品有限公司",
       "count": 1
     },
@@ -16279,7 +16775,15 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 1
     },
     {
-      "name": "线下-辉县市巨鑫商贸有限公司",
+      "name": "线下-迁西县城关家旺冷食批发部",
+      "count": 1
+    },
+    {
+      "name": "线下-通辽市钱裕商贸有限公司",
+      "count": 1
+    },
+    {
+      "name": "线下-邢台雨昂商贸有限公司",
       "count": 1
     },
     {
@@ -16291,11 +16795,11 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 1
     },
     {
-      "name": "线下-郓城县士杰商贸中心",
+      "name": "线下-郑州佳特商贸有限公司",
       "count": 1
     },
     {
-      "name": "线下-重庆骆乐雪商贸有限公司",
+      "name": "线下-郓城县士杰商贸中心",
       "count": 1
     },
     {
@@ -16304,6 +16808,22 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
     },
     {
       "name": "线下-铜陵龙之奥商贸有限责任公司",
+      "count": 1
+    },
+    {
+      "name": "线下-长沙吉鲜岛贸易有限公司",
+      "count": 1
+    },
+    {
+      "name": "线下-长沙开路者商贸有限公司",
+      "count": 1
+    },
+    {
+      "name": "线下-长沙盟江食品有限公司",
+      "count": 1
+    },
+    {
+      "name": "线下-长沙鼎坤食品贸易有限公司",
       "count": 1
     },
     {
@@ -16331,15 +16851,23 @@ window.MARKET_ORDER_GOVERNANCE = window.MARKET_ORDER_GOVERNANCE_BY_MONTH[window.
       "count": 1
     },
     {
+      "name": "线下-项城市雪腾商贸有限公司",
+      "count": 1
+    },
+    {
       "name": "线下-马鞍山市林家铺子商贸有限公司",
       "count": 1
     },
     {
-      "name": "线下-高碑店市高碑店新大都冷饮门市部",
+      "name": "线下-魏县富强冷冻食品批发交易店",
       "count": 1
     },
     {
-      "name": "线下-鸡泽县铄钎商贸有限公司",
+      "name": "线下-魏县明奎冷库商贸有限公司",
+      "count": 1
+    },
+    {
+      "name": "线下-黄石市蕲鑫食品有限公司",
       "count": 1
     }
   ],

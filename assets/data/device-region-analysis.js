@@ -11,14 +11,6 @@ window.DEVICE_REGION_ANALYSIS = {
       "rate": 100.0
     },
     {
-      "dimension": "天津",
-      "warmOnOrVolume": 18,
-      "warmBad": 15,
-      "sausageOnOrVolume": 10,
-      "sausageBad": 8,
-      "rate": 82.1
-    },
-    {
       "dimension": "西藏",
       "warmOnOrVolume": 5,
       "warmBad": 4,
@@ -27,212 +19,220 @@ window.DEVICE_REGION_ANALYSIS = {
       "rate": 80.0
     },
     {
-      "dimension": "四川",
-      "warmOnOrVolume": 492,
-      "warmBad": 375,
-      "sausageOnOrVolume": 45,
-      "sausageBad": 40,
-      "rate": 77.3
+      "dimension": "山西",
+      "warmOnOrVolume": 102,
+      "warmBad": 56,
+      "sausageOnOrVolume": 23,
+      "sausageBad": 17,
+      "rate": 58.4
+    },
+    {
+      "dimension": "天津",
+      "warmOnOrVolume": 18,
+      "warmBad": 12,
+      "sausageOnOrVolume": 10,
+      "sausageBad": 4,
+      "rate": 57.1
     },
     {
       "dimension": "辽宁",
-      "warmOnOrVolume": 125,
-      "warmBad": 82,
+      "warmOnOrVolume": 126,
+      "warmBad": 72,
       "sausageOnOrVolume": 22,
-      "sausageBad": 19,
-      "rate": 68.7
+      "sausageBad": 12,
+      "rate": 56.8
     },
     {
-      "dimension": "重庆",
-      "warmOnOrVolume": 487,
-      "warmBad": 316,
-      "sausageOnOrVolume": 100,
-      "sausageBad": 86,
-      "rate": 68.5
-    },
-    {
-      "dimension": "湖南",
-      "warmOnOrVolume": 662,
-      "warmBad": 443,
-      "sausageOnOrVolume": 64,
-      "sausageBad": 39,
-      "rate": 66.4
-    },
-    {
-      "dimension": "贵州",
-      "warmOnOrVolume": 964,
-      "warmBad": 603,
-      "sausageOnOrVolume": 255,
-      "sausageBad": 157,
-      "rate": 62.3
+      "dimension": "四川",
+      "warmOnOrVolume": 560,
+      "warmBad": 292,
+      "sausageOnOrVolume": 45,
+      "sausageBad": 35,
+      "rate": 54.0
     },
     {
       "dimension": "广东",
-      "warmOnOrVolume": 2401,
-      "warmBad": 1485,
-      "sausageOnOrVolume": 204,
-      "sausageBad": 126,
-      "rate": 61.8
+      "warmOnOrVolume": 2405,
+      "warmBad": 1260,
+      "sausageOnOrVolume": 203,
+      "sausageBad": 114,
+      "rate": 52.7
     },
     {
       "dimension": "河北",
-      "warmOnOrVolume": 432,
-      "warmBad": 245,
+      "warmOnOrVolume": 442,
+      "warmBad": 204,
       "sausageOnOrVolume": 42,
-      "sausageBad": 31,
-      "rate": 58.2
-    },
-    {
-      "dimension": "黑龙江",
-      "warmOnOrVolume": 258,
-      "warmBad": 154,
-      "sausageOnOrVolume": 14,
-      "sausageBad": 4,
-      "rate": 58.1
-    },
-    {
-      "dimension": "江西",
-      "warmOnOrVolume": 436,
-      "warmBad": 255,
-      "sausageOnOrVolume": 29,
-      "sausageBad": 14,
-      "rate": 57.8
-    },
-    {
-      "dimension": "河南",
-      "warmOnOrVolume": 413,
-      "warmBad": 235,
-      "sausageOnOrVolume": 23,
-      "sausageBad": 14,
-      "rate": 57.1
-    },
-    {
-      "dimension": "山西",
-      "warmOnOrVolume": 82,
-      "warmBad": 42,
-      "sausageOnOrVolume": 23,
-      "sausageBad": 18,
-      "rate": 57.1
+      "sausageBad": 29,
+      "rate": 48.1
     },
     {
       "dimension": "福建",
-      "warmOnOrVolume": 386,
-      "warmBad": 221,
+      "warmOnOrVolume": 393,
+      "warmBad": 187,
       "sausageOnOrVolume": 39,
       "sausageBad": 19,
-      "rate": 56.5
-    },
-    {
-      "dimension": "山东",
-      "warmOnOrVolume": 268,
-      "warmBad": 138,
-      "sausageOnOrVolume": 100,
-      "sausageBad": 70,
-      "rate": 56.5
-    },
-    {
-      "dimension": "湖北",
-      "warmOnOrVolume": 474,
-      "warmBad": 246,
-      "sausageOnOrVolume": 77,
-      "sausageBad": 62,
-      "rate": 55.9
-    },
-    {
-      "dimension": "陕西",
-      "warmOnOrVolume": 134,
-      "warmBad": 77,
-      "sausageOnOrVolume": 47,
-      "sausageBad": 21,
-      "rate": 54.1
-    },
-    {
-      "dimension": "江苏",
-      "warmOnOrVolume": 206,
-      "warmBad": 108,
-      "sausageOnOrVolume": 0,
-      "sausageBad": 0,
-      "rate": 52.4
-    },
-    {
-      "dimension": "内蒙古",
-      "warmOnOrVolume": 155,
-      "warmBad": 80,
-      "sausageOnOrVolume": 3,
-      "sausageBad": 2,
-      "rate": 51.9
-    },
-    {
-      "dimension": "广西",
-      "warmOnOrVolume": 526,
-      "warmBad": 283,
-      "sausageOnOrVolume": 81,
-      "sausageBad": 27,
-      "rate": 51.1
-    },
-    {
-      "dimension": "浙江",
-      "warmOnOrVolume": 317,
-      "warmBad": 156,
-      "sausageOnOrVolume": 13,
-      "sausageBad": 7,
-      "rate": 49.4
-    },
-    {
-      "dimension": "云南",
-      "warmOnOrVolume": 425,
-      "warmBad": 204,
-      "sausageOnOrVolume": 34,
-      "sausageBad": 15,
       "rate": 47.7
     },
     {
-      "dimension": "甘肃",
-      "warmOnOrVolume": 171,
-      "warmBad": 82,
-      "sausageOnOrVolume": 35,
-      "sausageBad": 13,
-      "rate": 46.1
+      "dimension": "贵州",
+      "warmOnOrVolume": 970,
+      "warmBad": 444,
+      "sausageOnOrVolume": 251,
+      "sausageBad": 134,
+      "rate": 47.3
+    },
+    {
+      "dimension": "河南",
+      "warmOnOrVolume": 393,
+      "warmBad": 182,
+      "sausageOnOrVolume": 23,
+      "sausageBad": 7,
+      "rate": 45.4
+    },
+    {
+      "dimension": "湖南",
+      "warmOnOrVolume": 671,
+      "warmBad": 304,
+      "sausageOnOrVolume": 63,
+      "sausageBad": 28,
+      "rate": 45.2
     },
     {
       "dimension": "安徽",
-      "warmOnOrVolume": 125,
-      "warmBad": 58,
-      "sausageOnOrVolume": 26,
-      "sausageBad": 11,
-      "rate": 45.7
+      "warmOnOrVolume": 137,
+      "warmBad": 63,
+      "sausageOnOrVolume": 28,
+      "sausageBad": 10,
+      "rate": 44.2
     },
     {
-      "dimension": "宁夏",
-      "warmOnOrVolume": 90,
-      "warmBad": 40,
-      "sausageOnOrVolume": 0,
-      "sausageBad": 0,
-      "rate": 44.4
+      "dimension": "广西",
+      "warmOnOrVolume": 556,
+      "warmBad": 250,
+      "sausageOnOrVolume": 82,
+      "sausageBad": 19,
+      "rate": 42.2
+    },
+    {
+      "dimension": "山东",
+      "warmOnOrVolume": 286,
+      "warmBad": 104,
+      "sausageOnOrVolume": 104,
+      "sausageBad": 60,
+      "rate": 42.1
+    },
+    {
+      "dimension": "陕西",
+      "warmOnOrVolume": 138,
+      "warmBad": 60,
+      "sausageOnOrVolume": 47,
+      "sausageBad": 16,
+      "rate": 41.1
+    },
+    {
+      "dimension": "江西",
+      "warmOnOrVolume": 439,
+      "warmBad": 175,
+      "sausageOnOrVolume": 29,
+      "sausageBad": 16,
+      "rate": 40.8
+    },
+    {
+      "dimension": "黑龙江",
+      "warmOnOrVolume": 259,
+      "warmBad": 104,
+      "sausageOnOrVolume": 14,
+      "sausageBad": 4,
+      "rate": 39.6
+    },
+    {
+      "dimension": "重庆",
+      "warmOnOrVolume": 562,
+      "warmBad": 216,
+      "sausageOnOrVolume": 100,
+      "sausageBad": 37,
+      "rate": 38.2
+    },
+    {
+      "dimension": "云南",
+      "warmOnOrVolume": 388,
+      "warmBad": 145,
+      "sausageOnOrVolume": 34,
+      "sausageBad": 13,
+      "rate": 37.4
+    },
+    {
+      "dimension": "湖北",
+      "warmOnOrVolume": 497,
+      "warmBad": 169,
+      "sausageOnOrVolume": 80,
+      "sausageBad": 45,
+      "rate": 37.1
+    },
+    {
+      "dimension": "浙江",
+      "warmOnOrVolume": 308,
+      "warmBad": 103,
+      "sausageOnOrVolume": 13,
+      "sausageBad": 7,
+      "rate": 34.3
     },
     {
       "dimension": "海南",
-      "warmOnOrVolume": 157,
-      "warmBad": 68,
+      "warmOnOrVolume": 173,
+      "warmBad": 57,
       "sausageOnOrVolume": 6,
-      "sausageBad": 2,
-      "rate": 42.9
+      "sausageBad": 1,
+      "rate": 32.4
     },
     {
-      "dimension": "北京",
-      "warmOnOrVolume": 68,
-      "warmBad": 22,
-      "sausageOnOrVolume": 2,
+      "dimension": "江苏",
+      "warmOnOrVolume": 207,
+      "warmBad": 65,
+      "sausageOnOrVolume": 0,
       "sausageBad": 0,
       "rate": 31.4
     },
     {
+      "dimension": "内蒙古",
+      "warmOnOrVolume": 153,
+      "warmBad": 46,
+      "sausageOnOrVolume": 2,
+      "sausageBad": 0,
+      "rate": 29.7
+    },
+    {
+      "dimension": "宁夏",
+      "warmOnOrVolume": 110,
+      "warmBad": 32,
+      "sausageOnOrVolume": 0,
+      "sausageBad": 0,
+      "rate": 29.1
+    },
+    {
       "dimension": "吉林",
       "warmOnOrVolume": 109,
-      "warmBad": 32,
+      "warmBad": 27,
       "sausageOnOrVolume": 6,
-      "sausageBad": 3,
-      "rate": 30.4
+      "sausageBad": 2,
+      "rate": 25.2
+    },
+    {
+      "dimension": "甘肃",
+      "warmOnOrVolume": 187,
+      "warmBad": 45,
+      "sausageOnOrVolume": 36,
+      "sausageBad": 9,
+      "rate": 24.2
+    },
+    {
+      "dimension": "北京",
+      "warmOnOrVolume": 73,
+      "warmBad": 18,
+      "sausageOnOrVolume": 2,
+      "sausageBad": 0,
+      "rate": 24.0
     }
   ],
   "customerNotOn": [
@@ -245,33 +245,9 @@ window.DEVICE_REGION_ANALYSIS = {
       "rate": 100.0
     },
     {
-      "dimension": "线下-湖北嘉福盛冷链食品有限公司",
-      "warmOnOrVolume": 28,
-      "warmBad": 28,
-      "sausageOnOrVolume": 30,
-      "sausageBad": 30,
-      "rate": 100.0
-    },
-    {
-      "dimension": "线下-眉山市东坡区煜林食品经营部",
-      "warmOnOrVolume": 30,
-      "warmBad": 30,
-      "sausageOnOrVolume": 0,
-      "sausageBad": 0,
-      "rate": 100.0
-    },
-    {
-      "dimension": "线下-九龙坡区煋馧达食品经营部",
-      "warmOnOrVolume": 0,
-      "warmBad": 0,
-      "sausageOnOrVolume": 20,
-      "sausageBad": 20,
-      "rate": 100.0
-    },
-    {
-      "dimension": "线下-长沙膳联矩阵品牌管理有限公司（湖南）",
-      "warmOnOrVolume": 20,
-      "warmBad": 20,
+      "dimension": "线下-壹度便利",
+      "warmOnOrVolume": 12,
+      "warmBad": 12,
       "sausageOnOrVolume": 0,
       "sausageBad": 0,
       "rate": 100.0
@@ -301,31 +277,15 @@ window.DEVICE_REGION_ANALYSIS = {
       "rate": 100.0
     },
     {
-      "dimension": "线下-莆田市城厢区鑫丰贸易有限公司",
-      "warmOnOrVolume": 10,
-      "warmBad": 10,
-      "sausageOnOrVolume": 0,
-      "sausageBad": 0,
-      "rate": 100.0
-    },
-    {
-      "dimension": "线下-汕尾市继润冷冻食品有限公司",
-      "warmOnOrVolume": 9,
-      "warmBad": 9,
-      "sausageOnOrVolume": 0,
-      "sausageBad": 0,
-      "rate": 100.0
-    },
-    {
       "dimension": "线下-易文略 18673432150",
-      "warmOnOrVolume": 4,
-      "warmBad": 4,
+      "warmOnOrVolume": 5,
+      "warmBad": 5,
       "sausageOnOrVolume": 4,
       "sausageBad": 4,
       "rate": 100.0
     },
     {
-      "dimension": "线下-宣汉县金信副食经营部（个体工商户）",
+      "dimension": "线下-遂溪县黄略丘公子食品经营部(个体工商户)",
       "warmOnOrVolume": 7,
       "warmBad": 7,
       "sausageOnOrVolume": 0,
@@ -333,39 +293,7 @@ window.DEVICE_REGION_ANALYSIS = {
       "rate": 100.0
     },
     {
-      "dimension": "线下-惠州市齐创商贸有限公司",
-      "warmOnOrVolume": 6,
-      "warmBad": 6,
-      "sausageOnOrVolume": 0,
-      "sausageBad": 0,
-      "rate": 100.0
-    },
-    {
-      "dimension": "线下-昊轩贸易有限公司",
-      "warmOnOrVolume": 6,
-      "warmBad": 6,
-      "sausageOnOrVolume": 0,
-      "sausageBad": 0,
-      "rate": 100.0
-    },
-    {
-      "dimension": "线下-兴仁市琳淇雪糕批发部",
-      "warmOnOrVolume": 0,
-      "warmBad": 0,
-      "sausageOnOrVolume": 5,
-      "sausageBad": 5,
-      "rate": 100.0
-    },
-    {
-      "dimension": "线下-天津鸿熙优选科技有限公司",
-      "warmOnOrVolume": 0,
-      "warmBad": 0,
-      "sausageOnOrVolume": 5,
-      "sausageBad": 5,
-      "rate": 100.0
-    },
-    {
-      "dimension": "线下-张新艳",
+      "dimension": "线下-东莞市誉诚贸易有限公司",
       "warmOnOrVolume": 5,
       "warmBad": 5,
       "sausageOnOrVolume": 0,
@@ -373,39 +301,103 @@ window.DEVICE_REGION_ANALYSIS = {
       "rate": 100.0
     },
     {
-      "dimension": "线下-德清吕铭食品有限公司",
-      "warmOnOrVolume": 5,
-      "warmBad": 5,
-      "sausageOnOrVolume": 0,
-      "sausageBad": 0,
-      "rate": 100.0
-    },
-    {
-      "dimension": "线下-桃江县飞虎冷饮批发部",
-      "warmOnOrVolume": 5,
-      "warmBad": 5,
-      "sausageOnOrVolume": 0,
-      "sausageBad": 0,
-      "rate": 100.0
-    },
-    {
-      "dimension": "线下-盱眙优品微批百货商行",
-      "warmOnOrVolume": 5,
-      "warmBad": 5,
-      "sausageOnOrVolume": 0,
-      "sausageBad": 0,
-      "rate": 100.0
-    }
-  ],
-  "provinceNotQualified": [
-    {
-      "dimension": "天津",
+      "dimension": "线下-诸暨市清馨食品有限公司",
       "warmOnOrVolume": 3,
       "warmBad": 3,
       "sausageOnOrVolume": 2,
       "sausageBad": 2,
       "rate": 100.0
     },
+    {
+      "dimension": "线下-乐山市雪之源贸易有限公司",
+      "warmOnOrVolume": 4,
+      "warmBad": 4,
+      "sausageOnOrVolume": 0,
+      "sausageBad": 0,
+      "rate": 100.0
+    },
+    {
+      "dimension": "线下-云城区中源食品贸易部",
+      "warmOnOrVolume": 2,
+      "warmBad": 2,
+      "sausageOnOrVolume": 2,
+      "sausageBad": 2,
+      "rate": 100.0
+    },
+    {
+      "dimension": "线下-富川富阳镇冰洁冷冻食品经销部",
+      "warmOnOrVolume": 4,
+      "warmBad": 4,
+      "sausageOnOrVolume": 0,
+      "sausageBad": 0,
+      "rate": 100.0
+    },
+    {
+      "dimension": "线下-抚州市雨诚速冻配送有限公司",
+      "warmOnOrVolume": 2,
+      "warmBad": 2,
+      "sausageOnOrVolume": 2,
+      "sausageBad": 2,
+      "rate": 100.0
+    },
+    {
+      "dimension": "线下-五大连池市缘客隆经贸有限责任公司",
+      "warmOnOrVolume": 3,
+      "warmBad": 3,
+      "sausageOnOrVolume": 0,
+      "sausageBad": 0,
+      "rate": 100.0
+    },
+    {
+      "dimension": "线下-福州鲸东鲜食品科技有限公司",
+      "warmOnOrVolume": 3,
+      "warmBad": 3,
+      "sausageOnOrVolume": 0,
+      "sausageBad": 0,
+      "rate": 100.0
+    },
+    {
+      "dimension": "线下-鱼台县龙业经贸有限公司",
+      "warmOnOrVolume": 1,
+      "warmBad": 1,
+      "sausageOnOrVolume": 2,
+      "sausageBad": 2,
+      "rate": 100.0
+    },
+    {
+      "dimension": "线下-九江飞雪冷食商贸公司",
+      "warmOnOrVolume": 2,
+      "warmBad": 2,
+      "sausageOnOrVolume": 0,
+      "sausageBad": 0,
+      "rate": 100.0
+    },
+    {
+      "dimension": "线下-佛山市合丰冷冻食品有限公司",
+      "warmOnOrVolume": 2,
+      "warmBad": 2,
+      "sausageOnOrVolume": 0,
+      "sausageBad": 0,
+      "rate": 100.0
+    },
+    {
+      "dimension": "线下-前郭经济开发区蒙旗冷冻食品经销处",
+      "warmOnOrVolume": 1,
+      "warmBad": 1,
+      "sausageOnOrVolume": 1,
+      "sausageBad": 1,
+      "rate": 100.0
+    },
+    {
+      "dimension": "线下-南阳市鸭河工区皇路店镇魏氏冷鲜总汇店",
+      "warmOnOrVolume": 1,
+      "warmBad": 1,
+      "sausageOnOrVolume": 1,
+      "sausageBad": 1,
+      "rate": 100.0
+    }
+  ],
+  "provinceNotQualified": [
     {
       "dimension": "西藏",
       "warmOnOrVolume": 1,
@@ -415,329 +407,337 @@ window.DEVICE_REGION_ANALYSIS = {
       "rate": 100.0
     },
     {
-      "dimension": "黑龙江",
-      "warmOnOrVolume": 104,
-      "warmBad": 83,
-      "sausageOnOrVolume": 10,
-      "sausageBad": 8,
-      "rate": 79.8
-    },
-    {
-      "dimension": "宁夏",
-      "warmOnOrVolume": 50,
-      "warmBad": 38,
-      "sausageOnOrVolume": 0,
-      "sausageBad": 0,
-      "rate": 76.0
-    },
-    {
-      "dimension": "甘肃",
-      "warmOnOrVolume": 89,
-      "warmBad": 62,
-      "sausageOnOrVolume": 22,
-      "sausageBad": 19,
-      "rate": 73.0
+      "dimension": "天津",
+      "warmOnOrVolume": 6,
+      "warmBad": 3,
+      "sausageOnOrVolume": 6,
+      "sausageBad": 6,
+      "rate": 75.0
     },
     {
       "dimension": "山西",
-      "warmOnOrVolume": 40,
-      "warmBad": 27,
-      "sausageOnOrVolume": 5,
-      "sausageBad": 4,
-      "rate": 68.9
+      "warmOnOrVolume": 46,
+      "warmBad": 33,
+      "sausageOnOrVolume": 6,
+      "sausageBad": 5,
+      "rate": 73.1
+    },
+    {
+      "dimension": "黑龙江",
+      "warmOnOrVolume": 155,
+      "warmBad": 103,
+      "sausageOnOrVolume": 10,
+      "sausageBad": 8,
+      "rate": 67.3
     },
     {
       "dimension": "山东",
-      "warmOnOrVolume": 130,
-      "warmBad": 82,
-      "sausageOnOrVolume": 30,
-      "sausageBad": 28,
-      "rate": 68.8
+      "warmOnOrVolume": 182,
+      "warmBad": 105,
+      "sausageOnOrVolume": 44,
+      "sausageBad": 40,
+      "rate": 64.2
     },
     {
-      "dimension": "北京",
-      "warmOnOrVolume": 46,
-      "warmBad": 29,
-      "sausageOnOrVolume": 2,
-      "sausageBad": 1,
-      "rate": 62.5
-    },
-    {
-      "dimension": "湖南",
-      "warmOnOrVolume": 219,
-      "warmBad": 133,
-      "sausageOnOrVolume": 25,
-      "sausageBad": 19,
-      "rate": 62.3
-    },
-    {
-      "dimension": "贵州",
-      "warmOnOrVolume": 361,
-      "warmBad": 200,
-      "sausageOnOrVolume": 98,
-      "sausageBad": 83,
-      "rate": 61.7
-    },
-    {
-      "dimension": "云南",
-      "warmOnOrVolume": 221,
-      "warmBad": 130,
-      "sausageOnOrVolume": 19,
-      "sausageBad": 17,
-      "rate": 61.3
-    },
-    {
-      "dimension": "广东",
-      "warmOnOrVolume": 916,
-      "warmBad": 523,
-      "sausageOnOrVolume": 78,
-      "sausageBad": 62,
-      "rate": 58.9
+      "dimension": "宁夏",
+      "warmOnOrVolume": 78,
+      "warmBad": 50,
+      "sausageOnOrVolume": 0,
+      "sausageBad": 0,
+      "rate": 64.1
     },
     {
       "dimension": "广西",
-      "warmOnOrVolume": 243,
-      "warmBad": 126,
-      "sausageOnOrVolume": 54,
-      "sausageBad": 46,
+      "warmOnOrVolume": 306,
+      "warmBad": 177,
+      "sausageOnOrVolume": 63,
+      "sausageBad": 51,
+      "rate": 61.8
+    },
+    {
+      "dimension": "湖南",
+      "warmOnOrVolume": 367,
+      "warmBad": 223,
+      "sausageOnOrVolume": 35,
+      "sausageBad": 25,
+      "rate": 61.7
+    },
+    {
+      "dimension": "重庆",
+      "warmOnOrVolume": 346,
+      "warmBad": 198,
+      "sausageOnOrVolume": 63,
+      "sausageBad": 47,
+      "rate": 59.9
+    },
+    {
+      "dimension": "四川",
+      "warmOnOrVolume": 268,
+      "warmBad": 161,
+      "sausageOnOrVolume": 10,
+      "sausageBad": 4,
+      "rate": 59.4
+    },
+    {
+      "dimension": "贵州",
+      "warmOnOrVolume": 526,
+      "warmBad": 290,
+      "sausageOnOrVolume": 117,
+      "sausageBad": 91,
+      "rate": 59.3
+    },
+    {
+      "dimension": "甘肃",
+      "warmOnOrVolume": 142,
+      "warmBad": 80,
+      "sausageOnOrVolume": 27,
+      "sausageBad": 20,
+      "rate": 59.2
+    },
+    {
+      "dimension": "北京",
+      "warmOnOrVolume": 55,
+      "warmBad": 33,
+      "sausageOnOrVolume": 2,
+      "sausageBad": 0,
       "rate": 57.9
     },
     {
       "dimension": "内蒙古",
-      "warmOnOrVolume": 75,
-      "warmBad": 43,
-      "sausageOnOrVolume": 1,
-      "sausageBad": 1,
-      "rate": 57.9
+      "warmOnOrVolume": 107,
+      "warmBad": 61,
+      "sausageOnOrVolume": 2,
+      "sausageBad": 2,
+      "rate": 57.8
     },
     {
-      "dimension": "河北",
-      "warmOnOrVolume": 187,
-      "warmBad": 100,
-      "sausageOnOrVolume": 11,
-      "sausageBad": 9,
-      "rate": 55.1
-    },
-    {
-      "dimension": "重庆",
-      "warmOnOrVolume": 171,
-      "warmBad": 92,
-      "sausageOnOrVolume": 14,
-      "sausageBad": 9,
-      "rate": 54.6
+      "dimension": "广东",
+      "warmOnOrVolume": 1145,
+      "warmBad": 625,
+      "sausageOnOrVolume": 89,
+      "sausageBad": 76,
+      "rate": 56.8
     },
     {
       "dimension": "江西",
-      "warmOnOrVolume": 181,
-      "warmBad": 92,
-      "sausageOnOrVolume": 15,
-      "sausageBad": 13,
-      "rate": 53.6
+      "warmOnOrVolume": 264,
+      "warmBad": 145,
+      "sausageOnOrVolume": 13,
+      "sausageBad": 12,
+      "rate": 56.7
     },
     {
-      "dimension": "四川",
-      "warmOnOrVolume": 117,
-      "warmBad": 65,
-      "sausageOnOrVolume": 5,
-      "sausageBad": 0,
-      "rate": 53.3
+      "dimension": "云南",
+      "warmOnOrVolume": 243,
+      "warmBad": 129,
+      "sausageOnOrVolume": 21,
+      "sausageBad": 16,
+      "rate": 54.9
     },
     {
       "dimension": "湖北",
-      "warmOnOrVolume": 228,
-      "warmBad": 116,
-      "sausageOnOrVolume": 15,
-      "sausageBad": 13,
-      "rate": 53.1
+      "warmOnOrVolume": 328,
+      "warmBad": 171,
+      "sausageOnOrVolume": 35,
+      "sausageBad": 28,
+      "rate": 54.8
     },
     {
-      "dimension": "浙江",
-      "warmOnOrVolume": 161,
-      "warmBad": 82,
-      "sausageOnOrVolume": 6,
-      "sausageBad": 5,
-      "rate": 52.1
-    },
-    {
-      "dimension": "安徽",
-      "warmOnOrVolume": 67,
-      "warmBad": 32,
-      "sausageOnOrVolume": 15,
-      "sausageBad": 10,
-      "rate": 51.2
-    },
-    {
-      "dimension": "福建",
-      "warmOnOrVolume": 165,
-      "warmBad": 80,
-      "sausageOnOrVolume": 20,
-      "sausageBad": 13,
-      "rate": 50.3
-    },
-    {
-      "dimension": "河南",
-      "warmOnOrVolume": 178,
-      "warmBad": 87,
-      "sausageOnOrVolume": 9,
-      "sausageBad": 6,
-      "rate": 49.7
-    },
-    {
-      "dimension": "江苏",
-      "warmOnOrVolume": 98,
-      "warmBad": 46,
-      "sausageOnOrVolume": 0,
-      "sausageBad": 0,
-      "rate": 46.9
+      "dimension": "河北",
+      "warmOnOrVolume": 238,
+      "warmBad": 123,
+      "sausageOnOrVolume": 13,
+      "sausageBad": 12,
+      "rate": 53.8
     },
     {
       "dimension": "辽宁",
-      "warmOnOrVolume": 43,
-      "warmBad": 19,
-      "sausageOnOrVolume": 3,
-      "sausageBad": 2,
-      "rate": 45.7
+      "warmOnOrVolume": 54,
+      "warmBad": 27,
+      "sausageOnOrVolume": 10,
+      "sausageBad": 7,
+      "rate": 53.1
+    },
+    {
+      "dimension": "河南",
+      "warmOnOrVolume": 211,
+      "warmBad": 100,
+      "sausageOnOrVolume": 16,
+      "sausageBad": 14,
+      "rate": 50.2
+    },
+    {
+      "dimension": "江苏",
+      "warmOnOrVolume": 142,
+      "warmBad": 69,
+      "sausageOnOrVolume": 0,
+      "sausageBad": 0,
+      "rate": 48.6
+    },
+    {
+      "dimension": "福建",
+      "warmOnOrVolume": 206,
+      "warmBad": 95,
+      "sausageOnOrVolume": 20,
+      "sausageBad": 12,
+      "rate": 47.3
+    },
+    {
+      "dimension": "安徽",
+      "warmOnOrVolume": 74,
+      "warmBad": 28,
+      "sausageOnOrVolume": 18,
+      "sausageBad": 13,
+      "rate": 44.6
+    },
+    {
+      "dimension": "浙江",
+      "warmOnOrVolume": 205,
+      "warmBad": 80,
+      "sausageOnOrVolume": 6,
+      "sausageBad": 5,
+      "rate": 40.3
     },
     {
       "dimension": "陕西",
-      "warmOnOrVolume": 57,
-      "warmBad": 22,
-      "sausageOnOrVolume": 26,
-      "sausageBad": 14,
-      "rate": 43.4
+      "warmOnOrVolume": 78,
+      "warmBad": 30,
+      "sausageOnOrVolume": 31,
+      "sausageBad": 10,
+      "rate": 36.7
     },
     {
       "dimension": "海南",
-      "warmOnOrVolume": 89,
-      "warmBad": 29,
-      "sausageOnOrVolume": 4,
-      "sausageBad": 0,
-      "rate": 31.2
+      "warmOnOrVolume": 116,
+      "warmBad": 39,
+      "sausageOnOrVolume": 5,
+      "sausageBad": 1,
+      "rate": 33.1
     },
     {
       "dimension": "吉林",
-      "warmOnOrVolume": 77,
-      "warmBad": 21,
-      "sausageOnOrVolume": 3,
+      "warmOnOrVolume": 82,
+      "warmBad": 22,
+      "sausageOnOrVolume": 4,
       "sausageBad": 2,
-      "rate": 28.7
+      "rate": 27.9
     }
   ],
   "customerNotQualified": [
     {
-      "dimension": "线下-长沙膳联矩阵品牌管理有限公司（黑龙江）",
-      "warmOnOrVolume": 12,
-      "warmBad": 12,
-      "sausageOnOrVolume": 0,
-      "sausageBad": 0,
-      "rate": 100.0
-    },
-    {
-      "dimension": "线下-四川蜀发煜林食品有限公司",
+      "dimension": "线下-始兴县康怡商店",
       "warmOnOrVolume": 9,
       "warmBad": 9,
-      "sausageOnOrVolume": 0,
-      "sausageBad": 0,
-      "rate": 100.0
-    },
-    {
-      "dimension": "线下-中山市海铭贸易有限公司",
-      "warmOnOrVolume": 3,
-      "warmBad": 3,
-      "sausageOnOrVolume": 4,
-      "sausageBad": 4,
-      "rate": 100.0
-    },
-    {
-      "dimension": "线下-江西寰宇供应链管理有限公司",
-      "warmOnOrVolume": 7,
-      "warmBad": 7,
-      "sausageOnOrVolume": 0,
-      "sausageBad": 0,
-      "rate": 100.0
-    },
-    {
-      "dimension": "线下-重庆春初商贸有限公司",
-      "warmOnOrVolume": 6,
-      "warmBad": 6,
-      "sausageOnOrVolume": 1,
-      "sausageBad": 1,
-      "rate": 100.0
-    },
-    {
-      "dimension": "线下-深圳市酥梦园供应链有限公司",
-      "warmOnOrVolume": 6,
-      "warmBad": 6,
-      "sausageOnOrVolume": 0,
-      "sausageBad": 0,
-      "rate": 100.0
-    },
-    {
-      "dimension": "线下-贵州万盛冷链食品有限公司",
-      "warmOnOrVolume": 6,
-      "warmBad": 6,
-      "sausageOnOrVolume": 0,
-      "sausageBad": 0,
-      "rate": 100.0
-    },
-    {
-      "dimension": "线下-九江市食之道冷链供应链有限公司",
-      "warmOnOrVolume": 5,
-      "warmBad": 5,
-      "sausageOnOrVolume": 0,
-      "sausageBad": 0,
-      "rate": 100.0
-    },
-    {
-      "dimension": "线下-安福县鑫达食品营业部",
-      "warmOnOrVolume": 1,
-      "warmBad": 1,
-      "sausageOnOrVolume": 4,
-      "sausageBad": 4,
+      "sausageOnOrVolume": 5,
+      "sausageBad": 5,
       "rate": 100.0
     },
     {
       "dimension": "线下-温冬媚18933613219",
-      "warmOnOrVolume": 5,
-      "warmBad": 5,
+      "warmOnOrVolume": 10,
+      "warmBad": 10,
       "sausageOnOrVolume": 0,
       "sausageBad": 0,
       "rate": 100.0
     },
     {
-      "dimension": "线下-贵州省黔西南州贞丰县李记雪糕批发部",
-      "warmOnOrVolume": 5,
-      "warmBad": 5,
-      "sausageOnOrVolume": 0,
-      "sausageBad": 0,
-      "rate": 100.0
-    },
-    {
-      "dimension": "线下-临沂市康兴商贸有限公司",
+      "dimension": "线下-永新供应链管理服务(天津)有限公司",
       "warmOnOrVolume": 2,
       "warmBad": 2,
+      "sausageOnOrVolume": 5,
+      "sausageBad": 5,
+      "rate": 100.0
+    },
+    {
+      "dimension": "线下-安福县鑫达食品营业部",
+      "warmOnOrVolume": 2,
+      "warmBad": 2,
+      "sausageOnOrVolume": 4,
+      "sausageBad": 4,
+      "rate": 100.0
+    },
+    {
+      "dimension": "线下-广州市炽发贸易有限公司",
+      "warmOnOrVolume": 6,
+      "warmBad": 6,
+      "sausageOnOrVolume": 0,
+      "sausageBad": 0,
+      "rate": 100.0
+    },
+    {
+      "dimension": "线下-建平县恒路商贸有限公司",
+      "warmOnOrVolume": 1,
+      "warmBad": 1,
+      "sausageOnOrVolume": 5,
+      "sausageBad": 5,
+      "rate": 100.0
+    },
+    {
+      "dimension": "线下-河源市源达商贸有限公司",
+      "warmOnOrVolume": 3,
+      "warmBad": 3,
+      "sausageOnOrVolume": 3,
+      "sausageBad": 3,
+      "rate": 100.0
+    },
+    {
+      "dimension": "线下-茂名天富贸易有限公司",
+      "warmOnOrVolume": 3,
+      "warmBad": 3,
+      "sausageOnOrVolume": 3,
+      "sausageBad": 3,
+      "rate": 100.0
+    },
+    {
+      "dimension": "线下-中山市海铭贸易有限公司",
+      "warmOnOrVolume": 2,
+      "warmBad": 2,
+      "sausageOnOrVolume": 3,
+      "sausageBad": 3,
+      "rate": 100.0
+    },
+    {
+      "dimension": "线下-唐河 王迅",
+      "warmOnOrVolume": 0,
+      "warmBad": 0,
+      "sausageOnOrVolume": 5,
+      "sausageBad": 5,
+      "rate": 100.0
+    },
+    {
+      "dimension": "线下-廉江市城东宝宝乐冷冻食品店",
+      "warmOnOrVolume": 5,
+      "warmBad": 5,
+      "sausageOnOrVolume": 0,
+      "sausageBad": 0,
+      "rate": 100.0
+    },
+    {
+      "dimension": "线下-江西巨鑫冷链食品有限公司",
+      "warmOnOrVolume": 3,
+      "warmBad": 3,
       "sausageOnOrVolume": 2,
       "sausageBad": 2,
       "rate": 100.0
     },
     {
-      "dimension": "线下-全南县凯丽维斯食品批发部",
+      "dimension": "线下-深圳新之霖",
       "warmOnOrVolume": 1,
       "warmBad": 1,
-      "sausageOnOrVolume": 3,
-      "sausageBad": 3,
+      "sausageOnOrVolume": 4,
+      "sausageBad": 4,
       "rate": 100.0
     },
     {
-      "dimension": "线下-咸宁五丰冷链",
-      "warmOnOrVolume": 4,
-      "warmBad": 4,
-      "sausageOnOrVolume": 0,
-      "sausageBad": 0,
+      "dimension": "线下-灵璧县百千味商店",
+      "warmOnOrVolume": 0,
+      "warmBad": 0,
+      "sausageOnOrVolume": 5,
+      "sausageBad": 5,
       "rate": 100.0
     },
     {
-      "dimension": "线下-大庆市龙凤区吉小祥食品商城",
+      "dimension": "线下-开封市祥符区兴隆森成食品店",
       "warmOnOrVolume": 3,
       "warmBad": 3,
       "sausageOnOrVolume": 1,
@@ -745,15 +745,7 @@ window.DEVICE_REGION_ANALYSIS = {
       "rate": 100.0
     },
     {
-      "dimension": "线下-广州联加冷冻食品有限公司",
-      "warmOnOrVolume": 1,
-      "warmBad": 1,
-      "sausageOnOrVolume": 3,
-      "sausageBad": 3,
-      "rate": 100.0
-    },
-    {
-      "dimension": "线下-株洲柒和柒贸易有限公司",
+      "dimension": "线下-怀化市雪丰食品有限公司",
       "warmOnOrVolume": 4,
       "warmBad": 4,
       "sausageOnOrVolume": 0,
@@ -761,7 +753,7 @@ window.DEVICE_REGION_ANALYSIS = {
       "rate": 100.0
     },
     {
-      "dimension": "线下-桥西宝金副食批发部",
+      "dimension": "线下-晋城市九回头商贸有限公司",
       "warmOnOrVolume": 4,
       "warmBad": 4,
       "sausageOnOrVolume": 0,
@@ -769,11 +761,19 @@ window.DEVICE_REGION_ANALYSIS = {
       "rate": 100.0
     },
     {
-      "dimension": "线下-永州市路飞商贸有限公司",
+      "dimension": "线下-江津区千之余食品经营部",
       "warmOnOrVolume": 4,
       "warmBad": 4,
       "sausageOnOrVolume": 0,
       "sausageBad": 0,
+      "rate": 100.0
+    },
+    {
+      "dimension": "线下-江西奥丝思贸易有限公司",
+      "warmOnOrVolume": 2,
+      "warmBad": 2,
+      "sausageOnOrVolume": 2,
+      "sausageBad": 2,
       "rate": 100.0
     },
     {

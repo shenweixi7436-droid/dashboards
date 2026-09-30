@@ -1,15 +1,15 @@
-Update started 2026/09/29 ÖÜ¶ş 10:02:45.42
+Update started 2026/09/30 ÖÜÈı 10:23:32.43
 [RUN] MAIN_DASHBOARDS 
 === å¸‚åœºç¨½æ ¸éƒ¨é‡ç‚¹å·¥ä½œçœ‹æ¿ç”Ÿæˆå™¨ v2 ===
-æ—¶é—´: 2026-09-29 10:02:47
+æ—¶é—´: 2026-09-30 10:23:35
 
 åŠ è½½ Excel æ•°æ®...
-  ç¨½æ ¸æ˜ç»†: 2829 è¡Œ
-  è®¡åˆ’æ˜ç»†: 17977 è¡Œ
+  ç¨½æ ¸æ˜ç»†: 2911 è¡Œ
+  è®¡åˆ’æ˜ç»†: 17993 è¡Œ
   å„æˆ˜åŒºç¨½æ ¸è¿›æ±‡æ€»: 91 è¡Œ
   æœˆåº¦é™ˆåˆ—ç¨½æ ¸è´¹ç”¨: 12 è¡Œ
-  æ¨å¹¿ä¿ƒé”€: 26 è¡Œ
-  çº¿ä¸Šå®¡æ‰¹: 2234 è¡Œ
+  æ¨å¹¿ä¿ƒé”€: 34 è¡Œ
+  çº¿ä¸Šå®¡æ‰¹: 2504 è¡Œ
   è®¾å¤‡å°è´¦: 22 è¡Œ
 å¯ç”¨æœˆä»½: 1æœˆ, 2æœˆ, 3æœˆ, 4æœˆ, 5æœˆ, 6æœˆ, 7æœˆ, 8æœˆ, 9æœˆï¼›é»˜è®¤æœˆä»½: 9æœˆ
 é¢„è®¡ç®—ç»Ÿè®¡æ•°æ®...
@@ -17,7 +17,7 @@ Update started 2026/09/29 ÖÜ¶ş 10:02:45.42
 
 === æ•°æ®éªŒè¯ ===
 1æœˆ/å…¨éƒ¨: plan=1790, audit=232, anomaly=2, rate=99.1
-9æœˆ/å…¨éƒ¨: plan=2030, audit=325, anomaly=16, rate=95.1
+9æœˆ/å…¨éƒ¨: plan=2030, audit=407, anomaly=7, rate=98.3
 
 æ„å»º ZD æ•°æ®...
   1æœˆ / å…¨éƒ¨...
@@ -93,7 +93,7 @@ Update started 2026/09/29 ÖÜ¶ş 10:02:45.42
   å¡«å……æ˜ç»†æ•°æ®...
 
 æ³¨å…¥ HTML æ¨¡æ¿...
-  ZD JSON: 1,525,024 å­—ç¬¦
+  ZD JSON: 1,554,196 å­—ç¬¦
 
 --- ç”Ÿæˆä¸»çœ‹æ¿ ---
   âœ… ä¸»çœ‹æ¿: C:\Users\shenw\Documents\New project\github-dashboards\index.html (293,078 å­—ç¬¦)
@@ -107,13 +107,13 @@ Update started 2026/09/29 ÖÜ¶ş 10:02:45.42
 [RUN] PROMO_AUDIT 
 Generated: C:\Users\shenw\Documents\New project\github-dashboards\assets\data\promo-audit-detail.js
 Generated: C:\Users\shenw\Documents\New project\github-dashboards\assets\data\promo-plan-audit.js
-Promo audit total: 26, qualified: 0, unqualified: 26
+Promo audit total: 34, qualified: 0, unqualified: 34
 Promo task total: 231, audited: 26, progress: 11.3%
 [OK] PROMO_AUDIT 
 [RUN] APPROVAL_AUDIT 
 Generated: C:\Users\shenw\Documents\New project\github-dashboards\assets\data\approval-detail.js
 Generated: C:\Users\shenw\Documents\New project\github-dashboards\assets\data\approval-pies.js
-Approval total: 2234, qualified: 1751, unqualified: 483
+Approval total: 2504, qualified: 1988, unqualified: 516
 [OK] APPROVAL_AUDIT 
 [RUN] DEVICE_CHANNEL 
 Updated: C:\Users\shenw\Documents\New project\github-dashboards\assets\data\device-channel-status.js
@@ -139,7 +139,7 @@ GIFT_LIVE_DATA written: t1=9ÔÂ, »î¶¯ 325Ìõ/65176Ôª, ÑùÆ· 1041Ìõ/44507Ôª
 ÒÑĞ´Èë:
   C:\Users\shenw\Documents\New project\github-dashboards\assets\pages\ÏßÏÂ»î¶¯ÓëÑùÆ·ÉêÇëÒì³£½â¶Á¿´°å.html
   C:\Users\shenw\WorkBuddy\2026-08-25-13-53-45\ÏßÏÂ»î¶¯ÓëÑùÆ·ÉêÇëÒì³£½â¶Á¿´°å.html
-±¸·İ: C:\Users\shenw\Documents\New project\github-dashboards\backups/*.bak-auto-20260929-100332.*
+±¸·İ: C:\Users\shenw\Documents\New project\github-dashboards\backups/*.bak-auto-20260930-102419.*
 [OK] GIFT_ANOMALY_PAGE 
 [RUN] SCHEDULE_PROGRESS 
 saved=C:\Users\shenw\Documents\New project\dist\material_development_progress_dashboard.html
@@ -150,15 +150,15 @@ materials=1 rows=81
 ÖÇÄÜÉè±¸ÇøÓò·ÖÎöÊı¾İÉú³ÉÍê³É
 [OK] DEVICE_REGION 
 [RUN] WORK_MONTH_DATA 
-Updated month-aware work data: 1ÔÂ, 2ÔÂ, 3ÔÂ, 4ÔÂ, 5ÔÂ, 6ÔÂ, 7ÔÂ, 8ÔÂ, 9ÔÂ, 12ÔÂ; coverage 1ÔÂ:3, 2ÔÂ:3, 3ÔÂ:3, 4ÔÂ:3, 5ÔÂ:2, 6ÔÂ:4, 7ÔÂ:4, 8ÔÂ:4, 9ÔÂ:3, 12ÔÂ:1; default 9ÔÂ
+Updated month-aware work data: 1ÔÂ, 2ÔÂ, 3ÔÂ, 4ÔÂ, 5ÔÂ, 6ÔÂ, 7ÔÂ, 8ÔÂ, 9ÔÂ, 12ÔÂ; coverage 1ÔÂ:3, 2ÔÂ:3, 3ÔÂ:3, 4ÔÂ:3, 5ÔÂ:2, 6ÔÂ:4, 7ÔÂ:4, 8ÔÂ:4, 9ÔÂ:4, 12ÔÂ:1; default 9ÔÂ
 [OK] WORK_MONTH_DATA 
 [RUN] DEVICE_BAN 
 wrote C:\Users\shenw\Documents\New project\github-dashboards\assets\data\device-ban-action.js with 18 rows, 18 devices
 [OK] DEVICE_BAN 
 [RUN] STORE_AUDIT 
-built rows from Excel: 8754
+built rows from Excel: 9004
 existing snapshot rows: 8754
-RAW_DATA updated in store-business-analysis.html: 8754 rows (source-pill updated: 1)
+RAW_DATA updated in store-business-analysis.html: 9004 rows (source-pill updated: 1)
 [OK] STORE_AUDIT 
 [RUN] GIFT_LIVE_DATA 
 GIFT_LIVE_DATA written: t1=9ÔÂ, »î¶¯ 325Ìõ/65176Ôª, ÑùÆ· 1041Ìõ/44507Ôª
@@ -181,7 +181,7 @@ GIFT_LIVE_DATA written: t1=9ÔÂ, »î¶¯ 325Ìõ/65176Ôª, ÑùÆ· 1041Ìõ/44507Ôª
 ÒÑĞ´Èë:
   C:\Users\shenw\Documents\New project\github-dashboards\assets\pages\ÏßÏÂ»î¶¯ÓëÑùÆ·ÉêÇëÒì³£½â¶Á¿´°å.html
   C:\Users\shenw\WorkBuddy\2026-08-25-13-53-45\ÏßÏÂ»î¶¯ÓëÑùÆ·ÉêÇëÒì³£½â¶Á¿´°å.html
-±¸·İ: C:\Users\shenw\Documents\New project\github-dashboards\backups/*.bak-auto-20260929-100420.*
+±¸·İ: C:\Users\shenw\Documents\New project\github-dashboards\backups/*.bak-auto-20260930-102615.*
 [OK] GIFT_ANOMALY_PAGE 
 [RUN] SCHEDULE_PROGRESS 
 saved=C:\Users\shenw\Documents\New project\dist\material_development_progress_dashboard.html
