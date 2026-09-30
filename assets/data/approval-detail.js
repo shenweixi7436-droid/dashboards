@@ -6961,9 +6961,9 @@ window.APPROVAL_DETAIL_BY_MONTH = {
       "问题类型",
       "着装不合格类型"
     ],
-    "total": 555,
-    "qualified": 494,
-    "unqualified": 61,
+    "total": 600,
+    "qualified": 536,
+    "unqualified": 64,
     "rows": [
       {
         "row": 1953,
@@ -7818,6 +7818,48 @@ window.APPROVAL_DETAIL_BY_MONTH = {
           "口罩,帽子"
         ],
         "result": "不合格"
+      },
+      {
+        "row": 2515,
+        "values": [
+          "2026-09-24",
+          "市场活动费用",
+          "FY2026092401071",
+          "湖南省区",
+          "线下-粤美味",
+          "芙蕾",
+          "着装不规范",
+          "口罩"
+        ],
+        "result": "不合格"
+      },
+      {
+        "row": 2520,
+        "values": [
+          "2026-09-24",
+          "终端系统费用",
+          "FY2026092401094",
+          "福建省区",
+          "线下-晋江轩和食品贸易有限公司",
+          "欧阳",
+          "无大单品陈列",
+          ""
+        ],
+        "result": "不合格"
+      },
+      {
+        "row": 2530,
+        "values": [
+          "2026-09-24",
+          "终端系统费用",
+          "FY2026092401001",
+          "广东省区",
+          "线下-茂名天富贸易有限公司",
+          "铭启",
+          "无大单品陈列",
+          ""
+        ],
+        "result": "不合格"
       }
     ],
     "dressIssues": [
@@ -7827,7 +7869,7 @@ window.APPROVAL_DETAIL_BY_MONTH = {
       },
       {
         "name": "口罩",
-        "value": 8
+        "value": 9
       },
       {
         "name": "帽子,口罩",
@@ -7848,15 +7890,19 @@ window.APPROVAL_DETAIL_BY_MONTH = {
         "value": 8
       },
       {
+        "province": "湖南省区",
+        "value": 7
+      },
+      {
         "province": "广西省区",
         "value": 7
       },
       {
-        "province": "川渝藏大区",
+        "province": "广东省区",
         "value": 6
       },
       {
-        "province": "湖南省区",
+        "province": "川渝藏大区",
         "value": 6
       },
       {
@@ -7864,12 +7910,8 @@ window.APPROVAL_DETAIL_BY_MONTH = {
         "value": 5
       },
       {
-        "province": "广东省区",
-        "value": 5
-      },
-      {
         "province": "福建省区",
-        "value": 4
+        "value": 5
       },
       {
         "province": "浙江省区",
@@ -7968,9 +8010,9 @@ window.APPROVAL_DETAIL = window.APPROVAL_DETAIL_BY_MONTH[window.MAIN_SELECTED_MO
     "问题类型",
     "着装不合格类型"
   ],
-  "total": 555,
-  "qualified": 494,
-  "unqualified": 61,
+  "total": 600,
+  "qualified": 536,
+  "unqualified": 64,
   "rows": [
     {
       "row": 1953,
@@ -8825,6 +8867,48 @@ window.APPROVAL_DETAIL = window.APPROVAL_DETAIL_BY_MONTH[window.MAIN_SELECTED_MO
         "口罩,帽子"
       ],
       "result": "不合格"
+    },
+    {
+      "row": 2515,
+      "values": [
+        "2026-09-24",
+        "市场活动费用",
+        "FY2026092401071",
+        "湖南省区",
+        "线下-粤美味",
+        "芙蕾",
+        "着装不规范",
+        "口罩"
+      ],
+      "result": "不合格"
+    },
+    {
+      "row": 2520,
+      "values": [
+        "2026-09-24",
+        "终端系统费用",
+        "FY2026092401094",
+        "福建省区",
+        "线下-晋江轩和食品贸易有限公司",
+        "欧阳",
+        "无大单品陈列",
+        ""
+      ],
+      "result": "不合格"
+    },
+    {
+      "row": 2530,
+      "values": [
+        "2026-09-24",
+        "终端系统费用",
+        "FY2026092401001",
+        "广东省区",
+        "线下-茂名天富贸易有限公司",
+        "铭启",
+        "无大单品陈列",
+        ""
+      ],
+      "result": "不合格"
     }
   ],
   "dressIssues": [
@@ -8834,7 +8918,7 @@ window.APPROVAL_DETAIL = window.APPROVAL_DETAIL_BY_MONTH[window.MAIN_SELECTED_MO
     },
     {
       "name": "口罩",
-      "value": 8
+      "value": 9
     },
     {
       "name": "帽子,口罩",
@@ -8855,15 +8939,19 @@ window.APPROVAL_DETAIL = window.APPROVAL_DETAIL_BY_MONTH[window.MAIN_SELECTED_MO
       "value": 8
     },
     {
+      "province": "湖南省区",
+      "value": 7
+    },
+    {
       "province": "广西省区",
       "value": 7
     },
     {
-      "province": "川渝藏大区",
+      "province": "广东省区",
       "value": 6
     },
     {
-      "province": "湖南省区",
+      "province": "川渝藏大区",
       "value": 6
     },
     {
@@ -8871,12 +8959,8 @@ window.APPROVAL_DETAIL = window.APPROVAL_DETAIL_BY_MONTH[window.MAIN_SELECTED_MO
       "value": 5
     },
     {
-      "province": "广东省区",
-      "value": 5
-    },
-    {
       "province": "福建省区",
-      "value": 4
+      "value": 5
     },
     {
       "province": "浙江省区",

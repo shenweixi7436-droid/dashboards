@@ -576,21 +576,21 @@ window.APPROVAL_PIES_BY_MONTH = {
   },
   "9月": {
     "month": "9月",
-    "total": 555,
-    "qualified": 494,
-    "unqualified": 61,
-    "rate": 89.0,
+    "total": 600,
+    "qualified": 536,
+    "unqualified": 64,
+    "rate": 89.3,
     "issues": [
       {
         "name": "着装不规范",
-        "value": 29
-      },
-      {
-        "name": "流程不合规",
-        "value": 12
+        "value": 30
       },
       {
         "name": "无大单品陈列",
+        "value": 14
+      },
+      {
+        "name": "流程不合规",
         "value": 12
       }
     ],
@@ -601,7 +601,7 @@ window.APPROVAL_PIES_BY_MONTH = {
       },
       {
         "name": "口罩",
-        "value": 8
+        "value": 9
       },
       {
         "name": "帽子,口罩",
@@ -622,15 +622,19 @@ window.APPROVAL_PIES_BY_MONTH = {
         "value": 8
       },
       {
+        "province": "湖南省区",
+        "value": 7
+      },
+      {
         "province": "广西省区",
         "value": 7
       },
       {
-        "province": "川渝藏大区",
+        "province": "广东省区",
         "value": 6
       },
       {
-        "province": "湖南省区",
+        "province": "川渝藏大区",
         "value": 6
       },
       {
@@ -638,12 +642,8 @@ window.APPROVAL_PIES_BY_MONTH = {
         "value": 5
       },
       {
-        "province": "广东省区",
-        "value": 5
-      },
-      {
         "province": "福建省区",
-        "value": 4
+        "value": 5
       },
       {
         "province": "浙江省区",
@@ -711,21 +711,21 @@ window.APPROVAL_PIES_BY_MONTH = {
 };
 window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH || "9月"] || {
   "month": "9月",
-  "total": 555,
-  "qualified": 494,
-  "unqualified": 61,
-  "rate": 89.0,
+  "total": 600,
+  "qualified": 536,
+  "unqualified": 64,
+  "rate": 89.3,
   "issues": [
     {
       "name": "着装不规范",
-      "value": 29
-    },
-    {
-      "name": "流程不合规",
-      "value": 12
+      "value": 30
     },
     {
       "name": "无大单品陈列",
+      "value": 14
+    },
+    {
+      "name": "流程不合规",
       "value": 12
     }
   ],
@@ -736,7 +736,7 @@ window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH 
     },
     {
       "name": "口罩",
-      "value": 8
+      "value": 9
     },
     {
       "name": "帽子,口罩",
@@ -757,15 +757,19 @@ window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH 
       "value": 8
     },
     {
+      "province": "湖南省区",
+      "value": 7
+    },
+    {
       "province": "广西省区",
       "value": 7
     },
     {
-      "province": "川渝藏大区",
+      "province": "广东省区",
       "value": 6
     },
     {
-      "province": "湖南省区",
+      "province": "川渝藏大区",
       "value": 6
     },
     {
@@ -773,12 +777,8 @@ window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH 
       "value": 5
     },
     {
-      "province": "广东省区",
-      "value": 5
-    },
-    {
       "province": "福建省区",
-      "value": 4
+      "value": 5
     },
     {
       "province": "浙江省区",
