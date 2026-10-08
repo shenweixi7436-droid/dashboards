@@ -1338,9 +1338,9 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
   "9月": {
     "total": 1617,
     "q": 486,
-    "bad": 1072,
-    "u": 59,
-    "valid": 1558,
+    "bad": 1069,
+    "u": 62,
+    "valid": 1555,
     "avgSku": 5.4,
     "avgFreezer": 1.3,
     "topBad": "广东省",
@@ -1409,9 +1409,9 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "n": "广西",
         "t": 90,
         "q": 4,
-        "u": 8,
-        "valid": 82,
-        "r": 4.9
+        "u": 10,
+        "valid": 80,
+        "r": 5.0
       },
       {
         "n": "重庆",
@@ -1465,9 +1465,9 @@ window.STORE_AUDIT_POPUP_BY_MONTH = {
         "n": "黑龙江",
         "t": 13,
         "q": 7,
-        "u": 1,
-        "valid": 12,
-        "r": 58.3
+        "u": 2,
+        "valid": 11,
+        "r": 63.6
       },
       {
         "n": "海南",

@@ -66,9 +66,9 @@ window.STORE_AUDIT_SUMMARY_BY_MONTH = {
   "9月": {
     "total": 1617,
     "qualified": 486,
-    "unqualified": 1072,
-    "uncertain": 59,
-    "valid": 1558,
+    "unqualified": 1069,
+    "uncertain": 62,
+    "valid": 1555,
     "other": 0
   }
 };
