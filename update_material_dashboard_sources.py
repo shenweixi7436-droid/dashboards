@@ -286,6 +286,17 @@ def ensure_device_money_ui(source_dir: Path) -> None:
     html_path.write_text(html, encoding="utf-8", newline="\n")
 
 
+def ensure_device_source_note(source_dir: Path) -> None:
+    """同步主看板设备弹窗的数据源口径说明。"""
+    html_path = source_dir / "主看版.html"
+    html = html_path.read_text(encoding="utf-8")
+    old = "数据源：2026年设备发货明细-共享版.xlsm（关键字段汇总）· 随看板数据更新自动刷新"
+    new = "数据源：2026年设备发货明细-共享版.xlsm（各设备明细表，仅统计已发货）· 随看板数据更新自动刷新"
+    if old in html:
+        html = html.replace(old, new)
+        html_path.write_text(html, encoding="utf-8", newline="\n")
+
+
 def build_freight_detail_files(source_dir: Path, freight_path: Path) -> dict[str, int]:
     frame = normalize_freight_columns(
         pd.read_excel(freight_path, sheet_name="物料运费分析")
@@ -518,12 +529,15 @@ def build_device_outbound_detail(
     data = frame.copy()
     data["数量"] = pd.to_numeric(data["数量"], errors="coerce").fillna(0.0)
     data["设备单价"] = pd.to_numeric(data.get("设备单价"), errors="coerce").fillna(0.0)
-    data["金额"] = data["数量"] * data["设备单价"]
+    if "总货值" in data.columns:
+        data["金额"] = pd.to_numeric(data["总货值"], errors="coerce").fillna(0.0)
+    else:
+        data["金额"] = data["数量"] * data["设备单价"]
     data["月份值"] = pd.to_numeric(data.get("月份"), errors="coerce")
     data["大类"] = data["销售部门清洗-大类"].map(lambda v: "鸣忙" if clean_text(v) == "鸣忙" else "省区")
     data["设备"] = data["设备名称清洗"].map(lambda v: clean_text(v))
     # 设备大类(N列) + 供应商(B列)
-    cat_col = "设备大类" if "设备大类" in data.columns else None
+    cat_col = next((column for column in ("设备大类值", "设备大类") if column in data.columns), None)
     sup_col = "供应商清洗" if "供应商清洗" in data.columns else None
     data["设备大类值"] = (
         data[cat_col].map(normalize_device_category)
@@ -532,11 +546,15 @@ def build_device_outbound_detail(
     data["供应商"] = (
         data[sup_col].map(clean_text) if sup_col else ""
     )
-    data["下单时间"] = pd.to_datetime(data.get("下单日期"), errors="coerce")
+    date_col = "下单时间标准" if "下单时间标准" in data.columns else "下单日期"
+    data["下单时间"] = pd.to_datetime(data.get(date_col), errors="coerce")
 
     # Excel 源表已经通过“周次”列标记了本周/上周，优先沿用该口径。
     # 日期范围仅用于没有周次标记的历史文件，避免边界日被重复/遗漏计算。
-    labeled_weeks = data["周次"].astype(str).str.strip()
+    labeled_weeks = (
+        data["周次"].astype(str).str.strip()
+        if "周次" in data.columns else pd.Series("", index=data.index, dtype="object")
+    )
     if labeled_weeks.isin(["本周", "上周"]).any():
         this_week = data.loc[labeled_weeks == "本周"]
         last_week = data.loc[labeled_weeks == "上周"]
@@ -667,12 +685,33 @@ def format_week_label(start: pd.Timestamp | None, end: pd.Timestamp | None) -> s
 
 
 def build_device_weekly_summary(source_dir: Path, device_path: Path) -> dict[str, object]:
-    """从关键字段汇总 sheet 汇总本周线下/鸣忙设备出库数量，并生成弹窗明细数据。
+    """从各设备明细 sheet 的已发货记录生成周/月弹窗数据。
 
-    弹窗明细预生成 detailByMonth（按月键），供前端按顶端月份下拉切换；周次范围基于 P2/Q2。
+    弹窗明细预生成 detailByMonth（按月键），供前端按顶端月份下拉切换；
+    周次范围仍基于关键字段汇总 P2/Q2，数量和金额不再依赖可能未扩展的汇总公式。
     """
-    frame = pd.read_excel(device_path, sheet_name="关键字段汇总")
-    required = {"周次", "销售部门清洗-大类", "数量", "设备名称清洗", "设备单价", "月份"}
+    frame, _ = load_device_workbook(device_path)
+    frame = frame.loc[
+        frame["实际发货状态"].eq("已发货") & frame["下单时间标准"].notna()
+    ].copy()
+    frame["数量"] = frame["实际发货数量"]
+    frame["月份"] = frame["下单时间标准"].dt.month
+    frame["下单日期"] = frame["下单时间标准"]
+    frame["周次"] = ""
+    try:
+        category_frame = pd.read_excel(device_path, sheet_name="关键字段汇总")
+        if {"设备名称清洗", "设备大类"}.issubset(category_frame.columns):
+            category_map = (
+                category_frame.assign(_category=category_frame["设备大类"].map(normalize_device_category))
+                .dropna(subset=["设备名称清洗"])
+                .drop_duplicates("设备名称清洗")
+                .set_index("设备名称清洗")["_category"]
+                .to_dict()
+            )
+            frame["设备大类值"] = frame["设备名称清洗"].map(category_map).fillna(frame["设备大类值"])
+    except Exception:
+        pass
+    required = {"销售部门清洗-大类", "数量", "设备名称清洗", "月份", "总货值"}
     missing = required.difference(frame.columns)
     if missing:
         raise ValueError("关键字段汇总 sheet 缺少字段：" + "、".join(sorted(missing)))
@@ -787,6 +826,7 @@ def update(source_dir: Path) -> dict[str, object]:
     device = build_device_outbound_file(source_dir, paths["device"])
     ensure_device_category_ui(source_dir)
     ensure_device_money_ui(source_dir)
+    ensure_device_source_note(source_dir)
     freight_details = build_freight_detail_files(source_dir, paths["freight"])
     if paths["afterSales"].exists():
         after_sales = build_after_sales(source_dir, paths["afterSales"])

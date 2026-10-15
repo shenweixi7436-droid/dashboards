@@ -1,23 +1,23 @@
-Update started 2026/10/08 ÖÜËÄ 11:30:36.47
+Update started 2026/10/15 ÖÜËÄ 11:08:37.07
 [RUN] MAIN_DASHBOARDS 
 === å¸‚åœºç¨½æ ¸éƒ¨é‡ç‚¹å·¥ä½œçœ‹æ¿ç”Ÿæˆå™¨ v2 ===
-æ—¶é—´: 2026-10-08 11:30:37
+æ—¶é—´: 2026-10-15 11:08:38
 
 åŠ è½½ Excel æ•°æ®...
-  ç¨½æ ¸æ˜ç»†: 2911 è¡Œ
-  è®¡åˆ’æ˜ç»†: 17993 è¡Œ
+  ç¨½æ ¸æ˜ç»†: 2988 è¡Œ
+  è®¡åˆ’æ˜ç»†: 19997 è¡Œ
   å„æˆ˜åŒºç¨½æ ¸è¿›æ±‡æ€»: 91 è¡Œ
   æœˆåº¦é™ˆåˆ—ç¨½æ ¸è´¹ç”¨: 12 è¡Œ
   æ¨å¹¿ä¿ƒé”€: 34 è¡Œ
   çº¿ä¸Šå®¡æ‰¹: 2549 è¡Œ
   è®¾å¤‡å°è´¦: 22 è¡Œ
-å¯ç”¨æœˆä»½: 1æœˆ, 2æœˆ, 3æœˆ, 4æœˆ, 5æœˆ, 6æœˆ, 7æœˆ, 8æœˆ, 9æœˆï¼›é»˜è®¤æœˆä»½: 9æœˆ
+å¯ç”¨æœˆä»½: 1æœˆ, 2æœˆ, 3æœˆ, 4æœˆ, 5æœˆ, 6æœˆ, 7æœˆ, 8æœˆ, 9æœˆ, 10æœˆï¼›é»˜è®¤æœˆä»½: 10æœˆ
 é¢„è®¡ç®—ç»Ÿè®¡æ•°æ®...
   é¢„è®¡ç®—å®Œæˆ
 
 === æ•°æ®éªŒè¯ ===
 1æœˆ/å…¨éƒ¨: plan=1790, audit=232, anomaly=2, rate=99.1
-9æœˆ/å…¨éƒ¨: plan=2030, audit=407, anomaly=7, rate=98.3
+10æœˆ/å…¨éƒ¨: plan=1954, audit=77, anomaly=12, rate=84.4
 
 æ„å»º ZD æ•°æ®...
   1æœˆ / å…¨éƒ¨...
@@ -83,6 +83,13 @@ Update started 2026/10/08 ÖÜËÄ 11:30:36.47
   9æœˆ / åå—æˆ˜åŒº...
   9æœˆ / ä¸œåŒ—æˆ˜åŒº...
   9æœˆ / åä¸­æˆ˜åŒº...
+  10æœˆ / å…¨éƒ¨...
+  10æœˆ / åŒºåŸŸç»è¥éƒ¨...
+  10æœˆ / å±±ä¸œæˆ˜åŒº...
+  10æœˆ / ååŒ—æˆ˜åŒº...
+  10æœˆ / åå—æˆ˜åŒº...
+  10æœˆ / ä¸œåŒ—æˆ˜åŒº...
+  10æœˆ / åä¸­æˆ˜åŒº...
   å…¨å¹´ / å…¨éƒ¨...
   å…¨å¹´ / åŒºåŸŸç»è¥éƒ¨...
   å…¨å¹´ / å±±ä¸œæˆ˜åŒº...
@@ -93,13 +100,13 @@ Update started 2026/10/08 ÖÜËÄ 11:30:36.47
   å¡«å……æ˜ç»†æ•°æ®...
 
 æ³¨å…¥ HTML æ¨¡æ¿...
-  ZD JSON: 1,554,196 å­—ç¬¦
+  ZD JSON: 1,640,160 å­—ç¬¦
 
 --- ç”Ÿæˆä¸»çœ‹æ¿ ---
-  âœ… ä¸»çœ‹æ¿: C:\Users\shenw\Documents\New project\github-dashboards\index.html (293,078 å­—ç¬¦)
+  âœ… ä¸»çœ‹æ¿: C:\Users\shenw\Documents\New project\github-dashboards\index.html (293,077 å­—ç¬¦)
 
 --- ç”Ÿæˆé™ˆåˆ—ç¨½æ ¸çœ‹æ¿ ---
-  âœ… é™ˆåˆ—ç¨½æ ¸çœ‹æ¿: C:\Users\shenw\Documents\New project\github-dashboards\display-audit-dashboard.html (80,639 å­—ç¬¦)
+  âœ… é™ˆåˆ—ç¨½æ ¸çœ‹æ¿: C:\Users\shenw\Documents\New project\github-dashboards\display-audit-dashboard.html (80,640 å­—ç¬¦)
   âœ… å½“æœˆç¨½æ ¸è¿›åº¦: C:\Users\shenw\Documents\New project\github-dashboards\assets\data\current-audit-progress.js
 
 ğŸ‰ ä¸¤ä¸ªçœ‹æ¿å‡ç”Ÿæˆå®Œæˆ!
@@ -134,12 +141,12 @@ GIFT_LIVE_DATA written: t1=9ÔÂ, »î¶¯ 325Ìõ/65176Ôª, ÑùÆ· 1041Ìõ/44507Ôª
 ===== ¸üĞÂÍê³É =====
 »î¶¯£º1196³¡ / ½ğ¶îÒì³£1123 / ÊıÁ¿Òì³£817 / Ë«Î¬770 / ÔÂ·İ[1, 2, 3, 4, 5, 6, 7, 8, 9]
 ÑùÆ·£º4077µ¥ / ½ğ¶îÒì³£1861 / ÊıÁ¿Òì³£1837
-ºËÏú£º942µ¥ / ×Ü¶î865,913.3 / ·Ñ±È6.8% / ÔÂ·İ[9]
+ºËÏú£º1364µ¥ / ×Ü¶î1,279,206.5 / ·Ñ±È7.0% / ÔÂ·İ[9, 10]
 ¾É¡úĞÂ »î¶¯×Ü³¡´Î: 1196 ¡ú 1196
 ÒÑĞ´Èë:
   C:\Users\shenw\Documents\New project\github-dashboards\assets\pages\ÏßÏÂ»î¶¯ÓëÑùÆ·ÉêÇëÒì³£½â¶Á¿´°å.html
   C:\Users\shenw\WorkBuddy\2026-08-25-13-53-45\ÏßÏÂ»î¶¯ÓëÑùÆ·ÉêÇëÒì³£½â¶Á¿´°å.html
-±¸·İ: C:\Users\shenw\Documents\New project\github-dashboards\backups/*.bak-auto-20261008-113141.*
+±¸·İ: C:\Users\shenw\Documents\New project\github-dashboards\backups/*.bak-auto-20261015-110951.*
 [OK] GIFT_ANOMALY_PAGE 
 [RUN] SCHEDULE_PROGRESS 
 saved=C:\Users\shenw\Documents\New project\dist\material_development_progress_dashboard.html
@@ -176,12 +183,12 @@ GIFT_LIVE_DATA written: t1=9ÔÂ, »î¶¯ 325Ìõ/65176Ôª, ÑùÆ· 1041Ìõ/44507Ôª
 ===== ¸üĞÂÍê³É =====
 »î¶¯£º1196³¡ / ½ğ¶îÒì³£1123 / ÊıÁ¿Òì³£817 / Ë«Î¬770 / ÔÂ·İ[1, 2, 3, 4, 5, 6, 7, 8, 9]
 ÑùÆ·£º4077µ¥ / ½ğ¶îÒì³£1861 / ÊıÁ¿Òì³£1837
-ºËÏú£º942µ¥ / ×Ü¶î865,913.3 / ·Ñ±È6.8% / ÔÂ·İ[9]
+ºËÏú£º1364µ¥ / ×Ü¶î1,279,206.5 / ·Ñ±È7.0% / ÔÂ·İ[9, 10]
 ¾É¡úĞÂ »î¶¯×Ü³¡´Î: 1196 ¡ú 1196
 ÒÑĞ´Èë:
   C:\Users\shenw\Documents\New project\github-dashboards\assets\pages\ÏßÏÂ»î¶¯ÓëÑùÆ·ÉêÇëÒì³£½â¶Á¿´°å.html
   C:\Users\shenw\WorkBuddy\2026-08-25-13-53-45\ÏßÏÂ»î¶¯ÓëÑùÆ·ÉêÇëÒì³£½â¶Á¿´°å.html
-±¸·İ: C:\Users\shenw\Documents\New project\github-dashboards\backups/*.bak-auto-20261008-113805.*
+±¸·İ: C:\Users\shenw\Documents\New project\github-dashboards\backups/*.bak-auto-20261015-111215.*
 [OK] GIFT_ANOMALY_PAGE 
 [RUN] SCHEDULE_PROGRESS 
 saved=C:\Users\shenw\Documents\New project\dist\material_development_progress_dashboard.html
