@@ -438,8 +438,8 @@ window.PROMO_AUDIT_DETAIL_BY_MONTH = {
     ]
   }
 };
-window.PROMO_AUDIT_DETAIL = window.PROMO_AUDIT_DETAIL_BY_MONTH[window.MAIN_SELECTED_MONTH || "9月"] || {
-  "month": 9,
+window.PROMO_AUDIT_DETAIL = window.PROMO_AUDIT_DETAIL_BY_MONTH[window.MAIN_SELECTED_MONTH || "10月"] || {
+  "month": 6,
   "source": "市场稽核部重点工作.xlsx / 推广促销稽核",
   "headers": [
     "省区总经理",
@@ -448,95 +448,84 @@ window.PROMO_AUDIT_DETAIL = window.PROMO_AUDIT_DETAIL_BY_MONTH[window.MAIN_SELEC
     "经销商",
     "稽核方式"
   ],
-  "total": 8,
+  "total": 7,
   "qualified": 0,
-  "unqualified": 8,
+  "unqualified": 7,
   "rows": [
     {
-      "row": 30,
+      "row": 4,
       "values": [
-        "破晓",
-        "贵州",
-        "遵义",
-        "",
-        ""
+        "梧桐",
+        "广东",
+        "广州",
+        "广州市炽发贸易有限公司",
+        "线下"
       ],
       "result": "不合格"
     },
     {
-      "row": 31,
+      "row": 5,
       "values": [
-        "破晓",
-        "贵州",
-        "遵义",
-        "",
-        ""
+        "梧桐",
+        "广东",
+        "广州",
+        "广州市炽发贸易有限公司",
+        "线下"
       ],
       "result": "不合格"
     },
     {
-      "row": 32,
+      "row": 6,
       "values": [
-        "破晓",
-        "贵州",
-        "遵义",
-        "",
-        ""
+        "梧桐",
+        "广东",
+        "广州",
+        "广州市炽发贸易有限公司",
+        "线下"
       ],
       "result": "不合格"
     },
     {
-      "row": 33,
+      "row": 7,
       "values": [
-        "破晓",
-        "贵州",
-        "遵义",
-        "",
-        ""
+        "梧桐",
+        "广东",
+        "广州",
+        "广州市炽发贸易有限公司",
+        "线下"
       ],
       "result": "不合格"
     },
     {
-      "row": 34,
+      "row": 8,
       "values": [
-        "郁离",
-        "湖南",
-        "长沙",
-        "",
-        ""
+        "梧桐",
+        "广东",
+        "广州",
+        "广州市炽发贸易有限公司",
+        "线下"
       ],
       "result": "不合格"
     },
     {
-      "row": 35,
+      "row": 9,
       "values": [
-        "正阳",
-        "河南",
-        "尉氏",
-        "",
-        ""
+        "梧桐",
+        "广东",
+        "广州",
+        "广州市炽发贸易有限公司",
+        "线下"
       ],
       "result": "不合格"
     },
     {
-      "row": 36,
+      "row": 10,
       "values": [
-        "正阳",
-        "河南",
-        "尉氏",
-        "",
-        ""
-      ],
-      "result": "不合格"
-    },
-    {
-      "row": 37,
-      "values": [
-        "正阳",
-        "河南",
-        "商丘",
-        "",
-        ""
+        "梧桐",
+        "广东",
+        "广州",
+        "广州市炽发贸易有限公司",
+        "线下"
       ],
       "result": "不合格"
     }
