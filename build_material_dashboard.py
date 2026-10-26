@@ -214,6 +214,8 @@ def build_main_dashboard(source_dir: Path, gotham: Path, yuan: Path) -> dict[str
         "material_freight_dashboard_data.js",
         "material_development_gantt_data.js",
         "inventory_outbound_data.js",
+        "outbound_card_data.js",
+        "outbound_city_data.js",
         "device_weekly_outbound_data.js",
         "material_weekly_outbound_data.js",
         "material_inventory_data.js",
@@ -242,6 +244,11 @@ def build_main_dashboard(source_dir: Path, gotham: Path, yuan: Path) -> dict[str
     html = html.replace('href="物料进销存看板.html"', 'href="../material-dashboard/"')
     html = html.replace("freightLink.href='运费看板.html?month='", "freightLink.href='../material-freight-dashboard/?month='")
     html = html.replace("inventoryLink.href='物料进销存看板.html?month='", "inventoryLink.href='../material-dashboard/?month='")
+    for variable in ("inventoryInboundLink", "inventoryQuantityLink", "inventoryStockLink"):
+        html = html.replace(
+            f"{variable}.href='物料进销存看板.html?month='",
+            f"{variable}.href='../material-dashboard/?month='",
+        )
     html = html.replace("</body>", service_worker_registration() + "</body>", 1)
     assets = [f"assets/data/{names[name]}" for name in data_files] + [
         f"../material-dashboard/assets/fonts/{gotham.name}",

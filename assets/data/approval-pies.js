@@ -685,32 +685,40 @@ window.APPROVAL_PIES_BY_MONTH = {
   },
   "10月": {
     "month": "10月",
-    "total": 135,
-    "qualified": 126,
-    "unqualified": 9,
-    "rate": 93.3,
+    "total": 386,
+    "qualified": 351,
+    "unqualified": 35,
+    "rate": 90.9,
     "issues": [
       {
         "name": "着装不规范",
-        "value": 6
+        "value": 17
       },
       {
         "name": "流程不合规",
-        "value": 2
+        "value": 13
       },
       {
         "name": "未使用今日水印相机",
-        "value": 1
+        "value": 4
       }
     ],
     "dressIssues": [
       {
+        "name": "口罩",
+        "value": 8
+      },
+      {
         "name": "帽子,口罩",
+        "value": 4
+      },
+      {
+        "name": "帽子",
         "value": 3
       },
       {
-        "name": "口罩",
-        "value": 2
+        "name": "口罩,帽子",
+        "value": 1
       },
       {
         "name": "口罩,围裙",
@@ -719,27 +727,43 @@ window.APPROVAL_PIES_BY_MONTH = {
     ],
     "provinceIssues": [
       {
-        "province": "河南省区",
-        "value": 3
-      },
-      {
         "province": "川渝藏大区",
-        "value": 2
+        "value": 7
       },
       {
-        "province": "浙江省区",
-        "value": 1
-      },
-      {
-        "province": "北京省区",
-        "value": 1
+        "province": "河南省区",
+        "value": 6
       },
       {
         "province": "山东省区",
-        "value": 1
+        "value": 5
+      },
+      {
+        "province": "北京省区",
+        "value": 4
       },
       {
         "province": "辽宁省区",
+        "value": 4
+      },
+      {
+        "province": "江西省区",
+        "value": 3
+      },
+      {
+        "province": "浙江省区",
+        "value": 2
+      },
+      {
+        "province": "云南省区",
+        "value": 1
+      },
+      {
+        "province": "江苏省区",
+        "value": 1
+      },
+      {
+        "province": "广东省区",
         "value": 1
       }
     ]
@@ -772,32 +796,40 @@ window.APPROVAL_PIES_BY_MONTH = {
 };
 window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH || "10月"] || {
   "month": "10月",
-  "total": 135,
-  "qualified": 126,
-  "unqualified": 9,
-  "rate": 93.3,
+  "total": 386,
+  "qualified": 351,
+  "unqualified": 35,
+  "rate": 90.9,
   "issues": [
     {
       "name": "着装不规范",
-      "value": 6
+      "value": 17
     },
     {
       "name": "流程不合规",
-      "value": 2
+      "value": 13
     },
     {
       "name": "未使用今日水印相机",
-      "value": 1
+      "value": 4
     }
   ],
   "dressIssues": [
     {
+      "name": "口罩",
+      "value": 8
+    },
+    {
       "name": "帽子,口罩",
+      "value": 4
+    },
+    {
+      "name": "帽子",
       "value": 3
     },
     {
-      "name": "口罩",
-      "value": 2
+      "name": "口罩,帽子",
+      "value": 1
     },
     {
       "name": "口罩,围裙",
@@ -806,27 +838,43 @@ window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH 
   ],
   "provinceIssues": [
     {
-      "province": "河南省区",
-      "value": 3
-    },
-    {
       "province": "川渝藏大区",
-      "value": 2
+      "value": 7
     },
     {
-      "province": "浙江省区",
-      "value": 1
-    },
-    {
-      "province": "北京省区",
-      "value": 1
+      "province": "河南省区",
+      "value": 6
     },
     {
       "province": "山东省区",
-      "value": 1
+      "value": 5
+    },
+    {
+      "province": "北京省区",
+      "value": 4
     },
     {
       "province": "辽宁省区",
+      "value": 4
+    },
+    {
+      "province": "江西省区",
+      "value": 3
+    },
+    {
+      "province": "浙江省区",
+      "value": 2
+    },
+    {
+      "province": "云南省区",
+      "value": 1
+    },
+    {
+      "province": "江苏省区",
+      "value": 1
+    },
+    {
+      "province": "广东省区",
       "value": 1
     }
   ]

@@ -16,6 +16,7 @@ DEVICE_FILE_ALIASES = ("2026年设备发货明细-共享版.xlsm", "2026年设�
 FREIGHT_FILE = "物料运费分析.xlsx"
 AFTER_SALES_FILE = "售后跟进.xlsx"
 DEVELOPMENT_FILE = "物料开发进度跟进表.xlsx"
+OUTBOUND_SUMMARY_SOURCE = Path(r"C:\Users\shenw\Desktop\物料&设备数据分析\物料及设备数据汇总.xlsx")
 
 DEVICE_REQUIRED_COLUMNS = {
     "设备名称清洗", "销售部门清洗-大类", "总货值", "数量", "发货状态",
@@ -779,6 +780,262 @@ def build_device_weekly_summary(source_dir: Path, device_path: Path) -> dict[str
     return {"summary": data, "rows": len(week_frame)}
 
 
+def build_outbound_card_summary(source_dir: Path, workbook_path: Path = OUTBOUND_SUMMARY_SOURCE) -> dict[str, object]:
+    from openpyxl import load_workbook
+
+    if not workbook_path.exists():
+        raise FileNotFoundError(f"缺少出库汇总数据：{workbook_path}")
+    workbook = load_workbook(workbook_path, read_only=True, data_only=True)
+    try:
+        material_sheet_name = "物料发货汇总-当月"
+        if material_sheet_name not in workbook.sheetnames:
+            raise KeyError(f"工作簿缺少工作表：{material_sheet_name}")
+
+        if "设备-当月" in workbook.sheetnames:
+            device_sheet_name = "设备-当月"
+        else:
+            device_candidates = [
+                name for name in workbook.sheetnames
+                if name.startswith("设备-") and name != "设备-全年"
+            ]
+            if not device_candidates:
+                raise KeyError("工作簿缺少设备-当月或设备月份工作表")
+
+            def device_month_key(name: str) -> int:
+                match = re.search(r"(\d+)月$", name)
+                return int(match.group(1)) if match else -1
+
+            device_sheet_name = max(device_candidates, key=device_month_key)
+
+        material_sheet = workbook[material_sheet_name]
+        device_sheet = workbook[device_sheet_name]
+
+        def numeric_value(value: object, label: str) -> float:
+            try:
+                number = float(value)
+            except (TypeError, ValueError) as exc:
+                raise ValueError(f"{label} 不是有效数字：{value!r}") from exc
+            if number != number or number in (float("inf"), float("-inf")):
+                raise ValueError(f"{label} 不是有限数字：{value!r}")
+            return number
+
+        material_quantity_cell = "B47"
+        material_quantity_raw = material_sheet[material_quantity_cell].value
+        try:
+            material_quantity = numeric_value(material_quantity_raw, f"{material_sheet_name}!{material_quantity_cell}")
+        except ValueError:
+            material_quantity_cell = "C47"
+            material_quantity = numeric_value(
+                material_sheet[material_quantity_cell].value,
+                f"{material_sheet_name}!{material_quantity_cell}",
+            )
+
+        data = {
+            "month": int(numeric_value(material_sheet["F1"].value, f"{material_sheet_name}!F1")),
+            "material": {
+                "amount": numeric_value(material_sheet["B4"].value, f"{material_sheet_name}!B4"),
+                "quantity": material_quantity,
+                "amountMom": numeric_value(material_sheet["D4"].value, f"{material_sheet_name}!D4"),
+            },
+            "device": {
+                "amount": numeric_value(device_sheet["B4"].value, f"{device_sheet_name}!B4"),
+                "quantity": numeric_value(device_sheet["C13"].value, f"{device_sheet_name}!C13"),
+                "amountMom": numeric_value(device_sheet["C4"].value, f"{device_sheet_name}!C4"),
+            },
+            "sourceFile": workbook_path.name,
+            "sheets": {"material": material_sheet_name, "device": device_sheet_name},
+            "cells": {"materialQuantity": material_quantity_cell},
+        }
+    finally:
+        workbook.close()
+
+    (source_dir / "outbound_card_data.js").write_text(
+        js_assignment("OUTBOUND_CARD_DATA", data, spaced=True), encoding="utf-8"
+    )
+    return data
+
+
+def build_outbound_city_summary(source_dir: Path, workbook_path: Path = OUTBOUND_SUMMARY_SOURCE) -> dict[str, object]:
+    from datetime import date, datetime
+    from openpyxl import load_workbook
+
+    if not workbook_path.exists():
+        raise FileNotFoundError(f"缺少出库汇总数据：{workbook_path}")
+    workbook = load_workbook(workbook_path, read_only=True, data_only=True)
+    try:
+        sheet_name = "出库清单最新"
+        if sheet_name not in workbook.sheetnames:
+            raise KeyError(f"工作簿缺少工作表：{sheet_name}")
+        sheet = workbook[sheet_name]
+        month_cities: dict[int, Counter[str]] = {}
+        month_province_cities: dict[int, Counter[tuple[str, str]]] = {}
+        device_sheet_name = "设备明细"
+        if device_sheet_name not in workbook.sheetnames:
+            device_sheet_name = workbook.sheetnames[3]
+        device_sheet = workbook[device_sheet_name]
+        device_provinces: dict[int, Counter[tuple[str, str]]] = {}
+        device_quantities: dict[int, Counter[tuple[str, str]]] = {}
+        device_years: Counter[int] = Counter()
+        device_source_rows = 0
+        year_counts: Counter[int] = Counter()
+        source_rows = 0
+        for row in sheet.iter_rows(min_row=2, max_col=21, values_only=True):
+            month_raw, date_raw, amount_raw, province_raw, city_raw = row[0], row[1], row[5], row[19], row[20]
+            try:
+                month = int(float(month_raw))
+                amount = float(amount_raw)
+            except (TypeError, ValueError):
+                continue
+            city = clean_text(city_raw)
+            province = clean_text(province_raw, "未标注")
+            if month < 1 or month > 12 or not city or amount != amount:
+                continue
+            month_cities.setdefault(month, Counter())[city] += amount
+            month_province_cities.setdefault(month, Counter())[(province, city)] += amount
+            if isinstance(date_raw, (date, datetime)):
+                year_counts[date_raw.year] += 1
+            source_rows += 1
+        for row in device_sheet.iter_rows(min_row=2, max_col=11, values_only=True):
+            month_raw, sales_raw, province_raw = row[5], row[2], row[4]
+            amount_raw, year_raw, quantity_raw = row[7], row[8], row[9]
+            try:
+                month = int(float(month_raw))
+                amount = float(amount_raw)
+            except (TypeError, ValueError):
+                continue
+            province = clean_text(province_raw, "未标注")
+            if month < 1 or month > 12 or amount != amount:
+                continue
+            sales = clean_text(sales_raw)
+            group = sales if sales in ("省区", "鸣忙", "特殊渠道") else "省区"
+            device_provinces.setdefault(month, Counter())[(group, province)] += amount
+            try:
+                quantity = float(quantity_raw)
+            except (TypeError, ValueError):
+                quantity = 0.0
+            if quantity == quantity:
+                device_quantities.setdefault(month, Counter())[(group, province)] += quantity
+            try:
+                device_years[int(float(year_raw))] += 1
+            except (TypeError, ValueError):
+                pass
+            device_source_rows += 1
+    finally:
+        workbook.close()
+
+    year = year_counts.most_common(1)[0][0] if year_counts else 2026
+    by_month: dict[str, object] = {}
+    for month in sorted(month_cities):
+        current = month_cities[month]
+        previous = month_cities.get(month - 1, Counter())
+        current_province_cities = month_province_cities.get(month, Counter())
+        previous_province_cities = month_province_cities.get(month - 1, Counter())
+        total = float(sum(current.values()))
+        chart_rows = []
+        for city, amount in current.most_common(10):
+            previous_amount = float(previous.get(city, 0.0))
+            chart_rows.append({
+                "city": city,
+                "amount": round(float(amount), 2),
+                "previousAmount": round(previous_amount, 2),
+                "amountMom": round((float(amount) - previous_amount) / previous_amount, 6)
+                if previous_amount > 0 else None,
+                "share": round(float(amount) / total, 6) if total else 0.0,
+            })
+        rows = []
+        for (province, city), amount in current_province_cities.most_common():
+            previous_amount = float(previous_province_cities.get((province, city), 0.0))
+            rows.append({
+                "province": province,
+                "city": city,
+                "amount": round(float(amount), 2),
+                "previousAmount": round(previous_amount, 2),
+                "amountMom": round((float(amount) - previous_amount) / previous_amount, 6)
+                if previous_amount > 0 else None,
+                "share": round(float(amount) / total, 6) if total else 0.0,
+            })
+        by_month[str(month)] = {
+            "total": round(total, 2),
+            "previousMonth": month - 1 if month > 1 else None,
+            "provinces": sorted({province for province, _ in current_province_cities}, key=str.casefold),
+            "chartRows": chart_rows,
+            "rows": rows,
+        }
+
+    device_by_month: dict[str, object] = {}
+    for month in sorted(device_provinces):
+        current = device_provinces[month]
+        previous = device_provinces.get(month - 1, Counter())
+        current_quantities = device_quantities.get(month, Counter())
+        total = float(sum(current.values()))
+        sections: dict[str, object] = {}
+        all_rows = []
+        for group in ("省区", "鸣忙", "特殊渠道"):
+            group_rows = []
+            group_current = Counter({province: amount for (row_group, province), amount in current.items() if row_group == group})
+            group_previous = Counter({province: amount for (row_group, province), amount in previous.items() if row_group == group})
+            group_quantities = Counter({province: quantity for (row_group, province), quantity in current_quantities.items() if row_group == group})
+            group_total = float(sum(group_current.values()))
+            previous_group_total = float(sum(group_previous.values()))
+            group_quantity = float(sum(group_quantities.values()))
+            chart_rows = []
+            for province, amount in group_current.most_common(10):
+                previous_amount = float(group_previous.get(province, 0.0))
+                chart_rows.append({
+                    "province": province,
+                    "amount": round(float(amount), 2),
+                    "previousAmount": round(previous_amount, 2),
+                    "amountMom": round((float(amount) - previous_amount) / previous_amount, 6)
+                    if previous_amount > 0 else None,
+                    "share": round(float(amount) / total, 6) if total else 0.0,
+                })
+            for province, amount in group_current.most_common():
+                previous_amount = float(group_previous.get(province, 0.0))
+                row_data = {
+                    "group": group,
+                    "province": province,
+                    "amount": round(float(amount), 2),
+                    "previousAmount": round(previous_amount, 2),
+                    "amountMom": round((float(amount) - previous_amount) / previous_amount, 6)
+                    if previous_amount > 0 else None,
+                    "share": round(float(amount) / total, 6) if total else 0.0,
+                }
+                group_rows.append(row_data)
+                all_rows.append(row_data)
+            sections[group] = {
+                "total": round(group_total, 2),
+                "quantity": round(group_quantity, 2),
+                "amountMom": round((group_total - previous_group_total) / previous_group_total, 6)
+                if previous_group_total > 0 else None,
+                "chartRows": chart_rows,
+                "rows": group_rows,
+            }
+        device_by_month[str(month)] = {
+            "total": round(total, 2),
+            "previousMonth": month - 1 if month > 1 else None,
+            "sections": sections,
+            "rows": all_rows,
+            "specialTotal": round(float(sections["特殊渠道"]["total"]), 2),
+        }
+
+    data = {
+        "year": year,
+        "latestMonth": max(month_cities) if month_cities else None,
+        "sourceFile": workbook_path.name,
+        "sourceSheet": "出库清单最新",
+        "sourceRows": source_rows,
+        "byMonth": by_month,
+        "deviceYear": device_years.most_common(1)[0][0] if device_years else year,
+        "deviceSourceSheet": device_sheet_name,
+        "deviceSourceRows": device_source_rows,
+        "deviceByMonth": device_by_month,
+    }
+    (source_dir / "outbound_city_data.js").write_text(
+        js_assignment("OUTBOUND_CITY_DATA", data, spaced=True), encoding="utf-8"
+    )
+    return data
+
+
 def update(source_dir: Path) -> dict[str, object]:
     paths = {
         "inventory": source_dir / INVENTORY_FILE,
@@ -786,6 +1043,7 @@ def update(source_dir: Path) -> dict[str, object]:
         "freight": source_dir / FREIGHT_FILE,
         "afterSales": source_dir / AFTER_SALES_FILE,
         "development": source_dir / DEVELOPMENT_FILE,
+        "outboundSummary": OUTBOUND_SUMMARY_SOURCE,
     }
     # 售后数据不是其他看板生成的前置条件；缺失时保留主看板 HTML 中已有统计。
     missing = [path.name for key, path in paths.items() if key != "afterSales" and not path.exists()]
@@ -835,6 +1093,8 @@ def update(source_dir: Path) -> dict[str, object]:
         print(f"警告：未找到 {paths['afterSales'].name}，保留主看板现有售后统计。")
     weekly_device = build_device_weekly_summary(source_dir, paths["device"])
     weekly_material = build_material_weekly_outbound(source_dir, paths["inventory"])
+    outbound_summary = build_outbound_card_summary(source_dir, paths["outboundSummary"])
+    outbound_cities = build_outbound_city_summary(source_dir, paths["outboundSummary"])
 
     # 生成带版本号的副本，避免本地 file:// 浏览器对原文件名缓存顽固导致拿不到最新数据
     import shutil
@@ -857,6 +1117,8 @@ def update(source_dir: Path) -> dict[str, object]:
         "afterSales": after_sales,
         "weeklyDevice": weekly_device,
         "weeklyMaterial": weekly_material,
+        "outboundSummary": outbound_summary,
+        "outboundCities": outbound_cities,
     }
     (source_dir / "最近一次更新记录.txt").write_text(
         json.dumps({"status": "success", **result}, ensure_ascii=False, indent=2), encoding="utf-8"
@@ -868,7 +1130,15 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="从独立 Excel 数据源同步更新三个物料看板")
     parser.add_argument("--source-dir", type=Path, required=True)
     parser.add_argument("--device-only", action="store_true", help="仅更新进销存看板的设备数据文件")
+    parser.add_argument("--summary-only", action="store_true", help="仅更新主看板的物料与设备出库汇总卡片")
     args = parser.parse_args()
+    if args.summary_only:
+        result = {
+            "summary": build_outbound_card_summary(args.source_dir.resolve()),
+            "cities": build_outbound_city_summary(args.source_dir.resolve()),
+        }
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return
     if args.device_only:
         result = build_device_outbound_file(args.source_dir.resolve(), resolve_device_path(args.source_dir.resolve()))
         print(json.dumps(result, ensure_ascii=False, indent=2))
@@ -886,6 +1156,8 @@ def main() -> None:
         "freightDetails": result["freightDetails"],
         "development": result["development"],
         "afterSales": result["afterSales"],
+        "outboundSummary": result["outboundSummary"],
+        "outboundCities": result["outboundCities"],
     }
     print(json.dumps(summary, ensure_ascii=False, indent=2))
 
