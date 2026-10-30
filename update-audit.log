@@ -1,7 +1,7 @@
-Update started 2026/10/26 ÖÜÒ» 11:58:34.99
+Update started 2026/10/30 ÖÜÎå 13:51:11.60
 [RUN] MAIN_DASHBOARDS 
 === å¸‚åœºç¨½æ ¸éƒ¨é‡ç‚¹å·¥ä½œçœ‹æ¿ç”Ÿæˆå™¨ v2 ===
-æ—¶é—´: 2026-10-26 11:58:35
+æ—¶é—´: 2026-10-30 13:51:12
 
 åŠ è½½ Excel æ•°æ®...
   ç¨½æ ¸æ˜ç»†: 3062 è¡Œ
@@ -9,7 +9,7 @@ Update started 2026/10/26 ÖÜÒ» 11:58:34.99
   å„æˆ˜åŒºç¨½æ ¸è¿›æ±‡æ€»: 91 è¡Œ
   æœˆåº¦é™ˆåˆ—ç¨½æ ¸è´¹ç”¨: 12 è¡Œ
   æ¨å¹¿ä¿ƒé”€: 34 è¡Œ
-  çº¿ä¸Šå®¡æ‰¹: 2935 è¡Œ
+  çº¿ä¸Šå®¡æ‰¹: 3072 è¡Œ
   è®¾å¤‡å°è´¦: 22 è¡Œ
 å¯ç”¨æœˆä»½: 1æœˆ, 2æœˆ, 3æœˆ, 4æœˆ, 5æœˆ, 6æœˆ, 7æœˆ, 8æœˆ, 9æœˆ, 10æœˆï¼›é»˜è®¤æœˆä»½: 10æœˆ
 é¢„è®¡ç®—ç»Ÿè®¡æ•°æ®...
@@ -120,7 +120,7 @@ Promo task total: 231, audited: 26, progress: 11.3%
 [RUN] APPROVAL_AUDIT 
 Generated: C:\Users\shenw\Documents\New project\github-dashboards\assets\data\approval-detail.js
 Generated: C:\Users\shenw\Documents\New project\github-dashboards\assets\data\approval-pies.js
-Approval total: 2935, qualified: 2381, unqualified: 554
+Approval total: 3072, qualified: 2509, unqualified: 563
 [OK] APPROVAL_AUDIT 
 [RUN] DEVICE_CHANNEL 
 Updated: C:\Users\shenw\Documents\New project\github-dashboards\assets\data\device-channel-status.js
@@ -146,7 +146,7 @@ GIFT_LIVE_DATA written: t1=9ÔÂ, »î¶¯ 325Ìõ/65176Ôª, ÑùÆ· 1041Ìõ/44507Ôª
 ÒÑĞ´Èë:
   C:\Users\shenw\Documents\New project\github-dashboards\assets\pages\ÏßÏÂ»î¶¯ÓëÑùÆ·ÉêÇëÒì³£½â¶Á¿´°å.html
   C:\Users\shenw\WorkBuddy\2026-08-25-13-53-45\ÏßÏÂ»î¶¯ÓëÑùÆ·ÉêÇëÒì³£½â¶Á¿´°å.html
-±¸·İ: C:\Users\shenw\Documents\New project\github-dashboards\backups/*.bak-auto-20261026-115917.*
+±¸·İ: C:\Users\shenw\Documents\New project\github-dashboards\backups/*.bak-auto-20261030-135159.*
 [OK] GIFT_ANOMALY_PAGE 
 [RUN] SCHEDULE_PROGRESS 
 saved=C:\Users\shenw\Documents\New project\dist\material_development_progress_dashboard.html
@@ -163,9 +163,11 @@ Updated month-aware work data: 1ÔÂ, 2ÔÂ, 3ÔÂ, 4ÔÂ, 5ÔÂ, 6ÔÂ, 7ÔÂ, 8ÔÂ, 9ÔÂ, 10ÔÂ
 wrote C:\Users\shenw\Documents\New project\github-dashboards\assets\data\device-ban-action.js with 18 rows, 18 devices
 [OK] DEVICE_BAN 
 [RUN] STORE_AUDIT 
-built rows from Excel: 9926
+resolved columns: year=1, month=2, store=4, province=8, city=9, district=10, address=11, sku=12, freezer=13, sausage=14, shell=15, liquid=16, competitor=17, improve=18, region=19, date=20, registered_at=21, registrar=22, result=23, reason=24, photo_ok=25, remark=27
+embedded photos mapped: 383 (requested: 383)
+built rows from Excel: 10032
 existing snapshot rows: 9926
-RAW_DATA updated in store-business-analysis.html: 9926 rows (source-pill updated: 1)
+RAW_DATA updated in store-business-analysis.html: 10032 rows (source-pill updated: 1)
 [OK] STORE_AUDIT 
 [RUN] GIFT_LIVE_DATA 
 GIFT_LIVE_DATA written: t1=9ÔÂ, »î¶¯ 325Ìõ/65176Ôª, ÑùÆ· 1041Ìõ/44507Ôª
@@ -188,7 +190,7 @@ GIFT_LIVE_DATA written: t1=9ÔÂ, »î¶¯ 325Ìõ/65176Ôª, ÑùÆ· 1041Ìõ/44507Ôª
 ÒÑĞ´Èë:
   C:\Users\shenw\Documents\New project\github-dashboards\assets\pages\ÏßÏÂ»î¶¯ÓëÑùÆ·ÉêÇëÒì³£½â¶Á¿´°å.html
   C:\Users\shenw\WorkBuddy\2026-08-25-13-53-45\ÏßÏÂ»î¶¯ÓëÑùÆ·ÉêÇëÒì³£½â¶Á¿´°å.html
-±¸·İ: C:\Users\shenw\Documents\New project\github-dashboards\backups/*.bak-auto-20261026-120154.*
+±¸·İ: C:\Users\shenw\Documents\New project\github-dashboards\backups/*.bak-auto-20261030-135329.*
 [OK] GIFT_ANOMALY_PAGE 
 [RUN] SCHEDULE_PROGRESS 
 saved=C:\Users\shenw\Documents\New project\dist\material_development_progress_dashboard.html

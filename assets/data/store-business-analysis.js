@@ -72,11 +72,11 @@ window.STORE_AUDIT_SUMMARY_BY_MONTH = {
     "other": 1617
   },
   "10月": {
-    "total": 922,
+    "total": 1009,
     "qualified": 0,
     "unqualified": 0,
     "uncertain": 0,
-    "valid": 922,
-    "other": 922
+    "valid": 1009,
+    "other": 1009
   }
 };

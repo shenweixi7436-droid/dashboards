@@ -685,28 +685,28 @@ window.APPROVAL_PIES_BY_MONTH = {
   },
   "10月": {
     "month": "10月",
-    "total": 386,
-    "qualified": 351,
-    "unqualified": 35,
-    "rate": 90.9,
+    "total": 523,
+    "qualified": 479,
+    "unqualified": 44,
+    "rate": 91.6,
     "issues": [
       {
         "name": "着装不规范",
-        "value": 17
+        "value": 20
       },
       {
         "name": "流程不合规",
-        "value": 13
+        "value": 16
       },
       {
         "name": "未使用今日水印相机",
-        "value": 4
+        "value": 7
       }
     ],
     "dressIssues": [
       {
         "name": "口罩",
-        "value": 8
+        "value": 9
       },
       {
         "name": "帽子,口罩",
@@ -714,11 +714,11 @@ window.APPROVAL_PIES_BY_MONTH = {
       },
       {
         "name": "帽子",
-        "value": 3
+        "value": 4
       },
       {
         "name": "口罩,帽子",
-        "value": 1
+        "value": 2
       },
       {
         "name": "口罩,围裙",
@@ -728,15 +728,15 @@ window.APPROVAL_PIES_BY_MONTH = {
     "provinceIssues": [
       {
         "province": "川渝藏大区",
+        "value": 8
+      },
+      {
+        "province": "山东省区",
         "value": 7
       },
       {
         "province": "河南省区",
         "value": 6
-      },
-      {
-        "province": "山东省区",
-        "value": 5
       },
       {
         "province": "北京省区",
@@ -755,15 +755,35 @@ window.APPROVAL_PIES_BY_MONTH = {
         "value": 2
       },
       {
+        "province": "江苏省区",
+        "value": 2
+      },
+      {
         "province": "云南省区",
         "value": 1
       },
       {
-        "province": "江苏省区",
+        "province": "广东省区",
         "value": 1
       },
       {
-        "province": "广东省区",
+        "province": "湖南省区",
+        "value": 1
+      },
+      {
+        "province": "安徽省区",
+        "value": 1
+      },
+      {
+        "province": "山西省区",
+        "value": 1
+      },
+      {
+        "province": "广西省区",
+        "value": 1
+      },
+      {
+        "province": "贵州省区",
         "value": 1
       }
     ]
@@ -796,28 +816,28 @@ window.APPROVAL_PIES_BY_MONTH = {
 };
 window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH || "10月"] || {
   "month": "10月",
-  "total": 386,
-  "qualified": 351,
-  "unqualified": 35,
-  "rate": 90.9,
+  "total": 523,
+  "qualified": 479,
+  "unqualified": 44,
+  "rate": 91.6,
   "issues": [
     {
       "name": "着装不规范",
-      "value": 17
+      "value": 20
     },
     {
       "name": "流程不合规",
-      "value": 13
+      "value": 16
     },
     {
       "name": "未使用今日水印相机",
-      "value": 4
+      "value": 7
     }
   ],
   "dressIssues": [
     {
       "name": "口罩",
-      "value": 8
+      "value": 9
     },
     {
       "name": "帽子,口罩",
@@ -825,11 +845,11 @@ window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH 
     },
     {
       "name": "帽子",
-      "value": 3
+      "value": 4
     },
     {
       "name": "口罩,帽子",
-      "value": 1
+      "value": 2
     },
     {
       "name": "口罩,围裙",
@@ -839,15 +859,15 @@ window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH 
   "provinceIssues": [
     {
       "province": "川渝藏大区",
+      "value": 8
+    },
+    {
+      "province": "山东省区",
       "value": 7
     },
     {
       "province": "河南省区",
       "value": 6
-    },
-    {
-      "province": "山东省区",
-      "value": 5
     },
     {
       "province": "北京省区",
@@ -866,15 +886,35 @@ window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH 
       "value": 2
     },
     {
+      "province": "江苏省区",
+      "value": 2
+    },
+    {
       "province": "云南省区",
       "value": 1
     },
     {
-      "province": "江苏省区",
+      "province": "广东省区",
       "value": 1
     },
     {
-      "province": "广东省区",
+      "province": "湖南省区",
+      "value": 1
+    },
+    {
+      "province": "安徽省区",
+      "value": 1
+    },
+    {
+      "province": "山西省区",
+      "value": 1
+    },
+    {
+      "province": "广西省区",
+      "value": 1
+    },
+    {
+      "province": "贵州省区",
       "value": 1
     }
   ]
