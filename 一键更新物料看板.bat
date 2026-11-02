@@ -2,38 +2,46 @@
 setlocal
 chcp 65001 >nul
 cd /d "%~dp0"
-title Update Material Dashboard for GitHub Pages
+title Update Material and Device Dashboards
 
 set "PY=C:\Users\shenw\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe"
+set "SOURCE=C:\Users\shenw\Desktop\物料&设备数据分析\2026年物料及设备出库数据汇总.xlsx"
+set "DASHBOARD_DIR=C:\Users\shenw\Desktop\看板\物料小组看板"
 set "PYTHONUTF8=1"
 set "PYTHONWARNINGS=ignore::UserWarning:openpyxl.worksheet._reader"
 if not exist "%PY%" goto missing_python
+if not exist "%SOURCE%" goto missing_source
+if not exist "%DASHBOARD_DIR%\营销物料数据主看板.html" goto missing_dashboard
+if not exist "%DASHBOARD_DIR%\设备主看版.html" goto missing_dashboard
 
 echo.
-echo Reading independent inventory, device, freight, after-sales and development sources...
-echo Building all three GitHub Pages dashboards...
-"%PY%" "%~dp0build_material_dashboard.py"
+echo Source: "%SOURCE%"
+echo Updating material and device dashboard data...
+"%PY%" "%~dp0update_material_device_dashboards.py" --source "%SOURCE%" --dashboard-dir "%DASHBOARD_DIR%"
 if errorlevel 1 goto fail
 
-if not exist "C:\Users\shenw\Desktop\看板\物料小组看板\物料进销存看板.html" goto local_panel_missing
-
 echo.
-echo Material dashboard update completed.
-echo Local inventory panel data: C:\Users\shenw\Desktop\看板\物料小组看板\物料进销存看板.html
-echo Main dashboard:      %~dp0material-main-dashboard\index.html
-echo Inventory dashboard: %~dp0material-dashboard\index.html
-echo Freight dashboard:   %~dp0material-freight-dashboard\index.html
-echo This step does not commit or push Git changes.
+echo Update completed.
+echo Material dashboard: %DASHBOARD_DIR%\营销物料数据主看板.html
+echo Device dashboard:   %DASHBOARD_DIR%\设备主看版.html
+echo Only the specified workbook was read. No other workbook is used.
 echo.
 if /I "%~1"=="nopause" exit /b 0
 pause
 exit /b 0
 
-:local_panel_missing
+:missing_source
 echo.
-echo Source update completed, but the local inventory panel was not found:
-echo C:\Users\shenw\Desktop\看板\物料小组看板\物料进销存看板.html
-echo Please restore the file or ask Codex to repair the source directory.
+echo Source workbook was not found:
+echo %SOURCE%
+if /I "%~1"=="nopause" exit /b 1
+pause
+exit /b 1
+
+:missing_dashboard
+echo.
+echo Material or device main dashboard was not found in:
+echo %DASHBOARD_DIR%
 if /I "%~1"=="nopause" exit /b 1
 pause
 exit /b 1
@@ -47,7 +55,7 @@ exit /b 1
 
 :fail
 echo.
-echo Material dashboard update failed. Please send this window to Codex.
+echo Dashboard update failed. Please send this window to Codex.
 if /I "%~1"=="nopause" exit /b 1
 pause
 exit /b 1

@@ -13,8 +13,8 @@
       "assets/data/material_inventory_data.2892cfb1d0a1.js"
     ],
     "fonts": [
-      "../material-dashboard/assets/fonts/gotham-rounded-bold.f6281701cdb9.woff2",
-      "../material-dashboard/assets/fonts/hk-yuan-w7.a0f4d903956d.woff2"
+      "assets/fonts/gotham-rounded-bold.f6281701cdb9.woff2",
+      "assets/fonts/hk-yuan-w7.a0f4d903956d.woff2"
     ]
   }
 }

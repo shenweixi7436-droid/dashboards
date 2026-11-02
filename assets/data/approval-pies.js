@@ -685,10 +685,10 @@ window.APPROVAL_PIES_BY_MONTH = {
   },
   "10月": {
     "month": "10月",
-    "total": 523,
-    "qualified": 479,
-    "unqualified": 44,
-    "rate": 91.6,
+    "total": 588,
+    "qualified": 538,
+    "unqualified": 50,
+    "rate": 91.5,
     "issues": [
       {
         "name": "着装不规范",
@@ -696,11 +696,11 @@ window.APPROVAL_PIES_BY_MONTH = {
       },
       {
         "name": "流程不合规",
-        "value": 16
+        "value": 18
       },
       {
         "name": "未使用今日水印相机",
-        "value": 7
+        "value": 10
       }
     ],
     "dressIssues": [
@@ -739,6 +739,10 @@ window.APPROVAL_PIES_BY_MONTH = {
         "value": 6
       },
       {
+        "province": "广东省区",
+        "value": 6
+      },
+      {
         "province": "北京省区",
         "value": 4
       },
@@ -759,11 +763,11 @@ window.APPROVAL_PIES_BY_MONTH = {
         "value": 2
       },
       {
-        "province": "云南省区",
-        "value": 1
+        "province": "广西省区",
+        "value": 2
       },
       {
-        "province": "广东省区",
+        "province": "云南省区",
         "value": 1
       },
       {
@@ -776,10 +780,6 @@ window.APPROVAL_PIES_BY_MONTH = {
       },
       {
         "province": "山西省区",
-        "value": 1
-      },
-      {
-        "province": "广西省区",
         "value": 1
       },
       {
@@ -816,10 +816,10 @@ window.APPROVAL_PIES_BY_MONTH = {
 };
 window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH || "10月"] || {
   "month": "10月",
-  "total": 523,
-  "qualified": 479,
-  "unqualified": 44,
-  "rate": 91.6,
+  "total": 588,
+  "qualified": 538,
+  "unqualified": 50,
+  "rate": 91.5,
   "issues": [
     {
       "name": "着装不规范",
@@ -827,11 +827,11 @@ window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH 
     },
     {
       "name": "流程不合规",
-      "value": 16
+      "value": 18
     },
     {
       "name": "未使用今日水印相机",
-      "value": 7
+      "value": 10
     }
   ],
   "dressIssues": [
@@ -870,6 +870,10 @@ window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH 
       "value": 6
     },
     {
+      "province": "广东省区",
+      "value": 6
+    },
+    {
       "province": "北京省区",
       "value": 4
     },
@@ -890,11 +894,11 @@ window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH 
       "value": 2
     },
     {
-      "province": "云南省区",
-      "value": 1
+      "province": "广西省区",
+      "value": 2
     },
     {
-      "province": "广东省区",
+      "province": "云南省区",
       "value": 1
     },
     {
@@ -907,10 +911,6 @@ window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH 
     },
     {
       "province": "山西省区",
-      "value": 1
-    },
-    {
-      "province": "广西省区",
       "value": 1
     },
     {

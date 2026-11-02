@@ -8,8 +8,8 @@ const PRECACHE_URLS = [
   "./assets/data/device_weekly_outbound_data.67270887d1eb.js",
   "./assets/data/material_weekly_outbound_data.06d5a2c22665.js",
   "./assets/data/material_inventory_data.2892cfb1d0a1.js",
-  "./../material-dashboard/assets/fonts/gotham-rounded-bold.f6281701cdb9.woff2",
-  "./../material-dashboard/assets/fonts/hk-yuan-w7.a0f4d903956d.woff2"
+  "./assets/fonts/gotham-rounded-bold.f6281701cdb9.woff2",
+  "./assets/fonts/hk-yuan-w7.a0f4d903956d.woff2"
 ];
 
 self.addEventListener('install', event => {

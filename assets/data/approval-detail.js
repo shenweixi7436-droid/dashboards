@@ -7964,9 +7964,9 @@ window.APPROVAL_DETAIL_BY_MONTH = {
       "问题类型",
       "着装不合格类型"
     ],
-    "total": 523,
-    "qualified": 479,
-    "unqualified": 44,
+    "total": 588,
+    "qualified": 538,
+    "unqualified": 50,
     "rows": [
       {
         "row": 2577,
@@ -8583,6 +8583,90 @@ window.APPROVAL_DETAIL_BY_MONTH = {
           ""
         ],
         "result": "不合格"
+      },
+      {
+        "row": 3099,
+        "values": [
+          "2026-10-29",
+          "终端系统费用",
+          "FY2026093001148",
+          "广西省区",
+          "线下-广西聚乾利商贸有限公司",
+          "安澜",
+          "未使用今日水印相机",
+          ""
+        ],
+        "result": "不合格"
+      },
+      {
+        "row": 3102,
+        "values": [
+          "2026-10-29",
+          "终端系统费用",
+          "FY2026102701113",
+          "广东省区",
+          "线下-深圳市金鸿运商贸有限公司",
+          "洛洋",
+          "虚假",
+          ""
+        ],
+        "result": "不合格"
+      },
+      {
+        "row": 3127,
+        "values": [
+          "2026-10-31",
+          "终端系统费用",
+          "FY2026103101135",
+          "广东省区",
+          "线下-普宁市占陇伟西食品店",
+          "豆干",
+          "未使用今日水印相机",
+          ""
+        ],
+        "result": "不合格"
+      },
+      {
+        "row": 3128,
+        "values": [
+          "2026-10-31",
+          "终端系统费用",
+          "FY2026103101208",
+          "广东省区",
+          "线下-佛山市御三千食品贸易有限公司",
+          "一枝",
+          "流程不合规",
+          ""
+        ],
+        "result": "不合格"
+      },
+      {
+        "row": 3135,
+        "values": [
+          "2026-10-31",
+          "终端系统费用",
+          "FY2026103101118",
+          "广东省区",
+          "线下-佛山市添尔喜贸易有限公司",
+          "一枝",
+          "流程不合规",
+          ""
+        ],
+        "result": "不合格"
+      },
+      {
+        "row": 3136,
+        "values": [
+          "2026-10-31",
+          "终端系统费用",
+          "FY2026103101028",
+          "广东省区",
+          "线下-海南振烨贸易有限公司",
+          "凌云",
+          "未使用今日水印相机",
+          ""
+        ],
+        "result": "不合格"
       }
     ],
     "dressIssues": [
@@ -8621,6 +8705,10 @@ window.APPROVAL_DETAIL_BY_MONTH = {
         "value": 6
       },
       {
+        "province": "广东省区",
+        "value": 6
+      },
+      {
         "province": "北京省区",
         "value": 4
       },
@@ -8641,11 +8729,11 @@ window.APPROVAL_DETAIL_BY_MONTH = {
         "value": 2
       },
       {
-        "province": "云南省区",
-        "value": 1
+        "province": "广西省区",
+        "value": 2
       },
       {
-        "province": "广东省区",
+        "province": "云南省区",
         "value": 1
       },
       {
@@ -8658,10 +8746,6 @@ window.APPROVAL_DETAIL_BY_MONTH = {
       },
       {
         "province": "山西省区",
-        "value": 1
-      },
-      {
-        "province": "广西省区",
         "value": 1
       },
       {
@@ -8729,9 +8813,9 @@ window.APPROVAL_DETAIL = window.APPROVAL_DETAIL_BY_MONTH[window.MAIN_SELECTED_MO
     "问题类型",
     "着装不合格类型"
   ],
-  "total": 523,
-  "qualified": 479,
-  "unqualified": 44,
+  "total": 588,
+  "qualified": 538,
+  "unqualified": 50,
   "rows": [
     {
       "row": 2577,
@@ -9348,6 +9432,90 @@ window.APPROVAL_DETAIL = window.APPROVAL_DETAIL_BY_MONTH[window.MAIN_SELECTED_MO
         ""
       ],
       "result": "不合格"
+    },
+    {
+      "row": 3099,
+      "values": [
+        "2026-10-29",
+        "终端系统费用",
+        "FY2026093001148",
+        "广西省区",
+        "线下-广西聚乾利商贸有限公司",
+        "安澜",
+        "未使用今日水印相机",
+        ""
+      ],
+      "result": "不合格"
+    },
+    {
+      "row": 3102,
+      "values": [
+        "2026-10-29",
+        "终端系统费用",
+        "FY2026102701113",
+        "广东省区",
+        "线下-深圳市金鸿运商贸有限公司",
+        "洛洋",
+        "虚假",
+        ""
+      ],
+      "result": "不合格"
+    },
+    {
+      "row": 3127,
+      "values": [
+        "2026-10-31",
+        "终端系统费用",
+        "FY2026103101135",
+        "广东省区",
+        "线下-普宁市占陇伟西食品店",
+        "豆干",
+        "未使用今日水印相机",
+        ""
+      ],
+      "result": "不合格"
+    },
+    {
+      "row": 3128,
+      "values": [
+        "2026-10-31",
+        "终端系统费用",
+        "FY2026103101208",
+        "广东省区",
+        "线下-佛山市御三千食品贸易有限公司",
+        "一枝",
+        "流程不合规",
+        ""
+      ],
+      "result": "不合格"
+    },
+    {
+      "row": 3135,
+      "values": [
+        "2026-10-31",
+        "终端系统费用",
+        "FY2026103101118",
+        "广东省区",
+        "线下-佛山市添尔喜贸易有限公司",
+        "一枝",
+        "流程不合规",
+        ""
+      ],
+      "result": "不合格"
+    },
+    {
+      "row": 3136,
+      "values": [
+        "2026-10-31",
+        "终端系统费用",
+        "FY2026103101028",
+        "广东省区",
+        "线下-海南振烨贸易有限公司",
+        "凌云",
+        "未使用今日水印相机",
+        ""
+      ],
+      "result": "不合格"
     }
   ],
   "dressIssues": [
@@ -9386,6 +9554,10 @@ window.APPROVAL_DETAIL = window.APPROVAL_DETAIL_BY_MONTH[window.MAIN_SELECTED_MO
       "value": 6
     },
     {
+      "province": "广东省区",
+      "value": 6
+    },
+    {
       "province": "北京省区",
       "value": 4
     },
@@ -9406,11 +9578,11 @@ window.APPROVAL_DETAIL = window.APPROVAL_DETAIL_BY_MONTH[window.MAIN_SELECTED_MO
       "value": 2
     },
     {
-      "province": "云南省区",
-      "value": 1
+      "province": "广西省区",
+      "value": 2
     },
     {
-      "province": "广东省区",
+      "province": "云南省区",
       "value": 1
     },
     {
@@ -9423,10 +9595,6 @@ window.APPROVAL_DETAIL = window.APPROVAL_DETAIL_BY_MONTH[window.MAIN_SELECTED_MO
     },
     {
       "province": "山西省区",
-      "value": 1
-    },
-    {
-      "province": "广西省区",
       "value": 1
     },
     {

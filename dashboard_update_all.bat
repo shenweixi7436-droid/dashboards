@@ -51,8 +51,8 @@ if errorlevel 8 goto fail
 robocopy "%~dp0..\dist\assets\previews" "%~dp0Schedule of Progress\dist\assets\previews" /E /NFL /NDL /NJH /NJS /NP >nul
 if errorlevel 8 goto fail
 
-echo Updating material inventory dashboard for GitHub Pages...
-"%PY%" "%~dp0build_material_dashboard.py"
+echo Updating material and device dashboard data from the unified workbook...
+call "%~dp0一键更新物料看板.bat" nopause
 if errorlevel 1 goto fail
 
 echo.
