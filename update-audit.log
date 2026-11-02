@@ -1,7 +1,7 @@
-Update started 2026/10/30 ÖÜÎå 13:51:11.60
+Update started 2026/11/02 ÖÜÒ» 10:01:23.17
 [RUN] MAIN_DASHBOARDS 
 === å¸‚åœºç¨½æ ¸éƒ¨é‡ç‚¹å·¥ä½œçœ‹æ¿ç”Ÿæˆå™¨ v2 ===
-æ—¶é—´: 2026-10-30 13:51:12
+æ—¶é—´: 2026-11-02 10:01:24
 
 åŠ è½½ Excel æ•°æ®...
   ç¨½æ ¸æ˜ç»†: 3062 è¡Œ
@@ -141,12 +141,12 @@ GIFT_LIVE_DATA written: t1=9ÔÂ, »î¶¯ 325Ìõ/65176Ôª, ÑùÆ· 1041Ìõ/44507Ôª
 ===== ¸üĞÂÍê³É =====
 »î¶¯£º1196³¡ / ½ğ¶îÒì³£1123 / ÊıÁ¿Òì³£817 / Ë«Î¬770 / ÔÂ·İ[1, 2, 3, 4, 5, 6, 7, 8, 9]
 ÑùÆ·£º4077µ¥ / ½ğ¶îÒì³£1861 / ÊıÁ¿Òì³£1837
-ºËÏú£º1773µ¥ / ×Ü¶î1,691,645.7 / ·Ñ±È21.9% / ÔÂ·İ[9, 10]
+ºËÏú£º2857µ¥ / ×Ü¶î3,046,527.6 / ·Ñ±È7.9% / ÔÂ·İ[9, 10]
 ¾É¡úĞÂ »î¶¯×Ü³¡´Î: 1196 ¡ú 1196
 ÒÑĞ´Èë:
   C:\Users\shenw\Documents\New project\github-dashboards\assets\pages\ÏßÏÂ»î¶¯ÓëÑùÆ·ÉêÇëÒì³£½â¶Á¿´°å.html
   C:\Users\shenw\WorkBuddy\2026-08-25-13-53-45\ÏßÏÂ»î¶¯ÓëÑùÆ·ÉêÇëÒì³£½â¶Á¿´°å.html
-±¸·İ: C:\Users\shenw\Documents\New project\github-dashboards\backups/*.bak-auto-20261030-135159.*
+±¸·İ: C:\Users\shenw\Documents\New project\github-dashboards\backups/*.bak-auto-20261102-100243.*
 [OK] GIFT_ANOMALY_PAGE 
 [RUN] SCHEDULE_PROGRESS 
 saved=C:\Users\shenw\Documents\New project\dist\material_development_progress_dashboard.html
@@ -166,7 +166,7 @@ wrote C:\Users\shenw\Documents\New project\github-dashboards\assets\data\device-
 resolved columns: year=1, month=2, store=4, province=8, city=9, district=10, address=11, sku=12, freezer=13, sausage=14, shell=15, liquid=16, competitor=17, improve=18, region=19, date=20, registered_at=21, registrar=22, result=23, reason=24, photo_ok=25, remark=27
 embedded photos mapped: 383 (requested: 383)
 built rows from Excel: 10032
-existing snapshot rows: 9926
+existing snapshot rows: 10032
 RAW_DATA updated in store-business-analysis.html: 10032 rows (source-pill updated: 1)
 [OK] STORE_AUDIT 
 [RUN] GIFT_LIVE_DATA 
@@ -185,12 +185,12 @@ GIFT_LIVE_DATA written: t1=9ÔÂ, »î¶¯ 325Ìõ/65176Ôª, ÑùÆ· 1041Ìõ/44507Ôª
 ===== ¸üĞÂÍê³É =====
 »î¶¯£º1196³¡ / ½ğ¶îÒì³£1123 / ÊıÁ¿Òì³£817 / Ë«Î¬770 / ÔÂ·İ[1, 2, 3, 4, 5, 6, 7, 8, 9]
 ÑùÆ·£º4077µ¥ / ½ğ¶îÒì³£1861 / ÊıÁ¿Òì³£1837
-ºËÏú£º1773µ¥ / ×Ü¶î1,691,645.7 / ·Ñ±È21.9% / ÔÂ·İ[9, 10]
+ºËÏú£º2857µ¥ / ×Ü¶î3,046,527.6 / ·Ñ±È7.9% / ÔÂ·İ[9, 10]
 ¾É¡úĞÂ »î¶¯×Ü³¡´Î: 1196 ¡ú 1196
 ÒÑĞ´Èë:
   C:\Users\shenw\Documents\New project\github-dashboards\assets\pages\ÏßÏÂ»î¶¯ÓëÑùÆ·ÉêÇëÒì³£½â¶Á¿´°å.html
   C:\Users\shenw\WorkBuddy\2026-08-25-13-53-45\ÏßÏÂ»î¶¯ÓëÑùÆ·ÉêÇëÒì³£½â¶Á¿´°å.html
-±¸·İ: C:\Users\shenw\Documents\New project\github-dashboards\backups/*.bak-auto-20261030-135329.*
+±¸·İ: C:\Users\shenw\Documents\New project\github-dashboards\backups/*.bak-auto-20261102-100424.*
 [OK] GIFT_ANOMALY_PAGE 
 [RUN] SCHEDULE_PROGRESS 
 saved=C:\Users\shenw\Documents\New project\dist\material_development_progress_dashboard.html

@@ -1,7 +1,7 @@
-// 自动生成自 build_gift_anomaly_dashboard.py（2026-10-30 13:52:59）
+// 自动生成自 build_gift_anomaly_dashboard.py（2026-11-02 10:03:20）
 window.GIFT_LIVE_DATA = {
   "source": "费用分析-样品及活动.xlsx",
-  "generatedAt": "2026-10-30 13:52:59",
+  "generatedAt": "2026-11-02 10:03:20",
   "t1Month": "9月",
   "activity": {
     "monthly": {
