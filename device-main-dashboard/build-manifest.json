@@ -1,0 +1,15 @@
+{
+  "name": "设备数据分析看板",
+  "version": "d6dc002fd675",
+  "builtAt": "2026-11-03T10:03:11+08:00",
+  "sourceHtml": "C:\\Users\\shenw\\Desktop\\看板\\物料小组看板\\设备主看版.html",
+  "sourceWorkbook": "C:\\Users\\shenw\\Desktop\\物料&设备数据分析\\2026年物料及设备出库数据汇总.xlsx",
+  "files": {
+    "html": "index.html",
+    "assets": [
+      "assets/data/device_filter_data.js",
+      "assets/fonts/gotham-rounded-bold.f6281701cdb9.woff2",
+      "assets/fonts/hk-yuan-w7.a0f4d903956d.woff2"
+    ]
+  }
+}

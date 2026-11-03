@@ -3,10 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>营销物料/设备主看板</title>
+<title>营销物料数据主看板</title>
 <style>
 @font-face{font-family:'GOTHAMRND-BOLD';src:url('assets/fonts/gotham-rounded-bold.f6281701cdb9.woff2') format('woff2');font-display:swap}
 @font-face{font-family:'HKYuan-W7';src:url('assets/fonts/hk-yuan-w7.a0f4d903956d.woff2') format('woff2');font-display:swap}
+@font-face{font-family:'HKYuan-W8';src:url('assets/fonts/hk-yuan-w7.a0f4d903956d.woff2') format('woff2');font-display:swap}
+@font-face{font-family:'HKYuan-W9';src:url('assets/fonts/hk-yuan-w7.a0f4d903956d.woff2') format('woff2');font-display:swap}
 :root{
   --surface:#ffffff;
   --tiger-yellow:#ffcc00;
@@ -24,21 +26,34 @@ html,body{min-height:100%;background:#f1f5f9;color:var(--text);font-family:'GOTH
 .brand{display:flex;align-items:center;gap:12px}
 .brand-icon{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;color:#fff;background:var(--tiger-red);box-shadow:0 4px 10px rgba(217,57,36,.24)}
 .brand-icon svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.brand-name{font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:17px;font-weight:400;letter-spacing:-.02em}
+.brand-name{font-family:'GOTHAMRND-BOLD','HKYuan-W9',sans-serif;font-size:17px;font-weight:400;letter-spacing:-.02em}
 .brand-sub{margin-top:2px;color:rgba(99,44,22,.62);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:11px;letter-spacing:.03em}
-.month-filter{margin-left:28px;display:flex;align-items:center;gap:9px;color:rgba(99,44,22,.78);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:13px;font-weight:400}
-.month-select{min-width:108px;padding:7px 34px 7px 12px;border:1px solid rgba(99,44,22,.28);border-radius:9px;background:#fff;color:var(--tiger-brown);font:inherit;cursor:pointer;outline:none}
-.month-select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(217,57,36,.16)}
 main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;flex-direction:column;gap:24px}
-.kpi-zone{display:flex;flex-direction:column;gap:20px}
-.kpi-featured{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
-.kpi-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.dashboard-filters{padding:16px 20px 14px;background:rgba(255,250,240,.94);border:1px solid var(--border);border-top:2px solid var(--tiger-yellow);border-radius:12px;box-shadow:var(--shadow)}
+.dashboard-filter-main,.dashboard-filter-options{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.dashboard-filter-main{margin-bottom:12px}
+.dashboard-filter-search{flex:1 1 300px;min-width:220px;height:36px;padding:0 12px;border:1px solid rgba(99,44,22,.22);border-radius:8px;background:#fff;color:var(--tiger-brown);font:13px 'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;outline:none}
+.dashboard-filter-search:focus,.dashboard-filter-select:focus,.dashboard-filter-date:focus{border-color:var(--tiger-red);box-shadow:0 0 0 3px rgba(217,57,36,.12)}
+.dashboard-filter-button{height:36px;padding:0 16px;border:1px solid var(--tiger-brown);border-radius:8px;background:var(--tiger-yellow);color:var(--tiger-brown);font:13px 'GOTHAMRND-BOLD','HKYuan-W8',sans-serif;cursor:pointer}
+.dashboard-filter-button.secondary{background:#fff;border-color:rgba(99,44,22,.25);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif}
+.dashboard-filter-label{display:flex;align-items:center;gap:7px;color:rgba(99,44,22,.78);font-size:12px}
+.dashboard-filter-select,.dashboard-filter-date{height:34px;padding:0 28px 0 10px;border:1px solid rgba(99,44,22,.22);border-radius:8px;background:#fff;color:var(--tiger-brown);font:12px 'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;outline:none}
+.dashboard-filter-date{padding-right:8px}
+.dashboard-filter-range{display:none;align-items:center;gap:7px;color:rgba(99,44,22,.72);font-size:12px}
+.dashboard-filter-range.is-visible{display:flex}
+.dashboard-filter-summary{margin-top:10px;color:rgba(99,44,22,.58);font-size:11px}
+.kpi-zone{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.kpi-featured,.kpi-summary{display:contents}.material-summary-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.material-summary-card{background:var(--tiger-yellow);border:2px solid var(--tiger-brown);border-radius:28px;box-shadow:none}.material-summary-card .kpi-value{margin-top:18px;font-size:32px}.material-summary-card .kpi-meta{line-height:1.45}.outbound-single-summary{margin-top:18px;color:var(--tiger-brown);font-variant-numeric:tabular-nums}.outbound-single-summary .outbound-label{margin-top:10px;font-size:14px}.outbound-single-summary .outbound-amount{margin-top:0;font-size:32px}.outbound-single-summary .outbound-amount-unit{font-size:13px}.outbound-single-summary .outbound-mom{margin-top:8px;font-size:13px}
 .kpi-card{min-height:124px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-start;padding:20px 26px;background:var(--tiger-yellow);border:2px solid var(--tiger-brown);border-radius:22px;box-shadow:none;transition:transform .2s ease,box-shadow .2s ease}
 .kpi-card:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(99,44,22,.14)}
 .kpi-card-link{color:inherit;text-decoration:none;cursor:pointer}
 .kpi-card-link:focus-visible{outline:3px solid var(--tiger-red);outline-offset:3px}
 .kpi-featured .kpi-card{min-height:188px;padding:24px 30px;border-radius:28px}
-.kpi-title{color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:18px;font-weight:400;letter-spacing:-.01em}
+.material-summary-card{min-height:188px;padding:24px 30px}
+.kpi-zone .kpi-card{min-height:188px;padding:24px 30px;border-radius:28px}
+.kpi-zone .kpi-title{min-height:28px;font-size:22px;line-height:1.25}
+.kpi-zone .kpi-value{font-size:32px}
+.kpi-title{color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W8',sans-serif;font-size:18px;font-weight:400;letter-spacing:-.01em}
 .kpi-featured .kpi-title{font-size:22px}
 .kpi-empty-space{flex:1;min-height:48px}
 .kpi-featured .kpi-empty-space{min-height:96px}
@@ -46,7 +61,7 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
 .kpi-summary .kpi-value{margin-top:14px;font-size:32px}
 .kpi-value-multi{margin-top:14px;display:flex;flex-direction:column;gap:4px;color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:24px;line-height:1.15;font-weight:400;font-variant-numeric:tabular-nums}
 .kpi-value-multi .vrow{display:flex;align-items:baseline;gap:8px}
-.kpi-value-multi .vrow .vlabel{font-size:13px;color:rgba(99,44,22,.7);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;letter-spacing:.02em}
+.kpi-value-multi .vrow .vlabel{font-size:13px;color:rgba(99,44,22,.7);font-family:'GOTHAMRND-BOLD','HKYuan-W8',sans-serif;letter-spacing:.02em}
 .kpi-value-multi .vrow .vnum{font-size:26px}
 .kpi-value-multi .vrow-secondary{margin-top:2px}
 .kpi-value-multi .vrow-secondary .vlabel{font-size:12px;color:rgba(99,44,22,.6)}
@@ -54,9 +69,24 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
 .kpi-delta{margin-top:10px;color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:12px;font-weight:400;line-height:1.4}
 .kpi-meta{margin-top:10px;color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:13px;font-weight:400}
 .kpi-mom{margin-top:8px;color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:12px;font-weight:400;line-height:1.4}
+.growth-value.is-up{color:#16803c}
+.growth-value.is-down{color:#c62828}
+.growth-value.is-flat{color:var(--tiger-brown)}
 .kpi-note{margin-top:6px;color:rgba(99,44,22,.52);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:11px;font-weight:400}
+.outbound-breakdown{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:14px;margin-bottom:28px;color:var(--tiger-brown);font-variant-numeric:tabular-nums}
+.outbound-group{min-width:0}
+.outbound-group+.outbound-group{padding-left:16px;border-left:1px solid rgba(99,44,22,.24)}
+.outbound-label{font-family:'GOTHAMRND-BOLD','HKYuan-W8',sans-serif;font-size:13px;line-height:1.2}
+.outbound-amount{margin-top:5px;display:flex;align-items:baseline;gap:4px;white-space:nowrap;font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:26px;line-height:1;font-weight:400}
+.outbound-amount-unit{font-size:11px}
+.outbound-quantity{margin-top:8px;font-size:13px;line-height:1.2;color:rgba(99,44,22,.82)}
+.outbound-quantity strong{margin-left:4px;font-size:16px;font-weight:400;color:var(--tiger-brown)}
+.outbound-mom{margin-top:6px;font-size:11px;line-height:1.2}
+.outbound-mom.is-up{color:#16803c}
+.outbound-mom.is-down{color:#c62828}
+.outbound-mom.is-flat{color:rgba(99,44,22,.64)}
 .mingmang-summary{margin-top:18px;padding:16px 20px;background:rgba(234,170,0,.08);border:1px solid rgba(99,44,22,.12);border-radius:12px;font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;color:var(--tiger-brown)}
-.mingmang-summary-title{font-size:15px;font-weight:400;margin-bottom:8px;color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif}
+.mingmang-summary-title{font-size:15px;font-weight:400;margin-bottom:8px;color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W8',sans-serif}
 .mingmang-summary-body{font-size:13px;line-height:1.7;color:var(--tiger-brown)}
 .mingmang-summary-body .mm-device{margin-right:16px;white-space:nowrap}
 .mingmang-summary-total{margin-top:8px;font-size:13px;font-weight:400;color:var(--tiger-brown)}
@@ -65,7 +95,7 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
 .dashboard-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
 .panel{min-width:0;min-height:420px;padding:24px;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow)}
 .panel-header{padding-bottom:14px;border-bottom:1px solid #f1f5f9}
-.panel-title{font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:16px;font-weight:400;letter-spacing:-.01em}
+.panel-title{font-family:'GOTHAMRND-BOLD','HKYuan-W8',sans-serif;font-size:16px;font-weight:400;letter-spacing:-.01em}
 .panel-subtitle{margin-top:5px;color:var(--text-secondary);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:12px}
 .panel-body{flex:1;min-height:0;padding-top:18px;display:flex;flex-direction:column}
 .chart-wrap{position:relative;flex:1;min-height:280px;overflow:hidden}
@@ -83,7 +113,7 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
 .gantt-legend i{width:10px;height:10px;border-radius:3px}
 .gantt-filter-note{display:flex;align-items:center;gap:8px;white-space:nowrap}
 .gantt-filter-control{position:relative;display:flex;align-items:center;gap:4px;padding:0 8px 0 10px;border:1px solid rgba(99,44,22,.22);border-radius:999px;color:var(--tiger-brown);background:#fff}
-.gantt-filter-control-primary{border-color:var(--tiger-brown);background:var(--tiger-yellow);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif}
+.gantt-filter-control-primary{border-color:var(--tiger-brown);background:var(--tiger-yellow);font-family:'GOTHAMRND-BOLD','HKYuan-W8',sans-serif}
 .gantt-filter-control select{appearance:none;min-width:62px;padding:6px 18px 6px 0;border:0;outline:0;background:transparent;color:inherit;font:inherit;cursor:pointer}
 .gantt-filter-control::after{content:'';position:absolute;right:9px;top:50%;width:6px;height:6px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:translateY(-68%) rotate(45deg);pointer-events:none}
 .gantt-range-note{min-width:188px;text-align:right}
@@ -98,7 +128,7 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
 .gantt-row:last-child{border-bottom:0}
 .gantt-item-info{position:relative;padding:11px 18px}
 .gantt-name-line{display:flex;align-items:center;gap:9px;padding-right:76px}
-.gantt-name{font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:15px}
+.gantt-name{font-family:'GOTHAMRND-BOLD','HKYuan-W8',sans-serif;font-size:15px}
 .gantt-phase{padding:4px 7px;border-radius:7px;color:#fff;font-size:10px;line-height:1}
 .gantt-owner{position:absolute;right:16px;top:13px;color:rgba(99,44,22,.52);font-size:9px}
 .gantt-description{margin-top:6px;color:var(--text-secondary);font-size:10px;line-height:1.45;white-space:pre-line;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
@@ -116,36 +146,36 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
 .chart-canvas-tooltip{position:absolute;z-index:5;display:none;max-width:min(260px,calc(100% - 16px));padding:8px 10px;border-radius:8px;background:var(--tiger-brown);color:#fff;box-shadow:0 8px 20px rgba(99,44,22,.22);font-size:12px;line-height:1.45;pointer-events:none}
 .chart-empty{height:100%;min-height:280px;display:grid;place-items:center;color:rgba(99,44,22,.58);font-size:13px}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-@media(max-width:1000px){.kpi-summary,.dashboard-grid{grid-template-columns:1fr 1fr}.gantt-toolbar{align-items:flex-start;flex-direction:column}.gantt-filter-note{white-space:normal}}
-@media(max-width:680px){#topbar{height:auto;min-height:64px;padding:12px 16px;flex-wrap:wrap;gap:10px}.month-filter{margin-left:auto}main{padding:16px}.kpi-featured,.kpi-summary,.dashboard-grid{grid-template-columns:1fr}.kpi-featured .kpi-card{min-height:150px}.panel{min-height:340px}.panel-material-gantt{min-height:560px}.gantt-legend{gap:12px;flex-wrap:wrap}.gantt-filter-note{align-items:flex-start;flex-wrap:wrap}.gantt-range-note{width:100%;text-align:left}}
+@media(max-width:1000px){.kpi-zone{grid-template-columns:1fr 1fr}.dashboard-grid{grid-template-columns:1fr 1fr}.gantt-toolbar{align-items:flex-start;flex-direction:column}.gantt-filter-note{white-space:normal}}
+@media(max-width:680px){#topbar{height:auto;min-height:64px;padding:12px 16px;flex-wrap:wrap;gap:10px}main{padding:16px}.kpi-zone,.dashboard-grid{grid-template-columns:1fr}.kpi-featured .kpi-card,.material-summary-card{min-height:150px}.panel{min-height:340px}.panel-material-gantt{min-height:560px}.gantt-legend{gap:12px;flex-wrap:wrap}.gantt-filter-note{align-items:flex-start;flex-wrap:wrap}.gantt-range-note{width:100%;text-align:left}}
 .kpi-card-clickable{cursor:pointer;transition:transform .15s ease,box-shadow .15s ease}
 .kpi-card-clickable:hover,.kpi-card-clickable:focus-visible{transform:translateY(-2px);box-shadow:0 10px 24px rgba(99,44,22,.18);outline:none}
 .device-modal-mask{position:fixed;inset:0;z-index:60;display:none;align-items:flex-start;justify-content:center;padding:40px 20px;background:rgba(63,28,13,.5);overflow-y:auto;font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif}
 .device-modal-mask.open{display:flex}
 .device-modal{width:min(1080px,100%);background:#fffaf0;border:2px solid var(--tiger-brown);border-radius:18px;box-shadow:0 18px 48px rgba(63,28,13,.32);overflow:hidden}
 .device-modal-header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 26px;background:var(--tiger-yellow);border-bottom:2px solid var(--tiger-brown)}
-.device-modal-title{color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:19px}
+.device-modal-title{color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W8',sans-serif;font-size:19px}
 .device-modal-sub{margin-top:4px;color:rgba(99,44,22,.72);font-size:12px}
-.device-modal-close{flex:none;width:34px;height:34px;display:grid;place-items:center;border:2px solid var(--tiger-brown);border-radius:10px;background:#fff;cursor:pointer;color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:15px}
+.device-modal-close{flex:none;width:34px;height:34px;display:grid;place-items:center;border:2px solid var(--tiger-brown);border-radius:10px;background:#fff;cursor:pointer;color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W8',sans-serif;font-size:15px}
 .device-modal-close:hover{background:var(--tiger-yellow)}
 .device-modal-body{padding:20px 26px 26px;display:grid;gap:22px}
 .device-detail-group{border:1px solid rgba(99,44,22,.16);border-radius:14px;overflow:hidden}
-.device-detail-title{padding:10px 16px;background:rgba(234,170,0,.16);color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:15px;border-bottom:1px solid rgba(99,44,22,.16)}
+.device-detail-title{padding:10px 16px;background:rgba(234,170,0,.16);color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W8',sans-serif;font-size:15px;border-bottom:1px solid rgba(99,44,22,.16)}
 .device-detail-scroll{overflow-x:auto}
 .device-detail-table{width:100%;border-collapse:collapse;font-size:12px;color:var(--tiger-brown);min-width:860px}
 .device-detail-table th,.device-detail-table td{padding:8px 10px;border-bottom:1px solid rgba(99,44,22,.12);text-align:center;white-space:nowrap}
-.device-detail-table th{background:rgba(99,44,22,.06);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:12px}
+.device-detail-table th{background:rgba(99,44,22,.06);font-family:'GOTHAMRND-BOLD','HKYuan-W8',sans-serif;font-size:12px}
 .device-detail-table td.num{font-variant-numeric:tabular-nums;text-align:right}
 .device-detail-table th.num{text-align:right}
 .device-detail-table td.name{text-align:left}
 .device-detail-table tbody tr:nth-child(even){background:rgba(234,170,0,.06)}
-.device-detail-table tfoot td{background:rgba(255,204,0,.28);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;border-top:2px solid var(--tiger-brown)}
+.device-detail-table tfoot td{background:rgba(255,204,0,.28);font-family:'GOTHAMRND-BOLD','HKYuan-W8',sans-serif;border-top:2px solid var(--tiger-brown)}
 .device-modal-header-right{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .device-modal-dim-toggle{display:inline-flex;border:2px solid var(--tiger-brown);border-radius:10px;overflow:hidden}
-.dim-btn{padding:6px 14px;border:none;background:#fff;color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:12px;cursor:pointer;transition:background .15s}
+.dim-btn{padding:6px 14px;border:none;background:#fff;color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W8',sans-serif;font-size:12px;cursor:pointer;transition:background .15s}
 .dim-btn.active{background:var(--tiger-yellow)}
 .dim-btn:hover:not(.active){background:rgba(234,170,0,.2)}
-.device-modal-month-span{color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:13px;white-space:nowrap}
+.device-modal-month-span{color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W8',sans-serif;font-size:13px;white-space:nowrap}
 .device-detail-table tbody.cat-group .cat-row td{background:rgba(234,170,0,.14)}
 .device-detail-table .cat-toggle{display:inline-block;width:14px;cursor:pointer;user-select:none;color:var(--tiger-brown);margin-right:2px}
 .device-detail-table .sub-row .sub-name{padding-left:28px}
@@ -158,13 +188,13 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
 .material-modal-mask.open{display:flex}
 .material-modal{width:min(1180px,100%);background:#fffaf0;border:2px solid var(--tiger-brown);border-radius:18px;box-shadow:0 18px 48px rgba(63,28,13,.32);overflow:hidden}
 .material-modal-header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 26px;background:var(--tiger-yellow);border-bottom:2px solid var(--tiger-brown)}
-.material-modal-title{color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:19px}
+.material-modal-title{color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W8',sans-serif;font-size:19px}
 .material-modal-sub{margin-top:4px;color:rgba(99,44,22,.72);font-size:12px}
 .material-modal-dim-hint{margin-top:8px;padding:7px 12px;background:rgba(234,170,0,.10);border-left:3px solid var(--tiger-yellow);border-radius:6px;color:rgba(99,44,22,.78);font-size:12px;line-height:1.6}
 .material-modal-dim-hint ul{margin:0;padding-left:18px;display:grid;gap:2px}
 .material-modal-dim-hint code{padding:1px 5px;border-radius:4px;background:rgba(99,44,22,.08);font-family:inherit}
 .material-modal-dim-hint b{color:var(--tiger-brown);font-weight:500;margin-right:6px}
-.material-modal-close{flex:none;width:34px;height:34px;display:grid;place-items:center;border:2px solid var(--tiger-brown);border-radius:10px;background:#fff;cursor:pointer;color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:15px}
+.material-modal-close{flex:none;width:34px;height:34px;display:grid;place-items:center;border:2px solid var(--tiger-brown);border-radius:10px;background:#fff;cursor:pointer;color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W8',sans-serif;font-size:15px}
 .material-modal-close:hover{background:var(--tiger-yellow)}
 .material-modal-body{padding:20px 26px 26px}
 .material-inventory-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;color:rgba(99,44,22,.72);font-size:12px;flex-wrap:wrap}
@@ -181,7 +211,7 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
 .material-inventory-scroll{overflow-x:auto;border:1px solid rgba(99,44,22,.16);border-radius:14px;background:#fff}
 .material-inventory-table{width:100%;border-collapse:collapse;font-size:12px;color:var(--tiger-brown);min-width:1080px}
 .material-inventory-table th,.material-inventory-table td{padding:8px 12px;border-bottom:1px solid rgba(99,44,22,.12);text-align:center;white-space:nowrap}
-.material-inventory-table th{background:rgba(99,44,22,.06);font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;font-size:12px;position:sticky;top:0;z-index:1}
+.material-inventory-table th{background:rgba(99,44,22,.06);font-family:'GOTHAMRND-BOLD','HKYuan-W8',sans-serif;font-size:12px;position:sticky;top:0;z-index:1}
 .material-inventory-table td.num{font-variant-numeric:tabular-nums;text-align:right}
 .material-inventory-table th.num{text-align:right}
 .material-inventory-table td.name{text-align:left;max-width:280px;white-space:normal}
@@ -210,93 +240,215 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
 .material-inventory-table th.sortable[data-sort-dir="desc"] .sort-indicator{transform:rotate(0deg)}
 .material-modal-empty{padding:34px;text-align:center;color:rgba(99,44,22,.6);font-size:13px}
 @media(max-width:680px){.material-modal-mask{padding:16px 10px}.material-modal-body{padding:14px 12px 18px}}
+.outbound-detail-mask{position:fixed;inset:0;z-index:70;display:none;align-items:flex-start;justify-content:center;padding:34px 20px;background:rgba(63,28,13,.5);overflow-y:auto;font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif}
+.outbound-detail-mask.open{display:flex}
+.outbound-detail-modal{width:min(1320px,100%);background:#fffaf0;border:2px solid var(--tiger-brown);border-radius:18px;box-shadow:0 18px 48px rgba(63,28,13,.32);overflow:hidden}
+.outbound-detail-header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 26px;background:var(--tiger-yellow);border-bottom:2px solid var(--tiger-brown)}
+.outbound-detail-title{font-family:'GOTHAMRND-BOLD','HKYuan-W8',sans-serif;font-size:19px}
+.outbound-detail-sub{margin-top:4px;color:rgba(99,44,22,.72);font-size:12px}
+.outbound-detail-header-right{display:flex;align-items:center;gap:14px}
+.outbound-type-control{display:flex;align-items:center;gap:7px;color:rgba(99,44,22,.78);font-size:11px;white-space:nowrap}
+.outbound-type-select{height:30px;padding:4px 28px 4px 10px;border:1px solid rgba(99,44,22,.28);border-radius:7px;background:#fff;color:var(--tiger-brown);font:12px 'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;outline:none;cursor:pointer}
+.outbound-type-select:focus{border-color:var(--tiger-red);box-shadow:0 0 0 3px rgba(217,57,36,.12)}
+.outbound-detail-period{font-family:'GOTHAMRND-BOLD','HKYuan-W8',sans-serif;font-size:13px;white-space:nowrap}
+.outbound-detail-close{flex:none;width:34px;height:34px;display:grid;place-items:center;border:2px solid var(--tiger-brown);border-radius:10px;background:#fff;color:var(--tiger-brown);font:15px 'GOTHAMRND-BOLD','HKYuan-W8',sans-serif;cursor:pointer}
+.outbound-detail-close:hover{background:rgba(255,255,255,.72)}
+.outbound-detail-body{height:640px;padding:18px 22px 22px;display:grid;grid-template-columns:39% 61%;gap:16px}
+.outbound-detail-panel{min-width:0;background:#fff;border:1px solid rgba(99,44,22,.16);border-radius:9px;overflow:hidden}
+.outbound-detail-panel-head{height:60px;padding:10px 16px 9px;background:rgba(255,204,0,.12);border-bottom:1px solid rgba(99,44,22,.16)}
+.outbound-detail-panel-head-row{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.outbound-detail-panel-title{font-family:'GOTHAMRND-BOLD','HKYuan-W8',sans-serif;font-size:16px}
+.outbound-detail-panel-sub{margin-top:4px;color:rgba(99,44,22,.68);font-size:11px}
+.outbound-province-control{display:flex;align-items:center;gap:7px;color:rgba(99,44,22,.74);font-size:11px;white-space:nowrap}
+.outbound-province-select{min-width:150px;height:30px;padding:4px 30px 4px 10px;border:1px solid rgba(99,44,22,.28);border-radius:7px;background:#fff;color:var(--tiger-brown);font:12px 'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;outline:none;cursor:pointer}
+.outbound-province-select:focus{border-color:var(--tiger-red);box-shadow:0 0 0 3px rgba(217,57,36,.12)}
+.outbound-city-chart{height:calc(100% - 60px);padding:10px 14px;display:grid;grid-auto-rows:36px;align-content:start;gap:3px}
+.outbound-city-bar-row{min-height:0;display:grid;grid-template-columns:58px minmax(0,1fr) 108px;align-items:center;gap:9px;font-size:11px}
+.outbound-city-bar-row{font-size:12px}
+.outbound-city-bar-row .outbound-city-name,.outbound-city-bar-row .outbound-city-value{font-size:12px}
+.outbound-province-row{width:100%;padding:0 6px;border:0;border-radius:6px;background:transparent;color:var(--tiger-brown);font:inherit;cursor:pointer;text-align:left}
+.outbound-province-row:hover{background:rgba(255,204,0,.12)}
+.outbound-province-row.is-selected{background:rgba(255,204,0,.22);box-shadow:inset 3px 0 0 var(--tiger-red)}
+.outbound-province-row:focus-visible{outline:2px solid var(--tiger-red);outline-offset:1px}
+.outbound-city-name{text-align:right;font-family:'GOTHAMRND-BOLD','HKYuan-W8',sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.outbound-city-track{height:14px;background:rgba(99,44,22,.06);border-radius:3px;overflow:hidden}
+.outbound-city-bar{height:100%;background:var(--tiger-yellow);border-radius:3px 7px 7px 3px}
+.outbound-device-chart{display:block;overflow:auto;padding:10px 14px}
+.outbound-device-section{padding-bottom:10px;margin-bottom:9px;border-bottom:1px solid rgba(99,44,22,.14)}
+.outbound-device-section:last-of-type{margin-bottom:0}
+.outbound-device-section-title{margin:0 0 7px;color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W8',sans-serif;font-size:12px}
+.outbound-device-section-summary{margin-top:7px;padding:6px 8px;border-radius:5px;background:rgba(255,204,0,.12);color:rgba(99,44,22,.82);font-size:10px;line-height:1.45;font-variant-numeric:tabular-nums}
+.outbound-device-special{margin-top:9px;padding:8px 10px;border-radius:6px;background:rgba(255,204,0,.17);color:var(--tiger-brown);font-size:11px;font-family:'GOTHAMRND-BOLD','HKYuan-W8',sans-serif}
+.outbound-city-value{white-space:nowrap;font-variant-numeric:tabular-nums}
+.outbound-city-value .is-up,.outbound-city-table .is-up{color:#16803c}
+.outbound-city-value .is-down,.outbound-city-table .is-down{color:#c62828}
+.outbound-city-value .is-flat,.outbound-city-table .is-flat{color:rgba(99,44,22,.58)}
+.outbound-city-scroll{height:calc(100% - 60px);overflow:auto}
+.outbound-city-table{width:100%;border-collapse:collapse;color:var(--tiger-brown);font-size:12px}
+.outbound-city-table th,.outbound-city-table td{height:48px;padding:0 15px;border-bottom:1px solid rgba(99,44,22,.14);text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.outbound-city-table th{height:42px;position:sticky;top:0;z-index:1;background:rgba(99,44,22,.055);color:rgba(99,44,22,.68);font-family:'GOTHAMRND-BOLD','HKYuan-W8',sans-serif}
+.outbound-city-table th:first-child,.outbound-city-table td:first-child{text-align:left}
+.outbound-city-table tbody tr:nth-child(odd){background:#fffdf7}
+.outbound-city-table .outbound-detail-group-row td{height:34px;background:rgba(255,204,0,.16);color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W8',sans-serif;text-align:left}
+.outbound-city-cell{display:flex;align-items:center;gap:7px;font-family:'GOTHAMRND-BOLD','HKYuan-W8',sans-serif}
+.outbound-city-warning{display:inline-flex;align-items:center;gap:4px;padding:2px 6px;border:1px solid rgba(217,57,36,.35);border-radius:5px;color:var(--tiger-red);font-size:10px;font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif}
+.outbound-city-warning-icon{position:relative;width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:9px solid var(--tiger-red)}
+.outbound-city-warning-icon::after{content:'!';position:absolute;left:-2px;top:1px;color:#fff;font:700 7px Arial,sans-serif}
+.outbound-detail-empty{grid-column:1/-1;display:grid;place-items:center;color:rgba(99,44,22,.58);font-size:13px}
+.outbound-city-chart-empty{grid-column:1/-1;grid-row:1/-1;display:grid;place-items:center;color:rgba(99,44,22,.58);font-size:12px}
+@media(max-width:900px){.outbound-detail-mask{padding:16px 10px}.outbound-detail-body{height:auto;grid-template-columns:1fr}.outbound-detail-panel{min-height:500px}.outbound-detail-header{align-items:flex-start}.outbound-detail-header-right{align-items:flex-end;flex-direction:column}.outbound-detail-period{white-space:normal;text-align:right}}
+.dashboard-grid{grid-template-areas:"gantt reserve-top" "outbound reserve-bottom";align-items:stretch}
+.panel-material-gantt{grid-area:gantt;grid-column:auto;order:0;min-height:720px}
+.panel-reserved-gantt{grid-area:gantt}
+.panel-daily-outbound{grid-area:gantt;min-height:620px}
+.daily-outbound-body{padding-top:10px}
+.daily-outbound-chart-wrap{position:relative;flex:1;min-height:490px}
+.daily-outbound-chart-wrap canvas{display:block;width:100%;height:100%}
+.panel-reserved-top{grid-area:reserve-top}
+.panel-reserved-bottom{grid-area:reserve-bottom}
+.panel-reserved{min-height:720px;background:rgba(255,255,255,.55);border:1px dashed rgba(99,44,22,.22);box-shadow:none}
+.panel-outbound-detail{grid-area:outbound;min-height:620px;padding:0;overflow:hidden}
+.panel-outbound-table{grid-area:reserve-bottom;min-height:620px;padding:14px;background:#fffaf0;overflow:hidden}
+.panel-daily-outbound{height:480px;min-height:0}
+.panel-reserved-top{min-height:480px}
+.panel-daily-outbound .daily-outbound-chart-wrap{min-height:350px}
+.panel-category-rank{grid-area:reserve-top;height:480px;min-height:0;padding:20px;overflow:hidden}
+.category-rank-header{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.category-rank-period{color:rgba(99,44,22,.58);font-size:11px;white-space:nowrap}
+.category-rank-list{flex:1;margin-top:10px;min-height:0;height:auto;overflow-y:auto;overscroll-behavior:contain;padding-right:4px}
+.category-rank-row{display:grid;grid-template-columns:24px minmax(0,1fr) auto;gap:9px;align-items:center;padding:10px 7px;border-bottom:1px solid rgba(99,44,22,.14)}
+.category-rank-row:first-child{background:rgba(255,204,0,.12)}
+.category-rank-index{color:rgba(99,44,22,.7);font-size:12px;font-variant-numeric:tabular-nums}
+.category-rank-name{min-width:0;color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W8',sans-serif;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.category-rank-amount{color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W8',sans-serif;font-size:16px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.category-rank-unit{font-size:10px;font-family:'HKYuan-W7',sans-serif}
+.category-rank-track{grid-column:2/4;height:8px;background:rgba(99,44,22,.07);border:1px solid rgba(99,44,22,.18);border-radius:999px;overflow:hidden}
+.category-rank-fill{height:100%;background:var(--tiger-yellow);border-radius:999px}
+.category-rank-empty{display:grid;place-items:center;height:100%;color:rgba(99,44,22,.58);font-size:12px}
+.panel-outbound-table .outbound-detail-panel{height:582px}
+.panel-outbound-table .outbound-city-scroll{height:522px;overflow-y:auto;overscroll-behavior:contain}
+.outbound-detail-embedded{height:100%;display:flex;flex-direction:column;background:#fffaf0;font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif}
+.panel-outbound-detail .outbound-detail-header{flex:none;padding:16px 20px;border-bottom:1px solid var(--border)}
+.panel-outbound-detail .outbound-detail-header-right{align-items:flex-end;flex-direction:column;gap:8px}
+.panel-outbound-detail .outbound-detail-period{font-size:11px;white-space:normal;text-align:right}
+.panel-outbound-detail .outbound-detail-body{height:auto;min-height:0;flex:1;padding:14px;grid-template-columns:1fr;grid-template-rows:minmax(0,1fr);gap:14px}
+.panel-outbound-detail .outbound-detail-panel{min-height:0}
+.panel-outbound-detail .outbound-city-bar-row{grid-template-columns:70px minmax(0,1fr) 116px}
+@media(max-width:1000px){.dashboard-grid{grid-template-columns:1fr;grid-template-areas:"gantt" "reserve-top" "outbound" "reserve-bottom"}.panel-material-gantt,.panel-reserved,.panel-outbound-detail,.panel-outbound-table{min-height:620px}.panel-daily-outbound,.panel-category-rank{height:auto;min-height:620px}}
 </style>
 </head>
 <body>
 <header id="topbar">
   <div class="brand">
     <div class="brand-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19V9m5 10V5m5 14v-7m5 7V3"/></svg></div>
-    <div><div class="brand-name">营销物料/设备主看板</div><div class="brand-sub">Marketing Materials &amp; Equipment Dashboard</div></div>
+    <div><div class="brand-name">营销物料数据主看板</div><div class="brand-sub">Marketing Materials &amp; Equipment Dashboard</div></div>
   </div>
-  <label class="month-filter" for="month-select">
-    <span>月份</span>
-    <select class="month-select" id="month-select" aria-label="选择月份">
-      <option value="1">1月</option><option value="2">2月</option><option value="3">3月</option>
-      <option value="4">4月</option><option value="5" selected>5月</option><option value="6">6月</option>
-      <option value="7">7月</option><option value="8">8月</option><option value="9">9月</option>
-      <option value="10">10月</option><option value="11">11月</option><option value="12">12月</option>
-    </select>
-  </label>
 </header>
-<main id="dashboard-main" data-active-month="5">
+<main id="dashboard-main" data-active-month="10">
+  <section class="dashboard-filters" aria-label="数据筛选">
+    <div class="dashboard-filter-main">
+      <input class="dashboard-filter-search" id="material-filter-search" type="search" placeholder="搜索物料名称" aria-label="搜索物料名称">
+      <button class="dashboard-filter-button" id="material-filter-apply" type="button">查询</button>
+      <button class="dashboard-filter-button secondary" id="material-filter-reset" type="button">重置</button>
+    </div>
+    <div class="dashboard-filter-options">
+      <label class="dashboard-filter-label">时间
+        <select class="dashboard-filter-select" id="material-filter-time" aria-label="时间筛选">
+          <option value="month">本月</option><option value="prev">上月</option><option value="7d">近7天</option><option value="30d">近30天</option><option value="custom">自定义日期</option>
+        </select>
+      </label>
+      <label class="dashboard-filter-label">省份
+        <select class="dashboard-filter-select" id="material-filter-province" aria-label="省份筛选"><option value="">全部省份</option></select>
+      </label>
+      <label class="dashboard-filter-label">市区
+        <select class="dashboard-filter-select" id="material-filter-city" aria-label="市区筛选"><option value="">全部市区</option></select>
+      </label>
+      <div class="dashboard-filter-range" id="material-filter-range">
+        <label>开始 <input class="dashboard-filter-date" id="material-filter-start" type="date"></label>
+        <label>结束 <input class="dashboard-filter-date" id="material-filter-end" type="date"></label>
+      </div>
+    </div>
+    <div class="dashboard-filter-summary" id="material-filter-summary"></div>
+  </section>
   <section class="kpi-zone" aria-label="看板主卡片">
     <div class="kpi-featured">
-      <a class="kpi-card kpi-card-link" id="freight-card-link" href="../material-freight-dashboard/?month=5%E6%9C%88" aria-label="打开物料设备运费看板">
-        <h2 class="kpi-title">物料运费总计</h2>
-        <div class="kpi-value" id="freight-month-value">¥125,841.08</div>
-        <div class="kpi-meta" id="freight-month-meta">5月运费金额合计</div>
-        <div class="kpi-mom" id="freight-mom"></div>
-        <div class="kpi-action">查看运费看板 →</div>
+      <a class="kpi-card kpi-card-link" id="inventory-quantity-card-link" href="#outbound-detail-section" aria-label="查看物料出库明细">
+        <h2 class="kpi-title">出库量</h2>
+        <div class="outbound-single-summary">
+          <div class="outbound-amount"><span id="material-outbound-amount">暂无数据</span></div>
+          <div class="outbound-label">物料 · 本月出库金额</div>
+        </div>
+        <div class="kpi-action">查看物料出库明细 ↓</div>
       </a>
-      <a class="kpi-card kpi-card-link" id="inventory-card-link" href="#" aria-label="库存明细看板已停用">
-        <h2 class="kpi-title">物料本月出库情况</h2>
-        <div class="kpi-value" id="inventory-outbound-value">暂无数据</div>
-        <div class="kpi-meta" id="inventory-outbound-meta"></div>
-        <div class="kpi-mom" id="inventory-outbound-mom"></div>
-        <div class="kpi-note" id="inventory-outbound-note">（数量单位为该物料最小单位）</div>
-        <div class="kpi-action">查看进销存看板 →</div>
-      </a>
+      <article class="kpi-card">
+        <h2 class="kpi-title">出库金额增速</h2>
+        <div class="kpi-value growth-value is-flat" id="material-outbound-growth">暂无数据</div>
+        <div class="kpi-meta" id="material-outbound-growth-meta">较上月物料出库金额</div>
+      </article>
     </div>
-    <div class="kpi-summary">
-      <article class="kpi-card">
-        <h2 class="kpi-title">售后跟进情况</h2>
-        <div class="kpi-value" id="after-sales-value">0条</div>
-        <div class="kpi-meta" id="after-sales-meta">5月按填写时间统计</div>
-      </article>
-      <article class="kpi-card">
-        <h2 class="kpi-title">物料开发进度</h2>
-        <div class="kpi-value" id="development-value">5项</div>
-        <div class="kpi-meta" id="development-meta">高优先级 · 进行中（名称去重）</div>
-      </article>
-      <article class="kpi-card kpi-card-clickable" id="device-weekly-card" role="button" tabindex="0" aria-haspopup="dialog" title="点击查看设备发货明细">
-        <h2 class="kpi-title">线下/鸣忙设备出库情况</h2>
-        <div class="kpi-value-multi" id="device-weekly-value">暂无数据</div>
-        <div class="kpi-delta" id="device-weekly-delta"></div>
-        <div class="kpi-action">点击展开</div>
-      </article>
-      <article class="kpi-card kpi-card-clickable" id="material-weekly-card" role="button" tabindex="0" aria-haspopup="dialog" title="点击查看物料库存明细">
-        <h2 class="kpi-title">物料本周出库总量</h2>
-        <div class="kpi-value-multi" id="material-weekly-value">暂无数据</div>
-        <div class="kpi-delta" id="material-weekly-delta"></div>
-        <div class="kpi-action">点击展开</div>
+    <div class="kpi-summary material-summary-grid" aria-label="物料数据分析指标">
+      <a class="kpi-card kpi-card-link material-summary-card" id="outbound-region-card-link" href="#outbound-detail-section" aria-label="查看物料出库地区明细">
+        <h2 class="kpi-title">出库省份数</h2>
+        <div class="kpi-value" id="material-outbound-province-count">暂无数据</div>
+        <div class="kpi-meta" id="material-outbound-city-count">共计暂无数据个地级市</div>
+        <div class="kpi-action">查看物料出库明细 ↓</div>
+      </a>
+      <article class="kpi-card material-summary-card">
+        <h2 class="kpi-title">库存金额</h2>
+        <div class="kpi-value" id="inventory-summary-amount">暂无数据</div>
+        <div class="kpi-meta" id="inventory-summary-top-detail">其中第一物料占比金额：暂无数据</div>
       </article>
     </div>
   </section>
   <section class="dashboard-grid" aria-label="看板分析区域">
-    <article class="panel panel-material-gantt">
-      <header class="panel-header"><h2 class="panel-title">物料开发进度甘特图</h2><p class="panel-subtitle">筛选条件来自源表“优先级”；同一物料按预计完成日期保留最新记录</p></header>
-      <div class="panel-body">
-        <div class="gantt-toolbar">
-          <div class="gantt-legend" id="gantt-legend" aria-label="开发分类图例"></div>
-          <div class="gantt-filter-note">
-            <label class="gantt-filter-control gantt-filter-control-primary">优先级：
-              <select id="gantt-priority-filter" aria-label="按优先级筛选物料"></select>
-            </label>
-            <span class="gantt-range-note" id="gantt-range-note">时间范围：—</span>
-          </div>
+    <article class="panel panel-daily-outbound" aria-labelledby="daily-outbound-title">
+      <header class="panel-header">
+        <h2 class="panel-title" id="daily-outbound-title">每日出库金额趋势</h2>
+        <p class="panel-subtitle" id="daily-outbound-subtitle">按创建日期汇总 · 单位：万元</p>
+      </header>
+      <div class="panel-body daily-outbound-body">
+        <div class="daily-outbound-chart-wrap">
+          <canvas id="daily-outbound-chart" aria-label="每日出库金额趋势图"></canvas>
+          <div class="chart-canvas-tooltip" id="daily-outbound-tooltip"></div>
         </div>
-        <div class="development-gantt-scroll">
-          <div class="development-gantt" role="table" aria-label="物料开发进度筛选甘特图">
-            <div class="gantt-head" role="row">
-              <div class="gantt-head-label" role="columnheader">物料名称 / 项目进展描述</div>
-              <div class="gantt-timeline-head" id="gantt-timeline-head" role="columnheader"></div>
-            </div>
-            <div id="material-gantt-rows" role="rowgroup"></div>
-          </div>
-        </div>
-        <div class="gantt-source-note">数据源：物料开发进度跟进表.xlsx</div>
-        <p class="sr-only" id="development-description"></p>
       </div>
+    </article>
+    <article class="panel panel-category-rank" aria-labelledby="category-rank-title">
+      <header class="panel-header category-rank-header">
+        <h2 class="panel-title" id="category-rank-title">物料分类金额排行</h2>
+        <span class="category-rank-period" id="category-rank-period"></span>
+      </header>
+      <div class="category-rank-list" id="category-rank-list"></div>
+    </article>
+    <article class="panel panel-outbound-detail" id="outbound-detail-section" aria-label="物料出库金额图表">
+      <div class="outbound-detail-embedded">
+        <div class="outbound-detail-body" id="outbound-detail-body">
+          <section class="outbound-detail-panel">
+            <div class="outbound-detail-panel-head">
+              <div class="outbound-detail-panel-title" id="outbound-city-chart-title">各地级市出库金额</div>
+              <div class="outbound-detail-panel-sub" id="outbound-city-chart-sub"></div>
+            </div>
+            <div class="outbound-city-chart" id="outbound-city-chart"></div>
+          </section>
+        </div>
+      </div>
+    </article>
+    <article class="panel panel-outbound-table" aria-labelledby="outbound-city-table-title">
+      <section class="outbound-detail-panel">
+        <div class="outbound-detail-panel-head">
+          <div class="outbound-detail-panel-head-row">
+            <div class="outbound-detail-panel-title" id="outbound-city-table-title">地级市明细</div>
+              <label class="outbound-province-control" for="outbound-province-select"><span>省份</span><select class="outbound-province-select" id="outbound-province-select" aria-label="按省份筛选地级市明细"><option value="">全部省份</option></select></label>
+          </div>
+          <div class="outbound-detail-panel-sub">环比绝对值超过 15% 时显示预警</div>
+        </div>
+        <div class="outbound-city-scroll">
+          <table class="outbound-city-table">
+            <thead><tr><th id="outbound-city-name-head">地级市</th><th>出库金额</th><th>环比</th><th>占比</th></tr></thead>
+            <tbody id="outbound-city-table-body"></tbody>
+          </table>
+        </div>
+      </section>
     </article>
   </section>
 </main>
@@ -338,12 +490,8 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
     <div class="material-modal-body" id="material-modal-body"></div>
   </div>
 </div>
-<script src="assets/data/material_freight_dashboard_data.175ed8fac0ef.js"></script>
-<script src="assets/data/material_development_gantt_data.e76b26bff36d.js"></script>
-<script src="assets/data/inventory_outbound_data.2a1478071f53.js"></script>
-<script src="assets/data/device_weekly_outbound_data.67270887d1eb.js"></script>
-<script src="assets/data/material_weekly_outbound_data.06d5a2c22665.js"></script>
-<script src="assets/data/material_inventory_data.2892cfb1d0a1.js"></script>
+<script src="assets/data/material_summary_data.js"></script>
+<script src="assets/data/material_filter_data.js"></script>
 <script>
 (function(){
   'use strict';
@@ -354,17 +502,13 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
     year:2026,
     afterSales:[0,0,0,0,0,12,0,0,0,0,0,0]
   };
-  var select=document.getElementById('month-select');
   var main=document.getElementById('dashboard-main');
-  var freightLink=document.getElementById('freight-card-link');
-  var inventoryLink=document.getElementById('inventory-card-link');
-  var freightValue=document.getElementById('freight-month-value');
-  var freightMeta=document.getElementById('freight-month-meta');
-  var freightMom=document.getElementById('freight-mom');
-  var inventoryOutboundValue=document.getElementById('inventory-outbound-value');
-  var inventoryOutboundMeta=document.getElementById('inventory-outbound-meta');
-  var inventoryOutboundMom=document.getElementById('inventory-outbound-mom');
-  var inventoryOutboundNote=document.getElementById('inventory-outbound-note');
+  var inventoryQuantityLink=document.getElementById('inventory-quantity-card-link');
+  var materialOutboundAmount=document.getElementById('material-outbound-amount');
+  var materialOutboundProvinceCount=document.getElementById('material-outbound-province-count');
+  var materialOutboundCityCount=document.getElementById('material-outbound-city-count');
+  var materialOutboundGrowth=document.getElementById('material-outbound-growth');
+  var materialOutboundGrowthMeta=document.getElementById('material-outbound-growth-meta');
   var afterValue=document.getElementById('after-sales-value');
   var afterMeta=document.getElementById('after-sales-meta');
   var developmentValue=document.getElementById('development-value');
@@ -376,11 +520,296 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
   var materialWeeklyData=window.MATERIAL_WEEKLY_OUTBOUND_DATA||{};
   var freightMonths=window.FREIGHT_PAYLOAD&&Array.isArray(window.FREIGHT_PAYLOAD.months)?window.FREIGHT_PAYLOAD.months:[];
   var inventoryOutboundData=window.INVENTORY_OUTBOUND_DATA||{};
+  var materialSummaryData=window.MATERIAL_SUMMARY_DATA||{};
+  var materialCategoryRankData=window.MATERIAL_CATEGORY_RANK_DATA||{months:{}};
+  var outboundCityData=window.OUTBOUND_CITY_DATA||{year:analytics.year,byMonth:{}};
+  var materialFilterData=window.MATERIAL_FILTER_DATA||{rows:[]};
+  var outboundProvinceFilter='';
+  var outboundDetailMode='material';
   var activeMonth=5;
+  var materialFilterState={query:'',timeMode:'month',province:'',city:'',start:'',end:''};
+  var materialFilterApplied={query:'',timeMode:'month',province:'',city:'',start:'',end:''};
+  var materialFilterCache={key:'',rows:[]};
 
   function formatMoney(value){return '¥'+Number(value||0).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});}
   function formatRatio(value){return Number.isFinite(value)?value.toFixed(2)+'%':'暂无数据';}
   function formatQuantity(value){var n=Number(value||0);return Number.isInteger(n)?n.toLocaleString('zh-CN'):n.toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});}
+  function formatOutboundAmount(value){
+    var n=Number(value);
+    return Number.isFinite(n)?(n/10000).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2}):'暂无数据';
+  }
+  function formatSummaryMoney(value){var n=Number(value);return Number.isFinite(n)?(n/10000).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})+'万元':'暂无数据';}
+  function formatSummaryPercent(value){var n=Number(value);return Number.isFinite(n)?(n*100).toFixed(2)+'%':'暂无数据';}
+  function formatOutboundQuantity(value){
+    var n=Number(value);
+    return Number.isFinite(n)?Math.round(n).toLocaleString('zh-CN'):'—';
+  }
+  function pad2(value){return String(value).padStart(2,'0');}
+  function toIsoDate(date){return date.getFullYear()+'-'+pad2(date.getMonth()+1)+'-'+pad2(date.getDate());}
+  function shiftIsoDate(value,days){var date=new Date(value+'T00:00:00');if(!Number.isFinite(date.getTime()))return value;date.setDate(date.getDate()+days);return toIsoDate(date);}
+  function monthWindow(month){
+    var m=Number(month);if(!Number.isFinite(m))m=10;
+    var start=new Date(2026,m-1,1),end=new Date(2026,m,1);
+    return {start:toIsoDate(start),end:toIsoDate(end)};
+  }
+  function getMaterialFilterWindow(){
+    var month=Number(window.DASHBOARD_MONTH)||activeMonth,mode=materialFilterApplied.timeMode;
+    if(mode==='prev')return monthWindow(month-1);
+    if(mode==='custom'&&materialFilterApplied.start&&materialFilterApplied.end){
+      var customEnd=shiftIsoDate(materialFilterApplied.end,1);return {start:materialFilterApplied.start,end:customEnd};
+    }
+    var base=monthWindow(month),lastDate='';
+    if(mode==='7d'||mode==='30d'){
+      (materialFilterData.rows||[]).forEach(function(row){if(Number(row.m)===month&&row.d>lastDate)lastDate=row.d;});
+      if(!lastDate)lastDate=shiftIsoDate(base.end,-1);
+      return {start:shiftIsoDate(lastDate,mode==='7d'?-6:-29),end:shiftIsoDate(lastDate,1)};
+    }
+    return base;
+  }
+  function getComparisonWindow(windowRange){
+    var start=new Date(windowRange.start+'T00:00:00'),end=new Date(windowRange.end+'T00:00:00');
+    var span=Math.max(1,Math.round((end-start)/86400000));
+    return {start:shiftIsoDate(windowRange.start,-span),end:windowRange.start};
+  }
+  function materialFilterRowMatches(row,windowRange){
+    if(row.d<windowRange.start||row.d>=windowRange.end)return false;
+    if(materialFilterApplied.query&&String(row.n||'').toLowerCase().indexOf(materialFilterApplied.query.toLowerCase())<0)return false;
+    if(materialFilterApplied.province&&row.p!==materialFilterApplied.province)return false;
+    if(materialFilterApplied.city&&row.c!==materialFilterApplied.city)return false;
+    return true;
+  }
+  function getFilteredMaterialRows(windowRange){
+    var key=[windowRange.start,windowRange.end,materialFilterApplied.query,materialFilterApplied.province,materialFilterApplied.city].join('|');
+    if(materialFilterCache.key===key)return materialFilterCache.rows;
+    materialFilterCache={key:key,rows:(materialFilterData.rows||[]).filter(function(row){return materialFilterRowMatches(row,windowRange);})};
+    return materialFilterCache.rows;
+  }
+  function aggregateMaterialRows(rows){
+    var total=0,provinces={},cities={},byDate={},byCategory={};
+    rows.forEach(function(row){
+      var amount=Number(row.a)||0;total+=amount;
+      provinces[row.p]=(provinces[row.p]||0)+amount;cities[row.c]=(cities[row.c]||0)+amount;
+      byDate[row.d]=(byDate[row.d]||0)+amount;byCategory[row.g]=(byCategory[row.g]||0)+amount;
+    });
+    return {total:total,provinces:provinces,cities:cities,byDate:byDate,byCategory:byCategory};
+  }
+  function materialFilterLabel(){
+    var range=getMaterialFilterWindow(),summary=range.start+' 至 '+shiftIsoDate(range.end,-1);
+    if(materialFilterApplied.timeMode==='month')summary=(Number(window.DASHBOARD_MONTH)||activeMonth)+'月（'+summary+'）';
+    if(materialFilterApplied.timeMode==='prev')summary='上月（'+summary+'）';
+    return summary;
+  }
+  function renderMaterialFilterOptions(){
+    var province=document.getElementById('material-filter-province'),city=document.getElementById('material-filter-city');
+    if(!province||!city)return;
+    var currentProvince=materialFilterState.province;
+    var provinces={};(materialFilterData.rows||[]).forEach(function(row){provinces[row.p]=true;});
+    province.innerHTML='<option value="">全部省份</option>'+Object.keys(provinces).sort(function(a,b){return a.localeCompare(b,'zh-CN');}).map(function(value){return '<option value="'+escapeOutboundText(value)+'">'+escapeOutboundText(value)+'</option>';}).join('');
+    province.value=currentProvince;
+    var currentCity=materialFilterState.city, cities={};
+    (materialFilterData.rows||[]).forEach(function(row){if(!currentProvince||row.p===currentProvince)cities[row.c]=true;});
+    city.innerHTML='<option value="">全部市区</option>'+Object.keys(cities).sort(function(a,b){return a.localeCompare(b,'zh-CN');}).map(function(value){return '<option value="'+escapeOutboundText(value)+'">'+escapeOutboundText(value)+'</option>';}).join('');
+    city.value=currentCity&&cities[currentCity]?currentCity:'';
+  }
+  function renderMaterialFilterSummary(){
+    var summary=document.getElementById('material-filter-summary');if(!summary)return;
+    var chips=['物料：'+(materialFilterApplied.query||'全部物料')];
+    if(materialFilterApplied.province)chips.push('省份：'+materialFilterApplied.province);
+    if(materialFilterApplied.city)chips.push('市区：'+materialFilterApplied.city);
+    summary.textContent=materialFilterLabel()+(chips.length?'　'+chips.join('　'):'');
+  }
+  function applyMaterialFilters(){
+    materialFilterApplied={query:materialFilterState.query,timeMode:materialFilterState.timeMode,province:materialFilterState.province,city:materialFilterState.city,start:materialFilterState.start,end:materialFilterState.end};
+    materialFilterCache={key:'',rows:[]};categoryRankRenderedMonth=null;dailyOutboundHoverIndex=-1;
+    renderMaterialFilterSummary();renderOutboundCard();redraw();renderOutboundDetailModal();
+  }
+  function initializeMaterialFilters(){
+    var search=document.getElementById('material-filter-search'),time=document.getElementById('material-filter-time'),province=document.getElementById('material-filter-province'),city=document.getElementById('material-filter-city'),start=document.getElementById('material-filter-start'),end=document.getElementById('material-filter-end'),range=document.getElementById('material-filter-range');
+    renderMaterialFilterOptions();
+    function syncRange(){range.classList.toggle('is-visible',time.value==='custom');}
+    search.addEventListener('input',function(){materialFilterState.query=this.value.trim();});
+    search.addEventListener('keydown',function(event){if(event.key==='Enter')applyMaterialFilters();});
+    time.addEventListener('change',function(){materialFilterState.timeMode=this.value;syncRange();});
+    province.addEventListener('change',function(){materialFilterState.province=this.value;materialFilterState.city='';renderMaterialFilterOptions();});
+    city.addEventListener('change',function(){materialFilterState.city=this.value;});
+    start.addEventListener('change',function(){materialFilterState.start=this.value;});
+    end.addEventListener('change',function(){materialFilterState.end=this.value;});
+    document.getElementById('material-filter-apply').addEventListener('click',applyMaterialFilters);
+    document.getElementById('material-filter-reset').addEventListener('click',function(){
+      materialFilterState={query:'',timeMode:'month',province:'',city:'',start:'',end:''};
+      search.value='';time.value='month';start.value='';end.value='';syncRange();renderMaterialFilterOptions();applyMaterialFilters();
+    });
+    syncRange();renderMaterialFilterSummary();
+  }
+  function renderOutboundCard(){
+    var range=getMaterialFilterWindow(),rows=getFilteredMaterialRows(range),summary=aggregateMaterialRows(rows);
+    var previousSummary=aggregateMaterialRows(getFilteredMaterialRows(getComparisonWindow(range)));
+    materialOutboundAmount.textContent=rows.length?formatSummaryMoney(summary.total):'暂无数据';
+    materialOutboundProvinceCount.textContent=rows.length?Object.keys(summary.provinces).length.toLocaleString('zh-CN')+'个省份':'暂无数据';
+    materialOutboundCityCount.textContent='共计'+(rows.length?Object.keys(summary.cities).length.toLocaleString('zh-CN'):'暂无数据')+'个地级市';
+    var growth=rows.length&&previousSummary.total?summary.total/previousSummary.total-1:NaN;
+    materialOutboundGrowth.className='kpi-value growth-value';
+    if(Number.isFinite(growth)){
+      materialOutboundGrowth.textContent=(growth>0?'+':'')+(growth*100).toFixed(2)+'%';
+      materialOutboundGrowth.classList.add(growth>0?'is-up':(growth<0?'is-down':'is-flat'));
+      materialOutboundGrowthMeta.textContent='较上一等长周期物料出库金额';
+    }else{
+      materialOutboundGrowth.classList.add('is-flat');
+      materialOutboundGrowth.textContent='暂无数据';
+      materialOutboundGrowthMeta.textContent='无上一周期数据，暂不计算增速';
+    }
+  }
+  function renderMaterialSummary(){
+    var month=String(Number(window.DASHBOARD_MONTH)||10);
+    var item=materialSummaryData.months&&materialSummaryData.months[month]?materialSummaryData.months[month]:null;
+    var inventory=materialSummaryData.inventory||{};
+    var hasInventory=inventory.amount!==null&&inventory.amount!==undefined&&Number.isFinite(Number(inventory.amount));
+    document.getElementById('inventory-summary-amount').textContent=hasInventory?formatSummaryMoney(inventory.amount):'暂无数据';
+    document.getElementById('inventory-summary-top-detail').textContent=hasInventory?'其中第一物料：'+(inventory.topName||'暂无数据')+'；金额：'+formatSummaryMoney(inventory.topAmount):'当前源数据不包含库存金额';
+  }
+  function escapeOutboundText(value){
+    return String(value==null?'':value).replace(/[&<>"']/g,function(char){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char];});
+  }
+  function formatOutboundCityAmount(value){
+    var amount=Number(value);
+    return Number.isFinite(amount)?(amount/10000).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2}):'—';
+  }
+  function outboundCityMomText(value){
+    var ratio=Number(value);
+    if(value===null||value===undefined||!Number.isFinite(ratio))return '—';
+    if(ratio===0)return '0.0%';
+    return (ratio>0?'+':'-')+Math.abs(ratio*100).toFixed(1)+'%';
+  }
+  function outboundCityMomClass(value){
+    var ratio=Number(value);
+    if(value===null||value===undefined||!Number.isFinite(ratio)||ratio===0)return 'is-flat';
+    return ratio>0?'is-up':'is-down';
+  }
+  function getActiveOutboundCityDetail(){
+    var month=Number(window.DASHBOARD_MONTH)||activeMonth;
+    if(outboundDetailMode==='material'&&materialFilterData.rows&&materialFilterData.rows.length){
+      var range=getMaterialFilterWindow(),rows=getFilteredMaterialRows(range),previousRows=getFilteredMaterialRows(getComparisonWindow(range));
+      var current={},previous={},total=0;
+      rows.forEach(function(row){var key=row.p+'\u0001'+row.c;if(!current[key])current[key]={province:row.p,city:row.c,amount:0};current[key].amount+=Number(row.a)||0;total+=Number(row.a)||0;});
+      previousRows.forEach(function(row){var key=row.p+'\u0001'+row.c;previous[key]=(previous[key]||0)+(Number(row.a)||0);});
+      var detailRows=Object.keys(current).map(function(key){var item=current[key],prev=previous[key]||0;return {province:item.province,city:item.city,amount:item.amount,previousAmount:prev,amountMom:prev?item.amount/prev-1:null,share:total?item.amount/total:0};});
+      detailRows.sort(function(a,b){return b.amount-a.amount||a.city.localeCompare(b.city,'zh-CN');});
+      return {month:month,detail:{previousMonth:null,total:total,rows:detailRows},year:materialFilterData.year||analytics.year};
+    }
+    var source=outboundDetailMode==='device'?(outboundCityData.deviceByMonth||{}):(outboundCityData.byMonth||{});
+    return {month:month,detail:source[String(month)]||null,year:Number(outboundCityData.deviceYear||outboundCityData.year)||analytics.year};
+  }
+  function renderOutboundWarning(row){
+    var ratio=Number(row.amountMom),warn=row.amountMom!==null&&row.amountMom!==undefined&&Number.isFinite(ratio)&&Math.abs(ratio)>.15;
+    return warn?'<span class="outbound-city-warning"><i class="outbound-city-warning-icon" aria-hidden="true"></i>预警</span>':'';
+  }
+  function renderOutboundMaterialDetail(info,detail){
+    var rows=detail&&Array.isArray(detail.rows)?detail.rows:[];
+    var chart=document.getElementById('outbound-city-chart');
+    var chartSub=document.getElementById('outbound-city-chart-sub');
+    var chartTitle=document.getElementById('outbound-city-chart-title');
+    var tableTitle=document.getElementById('outbound-city-table-title');
+    var provinceSelect=document.getElementById('outbound-province-select');
+    var nameHead=document.getElementById('outbound-city-name-head');
+    var tableBody=document.getElementById('outbound-city-table-body');
+    chart.classList.remove('outbound-device-chart');
+    chartTitle.textContent='各省份出库金额';
+    nameHead.textContent='地级市';
+    chartSub.textContent=materialFilterLabel()+' TOP10 · 单位：万元 · 点击省份查看地级市';
+    var provinceMap={};
+    rows.forEach(function(row){
+      var province=row.province||'未标注';
+      if(!provinceMap[province])provinceMap[province]={province:province,amount:0,previousAmount:0};
+      provinceMap[province].amount+=Number(row.amount)||0;
+      provinceMap[province].previousAmount+=Number(row.previousAmount)||0;
+    });
+    var provinceRows=Object.keys(provinceMap).map(function(key){
+      var item=provinceMap[key],mom=item.previousAmount?item.amount/item.previousAmount-1:null;
+      return {province:item.province,amount:item.amount,previousAmount:item.previousAmount,amountMom:mom,share:0};
+    });
+    var provinceTotal=provinceRows.reduce(function(sum,row){return sum+row.amount;},0);
+    provinceRows.forEach(function(row){row.share=provinceTotal?row.amount/provinceTotal:0;});
+    provinceRows.sort(function(a,b){return b.amount-a.amount||a.province.localeCompare(b.province,'zh-CN');});
+    provinceSelect.innerHTML='<option value="">全部省份</option>'+provinceRows.map(function(row){var safe=escapeOutboundText(row.province);return '<option value="'+safe+'">'+safe+'</option>';}).join('');
+    provinceSelect.value=outboundProvinceFilter;
+    if(!rows.length){
+      chart.innerHTML='<div class="outbound-city-chart-empty">当前筛选条件暂无省份出库数据</div>';
+      tableTitle.textContent='地级市明细（暂无数据）';
+      tableBody.innerHTML='<tr><td colspan="4" style="text-align:center;color:rgba(99,44,22,.58)">当前筛选条件暂无地级市出库数据</td></tr>';
+      return;
+    }
+    var chartRows=provinceRows.slice(0,10);
+    var maxAmount=Math.max.apply(null,chartRows.map(function(row){return Number(row.amount)||0;}))||1;
+    chart.innerHTML=chartRows.map(function(row){
+      var province=escapeOutboundText(row.province),momText=outboundCityMomText(row.amountMom),momClass=outboundCityMomClass(row.amountMom);
+      return '<button type="button" class="outbound-city-bar-row outbound-province-row'+(row.province===outboundProvinceFilter?' is-selected':'')+'" data-province="'+province+'" aria-pressed="'+(row.province===outboundProvinceFilter?'true':'false')+'"><span class="outbound-city-name" title="'+province+'">'+province+'</span><span class="outbound-city-track"><span class="outbound-city-bar" style="display:block;width:'+Math.max(0,(Number(row.amount)||0)/maxAmount*100).toFixed(2)+'%"></span></span><span class="outbound-city-value">'+formatOutboundCityAmount(row.amount)+'万 <b class="'+momClass+'">'+momText+'</b></span></button>';
+    }).join('');
+    var cityRows=outboundProvinceFilter?rows.filter(function(row){return (row.province||'未标注')===outboundProvinceFilter;}):rows;
+    tableTitle.textContent=outboundProvinceFilter?'地级市明细（'+outboundProvinceFilter+' '+cityRows.length+' 个）':'地级市明细（全部 '+cityRows.length+' 个）';
+    tableBody.innerHTML=cityRows.map(function(row){
+      var city=escapeOutboundText(row.city);
+      var warning=renderOutboundWarning(row);
+      return '<tr><td><span class="outbound-city-cell">'+city+warning+'</span></td><td>'+formatOutboundCityAmount(row.amount)+'万元</td><td class="'+outboundCityMomClass(row.amountMom)+'">'+outboundCityMomText(row.amountMom)+'</td><td>'+((Number(row.share)||0)*100).toFixed(2)+'%</td></tr>';
+    }).join('');
+  }
+  function renderOutboundDeviceDetail(info,detail){
+    var period=document.getElementById('outbound-detail-period');
+    var chart=document.getElementById('outbound-city-chart');
+    var chartSub=document.getElementById('outbound-city-chart-sub');
+    var chartTitle=document.getElementById('outbound-city-chart-title');
+    var tableTitle=document.getElementById('outbound-city-table-title');
+    var provinceSelect=document.getElementById('outbound-province-select');
+    var provinceControl=provinceSelect.closest('.outbound-province-control');
+    var nameHead=document.getElementById('outbound-city-name-head');
+    var tableBody=document.getElementById('outbound-city-table-body');
+    var sections=detail&&detail.sections?detail.sections:{};
+    var groups=['省区','鸣忙','特殊渠道'];
+    chart.classList.add('outbound-device-chart');
+    chartTitle.textContent='各省区出库金额';
+    nameHead.textContent='省份';
+    provinceControl.style.display='none';
+    period.textContent=info.year+'年'+info.month+'月'+(detail&&detail.previousMonth?'　对比 '+info.year+'年'+detail.previousMonth+'月':'　暂无上月数据');
+    chartSub.textContent=info.month+'月 · 单位：万元 · 按销售部门分组';
+    var hasRows=groups.some(function(group){return sections[group]&&sections[group].rows&&sections[group].rows.length;});
+    if(!hasRows){
+      chart.innerHTML='<div class="outbound-city-chart-empty">'+info.month+'月暂无设备出库数据</div>';
+      tableTitle.textContent='省区明细（暂无数据）';
+      tableBody.innerHTML='<tr><td colspan="4" style="text-align:center;color:rgba(99,44,22,.58)">'+info.month+'月暂无设备出库数据</td></tr>';
+      return;
+    }
+    chart.innerHTML=groups.map(function(group){
+      var section=sections[group]||{};
+      var rows=Array.isArray(section.chartRows)?section.chartRows:[];
+      var maxAmount=Math.max.apply(null,rows.map(function(row){return Number(row.amount)||0;}))||1;
+      var body=rows.length?rows.map(function(row){
+        var province=escapeOutboundText(row.province),momText=outboundCityMomText(row.amountMom),momClass=outboundCityMomClass(row.amountMom);
+        return '<div class="outbound-city-bar-row"><span class="outbound-city-name" title="'+province+'">'+province+'</span><div class="outbound-city-track"><div class="outbound-city-bar" style="width:'+Math.max(0,(Number(row.amount)||0)/maxAmount*100).toFixed(2)+'%"></div></div><span class="outbound-city-value">'+formatOutboundCityAmount(row.amount)+'万 <b class="'+momClass+'">'+momText+'</b></span></div>';
+      }).join(''):'<div class="outbound-city-chart-empty">暂无数据</div>';
+      var summary=''+group+'本月合计出库量'+formatOutboundQuantity(section.quantity)+'，金额'+formatOutboundCityAmount(section.total)+'万元，金额环比'+outboundCityMomText(section.amountMom);
+      return '<div class="outbound-device-section"><div class="outbound-device-section-title">'+group+' · TOP10</div>'+body+'<div class="outbound-device-section-summary">'+summary+'</div></div>';
+    }).join('');
+    var allRows=Array.isArray(detail.rows)?detail.rows:[];
+    tableTitle.textContent='省区明细（全部 '+allRows.length+' 个）';
+    tableBody.innerHTML=groups.map(function(group){
+      var rows=sections[group]&&Array.isArray(sections[group].rows)?sections[group].rows:[];
+      if(!rows.length)return '';
+      return '<tr class="outbound-detail-group-row"><td colspan="4">'+group+'</td></tr>'+rows.map(function(row){
+        var province=escapeOutboundText(row.province);
+        return '<tr><td><span class="outbound-city-cell">'+province+renderOutboundWarning(row)+'</span></td><td>'+formatOutboundCityAmount(row.amount)+'万元</td><td class="'+outboundCityMomClass(row.amountMom)+'">'+outboundCityMomText(row.amountMom)+'</td><td>'+((Number(row.share)||0)*100).toFixed(2)+'%</td></tr>';
+      }).join('');
+    }).join('');
+  }
+  function renderOutboundDetailModal(){
+    var info=getActiveOutboundCityDetail(),detail=info.detail;
+    renderOutboundMaterialDetail(info,detail);
+  }
+  function openOutboundDetailModal(){
+    renderOutboundDetailModal();
+    document.getElementById('outbound-detail-section').scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  function refreshOutboundDetailModalIfOpen(){
+    renderOutboundDetailModal();
+  }
   function getCanvas(id){return document.getElementById(id);}
   function setupCanvas(canvas){
     var rect=canvas.getBoundingClientRect();
@@ -412,6 +841,99 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
       ctx.fillStyle=c.muted;ctx.textAlign='center';ctx.fillText((index+1)+'月',x+barW/2,h-18);
       if(selected){ctx.fillStyle=c.text;ctx.font='13px '+FONT_NUMBER;ctx.fillText(v+unit,x+barW/2,Math.max(14,y-12));ctx.font='12px '+FONT_TEXT;}
     });
+  }
+  var dailyOutboundData=window.DAILY_OUTBOUND_DATA||{months:{}};
+  var dailyOutboundHoverIndex=-1;
+  var categoryRankRenderedMonth=null;
+  function renderMaterialCategoryRank(){
+    var list=document.getElementById('category-rank-list');
+    var period=document.getElementById('category-rank-period');
+    if(!list||!period)return;
+    var month=Number(window.DASHBOARD_MONTH)||10;
+    var filteredRows=getFilteredMaterialRows(getMaterialFilterWindow()),categoryTotals={};
+    filteredRows.forEach(function(row){categoryTotals[row.g]=(categoryTotals[row.g]||0)+(Number(row.a)||0);});
+    var rows=Object.keys(categoryTotals).map(function(category){return {category:category,amount:categoryTotals[category]};});
+    rows.sort(function(a,b){return b.amount-a.amount||a.category.localeCompare(b.category,'zh-CN');});
+    period.textContent=(materialCategoryRankData.year||analytics.year)+'年 · '+rows.length+'类';
+    if(!rows.length){
+      list.innerHTML='<div class="category-rank-empty">'+month+'月暂无物料分类金额数据</div>';
+    }else{
+      var maxAmount=Math.max.apply(null,rows.map(function(row){return Math.max(0,Number(row.amount)||0);}))||1;
+      list.innerHTML=rows.map(function(row,index){
+        var category=escapeOutboundText(row.category||'未分类');
+        var amount=Math.max(0,Number(row.amount)||0);
+        var width=Math.max(1.5,amount/maxAmount*100);
+        return '<div class="category-rank-row" title="'+category+'：'+formatOutboundCityAmount(amount)+'万元">'+
+          '<span class="category-rank-index">'+(index+1)+'</span>'+
+          '<span class="category-rank-name">'+category+'</span>'+
+          '<span class="category-rank-amount">'+formatOutboundCityAmount(amount)+' <span class="category-rank-unit">万元</span></span>'+
+          '<span class="category-rank-track" aria-hidden="true"><span class="category-rank-fill" style="display:block;width:'+width.toFixed(2)+'%"></span></span>'+
+        '</div>';
+      }).join('');
+    }
+    if(categoryRankRenderedMonth!==month)list.scrollTop=0;
+    categoryRankRenderedMonth=month;
+  }
+  function dailyOutboundMoney(value){return (Number(value||0)/10000).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})+'万元';}
+  function dailyOutboundDateLabel(value){return String(value||'').slice(5).replace('-','/');}
+  function renderDailyOutboundTrend(){
+    var canvas=document.getElementById('daily-outbound-chart');
+    var tooltip=document.getElementById('daily-outbound-tooltip');
+    var subtitle=document.getElementById('daily-outbound-subtitle');
+    if(!canvas)return;
+    var month=Number(window.DASHBOARD_MONTH)||10;
+    var filterRows=getFilteredMaterialRows(getMaterialFilterWindow()),daily={};
+    filterRows.forEach(function(row){daily[row.d]=(daily[row.d]||0)+(Number(row.a)||0);});
+    var data=Object.keys(daily).sort().map(function(date){return {date:date,amount:daily[date]};});
+    subtitle.textContent=materialFilterLabel()+' · 按C列创建日期清洗汇总 · 单位：万元';
+    var box=setupCanvas(canvas),ctx=box.ctx,w=box.width,h=box.height;
+    var colors=palette(),pad={left:48,right:18,top:28,bottom:42},plotW=w-pad.left-pad.right,plotH=h-pad.top-pad.bottom;
+    ctx.clearRect(0,0,w,h);
+    if(!data.length){
+      ctx.fillStyle=colors.muted;ctx.font='13px '+FONT_TEXT;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(month+'月暂无每日出库数据',w/2,h/2);
+      tooltip.style.display='none';return;
+    }
+    var values=data.map(function(item){return Number(item.amount||0)/10000;});
+    var maxValue=Math.max.apply(null,values)||1;var step=maxValue/4;var axisMax=Math.ceil(maxValue/5)*5||5;
+    var maxDateLabels=Math.max(4,Math.floor(plotW/70));
+    var dateLabelStep=Math.max(1,Math.ceil((data.length-1)/Math.max(1,maxDateLabels-1)));
+    for(var g=0;g<=4;g++){
+      var gy=pad.top+plotH-(g/4)*plotH;
+      ctx.strokeStyle=colors.grid;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(pad.left,gy);ctx.lineTo(w-pad.right,gy);ctx.stroke();
+      ctx.fillStyle=colors.muted;ctx.font='12px '+FONT_TEXT;ctx.textAlign='right';ctx.textBaseline='middle';ctx.fillText((axisMax*g/4).toFixed(axisMax<10?1:0),pad.left-9,gy);
+    }
+    var points=data.map(function(item,index){return {x:pad.left+(data.length===1?plotW/2:plotW*index/(data.length-1)),y:pad.top+plotH-(values[index]/axisMax)*plotH,item:item};});
+    ctx.beginPath();
+    points.forEach(function(point,index){
+      if(index===0){ctx.moveTo(point.x,point.y);return;}
+      var prev=points[index-1],midX=(prev.x+point.x)/2;
+      ctx.bezierCurveTo(midX,prev.y,midX,point.y,point.x,point.y);
+    });
+    ctx.strokeStyle=colors.outline;ctx.lineWidth=3;ctx.lineJoin='round';ctx.lineCap='round';ctx.stroke();
+    points.forEach(function(point,index){
+      var active=index===dailyOutboundHoverIndex;
+      ctx.beginPath();ctx.arc(point.x,point.y,active?6:4,0,Math.PI*2);ctx.fillStyle=colors.highlight;ctx.fill();ctx.strokeStyle=colors.outline;ctx.lineWidth=active?2.5:1.5;ctx.stroke();
+      if(index===0||index===points.length-1||index%dateLabelStep===0){ctx.fillStyle=colors.muted;ctx.font='11px '+FONT_TEXT;ctx.textAlign='center';ctx.textBaseline='top';ctx.fillText(dailyOutboundDateLabel(point.item.date),point.x,h-27);}
+    });
+    if(dailyOutboundHoverIndex>=0&&points[dailyOutboundHoverIndex]){
+      var activePoint=points[dailyOutboundHoverIndex];
+      ctx.save();ctx.setLineDash([4,4]);ctx.strokeStyle='rgba(99,44,22,.5)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(activePoint.x,pad.top);ctx.lineTo(activePoint.x,pad.top+plotH);ctx.stroke();ctx.restore();
+      var rect=canvas.getBoundingClientRect();tooltip.innerHTML='<strong>'+escapeOutboundText(activePoint.item.date)+'</strong><br><b>'+dailyOutboundMoney(activePoint.item.amount)+'</b>';tooltip.style.display='block';tooltip.style.left=Math.min(Math.max(activePoint.x+10,8),rect.width-150)+'px';tooltip.style.top=Math.max(activePoint.y-58,8)+'px';
+    }else{tooltip.style.display='none';}
+  }
+  function bindDailyOutboundTrend(){
+    var canvas=document.getElementById('daily-outbound-chart');
+    if(!canvas)return;
+    canvas.addEventListener('mousemove',function(event){
+      var filterRows=getFilteredMaterialRows(getMaterialFilterWindow()),daily={};
+      filterRows.forEach(function(row){daily[row.d]=(daily[row.d]||0)+(Number(row.a)||0);});
+      var data=Object.keys(daily).sort().map(function(date){return {date:date,amount:daily[date]};});
+      if(!data.length)return;
+      var rect=canvas.getBoundingClientRect(),x=event.clientX-rect.left,padLeft=48,padRight=18,plotW=rect.width-padLeft-padRight;
+      var index=data.length===1?0:Math.max(0,Math.min(data.length-1,Math.round((x-padLeft)/plotW*(data.length-1))));
+      if(index!==dailyOutboundHoverIndex){dailyOutboundHoverIndex=index;renderDailyOutboundTrend();}
+    });
+    canvas.addEventListener('mouseleave',function(){dailyOutboundHoverIndex=-1;renderDailyOutboundTrend();});
   }
   var fallbackDevelopmentRecords=[
     {priority:'高',category:'周边物料开发',name:'毛毡包',description:null,owner:'卡尔',progress:null,start:'2026-06-05',end:'2026-06-26'},
@@ -539,7 +1061,7 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
       rows.appendChild(row);
     });
     var priorityLabel=priority||'全部优先级';
-    developmentValue.textContent=materialGanttItems.length+'项';developmentMeta.textContent=priorityLabel+'（名称去重）';
+    if(developmentValue){developmentValue.textContent=materialGanttItems.length+'项';developmentMeta.textContent=priorityLabel+'（名称去重）';}
     document.getElementById('development-description').textContent=priorityLabel+'的物料共'+materialGanttItems.length+'项。'+materialGanttItems.map(function(item){return item.name+'，开发分类'+(item.category||'未分类')+'，项目进展：'+(item.description||'暂无进展描述');}).join('；')+'。';
   }
   function initializeDevelopmentFilters(){
@@ -573,20 +1095,15 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
     document.getElementById('material-weekly-delta').innerHTML=deltaHtml(materialDelta);
   }
   function redraw(){
-    renderDevelopmentGantt();
+    if(ganttPriorityFilter)renderDevelopmentGantt();
+    renderDailyOutboundTrend();
+    renderMaterialCategoryRank();
   }
   function updateMonth(monthNumber){
     activeMonth=Number(monthNumber);var label=activeMonth+'月';var source=freightMonths.find(function(item){return item.month===label;})||null;
-    window.DASHBOARD_MONTH=activeMonth;main.dataset.activeMonth=String(activeMonth);freightLink.href='../material-freight-dashboard/?month='+encodeURIComponent(label);if(inventoryLink)inventoryLink.href='#';
-    if(source&&source.cards){freightValue.textContent=formatMoney(source.cards.freight);freightMeta.textContent=label+'运费金额合计';}else{freightValue.textContent='暂无数据';freightMeta.textContent=label+'尚无运费看板源数据';}
-    var prevFreightSource=freightMonths.find(function(item){return Number(item.monthValue)===activeMonth-1;})||null;
-    var prevFreight=prevFreightSource&&prevFreightSource.cards?prevFreightSource.cards.freight:null;
-    var currentFreight=source&&source.cards?source.cards.freight:null;
-    if(currentFreight&&prevFreight&&prevFreight>0){var fmom=((currentFreight-prevFreight)/prevFreight*100);freightMom.textContent='运费环比'+(fmom>=0?'上升 ':'下降 ')+Math.abs(fmom).toFixed(2)+'%';}else{freightMom.textContent='';}
-    var obData=inventoryOutboundData[String(activeMonth)];
-    var prevObData=inventoryOutboundData[String(activeMonth-1)];
-    if(obData){inventoryOutboundValue.textContent=formatQuantity(obData.quantity);inventoryOutboundMeta.textContent=label+'出库数量 · 涉及金额 '+formatMoney(obData.amount);inventoryOutboundNote.textContent='（数量单位为该物料最小单位）';var qtyMom='',amtMom='';if(prevObData&&prevObData.quantity>0){var qm=((obData.quantity-prevObData.quantity)/prevObData.quantity*100);qtyMom='数量环比'+(qm>=0?'上升 ':'下降 ')+Math.abs(qm).toFixed(2)+'%';}if(prevObData&&prevObData.amount>0){var am=((obData.amount-prevObData.amount)/prevObData.amount*100);amtMom='金额环比'+(am>=0?'上升 ':'下降 ')+Math.abs(am).toFixed(2)+'%';}inventoryOutboundMom.textContent=qtyMom&&amtMom?qtyMom+' · '+amtMom:qtyMom||amtMom||'';}else{inventoryOutboundValue.textContent='暂无数据';inventoryOutboundMeta.textContent=label+'尚无出库数据';inventoryOutboundNote.textContent='';inventoryOutboundMom.textContent='';}
-    updateCards(activeMonth);redraw();
+    window.DASHBOARD_MONTH=activeMonth;main.dataset.activeMonth=String(activeMonth);outboundProvinceFilter='';
+    renderMaterialFilterOptions();renderMaterialFilterSummary();renderOutboundCard();renderMaterialSummary();
+    redraw();
     document.dispatchEvent(new CustomEvent('dashboardmonthchange',{detail:{month:activeMonth,label:label,freight:source}}));
   }
   function deviceDeltaClass(value){return value>0?'delta-pos':(value<0?'delta-neg':'');}
@@ -939,8 +1456,10 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
     document.body.style.overflow='';
   }
   var deviceWeeklyCard=document.getElementById('device-weekly-card');
-  deviceWeeklyCard.addEventListener('click',openDeviceModal);
-  deviceWeeklyCard.addEventListener('keydown',function(event){if(event.key==='Enter'||event.key===' '){event.preventDefault();openDeviceModal();}});
+  if(deviceWeeklyCard){
+    deviceWeeklyCard.addEventListener('click',openDeviceModal);
+    deviceWeeklyCard.addEventListener('keydown',function(event){if(event.key==='Enter'||event.key===' '){event.preventDefault();openDeviceModal();}});
+  }
   document.getElementById('device-modal-close').addEventListener('click',closeDeviceModal);
   document.getElementById('device-modal-mask').addEventListener('click',function(event){if(event.target===this)closeDeviceModal();});
   document.addEventListener('keydown',function(event){if(event.key==='Escape')closeDeviceModal();});
@@ -971,8 +1490,10 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
     }
   });
   var materialWeeklyCard=document.getElementById('material-weekly-card');
-  materialWeeklyCard.addEventListener('click',openMaterialModal);
-  materialWeeklyCard.addEventListener('keydown',function(event){if(event.key==='Enter'||event.key===' '){event.preventDefault();openMaterialModal();}});
+  if(materialWeeklyCard){
+    materialWeeklyCard.addEventListener('click',openMaterialModal);
+    materialWeeklyCard.addEventListener('keydown',function(event){if(event.key==='Enter'||event.key===' '){event.preventDefault();openMaterialModal();}});
+  }
   document.getElementById('material-modal-close').addEventListener('click',closeMaterialModal);
   document.getElementById('material-modal-mask').addEventListener('click',function(event){if(event.target===this)closeMaterialModal();});
   document.addEventListener('keydown',function(event){if(event.key==='Escape')closeMaterialModal();});
@@ -985,11 +1506,27 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
     this.querySelectorAll('.dim-btn').forEach(function(b){b.classList.toggle('active',b===btn);});
     refreshMaterialModalIfOpen();
   });
-  initializeDevelopmentFilters();
+  inventoryQuantityLink.addEventListener('click',function(event){event.preventDefault();openOutboundDetailModal();});
+  document.getElementById('outbound-city-chart').addEventListener('click',function(event){
+    var button=event.target.closest('[data-province]');
+    if(!button)return;
+    outboundProvinceFilter=button.getAttribute('data-province')||'';
+    renderOutboundDetailModal();
+  });
+  document.getElementById('outbound-province-select').addEventListener('change',function(){
+    outboundProvinceFilter=this.value||'';
+    renderOutboundDetailModal();
+  });
+  if(ganttPriorityFilter)initializeDevelopmentFilters();
+  initializeMaterialFilters();
+  bindDailyOutboundTrend();
   var currentMonth=new Date().getMonth()+1;
-  select.value=String(currentMonth);updateMonth(currentMonth);select.addEventListener('change',function(){updateMonth(Number(this.value));});
+  if(currentMonth<1||currentMonth>12)currentMonth=10;
+  updateMonth(currentMonth);
   document.addEventListener('dashboardmonthchange',refreshDeviceModalIfOpen);
   document.addEventListener('dashboardmonthchange',refreshMaterialModalIfOpen);
+  document.addEventListener('dashboardmonthchange',refreshOutboundDetailModalIfOpen);
+  renderOutboundDetailModal();
   if(document.fonts&&document.fonts.ready)document.fonts.ready.then(redraw);
   var resizeTimer;window.addEventListener('resize',function(){clearTimeout(resizeTimer);resizeTimer=setTimeout(redraw,120);});
 })();

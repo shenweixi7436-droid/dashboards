@@ -7,13 +7,18 @@ call "%~dp0一键更新物料看板.bat" nopause
 if errorlevel 1 goto fail
 
 echo.
+echo Building material and device GitHub Pages dashboards...
+"C:\Users\shenw\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe" "%~dp0publish_material_device_dashboards.py"
+if errorlevel 1 goto fail
+
+echo.
 echo The following material dashboard files will be published:
-git status --short -- material-main-dashboard material-freight-dashboard update_material_device_dashboards.py "一键更新物料看板.bat" "一键发布物料看板到GitHub.bat" dashboard_update_all.bat
+git status --short -- material-main-dashboard device-main-dashboard material-freight-dashboard publish_material_device_dashboards.py update_material_device_dashboards.py "一键更新物料看板.bat" "一键发布物料看板到GitHub.bat" dashboard_update_all.bat
 echo.
 set /p "CONFIRM=Type YES to commit and push these files: "
 if /I not "%CONFIRM%"=="YES" goto cancelled
 
-git add -- material-main-dashboard material-freight-dashboard update_material_device_dashboards.py "一键更新物料看板.bat" "一键发布物料看板到GitHub.bat" dashboard_update_all.bat
+git add -- material-main-dashboard device-main-dashboard material-freight-dashboard publish_material_device_dashboards.py update_material_device_dashboards.py "一键更新物料看板.bat" "一键发布物料看板到GitHub.bat" dashboard_update_all.bat
 git diff --cached --quiet
 if not errorlevel 1 goto no_changes
 

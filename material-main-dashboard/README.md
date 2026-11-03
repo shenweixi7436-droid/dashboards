@@ -1,5 +1,3 @@
-# 物料综合主看板
+# 营销物料数据主看板
 
-访问地址：`https://dash.weishenghjxh.xyz/material-main-dashboard/`
-
-由仓库根目录的 `一键更新物料看板.bat` 生成。更新时不要手工编辑本目录中的哈希文件。
+由 `publish_material_device_dashboards.py` 从本地主看板生成。
