@@ -7965,8 +7965,8 @@ window.APPROVAL_DETAIL_BY_MONTH = {
       "着装不合格类型"
     ],
     "total": 588,
-    "qualified": 546,
-    "unqualified": 42,
+    "qualified": 549,
+    "unqualified": 39,
     "rows": [
       {
         "row": 2577,
@@ -8151,34 +8151,6 @@ window.APPROVAL_DETAIL_BY_MONTH = {
         "result": "不合格"
       },
       {
-        "row": 2783,
-        "values": [
-          "2026-10-02",
-          "市场活动费用",
-          "FY2026100201007",
-          "云南省区",
-          "线下-云南泽绵商贸有限公司",
-          "安柠",
-          "流程不合规",
-          ""
-        ],
-        "result": "不合格"
-      },
-      {
-        "row": 2785,
-        "values": [
-          "2026-10-02",
-          "市场活动费用",
-          "FY2026100201014",
-          "山东省区",
-          "线下-淄博国政昌盛商贸有限公司",
-          "芹菜",
-          "流程不合规",
-          ""
-        ],
-        "result": "不合格"
-      },
-      {
         "row": 2804,
         "values": [
           "2026-10-08",
@@ -8231,20 +8203,6 @@ window.APPROVAL_DETAIL_BY_MONTH = {
           "柏木",
           "着装不规范",
           "帽子"
-        ],
-        "result": "不合格"
-      },
-      {
-        "row": 2896,
-        "values": [
-          "2026-10-20",
-          "市场活动费用",
-          "FY2026102001009",
-          "川渝藏大区",
-          "线下-重庆聚多福商贸有限公司",
-          "拾遗",
-          "流程不合规",
-          ""
         ],
         "result": "不合格"
       },
@@ -8582,11 +8540,11 @@ window.APPROVAL_DETAIL_BY_MONTH = {
     "provinceIssues": [
       {
         "province": "川渝藏大区",
-        "value": 7
+        "value": 6
       },
       {
         "province": "山东省区",
-        "value": 7
+        "value": 6
       },
       {
         "province": "广东省区",
@@ -8618,10 +8576,6 @@ window.APPROVAL_DETAIL_BY_MONTH = {
       },
       {
         "province": "北京省区",
-        "value": 1
-      },
-      {
-        "province": "云南省区",
         "value": 1
       },
       {
@@ -8702,8 +8656,8 @@ window.APPROVAL_DETAIL = window.APPROVAL_DETAIL_BY_MONTH[window.MAIN_SELECTED_MO
     "着装不合格类型"
   ],
   "total": 588,
-  "qualified": 546,
-  "unqualified": 42,
+  "qualified": 549,
+  "unqualified": 39,
   "rows": [
     {
       "row": 2577,
@@ -8888,34 +8842,6 @@ window.APPROVAL_DETAIL = window.APPROVAL_DETAIL_BY_MONTH[window.MAIN_SELECTED_MO
       "result": "不合格"
     },
     {
-      "row": 2783,
-      "values": [
-        "2026-10-02",
-        "市场活动费用",
-        "FY2026100201007",
-        "云南省区",
-        "线下-云南泽绵商贸有限公司",
-        "安柠",
-        "流程不合规",
-        ""
-      ],
-      "result": "不合格"
-    },
-    {
-      "row": 2785,
-      "values": [
-        "2026-10-02",
-        "市场活动费用",
-        "FY2026100201014",
-        "山东省区",
-        "线下-淄博国政昌盛商贸有限公司",
-        "芹菜",
-        "流程不合规",
-        ""
-      ],
-      "result": "不合格"
-    },
-    {
       "row": 2804,
       "values": [
         "2026-10-08",
@@ -8968,20 +8894,6 @@ window.APPROVAL_DETAIL = window.APPROVAL_DETAIL_BY_MONTH[window.MAIN_SELECTED_MO
         "柏木",
         "着装不规范",
         "帽子"
-      ],
-      "result": "不合格"
-    },
-    {
-      "row": 2896,
-      "values": [
-        "2026-10-20",
-        "市场活动费用",
-        "FY2026102001009",
-        "川渝藏大区",
-        "线下-重庆聚多福商贸有限公司",
-        "拾遗",
-        "流程不合规",
-        ""
       ],
       "result": "不合格"
     },
@@ -9319,11 +9231,11 @@ window.APPROVAL_DETAIL = window.APPROVAL_DETAIL_BY_MONTH[window.MAIN_SELECTED_MO
   "provinceIssues": [
     {
       "province": "川渝藏大区",
-      "value": 7
+      "value": 6
     },
     {
       "province": "山东省区",
-      "value": 7
+      "value": 6
     },
     {
       "province": "广东省区",
@@ -9355,10 +9267,6 @@ window.APPROVAL_DETAIL = window.APPROVAL_DETAIL_BY_MONTH[window.MAIN_SELECTED_MO
     },
     {
       "province": "北京省区",
-      "value": 1
-    },
-    {
-      "province": "云南省区",
       "value": 1
     },
     {

@@ -686,21 +686,21 @@ window.APPROVAL_PIES_BY_MONTH = {
   "10月": {
     "month": "10月",
     "total": 588,
-    "qualified": 546,
-    "unqualified": 42,
-    "rate": 92.9,
+    "qualified": 549,
+    "unqualified": 39,
+    "rate": 93.4,
     "issues": [
       {
         "name": "着装不规范",
         "value": 20
       },
       {
-        "name": "流程不合规",
-        "value": 11
-      },
-      {
         "name": "未使用今日水印相机",
         "value": 10
+      },
+      {
+        "name": "流程不合规",
+        "value": 8
       }
     ],
     "dressIssues": [
@@ -728,11 +728,11 @@ window.APPROVAL_PIES_BY_MONTH = {
     "provinceIssues": [
       {
         "province": "川渝藏大区",
-        "value": 7
+        "value": 6
       },
       {
         "province": "山东省区",
-        "value": 7
+        "value": 6
       },
       {
         "province": "广东省区",
@@ -764,10 +764,6 @@ window.APPROVAL_PIES_BY_MONTH = {
       },
       {
         "province": "北京省区",
-        "value": 1
-      },
-      {
-        "province": "云南省区",
         "value": 1
       },
       {
@@ -817,21 +813,21 @@ window.APPROVAL_PIES_BY_MONTH = {
 window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH || "10月"] || {
   "month": "10月",
   "total": 588,
-  "qualified": 546,
-  "unqualified": 42,
-  "rate": 92.9,
+  "qualified": 549,
+  "unqualified": 39,
+  "rate": 93.4,
   "issues": [
     {
       "name": "着装不规范",
       "value": 20
     },
     {
-      "name": "流程不合规",
-      "value": 11
-    },
-    {
       "name": "未使用今日水印相机",
       "value": 10
+    },
+    {
+      "name": "流程不合规",
+      "value": 8
     }
   ],
   "dressIssues": [
@@ -859,11 +855,11 @@ window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH 
   "provinceIssues": [
     {
       "province": "川渝藏大区",
-      "value": 7
+      "value": 6
     },
     {
       "province": "山东省区",
-      "value": 7
+      "value": 6
     },
     {
       "province": "广东省区",
@@ -895,10 +891,6 @@ window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH 
     },
     {
       "province": "北京省区",
-      "value": 1
-    },
-    {
-      "province": "云南省区",
       "value": 1
     },
     {
