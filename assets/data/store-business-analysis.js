@@ -1,82 +1,82 @@
 window.STORE_AUDIT_SUMMARY_BY_MONTH = {
   "1月": {
     "total": 200,
-    "qualified": 0,
-    "unqualified": 0,
+    "qualified": 69,
+    "unqualified": 131,
     "uncertain": 0,
     "valid": 200,
-    "other": 200
+    "other": 0
   },
   "2月": {
     "total": 200,
-    "qualified": 0,
-    "unqualified": 0,
+    "qualified": 77,
+    "unqualified": 123,
     "uncertain": 0,
     "valid": 200,
-    "other": 200
+    "other": 0
   },
   "3月": {
     "total": 400,
-    "qualified": 0,
-    "unqualified": 0,
+    "qualified": 153,
+    "unqualified": 247,
     "uncertain": 0,
     "valid": 400,
-    "other": 400
+    "other": 0
   },
   "4月": {
     "total": 410,
-    "qualified": 0,
-    "unqualified": 0,
+    "qualified": 123,
+    "unqualified": 287,
     "uncertain": 0,
     "valid": 410,
-    "other": 410
+    "other": 0
   },
   "5月": {
     "total": 825,
-    "qualified": 0,
-    "unqualified": 0,
-    "uncertain": 0,
-    "valid": 825,
-    "other": 825
+    "qualified": 287,
+    "unqualified": 524,
+    "uncertain": 14,
+    "valid": 811,
+    "other": 0
   },
   "6月": {
     "total": 1760,
-    "qualified": 0,
-    "unqualified": 0,
-    "uncertain": 0,
-    "valid": 1760,
-    "other": 1760
+    "qualified": 786,
+    "unqualified": 780,
+    "uncertain": 194,
+    "valid": 1566,
+    "other": 0
   },
   "7月": {
     "total": 1513,
-    "qualified": 0,
-    "unqualified": 0,
-    "uncertain": 0,
-    "valid": 1513,
-    "other": 1513
+    "qualified": 490,
+    "unqualified": 965,
+    "uncertain": 58,
+    "valid": 1455,
+    "other": 0
   },
   "8月": {
     "total": 1879,
-    "qualified": 0,
-    "unqualified": 0,
-    "uncertain": 0,
-    "valid": 1879,
-    "other": 1879
+    "qualified": 599,
+    "unqualified": 1199,
+    "uncertain": 81,
+    "valid": 1798,
+    "other": 0
   },
   "9月": {
     "total": 1617,
-    "qualified": 0,
-    "unqualified": 0,
-    "uncertain": 0,
-    "valid": 1617,
-    "other": 1617
+    "qualified": 486,
+    "unqualified": 1069,
+    "uncertain": 62,
+    "valid": 1555,
+    "other": 0
   },
   "10月": {
     "total": 1009,
-    "qualified": 0,
-    "unqualified": 0,
-    "uncertain": 0,
-    "valid": 1009,
-    "other": 1009
+    "qualified": 457,
+    "unqualified": 426,
+    "uncertain": 126,
+    "valid": 883,
+    "other": 0
   }
 };

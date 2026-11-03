@@ -7965,8 +7965,8 @@ window.APPROVAL_DETAIL_BY_MONTH = {
       "着装不合格类型"
     ],
     "total": 588,
-    "qualified": 538,
-    "unqualified": 50,
+    "qualified": 546,
+    "unqualified": 42,
     "rows": [
       {
         "row": 2577,
@@ -8179,48 +8179,6 @@ window.APPROVAL_DETAIL_BY_MONTH = {
         "result": "不合格"
       },
       {
-        "row": 2798,
-        "values": [
-          "2026-10-08",
-          "市场活动费用",
-          "FY2026100801095",
-          "北京省区",
-          "线下-北京金宇正红商贸有限公司",
-          "乐途",
-          "流程不合规",
-          ""
-        ],
-        "result": "不合格"
-      },
-      {
-        "row": 2800,
-        "values": [
-          "2026-10-08",
-          "市场活动费用",
-          "FY2026100801007",
-          "河南省区",
-          "线下-河南五六七鲜生购物广场有限公司",
-          "洛水",
-          "流程不合规",
-          ""
-        ],
-        "result": "不合格"
-      },
-      {
-        "row": 2803,
-        "values": [
-          "2026-10-08",
-          "市场活动费用",
-          "FY2026100801005",
-          "河南省区",
-          "线下-洛阳鹏泽商贸有限责任公司",
-          "洛水",
-          "流程不合规",
-          ""
-        ],
-        "result": "不合格"
-      },
-      {
         "row": 2804,
         "values": [
           "2026-10-08",
@@ -8273,76 +8231,6 @@ window.APPROVAL_DETAIL_BY_MONTH = {
           "柏木",
           "着装不规范",
           "帽子"
-        ],
-        "result": "不合格"
-      },
-      {
-        "row": 2813,
-        "values": [
-          "2026-10-11",
-          "市场活动费用",
-          "FY2026101101011",
-          "河南省区",
-          "线下-郑州佳特商贸有限公司",
-          "浮玉",
-          "流程不合规",
-          ""
-        ],
-        "result": "不合格"
-      },
-      {
-        "row": 2815,
-        "values": [
-          "2026-10-11",
-          "市场活动费用",
-          "FY2026101101075",
-          "川渝藏大区",
-          "线下-成都惠迪商贸有限公司",
-          "柏木",
-          "流程不合规",
-          ""
-        ],
-        "result": "不合格"
-      },
-      {
-        "row": 2851,
-        "values": [
-          "2026-10-17",
-          "市场活动费用",
-          "FY2026101701015",
-          "北京省区",
-          "线下-北京泰和力创商贸有限公司",
-          "衡森",
-          "流程不合规",
-          ""
-        ],
-        "result": "不合格"
-      },
-      {
-        "row": 2852,
-        "values": [
-          "2026-10-17",
-          "市场活动费用",
-          "FY2026101601063",
-          "北京省区",
-          "线下-北京雪霖声泽商贸有限公司",
-          "衡森",
-          "流程不合规",
-          ""
-        ],
-        "result": "不合格"
-      },
-      {
-        "row": 2868,
-        "values": [
-          "2026-10-20",
-          "终端系统费用",
-          "FY2026102001001",
-          "",
-          "线下-四川美淇胜供应链管理有限公司",
-          "文西",
-          "",
-          ""
         ],
         "result": "不合格"
       },
@@ -8694,27 +8582,23 @@ window.APPROVAL_DETAIL_BY_MONTH = {
     "provinceIssues": [
       {
         "province": "川渝藏大区",
-        "value": 8
+        "value": 7
       },
       {
         "province": "山东省区",
         "value": 7
       },
       {
-        "province": "河南省区",
-        "value": 6
-      },
-      {
         "province": "广东省区",
         "value": 6
       },
       {
-        "province": "北京省区",
+        "province": "辽宁省区",
         "value": 4
       },
       {
-        "province": "辽宁省区",
-        "value": 4
+        "province": "河南省区",
+        "value": 3
       },
       {
         "province": "江西省区",
@@ -8731,6 +8615,10 @@ window.APPROVAL_DETAIL_BY_MONTH = {
       {
         "province": "广西省区",
         "value": 2
+      },
+      {
+        "province": "北京省区",
+        "value": 1
       },
       {
         "province": "云南省区",
@@ -8814,8 +8702,8 @@ window.APPROVAL_DETAIL = window.APPROVAL_DETAIL_BY_MONTH[window.MAIN_SELECTED_MO
     "着装不合格类型"
   ],
   "total": 588,
-  "qualified": 538,
-  "unqualified": 50,
+  "qualified": 546,
+  "unqualified": 42,
   "rows": [
     {
       "row": 2577,
@@ -9028,48 +8916,6 @@ window.APPROVAL_DETAIL = window.APPROVAL_DETAIL_BY_MONTH[window.MAIN_SELECTED_MO
       "result": "不合格"
     },
     {
-      "row": 2798,
-      "values": [
-        "2026-10-08",
-        "市场活动费用",
-        "FY2026100801095",
-        "北京省区",
-        "线下-北京金宇正红商贸有限公司",
-        "乐途",
-        "流程不合规",
-        ""
-      ],
-      "result": "不合格"
-    },
-    {
-      "row": 2800,
-      "values": [
-        "2026-10-08",
-        "市场活动费用",
-        "FY2026100801007",
-        "河南省区",
-        "线下-河南五六七鲜生购物广场有限公司",
-        "洛水",
-        "流程不合规",
-        ""
-      ],
-      "result": "不合格"
-    },
-    {
-      "row": 2803,
-      "values": [
-        "2026-10-08",
-        "市场活动费用",
-        "FY2026100801005",
-        "河南省区",
-        "线下-洛阳鹏泽商贸有限责任公司",
-        "洛水",
-        "流程不合规",
-        ""
-      ],
-      "result": "不合格"
-    },
-    {
       "row": 2804,
       "values": [
         "2026-10-08",
@@ -9122,76 +8968,6 @@ window.APPROVAL_DETAIL = window.APPROVAL_DETAIL_BY_MONTH[window.MAIN_SELECTED_MO
         "柏木",
         "着装不规范",
         "帽子"
-      ],
-      "result": "不合格"
-    },
-    {
-      "row": 2813,
-      "values": [
-        "2026-10-11",
-        "市场活动费用",
-        "FY2026101101011",
-        "河南省区",
-        "线下-郑州佳特商贸有限公司",
-        "浮玉",
-        "流程不合规",
-        ""
-      ],
-      "result": "不合格"
-    },
-    {
-      "row": 2815,
-      "values": [
-        "2026-10-11",
-        "市场活动费用",
-        "FY2026101101075",
-        "川渝藏大区",
-        "线下-成都惠迪商贸有限公司",
-        "柏木",
-        "流程不合规",
-        ""
-      ],
-      "result": "不合格"
-    },
-    {
-      "row": 2851,
-      "values": [
-        "2026-10-17",
-        "市场活动费用",
-        "FY2026101701015",
-        "北京省区",
-        "线下-北京泰和力创商贸有限公司",
-        "衡森",
-        "流程不合规",
-        ""
-      ],
-      "result": "不合格"
-    },
-    {
-      "row": 2852,
-      "values": [
-        "2026-10-17",
-        "市场活动费用",
-        "FY2026101601063",
-        "北京省区",
-        "线下-北京雪霖声泽商贸有限公司",
-        "衡森",
-        "流程不合规",
-        ""
-      ],
-      "result": "不合格"
-    },
-    {
-      "row": 2868,
-      "values": [
-        "2026-10-20",
-        "终端系统费用",
-        "FY2026102001001",
-        "",
-        "线下-四川美淇胜供应链管理有限公司",
-        "文西",
-        "",
-        ""
       ],
       "result": "不合格"
     },
@@ -9543,27 +9319,23 @@ window.APPROVAL_DETAIL = window.APPROVAL_DETAIL_BY_MONTH[window.MAIN_SELECTED_MO
   "provinceIssues": [
     {
       "province": "川渝藏大区",
-      "value": 8
+      "value": 7
     },
     {
       "province": "山东省区",
       "value": 7
     },
     {
-      "province": "河南省区",
-      "value": 6
-    },
-    {
       "province": "广东省区",
       "value": 6
     },
     {
-      "province": "北京省区",
+      "province": "辽宁省区",
       "value": 4
     },
     {
-      "province": "辽宁省区",
-      "value": 4
+      "province": "河南省区",
+      "value": 3
     },
     {
       "province": "江西省区",
@@ -9580,6 +9352,10 @@ window.APPROVAL_DETAIL = window.APPROVAL_DETAIL_BY_MONTH[window.MAIN_SELECTED_MO
     {
       "province": "广西省区",
       "value": 2
+    },
+    {
+      "province": "北京省区",
+      "value": 1
     },
     {
       "province": "云南省区",

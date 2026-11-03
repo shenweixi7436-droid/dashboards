@@ -281,6 +281,8 @@ body{font-family:"华康圆体-W7",-apple-system,BlinkMacSystemFont,"Segoe UI","
 .month-row{display:none!important}
 .main-month-row{display:flex;gap:10px;align-items:center;margin:0 0 18px;flex-wrap:wrap}
 .main-month-caption{font-family:"华康圆体-W8";font-size:15px;font-weight:700;color:#333;padding-left:10px;border-left:4px solid #703a1e;margin-right:4px;white-space:nowrap}
+body.dashboard-year-view .main-month-row,
+body.dashboard-year-view .month-row{display:none!important}
 .work-mtag{padding:5px 16px;border-radius:18px;font-size:13px;background:#fff;color:#666;border:1px solid #e0e0e0;cursor:pointer;transition:all .2s;font-family:"华康圆体-W7"}
 .work-mtag:hover{border-color:#fcc900;color:#703a1e}
 .work-mtag.on{background:#fcc900;color:#703a1e;border-color:#fcc900;font-family:"华康圆体-W8"}
@@ -621,20 +623,20 @@ svg text{font-family:'华康圆体-W7','HKYuanW7','Microsoft YaHei',sans-serif}
 })();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
-<script src="assets/data/current-audit-progress.js?v=20261102143755"></script>
-<script src="assets/data/promo-plan-audit.js?v=20261102143755"></script>
-<script src="assets/data/promo-audit-detail.js?v=20261102143755"></script>
-<script src="assets/data/approval-pies.js?v=20261102143755"></script>
-<script src="assets/data/approval-detail.js?v=20261102143755"></script>
-<script src="assets/data/device-channel-status.js?v=20261102143755"></script>
-<script src="assets/data/device-detail.js?v=20261102143755"></script>
-<script src="assets/data/device-region-analysis.js?v=20261102143755"></script>
-<script src="assets/data/store-business-analysis.js?v=20261102143755"></script>
-<script src="assets/data/store-audit-popup.js?v=20261102143755"></script>
-<script src="assets/data/market-order-governance.js?v=20261102143755"></script>
-<script src="assets/data/gift-audit.js?v=20261102143755"></script>
-<script src="assets/pages/gift-live-data.js?v=20261102143755"></script>
-<script src="assets/data/device-ban-action.js?v=20261102143755"></script>
+<script src="assets/data/current-audit-progress.js?v=20261103092922"></script>
+<script src="assets/data/promo-plan-audit.js?v=20261103092922"></script>
+<script src="assets/data/promo-audit-detail.js?v=20261103092922"></script>
+<script src="assets/data/approval-pies.js?v=20261103092922"></script>
+<script src="assets/data/approval-detail.js?v=20261103092922"></script>
+<script src="assets/data/device-channel-status.js?v=20261103092922"></script>
+<script src="assets/data/device-detail.js?v=20261103092922"></script>
+<script src="assets/data/device-region-analysis.js?v=20261103092922"></script>
+<script src="assets/data/store-business-analysis.js?v=20261103092922"></script>
+<script src="assets/data/store-audit-popup.js?v=20261103092922"></script>
+<script src="assets/data/market-order-governance.js?v=20261103092922"></script>
+<script src="assets/data/gift-audit.js?v=20261103092922"></script>
+<script src="assets/pages/gift-live-data.js?v=20261103092922"></script>
+<script src="assets/data/device-ban-action.js?v=20261103092922"></script>
 <style id="dashboard-layout-0730">
 :root{
   --layout-bg:#fbf7ef;
@@ -1548,7 +1550,7 @@ body{
 <div class="hd">
   <div class="header-tiger"></div>
   <div><h1 id="mainDashboardTitle">皇家小虎市场稽核部数据看板</h1></div>
-  <div class="dt">&#128203; 数据更新：2026-11-02 14:35 &nbsp;|&nbsp; &#128197; 数据范围：2026年1月—10月</div>
+  <div class="dt">&#128203; 数据更新：2026-11-03 09:27 &nbsp;|&nbsp; &#128197; 数据范围：2026年1月—10月</div>
 </div>
 <script>
 (function(){
@@ -1963,7 +1965,7 @@ body{
     <div class="device-analysis-grid" id="deviceRegionAnalysisGrid"></div>
   </section>
 </div>
-<script src="assets/data/dashboard-snapshot.js?v=20261102143755"></script>
+<script src="assets/data/dashboard-snapshot.js?v=20261103092922"></script>
 <script>
 
 var chartInst = null;
@@ -1997,6 +1999,158 @@ function monthOrder(m){
   var n=parseInt(String(m||"").replace(/[^\d]/g,""),10);
   return isFinite(n)?n:99;
 }
+function monthlyEntries(map){
+  return Object.keys(map||{}).filter(function(key){return /^\d+月$/.test(key);})
+    .sort(function(a,b){return monthOrder(a)-monthOrder(b);})
+    .map(function(key){return map[key];}).filter(Boolean);
+}
+function sumNumber(rows,key){
+  return (rows||[]).reduce(function(total,row){return total+(Number(row&&row[key])||0);},0);
+}
+function mergeNamedRows(rows,nameKey,valueKey){
+  var totals={};
+  (rows||[]).forEach(function(row){
+    var name=String(row&&row[nameKey]||"").trim();
+    if(!name) return;
+    totals[name]=(totals[name]||0)+(Number(row[valueKey])||0);
+  });
+  return Object.keys(totals).map(function(name){
+    var item={}; item[nameKey]=name; item[valueKey]=totals[name]; return item;
+  }).sort(function(a,b){return b[valueKey]-a[valueKey] || String(a[nameKey]).localeCompare(String(b[nameKey]),"zh-CN");});
+}
+function buildAnnualDashboardData(){
+  var promoPlanMap=window.PROMO_PLAN_AUDIT_BY_MONTH||{};
+  var promoPlans=monthlyEntries(promoPlanMap);
+  if(promoPlans.length){
+    var promoProvinceMap={};
+    promoPlans.forEach(function(data){
+      (data.rows||[]).forEach(function(row){
+        var name=String(row.province||"").trim();
+        if(!name) return;
+        var item=promoProvinceMap[name]||(promoProvinceMap[name]={province:name,plan:0,audit:0});
+        item.plan+=Number(row.plan)||0;
+        item.audit+=Number(row.audit)||0;
+      });
+    });
+    var promoPlanTotal=sumNumber(promoPlans,"planTotal");
+    var promoAuditTotal=sumNumber(promoPlans,"auditTotal");
+    promoPlanMap["全年"]={
+      month:"全年", planTotal:promoPlanTotal, auditTotal:promoAuditTotal,
+      progress:promoPlanTotal?promoAuditTotal/promoPlanTotal*100:0,
+      rows:Object.keys(promoProvinceMap).map(function(name){
+        var row=promoProvinceMap[name];
+        row.progress=row.plan?row.audit/row.plan*100:0;
+        return row;
+      })
+    };
+  }
+
+  var promoDetailMap=window.PROMO_AUDIT_DETAIL_BY_MONTH||{};
+  var promoDetails=monthlyEntries(promoDetailMap);
+  if(promoDetails.length){
+    promoDetailMap["全年"]={
+      month:"全年", source:promoDetails[promoDetails.length-1].source,
+      headers:promoDetails[promoDetails.length-1].headers,
+      total:sumNumber(promoDetails,"total"),
+      qualified:sumNumber(promoDetails,"qualified"),
+      unqualified:sumNumber(promoDetails,"unqualified"),
+      rows:promoDetails.reduce(function(all,data){return all.concat(data.rows||[]);},[])
+    };
+  }
+
+  var approvalDetailMap=window.APPROVAL_DETAIL_BY_MONTH||{};
+  var approvalDetails=monthlyEntries(approvalDetailMap);
+  var annualApprovalDetail=null;
+  if(approvalDetails.length){
+    var approvalRows=approvalDetails.reduce(function(all,data){return all.concat(data.rows||[]);},[]);
+    annualApprovalDetail={
+      month:"全年", source:approvalDetails[approvalDetails.length-1].source,
+      headers:approvalDetails[approvalDetails.length-1].headers,
+      total:sumNumber(approvalDetails,"total"),
+      qualified:sumNumber(approvalDetails,"qualified"),
+      unqualified:sumNumber(approvalDetails,"unqualified"),
+      rows:approvalRows,
+      dressIssues:mergeNamedRows(approvalDetails.reduce(function(all,data){return all.concat(data.dressIssues||[]);},[]),"name","value"),
+      provinceIssues:mergeNamedRows(approvalDetails.reduce(function(all,data){return all.concat(data.provinceIssues||[]);},[]),"province","value")
+    };
+    approvalDetailMap["全年"]=annualApprovalDetail;
+  }
+  var approvalPieMap=window.APPROVAL_PIES_BY_MONTH||{};
+  var approvalPies=monthlyEntries(approvalPieMap);
+  if(approvalPies.length){
+    var annualApprovalTotal=sumNumber(approvalPies,"total");
+    var annualApprovalQualified=sumNumber(approvalPies,"qualified");
+    approvalPieMap["全年"]={
+      month:"全年", total:annualApprovalTotal, qualified:annualApprovalQualified,
+      unqualified:sumNumber(approvalPies,"unqualified"),
+      rate:annualApprovalTotal?annualApprovalQualified/annualApprovalTotal*100:0,
+      issues:mergeNamedRows(approvalPies.reduce(function(all,data){return all.concat(data.issues||[]);},[]),"name","value"),
+      dressIssues:mergeNamedRows(approvalPies.reduce(function(all,data){return all.concat(data.dressIssues||[]);},[]),"name","value"),
+      provinceIssues:mergeNamedRows(approvalPies.reduce(function(all,data){return all.concat(data.provinceIssues||[]);},[]),"province","value")
+    };
+  }
+
+  var marketMap=window.MARKET_ORDER_GOVERNANCE_BY_MONTH||{};
+  var marketMonths=monthlyEntries(marketMap);
+  if(marketMonths.length){
+    var latestMarket=marketMonths[marketMonths.length-1];
+    var annualCustomerRank=mergeNamedRows(marketMonths.reduce(function(all,data){return all.concat(data.customerRank||[]);},[]),"name","count");
+    marketMap["全年"]={
+      month:"全年", source:latestMarket.source,
+      caseCount:sumNumber(marketMonths,"caseCount"),
+      customerCount:annualCustomerRank.length,
+      lockedCustomerCount:sumNumber(marketMonths,"lockedCustomerCount"),
+      punishCount:sumNumber(marketMonths,"punishCount"),
+      internalCount:sumNumber(marketMonths,"internalCount"),
+      unverifiedCount:sumNumber(marketMonths,"unverifiedCount"),
+      otherNotes:marketMonths.reduce(function(all,data){return all.concat(data.otherNotes||[]);},[]),
+      provinceRank:mergeNamedRows(marketMonths.reduce(function(all,data){return all.concat(data.provinceRank||[]);},[]),"name","count"),
+      customerRank:annualCustomerRank,
+      caseDetails:marketMonths.reduce(function(all,data){return all.concat(data.caseDetails||[]);},[])
+    };
+  }
+
+  var storeSummaryMap=window.STORE_AUDIT_SUMMARY_BY_MONTH||{};
+  var storeSummaries=monthlyEntries(storeSummaryMap);
+  if(storeSummaries.length){
+    storeSummaryMap["全年"]={
+      total:sumNumber(storeSummaries,"total"), qualified:sumNumber(storeSummaries,"qualified"),
+      unqualified:sumNumber(storeSummaries,"unqualified"), uncertain:sumNumber(storeSummaries,"uncertain"),
+      valid:sumNumber(storeSummaries,"valid"), other:sumNumber(storeSummaries,"other")
+    };
+  }
+  var storePopupMap=window.STORE_AUDIT_POPUP_BY_MONTH||{};
+  var storePopups=monthlyEntries(storePopupMap);
+  if(storePopups.length){
+    var storeTotal=sumNumber(storePopups,"total");
+    var annualSkuCount=sumNumber(storePopups,"skuCount");
+    var annualFreezerCount=sumNumber(storePopups,"freezerCount");
+    var storeProvinceMap={};
+    storePopups.forEach(function(data){
+      (data.provinces||[]).forEach(function(row){
+        var name=String(row.n||"").trim();
+        if(!name) return;
+        var item=storeProvinceMap[name]||(storeProvinceMap[name]={n:name,t:0,q:0,u:0,valid:0,r:0});
+        ["t","q","u","valid"].forEach(function(key){item[key]+=Number(row[key])||0;});
+      });
+    });
+    var latestStore=storePopups[storePopups.length-1];
+    storePopupMap["全年"]={
+      total:storeTotal, q:sumNumber(storePopups,"q"), bad:sumNumber(storePopups,"bad"),
+      u:sumNumber(storePopups,"u"), valid:sumNumber(storePopups,"valid"),
+      avgSku:annualSkuCount?sumNumber(storePopups,"skuTotal")/annualSkuCount:0,
+      skuTotal:sumNumber(storePopups,"skuTotal"), skuCount:annualSkuCount,
+      avgFreezer:annualFreezerCount?sumNumber(storePopups,"freezerTotal")/annualFreezerCount:0,
+      freezerTotal:sumNumber(storePopups,"freezerTotal"), freezerCount:annualFreezerCount,
+      topBad:latestStore.topBad, topPhoto:latestStore.topPhoto, topUncertain:latestStore.topUncertain,
+      topNoProduct:latestStore.topNoProduct, topNoProductCount:latestStore.topNoProductCount,
+      provinces:Object.keys(storeProvinceMap).map(function(name){
+        var row=storeProvinceMap[name]; row.r=row.valid?row.q/row.valid*100:0; return row;
+      }).sort(function(a,b){return b.t-a.t;})
+    };
+  }
+}
+buildAnnualDashboardData();
 function displayMonthText(month){
   var text=String(month || (new Date().getMonth()+1)).trim();
   if(!text) return (new Date().getMonth()+1)+"月";
@@ -2019,7 +2173,7 @@ function normalizeCurrentMonth(preferDefault){
   if(!months.length) months=["1月"];
   if(preferDefault){
     currentMonth=getMainDefaultMonth();
-  }else if(months.indexOf(currentMonth)<0){
+  }else if(currentMonth!=="全年" && months.indexOf(currentMonth)<0){
     currentMonth=months[months.length-1];
   }
   window.MAIN_SELECTED_MONTH=currentMonth;
@@ -2102,6 +2256,7 @@ function escAttr(s){return escH(s).replace(/"/g,"&quot;").replace(/'/g,"&#39;");
 function switchMonth(ms){
   currentMonth = ms;
   normalizeCurrentMonth(false);
+  document.body.classList.toggle("dashboard-year-view",currentMonth==="全年");
   document.querySelectorAll(".mtag").forEach(function(t){t.classList.toggle("on",t.dataset.month===ms)});
   document.querySelectorAll(".work-mtag").forEach(function(t){t.classList.toggle("on",t.dataset.month===ms)});
   // Update title
@@ -2207,9 +2362,10 @@ function renderStoreAuditCard(){
   var legend=rows.map(function(r){
     return '<span><span><i class="store-audit-dot" style="background:'+r.color+'"></i>'+r.name+'</span><b>'+Number(r.value||0).toLocaleString()+'家 · '+pct(r.value).toFixed(1)+'%</b></span>';
   }).join("");
+  var periodWord=currentMonth==="全年"?"全年":"本月";
   var desc=total>0
-    ? '本月共稽核鸣忙门店 <b>'+total.toLocaleString()+'</b> 家，其中合格数量 <b>'+qualified.toLocaleString()+'</b> 家，占比 <b>'+pct(qualified).toFixed(1)+'%</b>；不合格 <b>'+unqualified.toLocaleString()+'</b> 家，占比 <b>'+pct(unqualified).toFixed(1)+'%</b>；无法判断 <b>'+uncertain.toLocaleString()+'</b> 家，占比 <b>'+pct(uncertain).toFixed(1)+'%</b>。'
-    : '本月暂无鸣忙专项稽核数据。';
+    ? periodWord+'共稽核鸣忙门店 <b>'+total.toLocaleString()+'</b> 家，其中合格数量 <b>'+qualified.toLocaleString()+'</b> 家，占比 <b>'+pct(qualified).toFixed(1)+'%</b>；不合格 <b>'+unqualified.toLocaleString()+'</b> 家，占比 <b>'+pct(unqualified).toFixed(1)+'%</b>；无法判断 <b>'+uncertain.toLocaleString()+'</b> 家，占比 <b>'+pct(uncertain).toFixed(1)+'%</b>。'
+    : periodWord+'暂无鸣忙专项稽核数据。';
   el.innerHTML=
     '<div class="store-audit-main">'+
       '<div class="store-audit-donut" style="background:conic-gradient('+stops+')">'+
@@ -2253,7 +2409,8 @@ function renderMarketOrderGovernance(){
   }
   var el=document.getElementById("marketOrderBody");
   if(!el) return;
-  var noteHtml='<div class="market-order-note">本月累计溯源窜货 <b>'+caseCount.toLocaleString()+'起</b>，总部通报处罚 <b>'+punishCount.toLocaleString()+'起</b>，内部处理 <b>'+internalCount.toLocaleString()+'起</b>，未查实 <b>'+unverifiedCount.toLocaleString()+'起</b>。</div>';
+  var periodWord=currentMonth==="全年"?"全年":"本月";
+  var noteHtml='<div class="market-order-note">'+periodWord+'累计溯源窜货 <b>'+caseCount.toLocaleString()+'起</b>，总部通报处罚 <b>'+punishCount.toLocaleString()+'起</b>，内部处理 <b>'+internalCount.toLocaleString()+'起</b>，未查实 <b>'+unverifiedCount.toLocaleString()+'起</b>。</div>';
   el.innerHTML=
     '<div class="market-order-metrics">'+
       '<div class="market-order-metric"><div class="market-order-label">累计溯源窜货</div><div class="market-order-value">'+caseCount.toLocaleString()+'<span class="unit">起</span></div></div>'+
@@ -2541,6 +2698,11 @@ function refreshAll(){
   for(var i=0;i<4;i++){
     var e=document.getElementById("kh"+i);
     if(!e) continue;
+    if(currentMonth==="全年"){
+      e.className="kh flat";
+      e.textContent="年度汇总";
+      continue;
+    }
     e.className="kh "+hbC(kh[i]);
     e.textContent="▲ 环比上月 "+hbT(kh[i]);
   }
@@ -2926,13 +3088,14 @@ function renderDetail(cardIdx){
     var monthText = displayMonthText(detail.month);
     var headers = detail.headers || ["省份","市区","城市经理","活动门店名称","稽核结果"];
     document.getElementById("detailTitle").textContent = "推广活动稽核明细";
+    var isYearView=currentMonth==="全年";
     document.getElementById("detailKpiRow").innerHTML =
-      '<div class="dkpi-item"><div class="dkpi-label">当前月份</div><div class="dkpi-val" style="color:#703a1e">'+monthText+'</div></div>'+
+      '<div class="dkpi-item"><div class="dkpi-label">'+(isYearView?'数据范围':'当前月份')+'</div><div class="dkpi-val" style="color:#703a1e">'+monthText+'</div></div>'+
       '<div class="dkpi-item"><div class="dkpi-label">稽核条数</div><div class="dkpi-val" style="color:#ec5f74">'+Number(detail.total||0).toLocaleString()+'</div></div>'+
       '<div class="dkpi-item"><div class="dkpi-label">合格数量</div><div class="dkpi-val" style="color:#fcc900">'+Number(detail.qualified||0).toLocaleString()+'</div></div>'+
       '<div class="dkpi-item"><div class="dkpi-label">不合格数量</div><div class="dkpi-val" style="color:#d93924">'+Number(detail.unqualified||0).toLocaleString()+'</div></div>';
     document.getElementById("detailAlerts").innerHTML =
-      '<div class="d-alert info">数据说明：本页展示推广促销活动门店的稽核明细，包含省份、市区、城市经理、活动门店名称及稽核结果，并汇总当前月份的稽核条数、合格数量和不合格数量。</div>';
+      '<div class="d-alert info">数据说明：本页展示推广促销活动门店的稽核明细，包含省份、市区、城市经理、活动门店名称及稽核结果，并汇总'+(isYearView?'全年':'当前月份')+'的稽核条数、合格数量和不合格数量。</div>';
     var tableHtml = rows.length ? rows.map(function(row){
       var vals = row.values || [];
       var result = row.result || "不合格";
@@ -2969,9 +3132,10 @@ function renderDetail(cardIdx){
     var rows = detail.rows || [];
     var monthText = displayMonthText(detail.month);
     var headers = detail.headers || ["流程发起时间","费用类型","签呈号","省区","客户名称","发起人","问题类型","着装不合格类型"];
+    var isYearView=currentMonth==="全年";
     var monthNum = monthOrder(detail.month || currentMonth);
     var prevMonth = monthNum > 1 && monthNum < 99 ? (monthNum - 1) + "月" : "";
-    var prevDetail = prevMonth && window.APPROVAL_DETAIL_BY_MONTH ? (window.APPROVAL_DETAIL_BY_MONTH[prevMonth] || null) : null;
+    var prevDetail = !isYearView && prevMonth && window.APPROVAL_DETAIL_BY_MONTH ? (window.APPROVAL_DETAIL_BY_MONTH[prevMonth] || null) : null;
     function calcMom(now,prev){
       now=Number(now)||0;
       prev=Number(prev)||0;
@@ -3015,12 +3179,12 @@ function renderDetail(cardIdx){
     }
     document.getElementById("detailTitle").textContent = "结案审核明细";
     document.getElementById("detailKpiRow").innerHTML =
-      '<div class="dkpi-item"><div class="dkpi-label">当前月份</div><div class="dkpi-val" style="color:#703a1e">'+monthText+'</div></div>'+
+      '<div class="dkpi-item"><div class="dkpi-label">'+(isYearView?'数据范围':'当前月份')+'</div><div class="dkpi-val" style="color:#703a1e">'+monthText+'</div></div>'+
       '<div class="dkpi-item"><div class="dkpi-label">总审核流程数</div><div class="dkpi-val" style="color:#ec5f74">'+Number(detail.total||0).toLocaleString()+'</div></div>'+
       '<div class="dkpi-item"><div class="dkpi-label">合格数</div><div class="dkpi-val" style="color:#fcc900">'+Number(detail.qualified||0).toLocaleString()+'</div>'+momHtml(qualifiedMom,true)+'</div>'+
       '<div class="dkpi-item"><div class="dkpi-label">不合格数</div><div class="dkpi-val" style="color:#d93924">'+Number(detail.unqualified||0).toLocaleString()+'</div>'+momHtml(unqualifiedMom,false)+'</div>';
     document.getElementById("detailAlerts").innerHTML =
-      '<div class="d-alert info">数据说明：本页展示线上审批流程审核结果，汇总当前月份的审核流程总数、合格数和不合格数；下方仅展示不合格审批明细及对应问题类型。</div>';
+      '<div class="d-alert info">数据说明：本页展示线上审批流程审核结果，汇总'+(isYearView?'全年':'当前月份')+'的审核流程总数、合格数和不合格数；下方仅展示不合格审批明细及对应问题类型。</div>';
     var tableHtml = rows.length ? rows.map(function(row){
       var vals = row.values || [];
       var issue=rowIssue(row)||"不合格";
@@ -3038,12 +3202,12 @@ function renderDetail(cardIdx){
     }).join('') : '<tr><td colspan="8"><div class="promo-detail-empty">当前月份暂无不合格审批明细</div></td></tr>';
     var regionChartHtml = '<div class="approval-region-chart">'+
       '<div id="approvalRegionChartGrid" class="approval-region-chart-grid"></div></div>';
-    var filterHtml = '<div class="approval-detail-filters">'+
-      '<label class="approval-detail-filter"><span>月份</span><select id="approvalMonthFilter">'+
+    var monthFilterHtml=isYearView?'':('<label class="approval-detail-filter"><span>月份</span><select id="approvalMonthFilter">'+
         getMainWorkMonths().map(function(month){
           return '<option value="'+escAttr(month)+'" '+(month===currentMonth?'selected':'')+'>'+escH(month)+'</option>';
         }).join('')+
-      '</select></label>'+
+      '</select></label>');
+    var filterHtml = '<div class="approval-detail-filters">'+monthFilterHtml+
       '<label class="approval-detail-filter"><span>问题类型</span><select id="approvalIssueFilter">'+optionHtml(rows,rowIssue,"全部问题类型")+'</select></label>'+
       '<div class="approval-detail-filter-count" id="approvalFilterCount">当前筛选 <strong>'+rows.length+'</strong> 条</div>'+
       '</div>';
@@ -3328,8 +3492,9 @@ function renderDetail(cardIdx){
         verifyOptions.map(function(v){return '<option value="'+escH(v)+'">'+escH(v)+'</option>';}).join('')+
       '</select></div>';
     document.getElementById("detailTitle").textContent = "市场秩序治理明细";
+    var isYearView=currentMonth==="全年";
     document.getElementById("detailKpiRow").innerHTML =
-      '<div class="dkpi-item"><div class="dkpi-label">当前月份</div><div class="dkpi-val" style="color:#703a1e">'+escH(monthText)+'</div></div>'+
+      '<div class="dkpi-item"><div class="dkpi-label">'+(isYearView?'数据范围':'当前月份')+'</div><div class="dkpi-val" style="color:#703a1e">'+escH(monthText)+'</div></div>'+
       '<div class="dkpi-item"><div class="dkpi-label">累计溯源窜货</div><div class="dkpi-val" style="color:#d93924">'+Number(detail.caseCount||0).toLocaleString()+'起</div></div>'+
       '<div class="dkpi-item"><div class="dkpi-label">嫌疑客户</div><div class="dkpi-val" style="color:#ec5f74">'+Number(detail.customerCount||0).toLocaleString()+'个</div></div>'+
       '<div class="dkpi-item"><div class="dkpi-label">已锁定客户数量</div><div class="dkpi-val" style="color:#703a1e">'+Number(detail.lockedCustomerCount||0).toLocaleString()+'个</div></div>'+
@@ -3340,7 +3505,7 @@ function renderDetail(cardIdx){
     var internalCount = Number(detail.internalCount||0);
     var unverifiedCount = Number(detail.unverifiedCount||0);
     document.getElementById("detailAlerts").innerHTML =
-      '<div class="d-alert info">数据说明：本页展示当前月份市场秩序治理结果，左侧按省份汇总提报窜货次数，右侧按客户名称统计出现次数，并按数量降序排列。本月累计溯源窜货 '+caseCount.toLocaleString()+'起，总部通报处罚 '+punishCount.toLocaleString()+'起，内部处理 '+internalCount.toLocaleString()+'起，未查实 '+unverifiedCount.toLocaleString()+'起。</div>';
+      '<div class="d-alert info">数据说明：本页展示'+(isYearView?'全年':'当前月份')+'市场秩序治理结果，左侧按省份汇总提报窜货次数，右侧按客户名称统计出现次数，并按数量降序排列。'+(isYearView?'全年':'本月')+'累计溯源窜货 '+caseCount.toLocaleString()+'起，总部通报处罚 '+punishCount.toLocaleString()+'起，内部处理 '+internalCount.toLocaleString()+'起，未查实 '+unverifiedCount.toLocaleString()+'起。</div>';
     document.getElementById("detailChart").innerHTML =
       '<div class="market-order-detail-grid">'+
         '<div class="market-order-detail-table"><div class="market-order-detail-title">提报窜货次数数据汇总</div>'+
@@ -3771,6 +3936,7 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")closeDetail(
 
 document.addEventListener("DOMContentLoaded",function(){
   normalizeCurrentMonth(true);
+  document.body.classList.toggle("dashboard-year-view",currentMonth==="全年");
   document.querySelectorAll("#tagRow .tag").forEach(function(t){
     t.addEventListener("click",function(){switchZone(this.dataset.zone);});
   });
@@ -4458,6 +4624,20 @@ document.addEventListener("DOMContentLoaded",function(){
     var prev=prevKey&&map[prevKey];
     var enabled=currentMonth!=="全年"&&!!prev;
     var provinces=(data.provinces||[]).slice();
+    var isYear=currentMonth==="全年";
+    var popup=document.getElementById("storeAuditPopup");
+    var popupTitle=document.getElementById("storeAuditPopupTitle");
+    if(popupTitle && popupTitle.firstChild) popupTitle.firstChild.nodeValue="鸣忙专项稽核"+(isYear?"年度":"月度")+"概览 ";
+    if(popup){
+      var kpiTitles=popup.querySelectorAll(".bap-kpi-title");
+      var periodWord=isYear?"全年":"本月";
+      if(kpiTitles[0]) kpiTitles[0].textContent=periodWord+"总稽核巡店数";
+      if(kpiTitles[1]) kpiTitles[1].textContent=periodWord+"稽核合格数";
+      if(kpiTitles[2]) kpiTitles[2].textContent=periodWord+"稽核不合格数";
+      if(kpiTitles[3]) kpiTitles[3].textContent=periodWord+"稽核无法判定数";
+      var validLabel=popup.querySelector(".bap-kpi-sub");
+      if(validLabel && validLabel.firstChild) validLabel.firstChild.nodeValue=periodWord+"有效门店（家）";
+    }
     setText("sapPeriodText",currentMonth==="全年"?"全年汇总":currentMonth);
     setText("sapTotal",integer(data.total));
     setText("sapTotalMom",momText(data.total,prev&&prev.total,enabled));

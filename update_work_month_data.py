@@ -998,29 +998,71 @@ def build_device_ban(wb):
 
 def build_store_audit(wb):
     ws = wb[STORE_AUDIT_SHEET]
-    source_rows = list(
-        ws.iter_rows(min_row=2, min_col=1, max_col=25, values_only=True)
-    )
-    years = [number(row[0]) for row in source_rows if number(row[0]) > 0]
-    if not years:
-        return {}
-    latest_year = max(years)
-    rows_by_month = defaultdict(list)
-    for row in source_rows:
-        if number(row[0]) != latest_year:
-            continue
-        month_number = number(row[1])
-        if 1 <= month_number <= 12:
-            rows_by_month[f"{month_number}月"].append(row)
-
     def store_text(value):
         text = norm(value)
         if not text:
             return ""
         try:
-            return text.encode("latin1").decode("gbk")
+            repaired = text.encode("gbk").decode("utf-8")
+            return repaired if repaired and "\ufffd" not in repaired else text
         except (UnicodeEncodeError, UnicodeDecodeError):
             return text
+
+    header_row = next(ws.iter_rows(min_row=1, max_row=1, values_only=True))
+    header_positions = defaultdict(list)
+    for index, header in enumerate(header_row):
+        name = store_text(header)
+        if name:
+            header_positions[name].append(index)
+
+    required_headers = (
+        "年清洗", "月份清洗", "省份", "陈列SKU数", "陈列冰柜数",
+        "判定结果", "不合格原因",
+    )
+    missing_headers = [name for name in required_headers if name not in header_positions]
+    if missing_headers:
+        raise ValueError(
+            f"{STORE_AUDIT_SHEET} 缺少必要表头：{', '.join(missing_headers)}"
+        )
+
+    columns = {
+        "year": header_positions["年清洗"][0],
+        "month": header_positions["月份清洗"][0],
+        # 使用各月份均完整填写的“省份”，并与鸣忙明细看板的分组口径保持一致。
+        "province": header_positions["省份"][0],
+        "sku": header_positions["陈列SKU数"][0],
+        "freezer": header_positions["陈列冰柜数"][0],
+        "result": header_positions["判定结果"][0],
+        "reason": header_positions["不合格原因"][0],
+    }
+
+    def row_value(row, field):
+        index = columns[field]
+        return row[index] if index < len(row) else None
+
+    source_rows = list(
+        ws.iter_rows(
+            min_row=2,
+            min_col=1,
+            max_col=max(columns.values()) + 1,
+            values_only=True,
+        )
+    )
+    years = [
+        number(row_value(row, "year"))
+        for row in source_rows
+        if number(row_value(row, "year")) > 0
+    ]
+    if not years:
+        return {}
+    latest_year = max(years)
+    rows_by_month = defaultdict(list)
+    for row in source_rows:
+        if number(row_value(row, "year")) != latest_year:
+            continue
+        month_number = number(row_value(row, "month"))
+        if 1 <= month_number <= 12:
+            rows_by_month[f"{month_number}月"].append(row)
 
     def display_province(value):
         text = store_text(value)
@@ -1043,47 +1085,60 @@ def build_store_audit(wb):
 
     payload = {}
     for month, rows in rows_by_month.items():
-        results = Counter(store_text(row[21]) for row in rows)
-        province_total = Counter(store_text(row[6]) for row in rows if store_text(row[6]))
-        province_qualified = Counter(
-            store_text(row[6])
+        results = Counter(store_text(row_value(row, "result")) for row in rows)
+        province_total = Counter(
+            store_text(row_value(row, "province"))
             for row in rows
-            if store_text(row[6]) and store_text(row[21]) == "合格"
+            if store_text(row_value(row, "province"))
+        )
+        province_qualified = Counter(
+            store_text(row_value(row, "province"))
+            for row in rows
+            if store_text(row_value(row, "province"))
+            and store_text(row_value(row, "result")) == "合格"
         )
         province_uncertain = Counter(
-            store_text(row[6])
+            store_text(row_value(row, "province"))
             for row in rows
-            if store_text(row[6]) and store_text(row[21]) == "无法判定"
+            if store_text(row_value(row, "province"))
+            and store_text(row_value(row, "result")) == "无法判定"
         )
         province_bad = Counter(
-            store_text(row[6])
+            store_text(row_value(row, "province"))
             for row in rows
-            if store_text(row[6]) and store_text(row[21]) == "不合格"
+            if store_text(row_value(row, "province"))
+            and store_text(row_value(row, "result")) == "不合格"
         )
-        # 照片不规范按源表 V 列（判定结果）的“无法判定”口径统计，按省区汇总。
+        # 照片不规范按“判定结果”的“无法判定”口径统计，按省区汇总。
         province_photo = Counter(
-            store_text(row[6])
+            store_text(row_value(row, "province"))
             for row in rows
-            if store_text(row[6]) and store_text(row[21]) == "无法判定"
+            if store_text(row_value(row, "province"))
+            and store_text(row_value(row, "result")) == "无法判定"
         )
         province_no_product = Counter(
-            store_text(row[6])
+            store_text(row_value(row, "province"))
             for row in rows
-            if store_text(row[6]) and store_text(row[22]) == "无小虎产品售卖"
+            if store_text(row_value(row, "province"))
+            and store_text(row_value(row, "reason")) == "无小虎产品售卖"
         )
         # "无法判定"作为无意义参考项剔除：SKU/冰柜均值仅在有效稽核（result ≠ 无法判定）中计算。
         effective_rows = [
-            row for row in rows if store_text(row[21]) != "无法判定"
+            row
+            for row in rows
+            if store_text(row_value(row, "result")) != "无法判定"
         ]
         sku_values = [
-            float(row[10])
+            float(row_value(row, "sku"))
             for row in effective_rows
-            if isinstance(row[10], (int, float)) and not isinstance(row[10], bool)
+            if isinstance(row_value(row, "sku"), (int, float))
+            and not isinstance(row_value(row, "sku"), bool)
         ]
         freezer_values = [
-            float(row[11])
+            float(row_value(row, "freezer"))
             for row in effective_rows
-            if isinstance(row[11], (int, float)) and not isinstance(row[11], bool)
+            if isinstance(row_value(row, "freezer"), (int, float))
+            and not isinstance(row_value(row, "freezer"), bool)
         ]
         provinces = []
         for province, total in sorted(
@@ -1112,9 +1167,13 @@ def build_store_audit(wb):
             "avgSku": round(sum(sku_values) / len(sku_values), 1)
             if sku_values
             else 0,
+            "skuTotal": round(sum(sku_values), 4),
+            "skuCount": len(sku_values),
             "avgFreezer": round(sum(freezer_values) / len(freezer_values), 1)
             if freezer_values
             else 0,
+            "freezerTotal": round(sum(freezer_values), 4),
+            "freezerCount": len(freezer_values),
             "topBad": top_label(province_bad),
             "topPhoto": top_label(province_photo),
             "topUncertain": top_label(province_uncertain),

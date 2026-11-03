@@ -686,9 +686,9 @@ window.APPROVAL_PIES_BY_MONTH = {
   "10月": {
     "month": "10月",
     "total": 588,
-    "qualified": 538,
-    "unqualified": 50,
-    "rate": 91.5,
+    "qualified": 546,
+    "unqualified": 42,
+    "rate": 92.9,
     "issues": [
       {
         "name": "着装不规范",
@@ -696,7 +696,7 @@ window.APPROVAL_PIES_BY_MONTH = {
       },
       {
         "name": "流程不合规",
-        "value": 18
+        "value": 11
       },
       {
         "name": "未使用今日水印相机",
@@ -728,27 +728,23 @@ window.APPROVAL_PIES_BY_MONTH = {
     "provinceIssues": [
       {
         "province": "川渝藏大区",
-        "value": 8
+        "value": 7
       },
       {
         "province": "山东省区",
         "value": 7
       },
       {
-        "province": "河南省区",
-        "value": 6
-      },
-      {
         "province": "广东省区",
         "value": 6
       },
       {
-        "province": "北京省区",
+        "province": "辽宁省区",
         "value": 4
       },
       {
-        "province": "辽宁省区",
-        "value": 4
+        "province": "河南省区",
+        "value": 3
       },
       {
         "province": "江西省区",
@@ -765,6 +761,10 @@ window.APPROVAL_PIES_BY_MONTH = {
       {
         "province": "广西省区",
         "value": 2
+      },
+      {
+        "province": "北京省区",
+        "value": 1
       },
       {
         "province": "云南省区",
@@ -817,9 +817,9 @@ window.APPROVAL_PIES_BY_MONTH = {
 window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH || "10月"] || {
   "month": "10月",
   "total": 588,
-  "qualified": 538,
-  "unqualified": 50,
-  "rate": 91.5,
+  "qualified": 546,
+  "unqualified": 42,
+  "rate": 92.9,
   "issues": [
     {
       "name": "着装不规范",
@@ -827,7 +827,7 @@ window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH 
     },
     {
       "name": "流程不合规",
-      "value": 18
+      "value": 11
     },
     {
       "name": "未使用今日水印相机",
@@ -859,27 +859,23 @@ window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH 
   "provinceIssues": [
     {
       "province": "川渝藏大区",
-      "value": 8
+      "value": 7
     },
     {
       "province": "山东省区",
       "value": 7
     },
     {
-      "province": "河南省区",
-      "value": 6
-    },
-    {
       "province": "广东省区",
       "value": 6
     },
     {
-      "province": "北京省区",
+      "province": "辽宁省区",
       "value": 4
     },
     {
-      "province": "辽宁省区",
-      "value": 4
+      "province": "河南省区",
+      "value": 3
     },
     {
       "province": "江西省区",
@@ -896,6 +892,10 @@ window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH 
     {
       "province": "广西省区",
       "value": 2
+    },
+    {
+      "province": "北京省区",
+      "value": 1
     },
     {
       "province": "云南省区",
