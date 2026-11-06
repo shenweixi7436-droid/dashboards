@@ -438,7 +438,7 @@ window.PROMO_AUDIT_DETAIL_BY_MONTH = {
     ]
   }
 };
-window.PROMO_AUDIT_DETAIL = window.PROMO_AUDIT_DETAIL_BY_MONTH[window.MAIN_SELECTED_MONTH || "10月"] || {
+window.PROMO_AUDIT_DETAIL = window.PROMO_AUDIT_DETAIL_BY_MONTH[window.MAIN_SELECTED_MONTH || "11月"] || {
   "month": 6,
   "source": "市场稽核部重点工作.xlsx / 推广促销稽核",
   "headers": [

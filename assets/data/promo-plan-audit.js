@@ -517,7 +517,7 @@ window.PROMO_PLAN_AUDIT_BY_MONTH = {
     ]
   }
 };
-window.PROMO_PLAN_AUDIT = window.PROMO_PLAN_AUDIT_BY_MONTH[window.MAIN_SELECTED_MONTH || "10月"] || {
+window.PROMO_PLAN_AUDIT = window.PROMO_PLAN_AUDIT_BY_MONTH[window.MAIN_SELECTED_MONTH || "11月"] || {
   "month": "6月",
   "planTotal": 130,
   "auditTotal": 7,
@@ -646,4 +646,4 @@ window.PROMO_PLAN_AUDIT = window.PROMO_PLAN_AUDIT_BY_MONTH[window.MAIN_SELECTED_
   ]
 };
 window.MAIN_WORK_MONTHS = ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"];
-window.MAIN_DEFAULT_MONTH = "10月";
+window.MAIN_DEFAULT_MONTH = "11月";
