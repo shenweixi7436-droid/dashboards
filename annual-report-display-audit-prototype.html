@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>年度汇报原型 - 陈列稽核</title>
+<style>
+@font-face{font-family:HKYuanW7;src:url('./fonts/华康圆体-W7.ttf') format('truetype');font-display:swap}
+@font-face{font-family:HKYuanW8;src:url('./fonts/华康圆体-W8.ttf') format('truetype');font-display:swap}
+@font-face{font-family:HKYuanW9;src:url('./fonts/华康圆体-W9.ttf') format('truetype');font-display:swap}
+@font-face{font-family:GothamRounded;src:url('./fonts/GOTHAMRND-BOLD.otf') format('opentype');font-display:swap}
+:root{
+  --cream:#f7f1e7;
+  --paper:#fffdf9;
+  --coffee:#713618;
+  --coffee-2:#8c4822;
+  --yellow:#f7c900;
+  --yellow-soft:#fff2b6;
+  --red:#d93924;
+  --coral:#ec5f74;
+  --ink:#352016;
+  --muted:#806d62;
+  --line:#e7d8c8;
+  --shadow:0 14px 34px rgba(86,45,23,.12);
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#e9ded0;color:var(--ink);font-family:HKYuanW7,'Microsoft YaHei',sans-serif}
+body{display:flex;justify-content:center;align-items:flex-start;padding:24px;overflow:auto}
+button,input,textarea,select{font:inherit}
+.report-page{
+  position:relative;
+  width:1600px;
+  height:900px;
+  flex:0 0 1600px;
+  overflow:hidden;
+  background:var(--cream);
+  box-shadow:0 24px 70px rgba(58,31,18,.22);
+}
+.report-header{
+  height:94px;
+  padding:0 34px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  color:#fff;
+  background-color:var(--coffee);
+  background-image:linear-gradient(90deg,rgba(67,27,10,.06),rgba(255,255,255,.05)),repeating-linear-gradient(135deg,transparent 0 42px,rgba(255,255,255,.035) 42px 44px);
+}
+.brand{display:flex;align-items:center;gap:18px;min-width:0}
+.brand-mark{width:72px;height:72px;object-fit:contain;filter:drop-shadow(0 4px 5px rgba(0,0,0,.18))}
+.brand-copy{min-width:0}
+.brand-name{font:24px/1 HKYuanW9,'Microsoft YaHei',sans-serif;white-space:nowrap}
+.brand-sub{margin-top:9px;color:#f7d99f;font-size:12px;font-weight:700}
+.header-meta{text-align:right}
+.header-meta strong{display:block;font:18px/1 GothamRounded,HKYuanW9,sans-serif;color:var(--yellow)}
+.header-meta span{display:block;margin-top:8px;font-size:11px;color:#f3ddc8}
+.report-content{height:806px;padding:22px 30px 16px;display:flex;flex-direction:column;gap:12px}
+.page-heading{height:58px;display:flex;align-items:flex-start;justify-content:space-between;gap:24px}
+.heading-copy{min-width:0}
+.eyebrow{display:flex;align-items:center;gap:9px;color:var(--red);font:12px/1 HKYuanW8,'Microsoft YaHei',sans-serif}
+.eyebrow::before{content:"";width:4px;height:14px;background:var(--red)}
+h1{margin:8px 0 0;font:29px/1 HKYuanW9,'Microsoft YaHei',sans-serif;letter-spacing:0}
+.headline-summary{max-width:670px;margin:5px 0 0;text-align:right;color:var(--muted);font:14px/1.6 HKYuanW8,'Microsoft YaHei',sans-serif}
+.headline-summary strong{color:var(--red);font-family:GothamRounded,HKYuanW9,sans-serif}
+.kpi-grid{height:108px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.kpi{
+  position:relative;
+  overflow:hidden;
+  padding:15px 18px;
+  border:1px solid var(--line);
+  border-top:4px solid var(--coffee);
+  border-radius:6px;
+  background:var(--paper);
+  box-shadow:0 6px 18px rgba(86,45,23,.06);
+}
+.kpi:nth-child(2){border-top-color:var(--yellow)}
+.kpi:nth-child(3){border-top-color:var(--coral)}
+.kpi:nth-child(4){border-top-color:var(--red)}
+.kpi-label{font:13px/1 HKYuanW8,'Microsoft YaHei',sans-serif;color:var(--muted)}
+.kpi-value{margin-top:9px;font:30px/1 GothamRounded,HKYuanW9,sans-serif;color:var(--coffee)}
+.kpi:nth-child(2) .kpi-value{color:#c39600}.kpi:nth-child(3) .kpi-value{color:var(--coral)}.kpi:nth-child(4) .kpi-value{color:var(--red)}
+.kpi-unit{margin-left:3px;font:13px/1 HKYuanW8,'Microsoft YaHei',sans-serif}
+.kpi-note{position:absolute;right:17px;bottom:14px;color:var(--muted);font-size:11px}
+.story-grid{height:326px;display:grid;grid-template-columns:minmax(0,2.25fr) minmax(370px,.9fr);gap:12px}
+.panel{min-width:0;border:1px solid var(--line);border-radius:6px;background:var(--paper);box-shadow:var(--shadow)}
+.chart-panel{padding:14px 16px 10px;display:flex;flex-direction:column}
+.panel-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;min-height:37px}
+.panel-title{font:16px/1.2 HKYuanW9,'Microsoft YaHei',sans-serif}
+.panel-subtitle{margin-top:5px;color:var(--muted);font-size:10px}
+.legend{display:flex;align-items:center;gap:14px;color:var(--muted);font-size:10px;font-weight:700;white-space:nowrap}
+.legend-item{display:inline-flex;align-items:center;gap:6px}
+.legend-bar{width:13px;height:8px;border-radius:2px;background:var(--coffee)}
+.legend-line{position:relative;width:18px;height:2px;background:var(--red)}
+.legend-line::after{content:"";position:absolute;left:7px;top:-3px;width:6px;height:6px;border:1px solid #fff;border-radius:50%;background:var(--red);box-shadow:0 0 0 1px var(--red)}
+#monthlyChart{width:100%;height:267px;display:block}
+.analysis-panel{padding:16px 18px;display:flex;flex-direction:column;background:linear-gradient(160deg,#fffdf9 0%,#fff8df 100%)}
+.analysis-kicker{color:var(--red);font:11px/1 HKYuanW8,'Microsoft YaHei',sans-serif}
+.analysis-title{margin-top:7px;font:21px/1.25 HKYuanW9,'Microsoft YaHei',sans-serif}
+.analysis-lead{margin-top:11px;padding:10px 12px;border-left:4px solid var(--yellow);background:#fff;color:var(--coffee);font:13px/1.55 HKYuanW8,'Microsoft YaHei',sans-serif}
+.insights{margin:12px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.insights li{position:relative;padding-left:15px;color:#5b463b;font-size:11px;line-height:1.48}
+.insights li::before{content:"";position:absolute;left:0;top:5px;width:6px;height:6px;border-radius:50%;background:var(--red)}
+.insights strong{color:var(--coffee);font-family:HKYuanW9,'Microsoft YaHei',sans-serif}
+.recommendation{margin-top:auto;padding-top:10px;border-top:1px solid var(--line)}
+.recommendation-label{color:var(--coffee);font:11px/1 HKYuanW9,'Microsoft YaHei',sans-serif}
+.recommendation-text{margin-top:6px;color:var(--muted);font-size:10px;line-height:1.45}
+[contenteditable="true"]{outline:none;border-radius:3px}
+[contenteditable="true"]:focus{background:rgba(247,201,0,.16);box-shadow:0 0 0 3px rgba(247,201,0,.12)}
+.zone-panel{height:171px;padding:13px 16px 11px}
+.zone-panel .panel-heading{min-height:32px}
+.zone-grid{height:111px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px 12px;margin-top:6px}
+.zone-item{min-width:0;padding:8px 10px;border:1px solid #ecdfd2;border-radius:4px;background:#fff}
+.zone-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.zone-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:11px/1 HKYuanW8,'Microsoft YaHei',sans-serif}
+.zone-metrics{white-space:nowrap;color:var(--muted);font-size:9px}
+.zone-metrics b{color:var(--red);font-family:GothamRounded,HKYuanW9,sans-serif}
+.zone-bar{height:6px;margin-top:7px;overflow:hidden;border-radius:6px;background:#efe7df}
+.zone-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--coffee),var(--yellow))}
+.zone-foot{display:flex;justify-content:space-between;margin-top:4px;color:#968479;font-size:8px}
+.page-footer{height:17px;display:flex;align-items:flex-end;justify-content:space-between;color:#9c8a7f;font-size:9px}
+.page-number{font:12px/1 GothamRounded,HKYuanW9,sans-serif;color:var(--coffee)}
+.error-state{height:100%;display:flex;align-items:center;justify-content:center;color:var(--red);font:18px/1.5 HKYuanW8,'Microsoft YaHei',sans-serif}
+@media print{
+  @page{size:13.333in 7.5in;margin:0}
+  html,body{width:1600px;height:900px;background:#fff}
+  body{padding:0}
+  .report-page{box-shadow:none}
+}
+</style>
+</head>
+<body>
+<main class="report-page" aria-label="陈列稽核年度汇报页面">
+  <header class="report-header">
+    <div class="brand">
+      <img class="brand-mark" src="./assets/images/tiger-header.png" alt="皇家小虎">
+      <div class="brand-copy">
+        <div class="brand-name">皇家小虎市场稽核部年度汇报</div>
+        <div class="brand-sub">ANNUAL AUDIT REVIEW · 2026</div>
+      </div>
+    </div>
+    <div class="header-meta">
+      <strong>DISPLAY AUDIT</strong>
+      <span>数据范围：2026年1月—当前数据月</span>
+    </div>
+  </header>
+
+  <section class="report-content" id="reportContent">
+    <div class="page-heading">
+      <div class="heading-copy">
+        <div class="eyebrow">01 · 陈列稽核</div>
+        <h1>年度稽核执行与质量表现</h1>
+      </div>
+      <p class="headline-summary" id="headlineSummary" contenteditable="true"></p>
+    </div>
+
+    <section class="kpi-grid" aria-label="年度核心指标">
+      <article class="kpi">
+        <div class="kpi-label">年度稽核门店数</div>
+        <div class="kpi-value"><span id="kpiAudit">--</span><span class="kpi-unit">家</span></div>
+        <div class="kpi-note" id="kpiAuditNote">年度累计</div>
+      </article>
+      <article class="kpi">
+        <div class="kpi-label">目标完成率</div>
+        <div class="kpi-value"><span id="kpiCompletion">--</span><span class="kpi-unit">%</span></div>
+        <div class="kpi-note" id="kpiCompletionNote">目标 -- 家</div>
+      </article>
+      <article class="kpi">
+        <div class="kpi-label">合格门店数</div>
+        <div class="kpi-value"><span id="kpiQualified">--</span><span class="kpi-unit">家</span></div>
+        <div class="kpi-note" id="kpiQualifiedNote">异常 -- 家</div>
+      </article>
+      <article class="kpi">
+        <div class="kpi-label">整体合格率</div>
+        <div class="kpi-value"><span id="kpiRate">--</span><span class="kpi-unit">%</span></div>
+        <div class="kpi-note">全年综合表现</div>
+      </article>
+    </section>
+
+    <section class="story-grid">
+      <article class="panel chart-panel">
+        <div class="panel-heading">
+          <div>
+            <div class="panel-title">每月陈列稽核门店数与合格率</div>
+            <div class="panel-subtitle">柱状图为稽核门店数，折线图为当月合格率</div>
+          </div>
+          <div class="legend" aria-label="图例">
+            <span class="legend-item"><i class="legend-bar"></i>稽核门店数</span>
+            <span class="legend-item"><i class="legend-line"></i>合格率</span>
+          </div>
+        </div>
+        <svg id="monthlyChart" viewBox="0 0 1000 270" role="img" aria-label="每月陈列稽核门店数与合格率图表"></svg>
+      </article>
+
+      <aside class="panel analysis-panel">
+        <div class="analysis-kicker">年度观察</div>
+        <div class="analysis-title" id="analysisTitle" contenteditable="true"></div>
+        <div class="analysis-lead" id="analysisLead" contenteditable="true"></div>
+        <ul class="insights" id="analysisInsights"></ul>
+        <div class="recommendation">
+          <div class="recommendation-label">管理建议</div>
+          <div class="recommendation-text" id="recommendationText" contenteditable="true"></div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="panel zone-panel">
+      <div class="panel-heading">
+        <div>
+          <div class="panel-title">各战区稽核量与合格率</div>
+          <div class="panel-subtitle">用于识别稽核覆盖规模与质量表现的区域差异</div>
+        </div>
+        <div class="legend"><span class="legend-item"><i class="legend-bar"></i>稽核量</span><span class="legend-item"><i class="legend-line"></i>合格率</span></div>
+      </div>
+      <div class="zone-grid" id="zoneGrid"></div>
+    </section>
+
+    <footer class="page-footer">
+      <span>数据来源：市场稽核看板 · 稽核明细-汇总 / 计划明细-汇总</span>
+      <span class="page-number">01</span>
+    </footer>
+  </section>
+</main>
+
+<script src="./assets/data/dashboard-snapshot.js"></script>
+<script>
+window.REPORT_PAGE_CONFIG = {
+  id: 'display-audit-annual-review',
+  pageSize: '16:9',
+  period: '全年',
+  scope: '全部',
+  source: {
+    file: 'assets/data/dashboard-snapshot.js',
+    dataset: 'ZD',
+    sheets: ['稽核明细-汇总', '计划明细-汇总']
+  },
+  charts: [
+    {
+      id: 'display-monthly-volume-rate',
+      type: 'bar-line',
+      dimension: '月份',
+      metrics: ['稽核门店数', '合格率'],
+      sourceField: 'month_rows'
+    },
+    {
+      id: 'display-zone-volume-rate',
+      type: 'rank-bar',
+      dimension: '战区',
+      metrics: ['稽核门店数', '合格率'],
+      sourceField: 'kpi_monthly'
+    }
+  ]
+};
+
+(function(){
+  'use strict';
+  var COLORS={coffee:'#713618',yellow:'#f7c900',red:'#d93924',muted:'#8c776b',grid:'#eadfd4',paper:'#fffdf9'};
+
+  function n(value){return Number(value)||0;}
+  function fmt(value){return Math.round(n(value)).toLocaleString('zh-CN');}
+  function pct(value){return n(value).toFixed(1);}
+  function escapeXml(value){return String(value).replace(/[&<>"']/g,function(ch){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[ch];});}
+  function el(id){return document.getElementById(id);}
+  function setText(id,value){var node=el(id);if(node)node.textContent=value;}
+
+  function getDataset(){
+    var cfg=window.REPORT_PAGE_CONFIG;
+    if(!window.ZD || !window.ZD[cfg.period] || !window.ZD[cfg.period][cfg.scope]) return null;
+    var annual=window.ZD[cfg.period][cfg.scope];
+    var zones=Object.keys(window.ZD[cfg.period])
+      .filter(function(name){return name!=='全部';})
+      .map(function(name){
+        var row=window.ZD[cfg.period][name]||{};
+        var kpi=row.kpi_monthly||[0,0,0,0];
+        return {name:name,audit:n(kpi[1]),rate:n(kpi[3])};
+      });
+    return {annual:annual,months:annual.month_rows||[],zones:zones};
+  }
+
+  function renderKpis(data){
+    var annual=data.annual;
+    var kpi=annual.kpi_monthly||[0,0,0,0];
+    var progress=annual.progress_current||{};
+    var audit=n(kpi[1]);
+    var anomaly=n(kpi[2]);
+    var qualified=Math.max(0,audit-anomaly);
+    var target=Math.round(n(progress.plan_q)*.2);
+    setText('kpiAudit',fmt(audit));
+    setText('kpiCompletion',pct(progress.pct));
+    setText('kpiQualified',fmt(qualified));
+    setText('kpiRate',pct(kpi[3]));
+    setText('kpiCompletionNote','目标 '+fmt(target)+' 家');
+    setText('kpiQualifiedNote','异常 '+fmt(anomaly)+' 家');
+  }
+
+  function renderMonthlyChart(rows){
+    var svg=el('monthlyChart');
+    if(!svg)return;
+    var W=1000,H=270,left=54,right=48,top=24,bottom=42;
+    var chartW=W-left-right,chartH=H-top-bottom;
+    var maxAudit=Math.max.apply(null,rows.map(function(row){return n(row.a);}).concat([1]));
+    maxAudit=Math.ceil(maxAudit/100)*100;
+    var step=chartW/Math.max(rows.length,1);
+    var barW=Math.min(42,step*.48);
+    var parts=[];
+
+    for(var tick=0;tick<=4;tick++){
+      var y=top+chartH-chartH*tick/4;
+      var auditLabel=Math.round(maxAudit*tick/4);
+      var rateLabel=Math.round(100*tick/4);
+      parts.push('<line x1="'+left+'" y1="'+y+'" x2="'+(W-right)+'" y2="'+y+'" stroke="'+COLORS.grid+'" stroke-dasharray="4 5"/>');
+      parts.push('<text x="'+(left-10)+'" y="'+(y+4)+'" text-anchor="end" fill="'+COLORS.muted+'" font-size="10">'+auditLabel+'</text>');
+      parts.push('<text x="'+(W-right+10)+'" y="'+(y+4)+'" fill="'+COLORS.red+'" font-size="10">'+rateLabel+'%</text>');
+    }
+
+    var points=[];
+    rows.forEach(function(row,index){
+      var x=left+step*index+step/2;
+      var audit=n(row.a),rate=n(row.rs);
+      var barH=audit/maxAudit*chartH;
+      var barY=top+chartH-barH;
+      var pointY=top+chartH-rate/100*chartH;
+      points.push(x+','+pointY);
+      parts.push('<rect x="'+(x-barW/2)+'" y="'+barY+'" width="'+barW+'" height="'+barH+'" rx="5" fill="'+COLORS.coffee+'"/>');
+      parts.push('<text x="'+x+'" y="'+(barY-7)+'" text-anchor="middle" fill="'+COLORS.coffee+'" font-size="10" font-weight="700">'+fmt(audit)+'</text>');
+      parts.push('<text x="'+x+'" y="'+(H-17)+'" text-anchor="middle" fill="'+COLORS.coffee+'" font-size="10" font-weight="700">'+escapeXml(row.m)+'</text>');
+    });
+    if(points.length){parts.push('<polyline points="'+points.join(' ')+'" fill="none" stroke="'+COLORS.red+'" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>');}
+    rows.forEach(function(row,index){
+      var x=left+step*index+step/2;
+      var rate=n(row.rs);
+      var y=top+chartH-rate/100*chartH;
+      parts.push('<circle cx="'+x+'" cy="'+y+'" r="5" fill="'+COLORS.red+'" stroke="'+COLORS.paper+'" stroke-width="2"/>');
+      parts.push('<text x="'+x+'" y="'+Math.max(11,y-10)+'" text-anchor="middle" fill="'+COLORS.red+'" font-size="9" font-weight="700">'+pct(rate)+'%</text>');
+    });
+    parts.push('<text x="'+left+'" y="12" fill="'+COLORS.coffee+'" font-size="10" font-weight="700">稽核数（家）</text>');
+    parts.push('<text x="'+(W-right)+'" y="12" text-anchor="end" fill="'+COLORS.red+'" font-size="10" font-weight="700">合格率</text>');
+    svg.innerHTML=parts.join('');
+  }
+
+  function renderZones(zones){
+    var grid=el('zoneGrid');
+    if(!grid)return;
+    var sorted=zones.slice().sort(function(a,b){return b.audit-a.audit;});
+    var maxAudit=Math.max.apply(null,sorted.map(function(row){return row.audit;}).concat([1]));
+    grid.innerHTML=sorted.map(function(row){
+      var width=Math.max(3,row.audit/maxAudit*100);
+      return '<article class="zone-item">'+
+        '<div class="zone-head"><span class="zone-name">'+escapeXml(row.name)+'</span><span class="zone-metrics"><b>'+fmt(row.audit)+'</b> 家 · '+pct(row.rate)+'%</span></div>'+
+        '<div class="zone-bar"><div class="zone-fill" style="width:'+width.toFixed(1)+'%"></div></div>'+
+        '<div class="zone-foot"><span>稽核覆盖</span><span>合格率 '+pct(row.rate)+'%</span></div>'+
+      '</article>';
+    }).join('');
+  }
+
+  function renderAnalysis(data){
+    var months=data.months.slice();
+    var zones=data.zones.slice();
+    var annual=data.annual;
+    var kpi=annual.kpi_monthly||[0,0,0,0];
+    var progress=annual.progress_current||{};
+    var audit=n(kpi[1]);
+    var bestVolume=months.slice().sort(function(a,b){return n(b.a)-n(a.a);})[0]||{m:'--',a:0};
+    var lowRate=months.filter(function(row){return n(row.a)>0;}).sort(function(a,b){return n(a.rs)-n(b.rs);})[0]||{m:'--',rs:0};
+    var largestZone=zones.slice().sort(function(a,b){return b.audit-a.audit;})[0]||{name:'--',audit:0};
+    var lowZone=zones.filter(function(row){return row.audit>0;}).sort(function(a,b){return a.rate-b.rate;})[0]||{name:'--',rate:0};
+
+    setText('headlineSummary','全年累计完成 '+fmt(audit)+' 家陈列稽核，整体合格率 '+pct(kpi[3])+'%，目标完成率 '+pct(progress.pct)+'%。');
+    setText('analysisTitle','质量整体稳定，区域短板仍需聚焦');
+    setText('analysisLead','全年合格率保持在 '+pct(kpi[3])+'%，但月度表现与战区之间仍存在明显差异。');
+    el('analysisInsights').innerHTML=[
+      '<li><strong>'+escapeXml(bestVolume.m)+'</strong>稽核量最高，达到 <strong>'+fmt(bestVolume.a)+' 家</strong>，是年度覆盖高点。</li>',
+      '<li><strong>'+escapeXml(lowRate.m)+'</strong>合格率最低，为 <strong>'+pct(lowRate.rs)+'%</strong>，应结合问题明细复盘。</li>',
+      '<li><strong>'+escapeXml(largestZone.name)+'</strong>贡献最大稽核量，共 <strong>'+fmt(largestZone.audit)+' 家</strong>。</li>',
+      '<li><strong>'+escapeXml(lowZone.name)+'</strong>合格率相对最低，为 <strong>'+pct(lowZone.rate)+'%</strong>。</li>'
+    ].join('');
+    setText('recommendationText','优先对低合格率月份和战区开展专项复盘，将高频不合格问题纳入下一年度稽核清单，并设置月度改善目标。');
+  }
+
+  function render(){
+    var data=getDataset();
+    if(!data){
+      el('reportContent').innerHTML='<div class="error-state">未读取到陈列稽核年度数据，请确认数据文件与本页面位于同一目录结构。</div>';
+      return;
+    }
+    renderKpis(data);
+    renderMonthlyChart(data.months);
+    renderZones(data.zones);
+    renderAnalysis(data);
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>

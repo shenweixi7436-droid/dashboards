@@ -128,15 +128,15 @@ window.APPROVAL_PIES_BY_MONTH = {
     "issues": [
       {
         "name": "未使用今日水印相机",
-        "value": 98
+        "value": 104
       },
       {
         "name": "着装不规范",
         "value": 43
       },
       {
-        "name": "照片不规范",
-        "value": 28
+        "name": "无大单品陈列",
+        "value": 16
       }
     ],
     "dressIssues": [
@@ -300,12 +300,12 @@ window.APPROVAL_PIES_BY_MONTH = {
         "value": 63
       },
       {
-        "name": "照片不规范",
-        "value": 47
+        "name": "未使用今日水印相机",
+        "value": 45
       },
       {
-        "name": "未使用今日水印相机",
-        "value": 41
+        "name": "无大单品陈列",
+        "value": 32
       }
     ],
     "dressIssues": [
@@ -481,8 +481,8 @@ window.APPROVAL_PIES_BY_MONTH = {
         "value": 27
       },
       {
-        "name": "无大单品陈列且未使用水印相机",
-        "value": 2
+        "name": "流程不合规",
+        "value": 3
       }
     ],
     "dressIssues": [

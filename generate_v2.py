@@ -171,6 +171,8 @@ def load_data():
     # 标准化稽核明细
     df_audit['省份'] = df_audit['省区清洗-按最新'].map(lambda x: PROV_MERGE.get(x, x) if pd.notna(x) else x)
     df_audit['战区'] = df_audit['省份'].map(ZONE_MAP)
+    # 图表战区维度严格采用源表 A 列“战区清洗”；为空时才回落到省区映射。
+    df_audit['源数据战区'] = df_audit['战区清洗'].where(df_audit['战区清洗'].notna(), df_audit['战区'])
     # 最终结果即为F列，直接使用，无需从稽核结果填充
 
     print(f"  稽核明细: {len(df_audit)} 行")
@@ -577,8 +579,9 @@ def build_audit_details(df_audit, zone_name, month):
     details = []
     for _, row in sub.iterrows():
         result = row['最终结果']
+        source_zone = row.get('源数据战区', row.get('战区', ''))
         details.append({
-            'zone': row.get('战区', ''),
+            'zone': '' if pd.isna(source_zone) else str(source_zone).strip(),
             'province': row['省份'],
             'month': row['稽核月份'],
             'store': str(row.get('经销商名称（全称）', '') or ''),
@@ -599,8 +602,9 @@ def build_issue_details(df_audit, zone_name, month):
 
     details = []
     for _, row in sub.iterrows():
+        source_zone = row.get('源数据战区', row.get('战区', ''))
         details.append({
-            'zone': row.get('战区', ''),
+            'zone': '' if pd.isna(source_zone) else str(source_zone).strip(),
             'province': row['省份'],
             'month': row['稽核月份'],
             'store': str(row.get('经销商名称（全称）', '') or ''),
@@ -619,30 +623,31 @@ def safe_number(value, default=0):
         return default
 
 
-def build_rect_rows(df_zone_summary, zone_name):
-    """构建整改率趋势详情数据。"""
-    source_zone = '年度合计' if zone_name == '全部' else zone_name
-    if '战区' not in df_zone_summary.columns or '月份' not in df_zone_summary.columns:
+def build_rect_rows(df_audit, zone_name):
+    """按明细 AH 列原始不合格、F 列最终合格计算整改数与整改率。"""
+    required = {'稽核月份', '稽核结果', '最终结果'}
+    if not required.issubset(df_audit.columns):
         return [{'m': m, 'bad': 0, 'rect': 0, 'rr': 0} for m in MONTHS]
 
-    zdf = df_zone_summary[
-        df_zone_summary['战区'].astype(str).str.strip().eq(source_zone)
-    ]
+    source = df_audit
+    if zone_name != '全部':
+        zone_column = '源数据战区' if '源数据战区' in source.columns else '战区'
+        source = source[source[zone_column].astype(str).str.strip().eq(zone_name)]
+
     rows = []
     for m in MONTHS:
-        one = zdf[zdf['月份'].astype(str).str.strip().eq(m)]
-        if one.empty:
-            continue
-        r = one.iloc[0]
-        bad = safe_number(r.get('不合格数', 0))
-        rect = safe_number(r.get('整改数', 0))
-        rate = safe_number(r.get('整改率', 0))
-        if rate <= 1:
-            rate *= 100
+        one = source[source['稽核月份'].astype(str).str.strip().eq(m)]
+        audit_result = one['稽核结果'].astype(str).str.strip()
+        final_result = one['最终结果'].astype(str).str.strip()
+        needs_rectification = audit_result.eq('不合格')
+        rectified = needs_rectification & final_result.eq('合格')
+        bad = int(needs_rectification.sum())
+        rect = int(rectified.sum())
+        rate = rect / bad * 100 if bad else 0
         rows.append({
             'm': m,
-            'bad': int(round(bad)),
-            'rect': int(round(rect)),
+            'bad': bad,
+            'rect': rect,
             'rr': round(rate, 1),
         })
     return rows
@@ -789,7 +794,7 @@ def main():
         for zone_name in ['全部'] + ZONES:
             zd[m][zone_name]['audit_details'] = build_audit_details(df_audit, zone_name, m)
             zd[m][zone_name]['issue_details'] = build_issue_details(df_audit, zone_name, m)
-            zd[m][zone_name]['rect_rows'] = build_rect_rows(df_zone_summary, zone_name)
+            zd[m][zone_name]['rect_rows'] = build_rect_rows(df_audit, zone_name)
 
     # 注入模板
     print("\n注入 HTML 模板...")
