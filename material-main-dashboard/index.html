@@ -326,6 +326,8 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
 .category-rank-name{min-width:0;color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W8',sans-serif;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .category-rank-amount{color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W8',sans-serif;font-size:16px;white-space:nowrap;font-variant-numeric:tabular-nums}
 .category-rank-unit{font-size:10px;font-family:'HKYuan-W7',sans-serif}
+.category-rank-mom{margin-left:6px;font-size:10px;font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif}
+.category-rank-mom.is-up{color:#16803c}.category-rank-mom.is-down{color:#c62828}.category-rank-mom.is-flat{color:rgba(99,44,22,.58)}
 .category-rank-track{grid-column:2/4;height:6px;background:rgba(99,44,22,.07);border:1px solid rgba(99,44,22,.18);border-radius:999px;overflow:hidden}
 .category-rank-fill{height:100%;background:var(--tiger-yellow);border-radius:999px}
 .category-rank-empty{display:grid;place-items:center;height:100%;color:rgba(99,44,22,.58);font-size:12px}
@@ -854,10 +856,11 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
     var list=document.getElementById('category-rank-list');
     var period=document.getElementById('category-rank-period');
     if(!list||!period)return;
-    var month=Number(window.DASHBOARD_MONTH)||10;
-    var filteredRows=getFilteredMaterialRows(getMaterialFilterWindow()),categoryTotals={};
+    var month=Number(window.DASHBOARD_MONTH)||10,range=getMaterialFilterWindow();
+    var filteredRows=getFilteredMaterialRows(range),previousRows=getFilteredMaterialRows(getComparisonWindow(range)),categoryTotals={},previousTotals={};
     filteredRows.forEach(function(row){categoryTotals[row.g]=(categoryTotals[row.g]||0)+(Number(row.a)||0);});
-    var rows=Object.keys(categoryTotals).map(function(category){return {category:category,amount:categoryTotals[category]};});
+    previousRows.forEach(function(row){previousTotals[row.g]=(previousTotals[row.g]||0)+(Number(row.a)||0);});
+    var rows=Object.keys(categoryTotals).map(function(category){var previous=previousTotals[category]||0;return {category:category,amount:categoryTotals[category],amountMom:previous>0?(categoryTotals[category]-previous)/previous:null};});
     rows.sort(function(a,b){return b.amount-a.amount||a.category.localeCompare(b.category,'zh-CN');});
     period.textContent=(materialCategoryRankData.year||analytics.year)+'年 · '+rows.length+'类';
     if(!rows.length){
@@ -868,10 +871,11 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
         var category=escapeOutboundText(row.category||'未分类');
         var amount=Math.max(0,Number(row.amount)||0);
         var width=Math.max(1.5,amount/maxAmount*100);
-        return '<div class="category-rank-row" title="'+category+'：'+formatOutboundCityAmount(amount)+'万元">'+
+        var momText=outboundCityMomText(row.amountMom),momClass=outboundCityMomClass(row.amountMom);
+        return '<div class="category-rank-row" title="'+category+'：'+formatOutboundCityAmount(amount)+'万元，环比'+momText+'">'+
           '<span class="category-rank-index">'+(index+1)+'</span>'+
           '<span class="category-rank-name">'+category+'</span>'+
-          '<span class="category-rank-amount">'+formatOutboundCityAmount(amount)+' <span class="category-rank-unit">万元</span></span>'+
+          '<span class="category-rank-amount">'+formatOutboundCityAmount(amount)+' <span class="category-rank-unit">万元</span><span class="category-rank-mom '+momClass+'">'+momText+'</span></span>'+
           '<span class="category-rank-track" aria-hidden="true"><span class="category-rank-fill" style="display:block;width:'+width.toFixed(2)+'%"></span></span>'+
         '</div>';
       }).join('');
