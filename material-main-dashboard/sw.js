@@ -1,4 +1,4 @@
-const CACHE_NAME = "material-main-dashboard-b622d17a3089";
+const CACHE_NAME = "material-main-dashboard-26a24f404c04";
 const CACHE_PREFIX = "material-main-dashboard-";
 const PRECACHE_URLS = [
   "./",

@@ -85,26 +85,26 @@ window.MATERIAL_SUMMARY_DATA = {
       "cityCount": 267
     },
     "10": {
-      "amount": 1385358.97,
-      "amountMom": -0.33007599452460223,
+      "amount": 1387899.97,
+      "amountMom": -0.3288472322075595,
       "topCategory": "试吃桌",
       "topAmount": 373770.0,
-      "topShare": 0.2698001081986757,
+      "topShare": 0.2693061517970967,
       "provinceCount": 31,
       "cityCount": 241
     },
     "11": {
-      "amount": 0.0,
-      "amountMom": -1.0,
-      "topCategory": "暂无数据",
-      "topAmount": 0.0,
-      "topShare": null,
-      "provinceCount": 0,
-      "cityCount": 0
+      "amount": 241227.06,
+      "amountMom": -0.8261927622925125,
+      "topCategory": "铝箔袋",
+      "topAmount": 38735.0,
+      "topShare": 0.16057485424727988,
+      "provinceCount": 27,
+      "cityCount": 127
     },
     "12": {
       "amount": 0.0,
-      "amountMom": null,
+      "amountMom": -1.0,
       "topCategory": "暂无数据",
       "topAmount": 0.0,
       "topShare": null,
