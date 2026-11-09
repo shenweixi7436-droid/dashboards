@@ -441,12 +441,12 @@ body.dashboard-year-view .month-row{display:none!important}
 /* 统一字体规范：数字 GOTHAMRND-BOLD；文字按标题层级使用华康圆体 */
 @font-face{font-family:'GOTHAMRND-BOLD';src:url('fonts/GOTHAMRND-BOLD.otf') format('opentype');font-weight:800;font-style:normal;font-display:swap}
 @font-face{font-family:'GothamRndBold';src:url('fonts/GOTHAMRND-BOLD.otf') format('opentype');font-weight:800;font-style:normal;font-display:swap}
-@font-face{font-family:'华康圆体-W7';src:url('fonts/华康圆体-W7.ttf') format('truetype');font-weight:500;font-style:normal;font-display:swap}
-@font-face{font-family:'华康圆体-W8';src:url('fonts/华康圆体-W8.ttf') format('truetype');font-weight:700;font-style:normal;font-display:swap}
-@font-face{font-family:'华康圆体-W9';src:url('fonts/华康圆体-W9.ttf') format('truetype');font-weight:800;font-style:normal;font-display:swap}
-@font-face{font-family:'HKYuanW7';src:url('fonts/华康圆体-W7.ttf') format('truetype');font-weight:500;font-style:normal;font-display:swap}
-@font-face{font-family:'HKYuanW8';src:url('fonts/华康圆体-W8.ttf') format('truetype');font-weight:700;font-style:normal;font-display:swap}
-@font-face{font-family:'HKYuanW9';src:url('fonts/华康圆体-W9.ttf') format('truetype');font-weight:800;font-style:normal;font-display:swap}
+@font-face{font-family:'华康圆体-W7';src:url('fonts/华康圆体-W7.woff2') format('woff2'),url('fonts/华康圆体-W7.ttf') format('truetype');font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:'华康圆体-W8';src:url('fonts/华康圆体-W8.woff2') format('woff2'),url('fonts/华康圆体-W8.ttf') format('truetype');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'华康圆体-W9';src:url('fonts/华康圆体-W9.woff2') format('woff2'),url('fonts/华康圆体-W9.ttf') format('truetype');font-weight:800;font-style:normal;font-display:swap}
+@font-face{font-family:'HKYuanW7';src:url('fonts/华康圆体-W7.woff2') format('woff2'),url('fonts/华康圆体-W7.ttf') format('truetype');font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:'HKYuanW8';src:url('fonts/华康圆体-W8.woff2') format('woff2'),url('fonts/华康圆体-W8.ttf') format('truetype');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'HKYuanW9';src:url('fonts/华康圆体-W9.woff2') format('woff2'),url('fonts/华康圆体-W9.ttf') format('truetype');font-weight:800;font-style:normal;font-display:swap}
 html,body,button,input,select,textarea,table,.tag,.mtag,.card-sub,.dkpi-label,.dt,.rank-table,.detail-table,.audit-detail-table,.promo-detail-table,.device-detail-table{font-family:'华康圆体-W7','HKYuanW7','Microsoft YaHei',sans-serif!important}
 .hd h1,.detail-title{font-family:'华康圆体-W9','HKYuanW9','Microsoft YaHei',sans-serif!important;font-weight:800!important}
 .month-label,.card-title,.dt-section-title,.kt,.device-name,.promo-bar-name,.audit-progress-name,.approval-bars-title,.approval-bar-name,.device-combo-name,.device-detail-summary-name,.device-detail-section-title,.device-detail-table th,.promo-detail-table th,.audit-detail-table th{font-family:'华康圆体-W8','HKYuanW8','Microsoft YaHei',sans-serif!important;font-weight:700!important}
@@ -623,52 +623,59 @@ svg text{font-family:'华康圆体-W7','HKYuanW7','Microsoft YaHei',sans-serif}
 })();
 </script>
 <script>
-window.DASHBOARD_ASSET_VERSION = "20261109161419";
+window.DASHBOARD_ASSET_VERSION = "20261109165442";
 (function(){
   var sources={
     display:"assets/data/dashboard-snapshot.js?v=20261109162044",
     approval:"assets/data/approval-detail.js?v=20261109162044",
     market:"assets/data/market-order-governance.js?v=20261109162044"
   };
-  var pending={},loaded={};
+  var libraries={echarts:"assets/vendor/echarts.min.js"};
+  var pending={},loaded={},libraryPending={},libraryLoaded={};
+  function loadScript(source,version,pendingMap,loadedMap,name){
+    if(loadedMap[name]) return Promise.resolve();
+    if(pendingMap[name]) return pendingMap[name];
+    pendingMap[name]=new Promise(function(resolve,reject){
+      var script=document.createElement("script");
+      script.src=source.indexOf("?")>=0 ? source : source+"?v="+encodeURIComponent(version||"");
+      script.async=true;
+      script.onload=function(){loadedMap[name]=true;resolve();};
+      script.onerror=function(){delete pendingMap[name];reject(new Error("Unable to load "+source));};
+      document.head.appendChild(script);
+    });
+    return pendingMap[name];
+  }
   window.isDashboardDetailLoaded=function(name){return !!loaded[name];};
   window.loadDashboardDetail=function(name){
     if(loaded[name]) return Promise.resolve();
     if(pending[name]) return pending[name];
     var source=sources[name];
     if(!source) return Promise.reject(new Error("Unknown dashboard detail asset: "+name));
-    pending[name]=new Promise(function(resolve,reject){
-      var script=document.createElement("script");
-      script.src=source+"?v="+encodeURIComponent(window.DASHBOARD_ASSET_VERSION||"");
-      script.async=true;
-      script.onload=function(){
-        loaded[name]=true;
+    pending[name]=loadScript(source,window.DASHBOARD_ASSET_VERSION,pending,loaded,name).then(function(){
         if(typeof buildAnnualDashboardData==="function") buildAnnualDashboardData();
         if(typeof setMainMonthData==="function") setMainMonthData();
-        resolve();
-      };
-      script.onerror=function(){
-        delete pending[name];
-        reject(new Error("Unable to load "+source));
-      };
-      document.head.appendChild(script);
-    });
+      });
     return pending[name];
+  };
+  window.isDashboardLibraryLoaded=function(name){return !!libraryLoaded[name];};
+  window.loadDashboardLibrary=function(name){
+    var source=libraries[name];
+    if(!source) return Promise.reject(new Error("Unknown dashboard library: "+name));
+    return loadScript(source,"5.6.0",libraryPending,libraryLoaded,name);
   };
 })();
 </script>
-<script src="assets/vendor/echarts.min.js?v=5.6.0"></script>
 <script src="assets/data/current-audit-progress.js?v=20261109162044"></script>
 <script src="assets/data/promo-plan-audit.js?v=20261109162044"></script>
 <script src="assets/data/promo-audit-detail.js?v=20261109162044"></script>
 <script src="assets/data/approval-pies.js?v=20261109162044"></script>
-<script src="assets/data/approval-detail-summary.js?v=20261109162044"></script>
+<script src="assets/data/approval-detail-summary.js?v=20261109165442"></script>
 <script src="assets/data/device-channel-status.js?v=20261109162044"></script>
 <script src="assets/data/device-detail.js?v=20261109162044"></script>
 <script src="assets/data/device-region-analysis.js?v=20261109162044"></script>
 <script src="assets/data/store-business-analysis.js?v=20261109162044"></script>
 <script src="assets/data/store-audit-popup.js?v=20261109162044"></script>
-<script src="assets/data/market-order-governance-summary.js?v=20261109162044"></script>
+<script src="assets/data/market-order-governance-summary.js?v=20261109165442"></script>
 <script src="assets/data/gift-audit.js?v=20261109162044"></script>
 <script src="assets/pages/gift-live-data.js?v=20261109162044"></script>
 <script src="assets/data/device-ban-action.js?v=20261109162044"></script>
@@ -711,6 +718,11 @@ body{
 .header-tiger{left:12px!important;top:6px!important;width:66px!important;height:66px!important}
 .hd h1{font-size:28px!important;line-height:1.2!important}
 .hd .dt{font-size:13px!important;text-align:right}
+.header-tools{position:relative;z-index:2;display:flex;align-items:center;justify-content:flex-end;gap:14px;min-width:0;margin-left:auto}
+.header-tools .dt{display:none!important}
+.annual-report-link{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 20px;border:1px solid rgba(255,255,255,.42);border-radius:5px;background:#fcc900;color:#632c16;font-family:'HKYuanW8','Microsoft YaHei',sans-serif;font-size:14px;font-weight:800;letter-spacing:0;text-decoration:none;white-space:nowrap;box-shadow:0 7px 18px rgba(0,0,0,.16);transition:transform .15s ease,background .15s ease,box-shadow .15s ease}
+.annual-report-link:hover{transform:translateY(-1px);background:#ffd52b;box-shadow:0 10px 22px rgba(0,0,0,.22)}
+.annual-report-link:focus-visible{outline:3px solid rgba(255,255,255,.9);outline-offset:3px}
 .ct{
   width:100%;
   max-width:1904px!important;
@@ -996,6 +1008,7 @@ body{
 @media(max-width:1050px){
   .hd{padding-right:120px!important}
   .hd .dt{display:none}
+  .header-tools{margin-left:auto}
   .cg{grid-template-columns:repeat(2,minmax(0,1fr))!important}
   .cg>.card[data-card='4'],.cg>.card[data-card='5']{grid-column:1/-1!important}
   .cg>.card[data-card='6'],.cg>.card[data-card='7'],.cg>.placeholder-card{grid-column:span 1!important}
@@ -1006,10 +1019,12 @@ body{
   .ct>.kr:first-of-type>.kc:nth-child(n+4){grid-column:span 3!important}
 }
 @media(max-width:700px){
-  .hd{width:calc(100% - 20px);margin-top:10px;padding:16px 82px 16px 64px!important}
-  .hd h1{font-size:20px!important}
+  .hd{width:calc(100% - 20px);margin-top:10px;padding:12px 10px 12px 64px!important;gap:10px}
+  .hd>div:nth-child(2){min-width:0}
+  .hd h1{font-size:16px!important;line-height:1.25!important;white-space:normal}
   .hd::after{right:6px!important;width:84px!important;height:84px!important}
   .header-tiger{width:48px!important;height:48px!important}
+  .annual-report-link{min-height:36px;padding:0 10px;font-size:11px}
   .ct{padding:14px 10px 28px!important}
   .dashboard-view-switch{display:grid;grid-template-columns:1fr 1fr}
   .dashboard-view-button{min-width:0}
@@ -1584,7 +1599,10 @@ body{
 <div class="hd">
   <div class="header-tiger"></div>
   <div><h1 id="mainDashboardTitle">皇家小虎市场稽核部数据看板</h1></div>
-  <div class="dt">&#128203; 数据更新：2026-11-09 16:20 &nbsp;|&nbsp; &#128197; 数据范围：2026年1月—11月</div>
+  <div class="header-tools">
+    <a class="annual-report-link" href="http://127.0.0.1:8765/annual-report-builder.html" title="打开本机年度汇报编排工具">年度汇报工具</a>
+    <div class="dt">&#128203; 数据更新：2026-11-09 16:20 &nbsp;|&nbsp; &#128197; 数据范围：2026年1月—11月</div>
+  </div>
 </div>
 <script>
 (function(){
@@ -2005,7 +2023,7 @@ body{
     <div class="device-analysis-grid" id="deviceRegionAnalysisGrid"></div>
   </section>
 </div>
-<script src="assets/data/dashboard-snapshot-summary.js?v=20261109162044"></script>
+<script src="assets/data/dashboard-snapshot-summary.js?v=20261109165442"></script>
 <script>
 
 var chartInst = null;
@@ -3103,6 +3121,9 @@ function renderDetail(cardIdx){
     if(cardIdx===9) return "market";
     return "";
   }
+  function detailNeedsCharts(cardIdx){
+    return cardIdx===2 || cardIdx===6;
+  }
   function showDetailLoading(cardIdx){
     var labels={approval:"正在加载结案审核明细...",market:"正在加载市场秩序明细..."};
     var asset=detailAssetForCard(cardIdx);
@@ -3127,9 +3148,14 @@ function renderDetail(cardIdx){
     document.body.style.overflow = "hidden";
     document.getElementById("detailTitle").textContent = (cardTitles[cardIdx] || "详情分析");
     var asset=detailAssetForCard(cardIdx);
-    if(asset && window.loadDashboardDetail && !window.isDashboardDetailLoaded(asset)){
+    var needsDetail=asset && window.loadDashboardDetail && !window.isDashboardDetailLoaded(asset);
+    var needsCharts=detailNeedsCharts(cardIdx) && window.loadDashboardLibrary && !window.isDashboardLibraryLoaded("echarts");
+    if(needsDetail || needsCharts){
       showDetailLoading(cardIdx);
-      window.loadDashboardDetail(asset).then(function(){
+      var requirements=[];
+      if(needsDetail) requirements.push(window.loadDashboardDetail(asset));
+      if(needsCharts) requirements.push(window.loadDashboardLibrary("echarts"));
+      Promise.all(requirements).then(function(){
         if(activeCard===cardIdx) window.renderDetail(cardIdx);
       }).catch(function(){
         if(activeCard!==cardIdx) return;
@@ -4471,9 +4497,14 @@ document.addEventListener("DOMContentLoaded",function(){
   }
 
   trigger.addEventListener("click",function(){
-    if(window.loadDashboardDetail && !window.isDashboardDetailLoaded("display")){
+    var needsDetail=window.loadDashboardDetail && !window.isDashboardDetailLoaded("display");
+    var needsCharts=window.loadDashboardLibrary && !window.isDashboardLibraryLoaded("echarts");
+    if(needsDetail || needsCharts){
       trigger.disabled=true;
-      window.loadDashboardDetail("display").then(openPopup).catch(function(){
+      var requirements=[];
+      if(needsDetail) requirements.push(window.loadDashboardDetail("display"));
+      if(needsCharts) requirements.push(window.loadDashboardLibrary("echarts"));
+      Promise.all(requirements).then(openPopup).catch(function(){
         window.alert("陈列稽核明细加载失败，请检查网络后重试。");
       }).then(function(){trigger.disabled=false;});
       return;
@@ -4859,9 +4890,14 @@ document.addEventListener("DOMContentLoaded",function(){
   }
 
   trigger.addEventListener("click",function(){
-    if(window.loadDashboardDetail && !window.isDashboardDetailLoaded("approval")){
+    var needsDetail=window.loadDashboardDetail && !window.isDashboardDetailLoaded("approval");
+    var needsCharts=window.loadDashboardLibrary && !window.isDashboardLibraryLoaded("echarts");
+    if(needsDetail || needsCharts){
       trigger.disabled=true;
-      window.loadDashboardDetail("approval").then(openPopup).catch(function(){
+      var requirements=[];
+      if(needsDetail) requirements.push(window.loadDashboardDetail("approval"));
+      if(needsCharts) requirements.push(window.loadDashboardLibrary("echarts"));
+      Promise.all(requirements).then(openPopup).catch(function(){
         window.alert("结案审核明细加载失败，请检查网络后重试。");
       }).then(function(){trigger.disabled=false;});
       return;

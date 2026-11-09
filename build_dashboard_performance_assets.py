@@ -20,15 +20,17 @@ DATA_DIR = ROOT / "assets" / "data"
 INDEX_FILE = ROOT / "index.html"
 
 
-def read_assigned_json(path: Path, assignment: str):
-    """Read the JSON object that immediately follows a JavaScript assignment."""
+def read_assigned_json(path: Path, *assignments: str):
+    """Read JSON from the first compatible JavaScript assignment in a file."""
     content = path.read_text(encoding="utf-8")
-    start = content.find(assignment)
-    if start < 0:
-        raise ValueError(f"Cannot find {assignment!r} in {path.name}")
-    start += len(assignment)
-    value, _ = json.JSONDecoder().raw_decode(content[start:].lstrip())
-    return value
+    for assignment in assignments:
+        start = content.find(assignment)
+        if start < 0:
+            continue
+        start += len(assignment)
+        value, _ = json.JSONDecoder().raw_decode(content[start:].lstrip())
+        return value
+    raise ValueError(f"Cannot find any supported assignment in {path.name}: {assignments!r}")
 
 
 def write_assignment(path: Path, assignment: str, value) -> None:
@@ -53,6 +55,19 @@ def build_month_summary(rows, excluded_fields):
     return summary
 
 
+def normalize_month_map(payload):
+    """Support both legacy single-month and current month-map generators."""
+    if not isinstance(payload, dict):
+        raise ValueError("Expected a JSON object for month-aware dashboard data")
+    if any(re.fullmatch(r"\d+月", str(key)) for key in payload):
+        return payload
+    month = payload.get("month")
+    if month is None:
+        raise ValueError("Single-month payload has no month field")
+    month_text = str(month).replace("月", "").strip()
+    return {f"{month_text}月": payload}
+
+
 def update_asset_version(version: str) -> None:
     html = INDEX_FILE.read_text(encoding="utf-8")
     replacements = {
@@ -70,9 +85,11 @@ def update_asset_version(version: str) -> None:
 
 def main() -> None:
     snapshot = read_assigned_json(DATA_DIR / "dashboard-snapshot.js", "var ZD = ")
-    approval = read_assigned_json(
-        DATA_DIR / "approval-detail.js", "window.APPROVAL_DETAIL_BY_MONTH = "
-    )
+    approval = normalize_month_map(read_assigned_json(
+        DATA_DIR / "approval-detail.js",
+        "window.APPROVAL_DETAIL_BY_MONTH = ",
+        "window.APPROVAL_DETAIL = ",
+    ))
     market = read_assigned_json(
         DATA_DIR / "market-order-governance.js",
         "window.MARKET_ORDER_GOVERNANCE_BY_MONTH = ",
