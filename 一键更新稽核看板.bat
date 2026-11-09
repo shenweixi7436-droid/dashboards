@@ -66,6 +66,11 @@ call :run_script "GIFT_ANOMALY_PAGE" "%~dp0update_gift_anomaly_page.py"
 if errorlevel 1 goto fail
 
 echo.
+echo Building compact homepage data assets...
+call :run_script "HOMEPAGE_PERFORMANCE" "%~dp0build_dashboard_performance_assets.py"
+if errorlevel 1 goto fail
+
+echo.
 echo Updating schedule of progress dashboard...
 call :run_script "SCHEDULE_PROGRESS" "%~dp0..\scripts\build_material_development_dashboard.py"
 if errorlevel 1 goto fail

@@ -622,21 +622,56 @@ svg text{font-family:'华康圆体-W7','HKYuanW7','Microsoft YaHei',sans-serif}
   new MutationObserver(applyChartFonts).observe(document.documentElement,{childList:true,subtree:true,characterData:true});
 })();
 </script>
-<script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
-<script src="assets/data/current-audit-progress.js?v=20261106170842"></script>
-<script src="assets/data/promo-plan-audit.js?v=20261106170842"></script>
-<script src="assets/data/promo-audit-detail.js?v=20261106170842"></script>
-<script src="assets/data/approval-pies.js?v=20261106170842"></script>
-<script src="assets/data/approval-detail.js?v=20261106170842"></script>
-<script src="assets/data/device-channel-status.js?v=20261106170842"></script>
-<script src="assets/data/device-detail.js?v=20261106170842"></script>
-<script src="assets/data/device-region-analysis.js?v=20261106170842"></script>
-<script src="assets/data/store-business-analysis.js?v=20261106170842"></script>
-<script src="assets/data/store-audit-popup.js?v=20261106170842"></script>
-<script src="assets/data/market-order-governance.js?v=20261106170842"></script>
-<script src="assets/data/gift-audit.js?v=20261106170842"></script>
-<script src="assets/pages/gift-live-data.js?v=20261106170842"></script>
-<script src="assets/data/device-ban-action.js?v=20261106170842"></script>
+<script>
+window.DASHBOARD_ASSET_VERSION = "20261109161419";
+(function(){
+  var sources={
+    display:"assets/data/dashboard-snapshot.js?v=20261109162044",
+    approval:"assets/data/approval-detail.js?v=20261109162044",
+    market:"assets/data/market-order-governance.js?v=20261109162044"
+  };
+  var pending={},loaded={};
+  window.isDashboardDetailLoaded=function(name){return !!loaded[name];};
+  window.loadDashboardDetail=function(name){
+    if(loaded[name]) return Promise.resolve();
+    if(pending[name]) return pending[name];
+    var source=sources[name];
+    if(!source) return Promise.reject(new Error("Unknown dashboard detail asset: "+name));
+    pending[name]=new Promise(function(resolve,reject){
+      var script=document.createElement("script");
+      script.src=source+"?v="+encodeURIComponent(window.DASHBOARD_ASSET_VERSION||"");
+      script.async=true;
+      script.onload=function(){
+        loaded[name]=true;
+        if(typeof buildAnnualDashboardData==="function") buildAnnualDashboardData();
+        if(typeof setMainMonthData==="function") setMainMonthData();
+        resolve();
+      };
+      script.onerror=function(){
+        delete pending[name];
+        reject(new Error("Unable to load "+source));
+      };
+      document.head.appendChild(script);
+    });
+    return pending[name];
+  };
+})();
+</script>
+<script src="assets/vendor/echarts.min.js?v=5.6.0"></script>
+<script src="assets/data/current-audit-progress.js?v=20261109162044"></script>
+<script src="assets/data/promo-plan-audit.js?v=20261109162044"></script>
+<script src="assets/data/promo-audit-detail.js?v=20261109162044"></script>
+<script src="assets/data/approval-pies.js?v=20261109162044"></script>
+<script src="assets/data/approval-detail-summary.js?v=20261109162044"></script>
+<script src="assets/data/device-channel-status.js?v=20261109162044"></script>
+<script src="assets/data/device-detail.js?v=20261109162044"></script>
+<script src="assets/data/device-region-analysis.js?v=20261109162044"></script>
+<script src="assets/data/store-business-analysis.js?v=20261109162044"></script>
+<script src="assets/data/store-audit-popup.js?v=20261109162044"></script>
+<script src="assets/data/market-order-governance-summary.js?v=20261109162044"></script>
+<script src="assets/data/gift-audit.js?v=20261109162044"></script>
+<script src="assets/pages/gift-live-data.js?v=20261109162044"></script>
+<script src="assets/data/device-ban-action.js?v=20261109162044"></script>
 <style id="dashboard-layout-0730">
 :root{
   --layout-bg:#fbf7ef;
@@ -1549,7 +1584,7 @@ body{
 <div class="hd">
   <div class="header-tiger"></div>
   <div><h1 id="mainDashboardTitle">皇家小虎市场稽核部数据看板</h1></div>
-  <div class="dt">&#128203; 数据更新：2026-11-06 17:06 &nbsp;|&nbsp; &#128197; 数据范围：2026年1月—11月</div>
+  <div class="dt">&#128203; 数据更新：2026-11-09 16:20 &nbsp;|&nbsp; &#128197; 数据范围：2026年1月—11月</div>
 </div>
 <script>
 (function(){
@@ -1970,7 +2005,7 @@ body{
     <div class="device-analysis-grid" id="deviceRegionAnalysisGrid"></div>
   </section>
 </div>
-<script src="assets/data/dashboard-snapshot.js?v=20261106170842"></script>
+<script src="assets/data/dashboard-snapshot-summary.js?v=20261109162044"></script>
 <script>
 
 var chartInst = null;
@@ -3063,6 +3098,21 @@ function renderDetail(cardIdx){
     }
   };
   var originalOpenDetail = window.openDetail;
+  function detailAssetForCard(cardIdx){
+    if(cardIdx===2 || cardIdx===6) return "approval";
+    if(cardIdx===9) return "market";
+    return "";
+  }
+  function showDetailLoading(cardIdx){
+    var labels={approval:"正在加载结案审核明细...",market:"正在加载市场秩序明细..."};
+    var asset=detailAssetForCard(cardIdx);
+    document.getElementById("detailTitle").textContent=cardTitles[cardIdx]||"详情分析";
+    document.getElementById("detailKpiRow").innerHTML="";
+    document.getElementById("detailAlerts").innerHTML='<div class="d-alert info">'+(labels[asset]||"正在加载明细...")+"</div>";
+    document.getElementById("detailChart").innerHTML='<div class="promo-detail-empty">正在准备完整明细，请稍候...</div>';
+    var detailTable=document.querySelector("#detailPanel .detail-table");
+    if(detailTable) detailTable.style.display="none";
+  }
   window.openDetail = function(cardIdx){
     if(cardIdx===8){
       window.location.href="store-business-analysis.html";
@@ -3076,6 +3126,18 @@ function renderDetail(cardIdx){
     if(panel) panel.classList.add("show");
     document.body.style.overflow = "hidden";
     document.getElementById("detailTitle").textContent = (cardTitles[cardIdx] || "详情分析");
+    var asset=detailAssetForCard(cardIdx);
+    if(asset && window.loadDashboardDetail && !window.isDashboardDetailLoaded(asset)){
+      showDetailLoading(cardIdx);
+      window.loadDashboardDetail(asset).then(function(){
+        if(activeCard===cardIdx) window.renderDetail(cardIdx);
+      }).catch(function(){
+        if(activeCard!==cardIdx) return;
+        document.getElementById("detailAlerts").innerHTML='<div class="d-alert">明细加载失败，请检查网络后重试。</div>';
+        document.getElementById("detailChart").innerHTML='<div class="promo-detail-empty">暂时无法加载完整明细</div>';
+      });
+      return;
+    }
     window.renderDetail(cardIdx);
   };
   function resultClass(result){
@@ -4408,7 +4470,16 @@ document.addEventListener("DOMContentLoaded",function(){
     trigger.focus();
   }
 
-  trigger.addEventListener("click",openPopup);
+  trigger.addEventListener("click",function(){
+    if(window.loadDashboardDetail && !window.isDashboardDetailLoaded("display")){
+      trigger.disabled=true;
+      window.loadDashboardDetail("display").then(openPopup).catch(function(){
+        window.alert("陈列稽核明细加载失败，请检查网络后重试。");
+      }).then(function(){trigger.disabled=false;});
+      return;
+    }
+    openPopup();
+  });
   closeButton.addEventListener("click",closePopup);
   modal.addEventListener("click",function(event){if(event.target===modal) closePopup();});
   window.addEventListener("resize",function(){
@@ -4787,7 +4858,16 @@ document.addEventListener("DOMContentLoaded",function(){
     trigger.focus();
   }
 
-  trigger.addEventListener("click",openPopup);
+  trigger.addEventListener("click",function(){
+    if(window.loadDashboardDetail && !window.isDashboardDetailLoaded("approval")){
+      trigger.disabled=true;
+      window.loadDashboardDetail("approval").then(openPopup).catch(function(){
+        window.alert("结案审核明细加载失败，请检查网络后重试。");
+      }).then(function(){trigger.disabled=false;});
+      return;
+    }
+    openPopup();
+  });
   if(feeTypeSelect) feeTypeSelect.addEventListener("change",renderApprovalIssueTypes);
   closeButton.addEventListener("click",closePopup);
   modal.addEventListener("click",function(event){if(event.target===modal) closePopup();});
