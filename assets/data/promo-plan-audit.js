@@ -1,30 +1,545 @@
-window.PROMO_PLAN_AUDIT = {
-  "planTotal": 231,
-  "auditTotal": 26,
-  "progress": 11.3,
+window.PROMO_PLAN_AUDIT_BY_MONTH = {
+  "6月": {
+    "month": "6月",
+    "planTotal": 130,
+    "auditTotal": 7,
+    "progress": 5.4,
+    "rows": [
+      {
+        "province": "云南",
+        "plan": 3,
+        "audit": 0
+      },
+      {
+        "province": "内蒙古",
+        "plan": 2,
+        "audit": 0
+      },
+      {
+        "province": "北京",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "吉林",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "天津",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "安徽",
+        "plan": 2,
+        "audit": 0
+      },
+      {
+        "province": "山东",
+        "plan": 67,
+        "audit": 0
+      },
+      {
+        "province": "山西",
+        "plan": 5,
+        "audit": 0
+      },
+      {
+        "province": "川渝藏",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "广东",
+        "plan": 34,
+        "audit": 7
+      },
+      {
+        "province": "广西",
+        "plan": 2,
+        "audit": 0
+      },
+      {
+        "province": "江西",
+        "plan": 4,
+        "audit": 0
+      },
+      {
+        "province": "河北",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "河南",
+        "plan": 9,
+        "audit": 0
+      },
+      {
+        "province": "浙江",
+        "plan": 2,
+        "audit": 0
+      },
+      {
+        "province": "湖北",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "湖南",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "福建",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "苏北",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "苏南",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "贵州",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "辽宁",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "陕甘青宁新",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "黑龙江",
+        "plan": 0,
+        "audit": 0
+      }
+    ]
+  },
+  "7月": {
+    "month": "7月",
+    "planTotal": 101,
+    "auditTotal": 9,
+    "progress": 8.9,
+    "rows": [
+      {
+        "province": "云南",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "内蒙古",
+        "plan": 2,
+        "audit": 0
+      },
+      {
+        "province": "北京",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "吉林",
+        "plan": 1,
+        "audit": 0
+      },
+      {
+        "province": "天津",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "安徽",
+        "plan": 9,
+        "audit": 0
+      },
+      {
+        "province": "山东",
+        "plan": 2,
+        "audit": 1
+      },
+      {
+        "province": "山西",
+        "plan": 36,
+        "audit": 0
+      },
+      {
+        "province": "川渝藏",
+        "plan": 7,
+        "audit": 0
+      },
+      {
+        "province": "广东",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "广西",
+        "plan": 7,
+        "audit": 0
+      },
+      {
+        "province": "江西",
+        "plan": 5,
+        "audit": 0
+      },
+      {
+        "province": "河北",
+        "plan": 1,
+        "audit": 0
+      },
+      {
+        "province": "河南",
+        "plan": 15,
+        "audit": 0
+      },
+      {
+        "province": "浙江",
+        "plan": 2,
+        "audit": 0
+      },
+      {
+        "province": "湖北",
+        "plan": 6,
+        "audit": 0
+      },
+      {
+        "province": "湖南",
+        "plan": 1,
+        "audit": 4
+      },
+      {
+        "province": "福建",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "苏北",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "苏南",
+        "plan": 1,
+        "audit": 0
+      },
+      {
+        "province": "贵州",
+        "plan": 4,
+        "audit": 4
+      },
+      {
+        "province": "辽宁",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "陕甘青宁新",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "黑龙江",
+        "plan": 2,
+        "audit": 0
+      }
+    ]
+  },
+  "8月": {
+    "month": "8月",
+    "planTotal": 0,
+    "auditTotal": 10,
+    "progress": 0,
+    "rows": [
+      {
+        "province": "云南",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "内蒙古",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "北京",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "吉林",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "天津",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "安徽",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "山东",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "山西",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "川渝藏",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "广东",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "广西",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "江西",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "河北",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "河南",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "浙江",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "湖北",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "湖南",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "湖南省",
+        "plan": 0,
+        "audit": 10
+      },
+      {
+        "province": "福建",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "苏北",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "苏南",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "西北",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "贵州",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "辽宁",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "黑龙江",
+        "plan": 0,
+        "audit": 0
+      }
+    ]
+  },
+  "9月": {
+    "month": "9月",
+    "planTotal": 0,
+    "auditTotal": 8,
+    "progress": 0,
+    "rows": [
+      {
+        "province": "云南",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "内蒙古",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "北京",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "吉林",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "天津",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "安徽",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "山东",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "山西",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "川渝藏",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "广东",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "广西",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "江西",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "河北",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "河南",
+        "plan": 0,
+        "audit": 3
+      },
+      {
+        "province": "浙江",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "湖北",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "湖南",
+        "plan": 0,
+        "audit": 1
+      },
+      {
+        "province": "福建",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "苏北",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "苏南",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "西北",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "贵州",
+        "plan": 0,
+        "audit": 4
+      },
+      {
+        "province": "辽宁",
+        "plan": 0,
+        "audit": 0
+      },
+      {
+        "province": "黑龙江",
+        "plan": 0,
+        "audit": 0
+      }
+    ]
+  }
+};
+window.PROMO_PLAN_AUDIT = window.PROMO_PLAN_AUDIT_BY_MONTH[window.MAIN_SELECTED_MONTH || "11月"] || {
+  "month": "6月",
+  "planTotal": 130,
+  "auditTotal": 7,
+  "progress": 5.4,
   "rows": [
     {
-      "province": "黑龙江",
-      "plan": 2,
-      "audit": 0
-    },
-    {
-      "province": "吉林",
-      "plan": 1,
+      "province": "云南",
+      "plan": 3,
       "audit": 0
     },
     {
       "province": "内蒙古",
-      "plan": 4,
-      "audit": 0
-    },
-    {
-      "province": "辽宁",
-      "plan": 0,
+      "plan": 2,
       "audit": 0
     },
     {
       "province": "北京",
+      "plan": 0,
+      "audit": 0
+    },
+    {
+      "province": "吉林",
       "plan": 0,
       "audit": 0
     },
@@ -34,48 +549,63 @@ window.PROMO_PLAN_AUDIT = {
       "audit": 0
     },
     {
-      "province": "河北",
-      "plan": 1,
+      "province": "安徽",
+      "plan": 2,
       "audit": 0
     },
     {
       "province": "山东",
-      "plan": 69,
-      "audit": 0
-    },
-    {
-      "province": "苏北",
-      "plan": 0,
+      "plan": 67,
       "audit": 0
     },
     {
       "province": "山西",
-      "plan": 41,
+      "plan": 5,
       "audit": 0
     },
     {
-      "province": "河南",
-      "plan": 24,
-      "audit": 0
-    },
-    {
-      "province": "湖北",
-      "plan": 6,
-      "audit": 0
-    },
-    {
-      "province": "安徽",
-      "plan": 11,
-      "audit": 0
-    },
-    {
-      "province": "江西",
-      "plan": 9,
+      "province": "川渝藏",
+      "plan": 0,
       "audit": 0
     },
     {
       "province": "广东",
       "plan": 34,
+      "audit": 7
+    },
+    {
+      "province": "广西",
+      "plan": 2,
+      "audit": 0
+    },
+    {
+      "province": "江西",
+      "plan": 4,
+      "audit": 0
+    },
+    {
+      "province": "河北",
+      "plan": 0,
+      "audit": 0
+    },
+    {
+      "province": "河南",
+      "plan": 9,
+      "audit": 0
+    },
+    {
+      "province": "浙江",
+      "plan": 2,
+      "audit": 0
+    },
+    {
+      "province": "湖北",
+      "plan": 0,
+      "audit": 0
+    },
+    {
+      "province": "湖南",
+      "plan": 0,
       "audit": 0
     },
     {
@@ -84,38 +614,23 @@ window.PROMO_PLAN_AUDIT = {
       "audit": 0
     },
     {
-      "province": "贵州",
-      "plan": 4,
-      "audit": 0
-    },
-    {
-      "province": "湖南",
-      "plan": 1,
+      "province": "苏北",
+      "plan": 0,
       "audit": 0
     },
     {
       "province": "苏南",
-      "plan": 1,
+      "plan": 0,
       "audit": 0
     },
     {
-      "province": "浙江",
-      "plan": 4,
+      "province": "贵州",
+      "plan": 0,
       "audit": 0
     },
     {
-      "province": "广西",
-      "plan": 9,
-      "audit": 0
-    },
-    {
-      "province": "云南",
-      "plan": 3,
-      "audit": 0
-    },
-    {
-      "province": "川渝藏",
-      "plan": 7,
+      "province": "辽宁",
+      "plan": 0,
       "audit": 0
     },
     {
@@ -124,34 +639,11 @@ window.PROMO_PLAN_AUDIT = {
       "audit": 0
     },
     {
-      "province": "西北",
+      "province": "黑龙江",
       "plan": 0,
       "audit": 0
-    },
-    {
-      "province": "梧桐",
-      "plan": 0,
-      "audit": 7
-    },
-    {
-      "province": "泽泽",
-      "plan": 0,
-      "audit": 4
-    },
-    {
-      "province": "破晓",
-      "plan": 0,
-      "audit": 4
-    },
-    {
-      "province": "泉源",
-      "plan": 0,
-      "audit": 1
-    },
-    {
-      "province": "郁离",
-      "plan": 0,
-      "audit": 10
     }
   ]
 };
+window.MAIN_WORK_MONTHS = ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"];
+window.MAIN_DEFAULT_MONTH = "11月";
