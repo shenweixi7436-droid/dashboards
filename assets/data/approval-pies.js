@@ -786,32 +786,61 @@ window.APPROVAL_PIES_BY_MONTH = {
   },
   "11月": {
     "month": "11月",
-    "total": 34,
-    "qualified": 30,
-    "unqualified": 4,
-    "rate": 88.2,
+    "total": 235,
+    "qualified": 214,
+    "unqualified": 21,
+    "rate": 91.1,
     "issues": [
       {
         "name": "流程不合规",
-        "value": 3
+        "value": 10
+      },
+      {
+        "name": "着装不规范",
+        "value": 7
       },
       {
         "name": "未使用今日水印相机",
+        "value": 2
+      }
+    ],
+    "dressIssues": [
+      {
+        "name": "口罩,帽子",
+        "value": 2
+      },
+      {
+        "name": "口罩",
+        "value": 2
+      },
+      {
+        "name": "帽子",
+        "value": 2
+      },
+      {
+        "name": "帽子,围裙,口罩",
         "value": 1
       }
     ],
-    "dressIssues": [],
     "provinceIssues": [
       {
         "province": "川渝藏大区",
+        "value": 11
+      },
+      {
+        "province": "山东省区",
+        "value": 4
+      },
+      {
+        "province": "河南省区",
+        "value": 3
+      },
+      {
+        "province": "江西省区",
         "value": 2
       },
       {
         "province": "浙江省区",
-        "value": 1
-      },
-      {
-        "province": "河南省区",
         "value": 1
       }
     ]
@@ -844,32 +873,61 @@ window.APPROVAL_PIES_BY_MONTH = {
 };
 window.APPROVAL_PIES = window.APPROVAL_PIES_BY_MONTH[window.MAIN_SELECTED_MONTH || "11月"] || {
   "month": "11月",
-  "total": 34,
-  "qualified": 30,
-  "unqualified": 4,
-  "rate": 88.2,
+  "total": 235,
+  "qualified": 214,
+  "unqualified": 21,
+  "rate": 91.1,
   "issues": [
     {
       "name": "流程不合规",
-      "value": 3
+      "value": 10
+    },
+    {
+      "name": "着装不规范",
+      "value": 7
     },
     {
       "name": "未使用今日水印相机",
+      "value": 2
+    }
+  ],
+  "dressIssues": [
+    {
+      "name": "口罩,帽子",
+      "value": 2
+    },
+    {
+      "name": "口罩",
+      "value": 2
+    },
+    {
+      "name": "帽子",
+      "value": 2
+    },
+    {
+      "name": "帽子,围裙,口罩",
       "value": 1
     }
   ],
-  "dressIssues": [],
   "provinceIssues": [
     {
       "province": "川渝藏大区",
+      "value": 11
+    },
+    {
+      "province": "山东省区",
+      "value": 4
+    },
+    {
+      "province": "河南省区",
+      "value": 3
+    },
+    {
+      "province": "江西省区",
       "value": 2
     },
     {
       "province": "浙江省区",
-      "value": 1
-    },
-    {
-      "province": "河南省区",
       "value": 1
     }
   ]

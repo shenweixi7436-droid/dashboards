@@ -1,15 +1,15 @@
-Update started 2026/11/09 ÖÜÒ» 17:07:45.98
+Update started 2026/11/13 ÖÜÎå 14:01:51.21
 [RUN] MAIN_DASHBOARDS 
 === å¸‚åœºç¨½æ ¸éƒ¨é‡ç‚¹å·¥ä½œçœ‹æ¿ç”Ÿæˆå™¨ v2 ===
-æ—¶é—´: 2026-11-09 17:07:46
+æ—¶é—´: 2026-11-13 14:01:51
 
 åŠ è½½ Excel æ•°æ®...
-  ç¨½æ ¸æ˜ç»†: 3135 è¡Œ
-  è®¡åˆ’æ˜ç»†: 22067 è¡Œ
+  ç¨½æ ¸æ˜ç»†: 3200 è¡Œ
+  è®¡åˆ’æ˜ç»†: 24038 è¡Œ
   å„æˆ˜åŒºç¨½æ ¸è¿›æ±‡æ€»: 91 è¡Œ
   æœˆåº¦é™ˆåˆ—ç¨½æ ¸è´¹ç”¨: 12 è¡Œ
   æ¨å¹¿ä¿ƒé”€: 34 è¡Œ
-  çº¿ä¸Šå®¡æ‰¹: 3171 è¡Œ
+  çº¿ä¸Šå®¡æ‰¹: 3372 è¡Œ
   è®¾å¤‡å°è´¦: 22 è¡Œ
 å¯ç”¨æœˆä»½: 1æœˆ, 2æœˆ, 3æœˆ, 4æœˆ, 5æœˆ, 6æœˆ, 7æœˆ, 8æœˆ, 9æœˆ, 10æœˆ, 11æœˆï¼›é»˜è®¤æœˆä»½: 11æœˆ
 é¢„è®¡ç®—ç»Ÿè®¡æ•°æ®...
@@ -17,7 +17,7 @@ Update started 2026/11/09 ÖÜÒ» 17:07:45.98
 
 === æ•°æ®éªŒè¯ ===
 1æœˆ/å…¨éƒ¨: plan=1790, audit=232, anomaly=2, rate=99.1
-11æœˆ/å…¨éƒ¨: plan=1924, audit=32, anomaly=1, rate=96.9
+11æœˆ/å…¨éƒ¨: plan=3859, audit=97, anomaly=3, rate=96.9
 
 æ„å»º ZD æ•°æ®...
   1æœˆ / å…¨éƒ¨...
@@ -107,7 +107,7 @@ Update started 2026/11/09 ÖÜÒ» 17:07:45.98
   å¡«å……æ˜ç»†æ•°æ®...
 
 æ³¨å…¥ HTML æ¨¡æ¿...
-  ZD JSON: 1,751,725 å­—ç¬¦
+  ZD JSON: 1,779,743 å­—ç¬¦
 
 --- ç”Ÿæˆä¸»çœ‹æ¿ ---
   âœ… ä¸»çœ‹æ¿: C:\Users\shenw\Documents\New project\github-dashboards\index.html (323,327 å­—ç¬¦)
@@ -127,7 +127,7 @@ Promo task total: 231, audited: 26, progress: 11.3%
 [RUN] APPROVAL_AUDIT 
 Generated: C:\Users\shenw\Documents\New project\github-dashboards\assets\data\approval-detail.js
 Generated: C:\Users\shenw\Documents\New project\github-dashboards\assets\data\approval-pies.js
-Approval total: 3171, qualified: 2609, unqualified: 562
+Approval total: 3372, qualified: 2793, unqualified: 579
 [OK] APPROVAL_AUDIT 
 [RUN] DEVICE_CHANNEL 
 Updated: C:\Users\shenw\Documents\New project\github-dashboards\assets\data\device-channel-status.js
@@ -148,15 +148,15 @@ GIFT_LIVE_DATA written: t1=9ÔÂ, »î¶¯ 325Ìõ/65176Ôª, ÑùÆ· 1041Ìõ/44507Ôª
 ===== ¸üĞÂÍê³É =====
 »î¶¯£º1196³¡ / ½ğ¶îÒì³£1123 / ÊıÁ¿Òì³£817 / Ë«Î¬770 / ÔÂ·İ[1, 2, 3, 4, 5, 6, 7, 8, 9]
 ÑùÆ·£º4077µ¥ / ½ğ¶îÒì³£1861 / ÊıÁ¿Òì³£1837
-ºËÏú£º3042µ¥ / ×Ü¶î3,155,460.5 / ·Ñ±È7.9% / ÔÂ·İ[9, 10, 11]
+ºËÏú£º3176µ¥ / ×Ü¶î3,267,122.2 / ·Ñ±È7.9% / ÔÂ·İ[9, 10, 11]
 ¾É¡úĞÂ »î¶¯×Ü³¡´Î: 1196 ¡ú 1196
 ÒÑĞ´Èë:
   C:\Users\shenw\Documents\New project\github-dashboards\assets\pages\ÏßÏÂ»î¶¯ÓëÑùÆ·ÉêÇëÒì³£½â¶Á¿´°å.html
   C:\Users\shenw\WorkBuddy\2026-08-25-13-53-45\ÏßÏÂ»î¶¯ÓëÑùÆ·ÉêÇëÒì³£½â¶Á¿´°å.html
-±¸·İ: C:\Users\shenw\Documents\New project\github-dashboards\backups/*.bak-auto-20261109-170910.*
+±¸·İ: C:\Users\shenw\Documents\New project\github-dashboards\backups/*.bak-auto-20261113-140316.*
 [OK] GIFT_ANOMALY_PAGE 
 [RUN] HOMEPAGE_PERFORMANCE 
-Built compact homepage assets (version 20261109170911).
+Built compact homepage assets (version 20261113140317).
 [OK] HOMEPAGE_PERFORMANCE 
 [RUN] SCHEDULE_PROGRESS 
 saved=C:\Users\shenw\Documents\New project\dist\material_development_progress_dashboard.html
@@ -195,15 +195,15 @@ GIFT_LIVE_DATA written: t1=9ÔÂ, »î¶¯ 325Ìõ/65176Ôª, ÑùÆ· 1041Ìõ/44507Ôª
 ===== ¸üĞÂÍê³É =====
 »î¶¯£º1196³¡ / ½ğ¶îÒì³£1123 / ÊıÁ¿Òì³£817 / Ë«Î¬770 / ÔÂ·İ[1, 2, 3, 4, 5, 6, 7, 8, 9]
 ÑùÆ·£º4077µ¥ / ½ğ¶îÒì³£1861 / ÊıÁ¿Òì³£1837
-ºËÏú£º3042µ¥ / ×Ü¶î3,155,460.5 / ·Ñ±È7.9% / ÔÂ·İ[9, 10, 11]
+ºËÏú£º3176µ¥ / ×Ü¶î3,267,122.2 / ·Ñ±È7.9% / ÔÂ·İ[9, 10, 11]
 ¾É¡úĞÂ »î¶¯×Ü³¡´Î: 1196 ¡ú 1196
 ÒÑĞ´Èë:
   C:\Users\shenw\Documents\New project\github-dashboards\assets\pages\ÏßÏÂ»î¶¯ÓëÑùÆ·ÉêÇëÒì³£½â¶Á¿´°å.html
   C:\Users\shenw\WorkBuddy\2026-08-25-13-53-45\ÏßÏÂ»î¶¯ÓëÑùÆ·ÉêÇëÒì³£½â¶Á¿´°å.html
-±¸·İ: C:\Users\shenw\Documents\New project\github-dashboards\backups/*.bak-auto-20261109-171100.*
+±¸·İ: C:\Users\shenw\Documents\New project\github-dashboards\backups/*.bak-auto-20261113-141240.*
 [OK] GIFT_ANOMALY_PAGE 
 [RUN] HOMEPAGE_PERFORMANCE 
-Built compact homepage assets (version 20261109171100).
+Built compact homepage assets (version 20261113141240).
 [OK] HOMEPAGE_PERFORMANCE 
 [RUN] SCHEDULE_PROGRESS 
 saved=C:\Users\shenw\Documents\New project\dist\material_development_progress_dashboard.html
