@@ -94,13 +94,13 @@ window.MATERIAL_SUMMARY_DATA = {
       "cityCount": 241
     },
     "11": {
-      "amount": 241227.06,
-      "amountMom": -0.8261927622925125,
+      "amount": 481150.25,
+      "amountMom": -0.6533249798975,
       "topCategory": "铝箔袋",
-      "topAmount": 38735.0,
-      "topShare": 0.16057485424727988,
-      "provinceCount": 27,
-      "cityCount": 127
+      "topAmount": 83342.5,
+      "topShare": 0.17321512355028337,
+      "provinceCount": 28,
+      "cityCount": 183
     },
     "12": {
       "amount": 0.0,
