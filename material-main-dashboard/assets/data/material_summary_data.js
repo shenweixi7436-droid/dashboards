@@ -2,6 +2,7 @@ window.MATERIAL_SUMMARY_DATA = {
   "year": 2026,
   "sourceFile": "2026年物料及设备出库数据汇总.xlsx",
   "sourceSheet": "物料出库明细",
+  "latestCreatedDate": "2026-11-19",
   "months": {
     "1": {
       "amount": 3479643.87,
@@ -94,13 +95,13 @@ window.MATERIAL_SUMMARY_DATA = {
       "cityCount": 241
     },
     "11": {
-      "amount": 481150.25,
-      "amountMom": -0.6533249798975,
+      "amount": 743873.8,
+      "amountMom": -0.464029241242793,
       "topCategory": "铝箔袋",
-      "topAmount": 83342.5,
-      "topShare": 0.17321512355028337,
-      "provinceCount": 28,
-      "cityCount": 183
+      "topAmount": 132870.0,
+      "topShare": 0.17861900768652056,
+      "provinceCount": 30,
+      "cityCount": 224
     },
     "12": {
       "amount": 0.0,

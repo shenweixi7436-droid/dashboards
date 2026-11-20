@@ -42,6 +42,14 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
 .dashboard-filter-range{display:none;align-items:center;gap:7px;color:rgba(99,44,22,.72);font-size:12px}
 .dashboard-filter-range.is-visible{display:flex}
 .dashboard-filter-summary{margin-top:10px;color:rgba(99,44,22,.58);font-size:11px}
+.dashboard-section-header{min-height:48px;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:0 6px}
+.dashboard-section-heading{display:flex;align-items:baseline;gap:12px;min-width:0}
+.dashboard-section-title{font-family:'GOTHAMRND-BOLD','HKYuan-W9',sans-serif;font-size:22px;font-weight:400;white-space:nowrap}
+.dashboard-section-note{color:rgba(99,44,22,.56);font-size:12px;line-height:1.4}
+.dashboard-config-button{flex:none;height:38px;display:inline-flex;align-items:center;gap:8px;padding:0 14px;border:1px solid rgba(99,44,22,.2);border-radius:9px;background:#fffaf4;color:var(--tiger-brown);font:12px 'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;cursor:pointer;box-shadow:0 1px 2px rgba(99,44,22,.04)}
+.dashboard-config-button:hover,.dashboard-config-button:focus-visible{border-color:var(--tiger-brown);background:#fff;outline:none}
+.dashboard-config-icon{font-size:17px;line-height:1}
+.dashboard-config-hidden{display:none!important}
 .kpi-zone{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
 .kpi-featured,.kpi-summary{display:contents}.material-summary-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.material-summary-card{background:var(--tiger-yellow);border:2px solid var(--tiger-brown);border-radius:28px;box-shadow:none}.material-summary-card .kpi-value{margin-top:18px;font-size:32px}.material-summary-card .kpi-meta{line-height:1.45}.outbound-single-summary{margin-top:18px;color:var(--tiger-brown);font-variant-numeric:tabular-nums}.outbound-single-summary .outbound-label{margin-top:10px;font-size:14px}.outbound-single-summary .outbound-amount{margin-top:0;font-size:32px}.outbound-single-summary .outbound-amount-unit{font-size:13px}.outbound-single-summary .outbound-mom{margin-top:8px;font-size:13px}
 .kpi-card{min-height:124px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-start;padding:20px 26px;background:var(--tiger-yellow);border:2px solid var(--tiger-brown);border-radius:22px;box-shadow:none;transition:transform .2s ease,box-shadow .2s ease}
@@ -150,8 +158,31 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
 .chart-canvas-tooltip{position:absolute;z-index:5;display:none;max-width:min(260px,calc(100% - 16px));padding:8px 10px;border-radius:8px;background:var(--tiger-brown);color:#fff;box-shadow:0 8px 20px rgba(99,44,22,.22);font-size:12px;line-height:1.45;pointer-events:none}
 .chart-empty{height:100%;min-height:280px;display:grid;place-items:center;color:rgba(99,44,22,.58);font-size:13px}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.dashboard-config-mask{position:fixed;inset:0;z-index:80;display:none;align-items:stretch;justify-content:flex-end;background:rgba(63,28,13,.42);backdrop-filter:blur(3px)}
+.dashboard-config-mask.open{display:flex}
+.dashboard-config-dialog{width:min(760px,calc(100% - 48px));height:100%;display:flex;flex-direction:column;overflow:hidden;border-left:1px solid rgba(99,44,22,.2);border-radius:16px 0 0 16px;background:#fffaf4;box-shadow:-16px 0 48px rgba(63,28,13,.18);animation:dashboard-config-slide .22s ease-out}
+@keyframes dashboard-config-slide{from{transform:translateX(40px);opacity:.65}to{transform:translateX(0);opacity:1}}
+.dashboard-config-dialog-head{flex:none;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 26px;background:#fffdf8;border-bottom:1px solid rgba(99,44,22,.16)}
+.dashboard-config-dialog-title{font-family:'GOTHAMRND-BOLD','HKYuan-W8',sans-serif;font-size:20px}
+.dashboard-config-dialog-close{width:36px;height:36px;display:grid;place-items:center;border:1px solid var(--tiger-yellow);border-radius:9px;background:#fff;color:var(--tiger-brown);font:15px 'GOTHAMRND-BOLD','HKYuan-W8',sans-serif;cursor:pointer}
+.dashboard-config-dialog-close:hover{background:rgba(255,204,0,.12)}
+.dashboard-config-content{flex:1;min-height:0;overflow-y:auto;padding:20px 26px 24px}
+.dashboard-config-intro{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px;color:rgba(99,44,22,.68);font-size:12px}
+.dashboard-config-selected{flex:none;color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W8',sans-serif}
+.dashboard-config-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.dashboard-config-option{position:relative;min-height:154px;display:flex;flex-direction:column;padding:18px 18px 16px;border:1px solid rgba(99,44,22,.14);border-radius:13px;background:#fff;color:var(--tiger-brown);cursor:pointer;transition:border-color .15s ease,box-shadow .15s ease,background .15s ease}
+.dashboard-config-option:hover{border-color:rgba(99,44,22,.34);box-shadow:0 7px 18px rgba(99,44,22,.08)}
+.dashboard-config-option.is-selected{border-color:var(--tiger-yellow);box-shadow:inset 0 0 0 1px var(--tiger-yellow)}
+.dashboard-config-option input{position:absolute;top:15px;right:15px;width:18px;height:18px;accent-color:var(--tiger-yellow);cursor:pointer}
+.dashboard-config-preview-title{padding-right:34px;color:rgba(99,44,22,.76);font-size:13px;line-height:1.35}
+.dashboard-config-preview-value{margin-top:18px;color:var(--tiger-brown);font-family:'GOTHAMRND-BOLD','HKYuan-W8',sans-serif;font-size:25px;line-height:1.15}
+.dashboard-config-preview-meta{margin-top:10px;color:rgba(99,44,22,.62);font-size:11px;line-height:1.5}
+.dashboard-config-preview-source{margin:auto -18px -16px;padding:10px 18px;border-top:1px solid rgba(99,44,22,.1);color:rgba(99,44,22,.48);font-size:10px}
+.dashboard-config-actions{flex:none;display:flex;align-items:center;gap:10px;padding:14px 26px;border-top:1px solid rgba(99,44,22,.14);background:#fffdf8}
+.dashboard-config-action{height:38px;padding:0 16px;border:1px solid rgba(99,44,22,.22);border-radius:9px;background:#fff;color:var(--tiger-brown);font:12px 'GOTHAMRND-BOLD','HKYuan-W7',sans-serif;cursor:pointer}
+.dashboard-config-action.primary{min-width:124px;margin-left:auto;border-color:var(--tiger-yellow);background:var(--tiger-yellow);font-family:'GOTHAMRND-BOLD','HKYuan-W8',sans-serif}
 @media(max-width:1000px){.kpi-zone{grid-template-columns:1fr 1fr}.dashboard-grid{grid-template-columns:1fr 1fr}.gantt-toolbar{align-items:flex-start;flex-direction:column}.gantt-filter-note{white-space:normal}}
-@media(max-width:680px){#topbar{height:auto;min-height:64px;padding:12px 16px;flex-wrap:wrap;gap:10px}main{padding:16px}.kpi-zone,.dashboard-grid{grid-template-columns:1fr}.kpi-featured .kpi-card,.material-summary-card{min-height:150px}.panel{min-height:340px}.panel-material-gantt{min-height:560px}.gantt-legend{gap:12px;flex-wrap:wrap}.gantt-filter-note{align-items:flex-start;flex-wrap:wrap}.gantt-range-note{width:100%;text-align:left}}
+@media(max-width:680px){html,body{overflow-x:hidden}#topbar{height:auto;min-height:64px;padding:12px 16px;flex-wrap:wrap;gap:10px}main{width:100%;padding:16px}.dashboard-filter-main{display:grid;grid-template-columns:minmax(0,1fr) auto auto}.dashboard-filter-search{min-width:0;width:100%}.dashboard-filter-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:end}.dashboard-filter-label{min-width:0}.dashboard-filter-select{min-width:0;width:100%}.dashboard-filter-range{grid-column:1/-1;flex-wrap:wrap}.dashboard-filter-summary{line-height:1.65}.dashboard-section-header{width:100%;min-width:0;align-items:flex-start;padding:0}.dashboard-section-heading{min-width:0;flex-direction:column;gap:3px}.dashboard-section-title{font-size:19px}.dashboard-section-note{white-space:normal}.dashboard-config-button{height:36px;padding:0 11px}.kpi-zone,.dashboard-grid{min-width:0;grid-template-columns:minmax(0,1fr)}.kpi-card,.panel{min-width:0}.kpi-featured .kpi-card,.material-summary-card{min-height:150px}.panel{min-height:340px}.panel-material-gantt{min-height:560px}.gantt-legend{gap:12px;flex-wrap:wrap}.gantt-filter-note{align-items:flex-start;flex-wrap:wrap}.gantt-range-note{width:100%;text-align:left}.dashboard-config-dialog{width:100%;max-width:none;border-left:0;border-radius:0}.dashboard-config-dialog-head{padding:16px 18px}.dashboard-config-content{padding:16px 18px}.dashboard-config-options{grid-template-columns:1fr}.dashboard-config-actions{padding:12px 18px}.dashboard-config-action{padding:0 12px}.dashboard-config-action.primary{min-width:108px}}
 .kpi-card-clickable{cursor:pointer;transition:transform .15s ease,box-shadow .15s ease}
 .kpi-card-clickable:hover,.kpi-card-clickable:focus-visible{transform:translateY(-2px);box-shadow:0 10px 24px rgba(99,44,22,.18);outline:none}
 .device-modal-mask{position:fixed;inset:0;z-index:60;display:none;align-items:flex-start;justify-content:center;padding:40px 20px;background:rgba(63,28,13,.5);overflow-y:auto;font-family:'GOTHAMRND-BOLD','HKYuan-W7',sans-serif}
@@ -341,10 +372,39 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
 .panel-outbound-detail .outbound-detail-panel{min-height:0}
 .panel-outbound-detail .outbound-city-bar-row{grid-template-columns:70px minmax(0,1fr) 116px}
 @media(max-width:1000px){.dashboard-grid{grid-template-columns:1fr;grid-template-areas:"gantt" "reserve-top" "outbound" "reserve-bottom"}.panel-material-gantt,.panel-reserved,.panel-outbound-detail,.panel-outbound-table{min-height:620px}.panel-daily-outbound,.panel-category-rank{height:auto;min-height:620px}}
+.app-sidebar{position:fixed;inset:0 auto 0 0;z-index:40;width:264px;display:flex;flex-direction:column;padding:28px 18px 22px;background:var(--tiger-yellow);border-right:1px solid rgba(99,44,22,.22);box-shadow:6px 0 18px rgba(99,44,22,.08)}
+.sidebar-brand{padding:2px 8px 26px;border-bottom:1px solid rgba(99,44,22,.18)}
+.sidebar-brand img{display:block;width:100%;height:58px;object-fit:contain;mix-blend-mode:multiply}
+.sidebar-brand-caption{margin-top:9px;text-align:center;color:rgba(99,44,22,.68);font-size:10px;letter-spacing:.08em}
+.sidebar-nav{display:flex;flex-direction:column;gap:10px;margin-top:24px}
+.sidebar-nav-title{padding:0 10px 4px;color:rgba(99,44,22,.58);font-size:10px;letter-spacing:.08em}
+.sidebar-nav-link{min-height:54px;display:flex;align-items:center;gap:12px;padding:0 16px;border:1px solid transparent;border-radius:12px;color:var(--tiger-brown);text-decoration:none;font-size:14px;line-height:1.35;transition:background .15s ease,color .15s ease,transform .15s ease}
+.sidebar-nav-link:hover{background:rgba(255,255,255,.34);transform:translateX(2px)}
+.sidebar-nav-link.active{background:var(--tiger-brown);color:var(--tiger-yellow);box-shadow:0 7px 16px rgba(99,44,22,.18)}
+.sidebar-nav-icon{flex:none;width:28px;height:28px;display:grid;place-items:center;border:1px solid currentColor;border-radius:8px;font-size:14px}
+.sidebar-footer{margin-top:auto;padding:14px 10px 0;border-top:1px solid rgba(99,44,22,.18);color:rgba(99,44,22,.58);font-size:10px;line-height:1.6}
+.sidebar-overlay{position:fixed;inset:0;z-index:35;display:none;border:0;background:rgba(63,28,13,.42)}
+.sidebar-toggle{display:none;flex:none;width:38px;height:38px;place-items:center;border:1px solid rgba(99,44,22,.2);border-radius:9px;background:#fff;color:var(--tiger-brown);font-size:20px;cursor:pointer}
+body{padding-left:264px}
+@media(max-width:900px){body{padding-left:0}.app-sidebar{transform:translateX(-100%);transition:transform .2s ease}.sidebar-open .app-sidebar{transform:translateX(0)}.sidebar-open .sidebar-overlay{display:block}.sidebar-toggle{display:grid}}
 </style>
 </head>
 <body>
+<aside class="app-sidebar" id="app-sidebar" aria-label="营销物料看板导航">
+  <div class="sidebar-brand">
+    <img src="royal-tiger-logo.png" alt="皇家小虎">
+    <div class="sidebar-brand-caption">营销物料数据中心</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="sidebar-nav-title">看板栏目</div>
+    <a class="sidebar-nav-link active" href="营销物料数据主看板.html" aria-current="page"><span class="sidebar-nav-icon" aria-hidden="true">▦</span><span>营销物料主看板</span></a>
+    <a class="sidebar-nav-link" href="运费看板.html"><span class="sidebar-nav-icon" aria-hidden="true">¥</span><span>营销物料运费主看板</span></a>
+  </nav>
+  <div class="sidebar-footer">皇家小虎 · 本地数据看板</div>
+</aside>
+<button class="sidebar-overlay" id="sidebar-overlay" type="button" aria-label="关闭侧边栏"></button>
 <header id="topbar">
+  <button class="sidebar-toggle" id="sidebar-toggle" type="button" aria-label="打开侧边栏" aria-expanded="false">☰</button>
   <div class="brand">
     <div class="brand-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19V9m5 10V5m5 14v-7m5 7V3"/></svg></div>
     <div><div class="brand-name">营销物料数据主看板</div><div class="brand-sub">Marketing Materials &amp; Equipment Dashboard</div></div>
@@ -376,9 +436,16 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
     </div>
     <div class="dashboard-filter-summary" id="material-filter-summary"></div>
   </section>
+  <div class="dashboard-section-header" aria-label="数据指标卡设置">
+    <div class="dashboard-section-heading">
+      <h2 class="dashboard-section-title">数据指标卡</h2>
+      <span class="dashboard-section-note">更多数据点击配置卡片选择</span>
+    </div>
+    <button class="dashboard-config-button" type="button" data-config-open="cards"><span>配置卡片</span><span class="dashboard-config-icon" aria-hidden="true">⚙</span></button>
+  </div>
   <section class="kpi-zone" aria-label="看板主卡片">
     <div class="kpi-featured">
-      <a class="kpi-card kpi-card-link" id="inventory-quantity-card-link" href="#outbound-detail-section" aria-label="查看物料出库明细">
+      <a class="kpi-card kpi-card-link" id="inventory-quantity-card-link" href="#outbound-detail-section" aria-label="查看物料出库明细" data-dashboard-config="outbound-amount">
         <h2 class="kpi-title">出库量</h2>
         <div class="outbound-single-summary">
           <div class="outbound-amount"><span id="material-outbound-amount">暂无数据</span></div>
@@ -386,28 +453,35 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
         </div>
         <div class="kpi-action">查看物料出库明细 ↓</div>
       </a>
-      <article class="kpi-card">
+      <article class="kpi-card" data-dashboard-config="outbound-growth">
         <h2 class="kpi-title">出库金额增速</h2>
         <div class="kpi-value growth-value is-flat" id="material-outbound-growth">暂无数据</div>
         <div class="kpi-meta" id="material-outbound-growth-meta">较上月物料出库金额</div>
       </article>
     </div>
     <div class="kpi-summary material-summary-grid" aria-label="物料数据分析指标">
-      <a class="kpi-card kpi-card-link material-summary-card" id="outbound-region-card-link" href="#outbound-detail-section" aria-label="查看物料出库地区明细">
+      <a class="kpi-card kpi-card-link material-summary-card" id="outbound-region-card-link" href="#outbound-detail-section" aria-label="查看物料出库地区明细" data-dashboard-config="province-count">
         <h2 class="kpi-title">出库省份数</h2>
         <div class="kpi-value" id="material-outbound-province-count">暂无数据</div>
         <div class="kpi-meta" id="material-outbound-city-count">共计暂无数据个地级市</div>
         <div class="kpi-action">查看物料出库明细 ↓</div>
       </a>
-      <article class="kpi-card material-summary-card">
+      <article class="kpi-card material-summary-card" data-dashboard-config="inventory-amount">
         <h2 class="kpi-title">库存金额</h2>
         <div class="kpi-value" id="inventory-summary-amount">暂无数据</div>
         <div class="kpi-meta" id="inventory-summary-top-detail">其中第一物料占比金额：暂无数据</div>
       </article>
     </div>
   </section>
+  <div class="dashboard-section-header" aria-label="数据图表设置">
+    <div class="dashboard-section-heading">
+      <h2 class="dashboard-section-title">数据图表</h2>
+      <span class="dashboard-section-note">更多图表点击配置图表选择</span>
+    </div>
+    <button class="dashboard-config-button" type="button" data-config-open="charts"><span>配置图表</span><span class="dashboard-config-icon" aria-hidden="true">⚙</span></button>
+  </div>
   <section class="dashboard-grid" aria-label="看板分析区域">
-    <article class="panel panel-daily-outbound" aria-labelledby="daily-outbound-title">
+    <article class="panel panel-daily-outbound" aria-labelledby="daily-outbound-title" data-dashboard-config="outbound-trend">
       <header class="panel-header">
         <div class="trend-header-row"><h2 class="panel-title" id="daily-outbound-title">月度出库金额趋势</h2><div class="trend-mode-toggle" id="material-trend-mode" role="group" aria-label="物料出库金额趋势维度"><button class="trend-mode-button active" type="button" data-mode="month" aria-pressed="true">月度</button><button class="trend-mode-button" type="button" data-mode="day" aria-pressed="false">每日</button></div></div>
         <p class="panel-subtitle" id="daily-outbound-subtitle">按创建日期汇总 · 单位：万元</p>
@@ -419,14 +493,14 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
         </div>
       </div>
     </article>
-    <article class="panel panel-category-rank" aria-labelledby="category-rank-title">
+    <article class="panel panel-category-rank" aria-labelledby="category-rank-title" data-dashboard-config="category-rank">
       <header class="panel-header category-rank-header">
         <h2 class="panel-title" id="category-rank-title">物料分类金额排行</h2>
         <span class="category-rank-period" id="category-rank-period"></span>
       </header>
       <div class="category-rank-list" id="category-rank-list"></div>
     </article>
-    <article class="panel panel-outbound-detail" id="outbound-detail-section" aria-label="物料出库金额图表">
+    <article class="panel panel-outbound-detail" id="outbound-detail-section" aria-label="物料出库金额图表" data-dashboard-config="city-rank">
       <div class="outbound-detail-embedded">
         <div class="outbound-detail-body" id="outbound-detail-body">
           <section class="outbound-detail-panel">
@@ -439,7 +513,7 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
         </div>
       </div>
     </article>
-    <article class="panel panel-outbound-table" aria-labelledby="outbound-city-table-title">
+    <article class="panel panel-outbound-table" aria-labelledby="outbound-city-table-title" data-dashboard-config="city-detail">
       <section class="outbound-detail-panel">
         <div class="outbound-detail-panel-head">
           <div class="outbound-detail-panel-head-row">
@@ -458,6 +532,26 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
     </article>
   </section>
 </main>
+<div class="dashboard-config-mask" id="dashboard-config-mask" role="dialog" aria-modal="true" aria-labelledby="dashboard-config-title">
+  <div class="dashboard-config-dialog">
+    <div class="dashboard-config-dialog-head">
+      <div class="dashboard-config-dialog-title" id="dashboard-config-title">配置卡片</div>
+      <button class="dashboard-config-dialog-close" id="dashboard-config-close" type="button" aria-label="关闭配置">✕</button>
+    </div>
+    <div class="dashboard-config-content">
+      <div class="dashboard-config-intro">
+        <span id="dashboard-config-description">勾选要显示的指标卡片，预览与看板内容一致。</span>
+        <span class="dashboard-config-selected" id="dashboard-config-selected">已选 4 张</span>
+      </div>
+      <div class="dashboard-config-options" id="dashboard-config-options"></div>
+    </div>
+    <div class="dashboard-config-actions">
+      <button class="dashboard-config-action" id="dashboard-config-reset" type="button">恢复默认</button>
+      <button class="dashboard-config-action" id="dashboard-config-cancel" type="button">取消</button>
+      <button class="dashboard-config-action primary" id="dashboard-config-apply" type="button">保存卡片</button>
+    </div>
+  </div>
+</div>
 <div class="device-modal-mask" id="device-modal-mask" role="dialog" aria-modal="true" aria-labelledby="device-modal-title">
   <div class="device-modal">
     <div class="device-modal-header">
@@ -536,6 +630,24 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
   var materialFilterState={query:'',timeMode:'month',province:'',city:'',start:'',end:''};
   var materialFilterApplied={query:'',timeMode:'month',province:'',city:'',start:'',end:''};
   var materialFilterCache={key:'',rows:[]};
+  var dashboardConfigCatalog={
+    cards:[
+      {key:'outbound-amount',label:'出库量'},
+      {key:'outbound-growth',label:'出库金额增速'},
+      {key:'province-count',label:'出库省份数'},
+      {key:'inventory-amount',label:'库存金额'}
+    ],
+    charts:[
+      {key:'outbound-trend',label:'出库金额趋势'},
+      {key:'category-rank',label:'物料分类金额排行'},
+      {key:'city-rank',label:'各地级市出库金额'},
+      {key:'city-detail',label:'地级市明细'}
+    ]
+  };
+  var dashboardConfigStorageKey='material-dashboard-layout-v1';
+  var dashboardConfigState={cards:{},charts:{}};
+  var dashboardConfigDraft={};
+  var dashboardConfigActiveType='cards';
 
   function formatMoney(value){return '¥'+Number(value||0).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});}
   function formatRatio(value){return Number.isFinite(value)?value.toFixed(2)+'%':'暂无数据';}
@@ -599,6 +711,98 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
     });
     return {total:total,provinces:provinces,cities:cities,byDate:byDate,byCategory:byCategory};
   }
+  function getMaterialDataUpdatedDate(){
+    if(materialFilterData.latestCreatedDate)return materialFilterData.latestCreatedDate;
+    return (materialFilterData.rows||[]).reduce(function(latest,row){return row.d&&row.d>latest?row.d:latest;},'');
+  }
+  function defaultDashboardConfig(){
+    var result={cards:{},charts:{}};
+    Object.keys(dashboardConfigCatalog).forEach(function(type){dashboardConfigCatalog[type].forEach(function(item){result[type][item.key]=true;});});
+    return result;
+  }
+  function loadDashboardConfig(){
+    var result=defaultDashboardConfig();
+    try{
+      var saved=JSON.parse(localStorage.getItem(dashboardConfigStorageKey)||'{}');
+      Object.keys(dashboardConfigCatalog).forEach(function(type){dashboardConfigCatalog[type].forEach(function(item){if(saved[type]&&saved[type][item.key]===false)result[type][item.key]=false;});});
+    }catch(error){}
+    return result;
+  }
+  function saveDashboardConfig(){
+    try{localStorage.setItem(dashboardConfigStorageKey,JSON.stringify(dashboardConfigState));}catch(error){}
+  }
+  function applyDashboardConfig(){
+    Object.keys(dashboardConfigCatalog).forEach(function(type){
+      dashboardConfigCatalog[type].forEach(function(item){
+        var target=document.querySelector('[data-dashboard-config="'+item.key+'"]');
+        if(target)target.classList.toggle('dashboard-config-hidden',dashboardConfigState[type][item.key]===false);
+      });
+    });
+  }
+  function dashboardConfigPreview(item){
+    var target=document.querySelector('[data-dashboard-config="'+item.key+'"]');
+    var titleNode=target&&target.querySelector('.kpi-title,.panel-title,.outbound-detail-panel-title');
+    var valueNode=target&&target.querySelector('.outbound-amount,.kpi-value');
+    var metaNode=target&&target.querySelector('.outbound-label,.kpi-meta,.panel-subtitle,.outbound-detail-panel-sub');
+    return {
+      title:(titleNode&&titleNode.textContent.trim())||item.label,
+      value:dashboardConfigActiveType==='cards'?((valueNode&&valueNode.textContent.trim())||'暂无数据'):'图表已加载',
+      meta:(metaNode&&metaNode.textContent.trim())||(dashboardConfigActiveType==='cards'?'随上方筛选条件更新':'展示当前筛选范围内的数据'),
+      source:dashboardConfigActiveType==='cards'?'营销物料 · 数据指标':'营销物料 · 数据图表'
+    };
+  }
+  function updateDashboardConfigSelected(){
+    var count=Object.keys(dashboardConfigDraft).filter(function(key){return dashboardConfigDraft[key]!==false;}).length;
+    document.getElementById('dashboard-config-selected').textContent='已选 '+count+(dashboardConfigActiveType==='cards'?' 张':' 个');
+  }
+  function renderDashboardConfigOptions(){
+    var isCards=dashboardConfigActiveType==='cards';
+    var title=document.getElementById('dashboard-config-title'),options=document.getElementById('dashboard-config-options');
+    title.textContent=isCards?'配置卡片':'配置图表';
+    document.getElementById('dashboard-config-description').textContent=isCards?'勾选要显示的指标卡片，预览与看板内容一致。':'勾选要显示的数据图表，预览名称与看板一致。';
+    document.getElementById('dashboard-config-apply').textContent=isCards?'保存卡片':'保存图表';
+    options.innerHTML=dashboardConfigCatalog[dashboardConfigActiveType].map(function(item){
+      var checked=dashboardConfigDraft[item.key]!==false?' checked':'';
+      var preview=dashboardConfigPreview(item);
+      return '<label class="dashboard-config-option'+(checked?' is-selected':'')+'"><input type="checkbox" value="'+item.key+'"'+checked+'><span class="dashboard-config-preview-title">'+escapeOutboundText(preview.title)+'</span><strong class="dashboard-config-preview-value">'+escapeOutboundText(preview.value)+'</strong><span class="dashboard-config-preview-meta">'+escapeOutboundText(preview.meta)+'</span><span class="dashboard-config-preview-source">'+escapeOutboundText(preview.source)+'</span></label>';
+    }).join('');
+    updateDashboardConfigSelected();
+  }
+  function openDashboardConfig(type){
+    dashboardConfigActiveType=type==='charts'?'charts':'cards';
+    dashboardConfigDraft=Object.assign({},dashboardConfigState[dashboardConfigActiveType]);
+    renderDashboardConfigOptions();
+    document.getElementById('dashboard-config-mask').classList.add('open');
+    document.body.style.overflow='hidden';
+    document.getElementById('dashboard-config-close').focus();
+  }
+  function closeDashboardConfig(){
+    document.getElementById('dashboard-config-mask').classList.remove('open');
+    document.body.style.overflow='';
+  }
+  function initializeDashboardConfiguration(){
+    dashboardConfigState=loadDashboardConfig();
+    applyDashboardConfig();
+    document.querySelectorAll('[data-config-open]').forEach(function(button){button.addEventListener('click',function(){openDashboardConfig(this.getAttribute('data-config-open'));});});
+    document.getElementById('dashboard-config-close').addEventListener('click',closeDashboardConfig);
+    document.getElementById('dashboard-config-cancel').addEventListener('click',closeDashboardConfig);
+    document.getElementById('dashboard-config-mask').addEventListener('click',function(event){if(event.target===this)closeDashboardConfig();});
+    document.getElementById('dashboard-config-options').addEventListener('change',function(event){
+      if(!event.target.matches('input[type="checkbox"]'))return;
+      dashboardConfigDraft[event.target.value]=event.target.checked;
+      event.target.closest('.dashboard-config-option').classList.toggle('is-selected',event.target.checked);
+      updateDashboardConfigSelected();
+    });
+    document.getElementById('dashboard-config-reset').addEventListener('click',function(){
+      dashboardConfigCatalog[dashboardConfigActiveType].forEach(function(item){dashboardConfigDraft[item.key]=true;});
+      renderDashboardConfigOptions();
+    });
+    document.getElementById('dashboard-config-apply').addEventListener('click',function(){
+      dashboardConfigState[dashboardConfigActiveType]=Object.assign({},dashboardConfigDraft);
+      saveDashboardConfig();applyDashboardConfig();closeDashboardConfig();redraw();
+    });
+    document.addEventListener('keydown',function(event){if(event.key==='Escape'&&document.getElementById('dashboard-config-mask').classList.contains('open'))closeDashboardConfig();});
+  }
   function materialFilterLabel(){
     var range=getMaterialFilterWindow(),summary=range.start+' 至 '+shiftIsoDate(range.end,-1);
     if(materialFilterApplied.timeMode==='month')summary=(Number(window.DASHBOARD_MONTH)||activeMonth)+'月（'+summary+'）';
@@ -622,7 +826,8 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
     var chips=['物料：'+(materialFilterApplied.query||'全部物料')];
     if(materialFilterApplied.province)chips.push('省份：'+materialFilterApplied.province);
     if(materialFilterApplied.city)chips.push('市区：'+materialFilterApplied.city);
-    summary.textContent=materialFilterLabel()+(chips.length?'　'+chips.join('　'):'');
+    var updated=getMaterialDataUpdatedDate();
+    summary.textContent=materialFilterLabel()+(chips.length?'　'+chips.join('　'):'')+(updated?'　数据更新时间：'+updated:'');
   }
   function applyMaterialFilters(){
     materialFilterApplied={query:materialFilterState.query,timeMode:materialFilterState.timeMode,province:materialFilterState.province,city:materialFilterState.city,start:materialFilterState.start,end:materialFilterState.end};
@@ -1540,6 +1745,7 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
     renderOutboundDetailModal();
   });
   if(ganttPriorityFilter)initializeDevelopmentFilters();
+  initializeDashboardConfiguration();
   initializeMaterialFilters();
   bindDailyOutboundTrend();
   var currentMonth=new Date().getMonth()+1;
@@ -1551,6 +1757,17 @@ main{width:min(1440px,100%);margin:0 auto;padding:24px 28px 48px;display:flex;fl
   renderOutboundDetailModal();
   if(document.fonts&&document.fonts.ready)document.fonts.ready.then(redraw);
   var resizeTimer;window.addEventListener('resize',function(){clearTimeout(resizeTimer);resizeTimer=setTimeout(redraw,120);});
+})();
+</script>
+<script>
+(function(){
+  var toggle=document.getElementById('sidebar-toggle'),overlay=document.getElementById('sidebar-overlay');
+  if(!toggle||!overlay)return;
+  function setSidebar(open){document.body.classList.toggle('sidebar-open',open);toggle.setAttribute('aria-expanded',open?'true':'false');toggle.setAttribute('aria-label',open?'关闭侧边栏':'打开侧边栏');}
+  toggle.addEventListener('click',function(){setSidebar(!document.body.classList.contains('sidebar-open'));});
+  overlay.addEventListener('click',function(){setSidebar(false);});
+  document.addEventListener('keydown',function(event){if(event.key==='Escape')setSidebar(false);});
+  window.addEventListener('resize',function(){if(window.innerWidth>900)setSidebar(false);});
 })();
 </script>
 <script>

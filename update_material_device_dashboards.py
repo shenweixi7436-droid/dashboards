@@ -53,6 +53,7 @@ def write_js(path: Path, variable: str, payload: dict, *, pretty: bool = False) 
 
 def build_material_data(sheet) -> tuple[dict, dict]:
     rows: list[dict] = []
+    latest_created_date: str | None = None
     monthly_amount: dict[int, float] = defaultdict(float)
     monthly_categories: dict[int, dict[str, float]] = defaultdict(lambda: defaultdict(float))
     monthly_provinces: dict[int, set[str]] = defaultdict(set)
@@ -62,6 +63,8 @@ def build_material_data(sheet) -> tuple[dict, dict]:
         row_date = clean_date(values[2])  # C 创建日期清洗
         if not row_date:
             continue
+        if latest_created_date is None or row_date > latest_created_date:
+            latest_created_date = row_date
         month = int(row_date[5:7])
         name = clean_text(values[4], "未命名物料")  # E
         amount = round(clean_number(values[5]), 2)  # F
@@ -100,12 +103,14 @@ def build_material_data(sheet) -> tuple[dict, dict]:
         "sourceFile": DEFAULT_SOURCE.name,
         "sourceSheet": "物料出库明细",
         "sourceColumns": "C创建日期清洗、E物料名称清洗、F金额、G物料分类、T省、U市",
+        "latestCreatedDate": latest_created_date,
         "rows": rows,
     }
     summary_payload = {
         "year": 2026,
         "sourceFile": DEFAULT_SOURCE.name,
         "sourceSheet": "物料出库明细",
+        "latestCreatedDate": latest_created_date,
         "months": months,
         "inventory": {
             "amount": None,

@@ -1,4 +1,4 @@
-const CACHE_NAME = "device-main-dashboard-0bc0d773b979";
+const CACHE_NAME = "device-main-dashboard-610b3f893114";
 const CACHE_PREFIX = "device-main-dashboard-";
 const PRECACHE_URLS = [
   "./",
